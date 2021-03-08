@@ -7,9 +7,11 @@ const bcrypt = require('bcrypt');
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
 
+// MOCK DATA
 const testUser = {
   name: 'Ray',
   email: '1@gmail.com',
+  //   save new hash here to test
   password: '$2b$10$JCRhDoZVJbsDoWSZVN9gUuT4oL7wWF5JP0FSrTN5NIzBdRvbi3dgm',
 };
 
@@ -23,7 +25,7 @@ const register = async (req, res) => {
   }
 
   try {
-    //  TODO:
+    //  TODO start
     // 1. Validation check in DB if user exists
 
     // 2. hash password
@@ -33,11 +35,14 @@ const register = async (req, res) => {
     });
 
     // 3. Logic to create user
+    // TODO end
+
     return res
       .status(201)
       .json({ status: 'success', data: { user: { email, name } } });
   } catch (error) {
     console.log(error);
+    res.status(500).json(error);
   }
 };
 
@@ -50,7 +55,7 @@ const login = async (req, res) => {
   }
 
   try {
-    // TODO:
+    // TODO start
     // 1. Validate if user exists
 
     // 2. Compare hash password - using user['password'] to match password
@@ -58,10 +63,12 @@ const login = async (req, res) => {
     if (!passwordMatches) {
       return res.status(401).json({ password: 'Incorrect password' });
     }
+    // TODO end
 
     return res.json({ status: 'success', data: { user: { email } } });
   } catch (error) {
     console.log(error);
+    res.status(500).json(error);
   }
 };
 
