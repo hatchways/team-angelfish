@@ -8,6 +8,8 @@ const indexRouter = require('./routes/index');
 const pingRouter = require('./routes/ping');
 const userRoutes = require('./routes/users');
 
+const trim = require('./middleware/trim');
+
 const { json, urlencoded } = express;
 
 var app = express();
@@ -15,6 +17,7 @@ var app = express();
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
+app.use(trim);
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 
