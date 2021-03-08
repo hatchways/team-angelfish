@@ -6,8 +6,10 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
+const flightRouter = require("./routes/flight");
 
 const { json, urlencoded } = express;
+const port = 3001;
 
 var app = express();
 
@@ -19,6 +21,7 @@ app.use(express.static(join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);
+app.use("/api/flights", flightRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -35,5 +38,9 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({ error: err });
 });
+
+app.listen(port, () => {
+  console.log(`Server is listening at http://localhost:${port}`);
+})
 
 module.exports = app;
