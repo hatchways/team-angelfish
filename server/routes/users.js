@@ -1,8 +1,11 @@
-const { json } = require('express');
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const cookie = require('cookie');
 const bcrypt = require('bcrypt');
+
+const auth = require('../middleware/auth');
 
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
@@ -12,7 +15,7 @@ const testUser = {
   name: 'Ray',
   email: '1@gmail.com',
   //   save new hash here to test
-  password: '$2b$10$JCRhDoZVJbsDoWSZVN9gUuT4oL7wWF5JP0FSrTN5NIzBdRvbi3dgm',
+  password: '$2b$10$Q7.7/ECbbHR0xXDiKab/K.OAcbojaZfWq7t4lOkh4IYRg9asJtuaC',
 };
 
 const register = async (req, res) => {
@@ -59,11 +62,24 @@ const login = async (req, res) => {
     // 1. Validate if user exists
 
     // 2. Compare hash password - using user['password'] to match password
+    // testUser is mock
     const passwordMatches = await bcrypt.compare(password, testUser.password);
     if (!passwordMatches) {
       return res.status(401).json({ password: 'Incorrect password' });
     }
     // TODO end
+
+    const token = jwt.sign(email, process.env.JWT_SECRET);
+    res.set(
+      'Set-Cookie',
+      cookie.serialize('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 3600,
+        path: '/',
+      })
+    );
 
     return res.json({ status: 'success', data: { user: { email } } });
   } catch (error) {
@@ -72,9 +88,15 @@ const login = async (req, res) => {
   }
 };
 
+const authorized = (req, res) => {
+  return res.json({ email: res.locals.email });
+};
+
+// TODO
+// 1.Logout route
+
 router.post('/register', register);
 router.post('/login', login);
-// TODO:
-//  Add auth middleware
+router.get('/auth', auth, authorized);
 
 module.exports = router;
