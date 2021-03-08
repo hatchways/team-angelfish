@@ -8,6 +8,9 @@ module.exports = validationRegisterInput = (data) => {
   data.email = !isEmpty(data.email) ? data.email : '';
   data.password = !isEmpty(data.password) ? data.password : '';
 
+  data.name = Validator.trim(data.name);
+  data.email = Validator.trim(data.email);
+
   if (Validator.isEmpty(data.name)) {
     errors.name = 'Name field is required';
   }
