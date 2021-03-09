@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const unirest = require("unirest");
-const rapidApiKey = process.env.RAPID_API_KEY;
-const rapidApiHost = process.env.RAPID_API_HOST;
+const rapidApiKey = "b45bedc57emsh23d534a09704e52p1ab1a8jsn764974156db7";
+const rapidApiHost = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com";
 
 //Get All available currencies
 //Example: /api/flights/currencies
