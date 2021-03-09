@@ -1,3 +1,4 @@
+require('dotenv').config();
 const createError = require("http-errors");
 const express = require("express");
 const { join } = require("path");
@@ -5,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
+
 
 //Added mongoose to help connect with our Mongodb database
 const mongoose = require("mongoose");
@@ -44,17 +46,18 @@ app.use(function (err, req, res, next) {
 
 
 //The line below connects our node server with our mongo database 
-const uri = 'mongodb://localhost:27017/teamangelfish'
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
+const url = process.env.MONGO_URL
+
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 const connection = mongoose.connection
 connection.once('open', () => {
   console.log('Mongo DB succesfully set up')
-})
+});
 
 
 app.listen(port, ()=>{
   console.log(`server is running on port ${port}`)
-})
+});
 
 module.exports = app;
