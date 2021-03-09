@@ -1,10 +1,10 @@
 import React from 'react'
-import Explore from './pages/Explore/Explore'
+import Header from './component/Header/Header'
 
 function App() {
   return (
     <div>
-      <Explore />
+    <Header />
     </div>
   )
 }
