@@ -11,12 +11,11 @@ const pingRouter = require("./routes/ping");
 //Added mongoose to help connect with our Mongodb database
 const mongoose = require("mongoose");
 
-//Added a a pport to run the server on
-const port = process.env.PORT || 5000;
+
 
 const { json, urlencoded } = express;
 
-let app = express();
+const app = express();
 
 app.use(logger("dev"));
 app.use(json());
@@ -55,9 +54,5 @@ connection.once('open', () => {
   console.log('Mongo DB succesfully set up')
 });
 
-
-app.listen(port, ()=>{
-  console.log(`server is running on port ${port}`)
-});
 
 module.exports = app;
