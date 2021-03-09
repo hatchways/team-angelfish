@@ -9,7 +9,6 @@ const pingRouter = require("./routes/ping");
 const flightRouter = require("./routes/flight");
 
 const { json, urlencoded } = express;
-const port = process.env.port || 3001;
 
 var app = express();
 
@@ -38,9 +37,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.json({ error: err });
 });
-
-app.listen(port, () => {
-  console.log(`Server is listening at http://localhost:${port}`);
-})
 
 module.exports = app;
