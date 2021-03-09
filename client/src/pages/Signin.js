@@ -1,17 +1,17 @@
 /** @format */
 
-import React, { useState, useEffect } from 'react';
-import { Box, Container, Grid, Typography } from '@material-ui/core';
-import { TextField, Button } from '@material-ui/core';
-import { Link, Redirect } from 'react-router-dom';
-import { useStyles } from '../themes/theme';
+import React, { useState, useEffect } from "react";
+import { Box, Container, Grid, Typography } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
+import { Link, Redirect } from "react-router-dom";
+import { useStyles } from "../themes/theme";
 
 const Signin = () => {
 	const classes = useStyles();
 
 	const [state, setState] = useState({
-		emailSignin: '',
-		pwdSignin: '',
+		emailSignin: "",
+		pwdSignin: "",
 		emailError: false,
 		emailValidationError: false,
 		pwdError: false,
@@ -43,10 +43,10 @@ const Signin = () => {
 		const { emailSignin, pwdSignin } = state;
 		const userInfo = { email: emailSignin, password: pwdSignin };
 		if (checkEmail() && pwdSignin) {
-			fetch('url', {
-				method: 'POST',
+			fetch("url", {
+				method: "POST",
 				headers: {
-					'Content-Type': 'application/json',
+					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(userInfo),
 			})
@@ -70,27 +70,27 @@ const Signin = () => {
 	};
 
 	return state.redirect ? (
-		<Redirect to='/dashboard' />
+		<Redirect to="/dashboard" />
 	) : (
-		<Container id='modal-content' maxWidth='xs'>
-			<Box textAlign='right' className='modal-header'>
-				<Button size='small' className={classes.close}>
+		<Container id="modal-content" maxWidth="xs">
+			<Box textAlign="right" className="modal-header">
+				<Button size="small" className={classes.close}>
 					&times;
 				</Button>
 			</Box>
 			<div className={`modal-body ${classes.modalBody}`}>
 				<Typography
-					component='h1'
-					variant='h4'
-					align='center'
+					component="h1"
+					variant="h4"
+					align="center"
 					className={classes.modalTitle}
 				>
 					Sign In
 				</Typography>
 				<Typography
-					component='p'
-					variant='subtitle1'
-					align='center'
+					component="p"
+					variant="subtitle1"
+					align="center"
 					className={classes.modalSubtitle}
 				>
 					Track prices, organize travel plans and access member-only deals
@@ -99,56 +99,56 @@ const Signin = () => {
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
 							<TextField
-								variant='outlined'
+								variant="outlined"
 								required
 								fullWidth
-								label='Email Address'
+								label="Email Address"
 								value={state.emailSignin}
-								id='emailSignin'
-								name='emailSignin'
-								type='email'
-								color='secondary'
+								id="emailSignin"
+								name="emailSignin"
+								type="email"
+								color="secondary"
 								error={
 									state.emailError || state.emailValidationError ? true : false
 								}
 								helperText={
 									state.emailError || state.emailValidationError
 										? state.emailError
-											? 'This email does not exist in our records.'
-											: 'Please enter a valid email address.'
-										: ''
+											? "This email does not exist in our records."
+											: "Please enter a valid email address."
+										: ""
 								}
 								onChange={handleInputChange}
 							/>
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
-								variant='outlined'
+								variant="outlined"
 								required
 								fullWidth
-								label='Password'
+								label="Password"
 								value={state.pwdSignin}
-								id='pwdSignin'
-								name='pwdSignin'
-								type='password'
-								color='secondary'
+								id="pwdSignin"
+								name="pwdSignin"
+								type="password"
+								color="secondary"
 								error={state.pwdError ? true : false}
 								helperText={
 									state.pwdError
-										? 'You have entered an incorrect password.'
-										: ''
+										? "You have entered an incorrect password."
+										: ""
 								}
 								onChange={handleInputChange}
 							/>
 						</Grid>
 					</Grid>
 				</form>
-				<Box textAlign='center'>
+				<Box textAlign="center">
 					<Button
-						type='submit'
-						variant='contained'
-						color='primary'
-						size='large'
+						type="submit"
+						variant="contained"
+						color="primary"
+						size="large"
 						classes={{ root: classes.modalSubmit }}
 						onClick={handleSubmit}
 					>
@@ -157,15 +157,15 @@ const Signin = () => {
 				</Box>
 			</div>
 			<hr />
-			<div className='modal-footer'>
+			<div className="modal-footer">
 				<Typography
-					component='p'
-					variant='subtitle1'
-					align='center'
+					component="p"
+					variant="subtitle1"
+					align="center"
 					className={classes.modalFooter}
 				>
-					Don't have an account?{' '}
-					<Link to='/signup' className={classes.link}>
+					Don't have an account?{" "}
+					<Link to="/signup" className={classes.link}>
 						Sign Up
 					</Link>
 				</Typography>

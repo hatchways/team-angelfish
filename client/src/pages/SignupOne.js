@@ -1,19 +1,19 @@
 /** @format */
 
-import React, { useState, useEffect } from 'react';
-import { Box, Container, Grid, Typography } from '@material-ui/core';
-import { TextField, Button } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import { useStyles } from '../themes/theme';
+import React, { useState, useEffect } from "react";
+import { Box, Container, Grid, Typography } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { useStyles } from "../themes/theme";
 
 const SignupOne = ({ setData }) => {
 	const classes = useStyles();
 
 	const [state, setState] = useState({
-		name: '',
-		emailSignup: '',
-		pwdSignup: '',
-		confirmPwdSignup: '',
+		name: "",
+		emailSignup: "",
+		pwdSignup: "",
+		confirmPwdSignup: "",
 		userInfo: {},
 		nameError: false,
 		emailError: false,
@@ -51,7 +51,7 @@ const SignupOne = ({ setData }) => {
 	};
 
 	const checkPwd = () => {
-		const pwd_patt = new RegExp('.{6,}');
+		const pwd_patt = new RegExp(".{6,}");
 		const pwd_test = pwd_patt.test(state.pwdSignup);
 		return pwd_test ? true : false;
 	};
@@ -68,10 +68,10 @@ const SignupOne = ({ setData }) => {
 		) {
 			setData(data);
 			setState({
-				name: '',
-				emailSignup: '',
-				pwdSignup: '',
-				confirmPwdSignup: '',
+				name: "",
+				emailSignup: "",
+				pwdSignup: "",
+				confirmPwdSignup: "",
 				userInfo: {},
 			});
 		} else if (!checkUser()) {
@@ -86,25 +86,25 @@ const SignupOne = ({ setData }) => {
 	};
 
 	return (
-		<Container id='modal-content' maxWidth='xs'>
-			<Box textAlign='right' className='modal-header'>
-				<Button size='small' className={classes.close}>
+		<Container id="modal-content" maxWidth="xs">
+			<Box textAlign="right" className="modal-header">
+				<Button size="small" className={classes.close}>
 					&times;
 				</Button>
 			</Box>
 			<div className={`modal-body ${classes.modalBody}`}>
 				<Typography
-					component='h1'
-					variant='h4'
-					align='center'
+					component="h1"
+					variant="h4"
+					align="center"
 					className={classes.modalTitle}
 				>
 					Sign Up
 				</Typography>
 				<Typography
-					component='p'
-					variant='subtitle1'
-					align='center'
+					component="p"
+					variant="subtitle1"
+					align="center"
 					className={classes.modalSubtitle}
 				>
 					Track prices, organize travel plans and access member-only deals
@@ -113,87 +113,87 @@ const SignupOne = ({ setData }) => {
 					<Grid container spacing={2}>
 						<Grid item xs={12}>
 							<TextField
-								variant='outlined'
+								variant="outlined"
 								required
 								fullWidth
-								label='Name'
+								label="Name"
 								value={state.name}
-								id='name'
-								name='name'
-								color='secondary'
+								id="name"
+								name="name"
+								color="secondary"
 								error={state.nameError ? true : false}
 								helperText={
 									state.nameError
-										? 'Name must be at least 4 characters with no spaces.'
-										: ''
+										? "Name must be at least 4 characters with no spaces."
+										: ""
 								}
 								onChange={handleInputChange}
 							/>
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
-								variant='outlined'
+								variant="outlined"
 								required
 								fullWidth
-								label='Email Address'
+								label="Email Address"
 								value={state.emailSignup}
-								id='emailSignup'
-								name='emailSignup'
-								type='email'
-								color='secondary'
+								id="emailSignup"
+								name="emailSignup"
+								type="email"
+								color="secondary"
 								error={state.emailError ? true : false}
 								helperText={
-									state.emailError ? 'Please enter a valid email address.' : ''
+									state.emailError ? "Please enter a valid email address." : ""
 								}
 								onChange={handleInputChange}
 							/>
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
-								variant='outlined'
+								variant="outlined"
 								required
 								fullWidth
-								label='Password'
+								label="Password"
 								value={state.pwdSignup}
-								id='pwdSignup'
-								name='pwdSignup'
-								type='password'
-								color='secondary'
+								id="pwdSignup"
+								name="pwdSignup"
+								type="password"
+								color="secondary"
 								error={state.pwdError ? true : false}
 								helperText={
 									state.pwdError
-										? 'Your password must be at least 6 characters.'
-										: ''
+										? "Your password must be at least 6 characters."
+										: ""
 								}
 								onChange={handleInputChange}
 							/>
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
-								variant='outlined'
+								variant="outlined"
 								required
 								fullWidth
-								label='Confirm Password'
+								label="Confirm Password"
 								value={state.confirmPwdSignup}
-								id='confirmPwdSignup'
-								name='confirmPwdSignup'
-								type='password'
-								color='secondary'
+								id="confirmPwdSignup"
+								name="confirmPwdSignup"
+								type="password"
+								color="secondary"
 								error={state.confirmPwdError ? true : false}
 								helperText={
-									state.confirmPwdError ? 'Your passwords do not match.' : ''
+									state.confirmPwdError ? "Your passwords do not match." : ""
 								}
 								onChange={handleInputChange}
 							/>
 						</Grid>
 					</Grid>
 				</form>
-				<Box textAlign='center'>
+				<Box textAlign="center">
 					<Button
-						type='submit'
-						variant='contained'
-						color='primary'
-						size='large'
+						type="submit"
+						variant="contained"
+						color="primary"
+						size="large"
 						classes={{ root: classes.modalSubmit }}
 						onClick={handleSubmit}
 					>
@@ -202,15 +202,15 @@ const SignupOne = ({ setData }) => {
 				</Box>
 			</div>
 			<hr />
-			<div className='modal-footer'>
+			<div className="modal-footer">
 				<Typography
-					component='p'
-					variant='subtitle1'
-					align='center'
+					component="p"
+					variant="subtitle1"
+					align="center"
 					className={classes.modalFooter}
 				>
-					Already have an account?{' '}
-					<Link to='/signin' className={classes.link}>
+					Already have an account?{" "}
+					<Link to="/signin" className={classes.link}>
 						Sign In
 					</Link>
 				</Typography>
