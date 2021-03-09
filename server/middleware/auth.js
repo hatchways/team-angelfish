@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    const { token } = req.cookies;
     if (!token) throw new Error('Unauthenticated');
 
     const email = jwt.verify(token, process.env.JWT_SECRET);
