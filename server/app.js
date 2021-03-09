@@ -49,10 +49,5 @@ const url = process.env.MONGO_URL
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
-const connection = mongoose.connection
-connection.once('open', () => {
-  console.log('Mongo DB succesfully set up')
-});
-
 
 module.exports = app;
