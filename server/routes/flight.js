@@ -5,50 +5,49 @@ const rapidApiKey = "b45bedc57emsh23d534a09704e52p1ab1a8jsn764974156db7";
 const rapidApiHost = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com";
 
 //Get All available currencies
+//Example: http://localhost:3001/api/flights/currencies
 router.get("/currencies", (req, res, next) => {
-  const unirestreq = unirest(
-    "GET",
-    "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/reference/v1.0/currencies"
-  );
-
-  unirestreq.headers({
-    "x-rapidapi-key": rapidApiKey,
-    "x-rapidapi-host": rapidApiHost,
-    useQueryString: true,
-  });
-
-  unirestreq.end(function (response) {
-    if (!response || response.error) throw new Error(response.error);
-    res.send(response.body);
-    console.log(response.body);
-  });
+  unirest
+    .get(
+      "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/reference/v1.0/currencies"
+    )
+    .headers({
+      "x-rapidapi-key": rapidApiKey,
+      "x-rapidapi-host": rapidApiHost,
+      useQueryString: true,
+    })
+    .then((response) => {
+      res.send(response.body);
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
 //Get All available places
+//Example : http://localhost:3001/api/flights/places/france/fr/eur/fr.eu/
 router.get(
   "/places/:country/:countryCode/:currency/:locale",
   (req, res, next) => {
     const params = req.params;
-    const unirestreq = unirest(
-      "GET",
-      `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/${params.countryCode}/${params.currency}/${params.locale}/`
-    );
-
-    unirestreq.query({
-      query: params.country,
-    });
-
-    unirestreq.headers({
-      "x-rapidapi-key": rapidApiKey,
-      "x-rapidapi-host": rapidApiHost,
-      useQueryString: true,
-    });
-
-    unirestreq.end(function (response) {
-      if (!response || response.error) throw new Error(response.error);
-      res.send(response.body);
-      console.log(response.body);
-    });
+    unirest
+      .get(
+        `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/${params.countryCode}/${params.currency}/${params.locale}/`
+      )
+      .headers({
+        "x-rapidapi-key": rapidApiKey,
+        "x-rapidapi-host": rapidApiHost,
+        useQueryString: true,
+      })
+      .query({
+        query: params.country,
+      })
+      .then((response) => {
+        res.send(response.body);
+      })
+      .catch((err) => {
+        next(err);
+      });
   }
 );
 

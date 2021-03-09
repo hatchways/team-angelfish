@@ -9,7 +9,7 @@ const pingRouter = require("./routes/ping");
 const flightRouter = require("./routes/flight");
 
 const { json, urlencoded } = express;
-const port = 3001;
+const port = process.env.port || 3001;
 
 var app = express();
 
