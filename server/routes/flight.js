@@ -5,7 +5,7 @@ const rapidApiKey = "b45bedc57emsh23d534a09704e52p1ab1a8jsn764974156db7";
 const rapidApiHost = "skyscanner-skyscanner-flight-search-v1.p.rapidapi.com";
 
 //Get All available currencies
-//Example: http://localhost:3001/api/flights/currencies
+//Example: /api/flights/currencies
 router.get("/currencies", (req, res, next) => {
   unirest
     .get(
@@ -25,14 +25,14 @@ router.get("/currencies", (req, res, next) => {
 });
 
 //Get All available places
-//Example : http://localhost:3001/api/flights/places/france/fr/eur/fr.eu/
+//Example : /api/flights/places/france/fr/eur/fr.eu/
 router.get(
   "/places/:country/:countryCode/:currency/:locale",
   (req, res, next) => {
-    const params = req.params;
+    const { country, countryCode, currency, locale } = req.params;
     unirest
       .get(
-        `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/${params.countryCode}/${params.currency}/${params.locale}/`
+        `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/${countryCode}/${currency}/${locale}/`
       )
       .headers({
         "x-rapidapi-key": rapidApiKey,
@@ -40,8 +40,46 @@ router.get(
         useQueryString: true,
       })
       .query({
-        query: params.country,
+        query: country,
       })
+      .then((response) => {
+        res.send(response.body);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  }
+);
+
+//Retrieve the cheapest quotes from our cache prices.
+//Example : /api/flights/quotes/US/USD/en-US/SFO-sky/JFK-sky/2021-03-12
+//Example : /api/flights/quotes/US/USD/en-US/SFO-sky/JFK-sky/2021-03-12?inboundPartialDate=2021-03-21
+router.get(
+  "/quotes/:marketCountry/:currency/:local/:originPlace/:destinationPlace/:outboundPartialDate",
+  (req, res, next) => {
+    const {
+      marketCountry,
+      currency,
+      locale,
+      originPlace,
+      destinationPlace,
+      outboundPartialDate,
+    } = req.params;
+    const request = unirest.get(
+      `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/${marketCountry}/${currency}/${locale}/${originPlace}/${destinationPlace}/${outboundPartialDate}`
+    );
+    request.headers({
+      "x-rapidapi-key": rapidApiKey,
+      "x-rapidapi-host": rapidApiHost,
+      useQueryString: true,
+    });
+    //@Note: There is no validation on inboundPartialDate for this endpoint
+    if (req.query.inboundPartialDate) {
+      request.query({
+        query: req.query.inboundPartialDate,
+      });
+    }
+    request
       .then((response) => {
         res.send(response.body);
       })
