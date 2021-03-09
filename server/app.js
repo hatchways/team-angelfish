@@ -11,12 +11,11 @@ const pingRouter = require("./routes/ping");
 //Added mongoose to help connect with our Mongodb database
 const mongoose = require("mongoose");
 
-//Added a a pport to run the server on
-const port = process.env.PORT || 3001;
+
 
 const { json, urlencoded } = express;
 
-let app = express();
+const app = express();
 
 app.use(logger("dev"));
 app.use(json());
