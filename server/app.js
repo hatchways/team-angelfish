@@ -8,9 +8,12 @@ const userRoutes = require('./routes/users');
 
 const trim = require('./middleware/trim');
 
+//Added mongoose to help connect with our Mongodb database
+const mongoose = require('mongoose');
+
 const { json, urlencoded } = express;
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(json());
@@ -35,6 +38,15 @@ app.use(function (err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.json({ error: err });
+});
+
+//The line below connects our node server with our mongo database
+const url = process.env.MONGO_URL;
+
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 
 module.exports = app;
