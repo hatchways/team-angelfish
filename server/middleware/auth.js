@@ -1,22 +1,21 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 module.exports = async (req, res, next) => {
   try {
     const { token } = req.cookies;
     if (!token) throw new Error('Unauthenticated');
 
-    const email = jwt.verify(token, process.env.JWT_SECRET);
+    const { id } = jwt.verify(token, process.env.JWT_SECRET);
 
-    // TODO start
-    // 1. Find user in DB and match username
-    // TODO end
+    const user = await User.findOne({ _id: id });
 
-    // Will return user obj when DB is implemented
-    res.locals.email = email;
+    if (!user) throw new Error('Unauthenticated');
+
+    res.locals.user = user;
 
     next();
   } catch (error) {
-    console.log(error);
     return res.status(401).json({ error: 'Unauthenticated' });
   }
 };

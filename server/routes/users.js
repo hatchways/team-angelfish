@@ -7,18 +7,12 @@ const bcrypt = require('bcrypt');
 
 const auth = require('../middleware/auth');
 
+const User = require('../models/User');
+
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
 
-// MOCK DATA
-const testUser = {
-  name: 'Ray',
-  email: '1@gmail.com',
-  //   save new hash here to test
-  password: '$2b$10$Q7.7/ECbbHR0xXDiKab/K.OAcbojaZfWq7t4lOkh4IYRg9asJtuaC',
-};
-
-const register = async (req, res) => {
+const register = (req, res) => {
   const { email, name, password } = req.body;
   const { errors, isValid } = validateRegisterInput(req.body);
   const saltRounds = 10;
@@ -27,41 +21,47 @@ const register = async (req, res) => {
     return res.status(400).json(errors);
   }
 
-  try {
-    //  TODO start
-    // 1. Validation check in DB if user exists
+  User.findOne({ email: email }).then((user) => {
+    if (user) {
+      return res.status(400).json({ email: 'Email already exists' });
+    } else {
+      const newUser = new User({
+        name: name,
+        email: email,
+        password: password,
+      });
 
-    // 2. hash password
-    bcrypt.hash(password, saltRounds, (err, hash) => {
-      // Store hash in DB
-      console.log(hash);
-    });
-
-    // 3. Logic to create user
-    // TODO end
-
-    const token = jwt.sign(email, process.env.JWT_SECRET);
-    res.set(
-      'Set-Cookie',
-      cookie.serialize('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 3600,
-        path: '/',
-      })
-    );
-
-    return res
-      .status(201)
-      .json({ status: 'success', data: { user: { email, name } } });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
-  }
+      bcrypt.hash(newUser.password, saltRounds, (err, hash) => {
+        if (err) throw err;
+        newUser.password = hash;
+        newUser
+          .save()
+          .then((user) => {
+            if (user) {
+              const payload = { id: user._id, email: user.email };
+              const token = jwt.sign(payload, process.env.JWT_SECRET);
+              res.set(
+                'Set-Cookie',
+                cookie.serialize('token', token, {
+                  httpOnly: true,
+                  secure: process.env.NODE_ENV === 'production',
+                  sameSite: 'strict',
+                  maxAge: 3600,
+                  path: '/',
+                })
+              );
+            }
+            res.status(200).json({ status: 'success', data: { user: user } });
+          })
+          .catch((err) => {
+            res.status(400).json({ message: err.message });
+          });
+      });
+    }
+  });
 };
 
-const login = async (req, res) => {
+const login = (req, res) => {
   const { email, password } = req.body;
   const { errors, isValid } = validateLoginInput(req.body);
 
@@ -69,39 +69,34 @@ const login = async (req, res) => {
     return res.status(400).json(errors);
   }
 
-  try {
-    // TODO start
-    // 1. Validate if user exists
-
-    // 2. Compare hash password - using user['password'] to match password
-    // testUser is mock
-    const passwordMatches = await bcrypt.compare(password, testUser.password);
-    if (!passwordMatches) {
-      return res.status(401).json({ password: 'Incorrect password' });
+  User.findOne({ email }).then((user) => {
+    if (!user) {
+      return res.status(400).json({ email: 'Email does not exist' });
     }
-    // TODO end
-
-    const token = jwt.sign(email, process.env.JWT_SECRET);
-    res.set(
-      'Set-Cookie',
-      cookie.serialize('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict',
-        maxAge: 3600,
-        path: '/',
-      })
-    );
-
-    return res.json({ status: 'success', data: { user: { email } } });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
-  }
+    bcrypt.compare(password, user.password).then((passwordMatches) => {
+      if (passwordMatches) {
+        const payload = { id: user._id, email: user.email };
+        const token = jwt.sign(payload, process.env.JWT_SECRET);
+        res.set(
+          'Set-Cookie',
+          cookie.serialize('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 3600,
+            path: '/',
+          })
+        );
+        return res.json({ status: 'success', data: { user: user } });
+      } else {
+        return res.status(400).json({ password: 'Password is incorrect' });
+      }
+    });
+  });
 };
 
 const authorized = (req, res) => {
-  return res.json({ email: res.locals.email });
+  return res.json({ user: res.locals.user });
 };
 
 // TODO
