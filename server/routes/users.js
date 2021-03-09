@@ -32,13 +32,25 @@ const register = async (req, res) => {
     // 1. Validation check in DB if user exists
 
     // 2. hash password
-    const createdHash = await bcrypt.hash(password, saltRounds, (err, hash) => {
+    bcrypt.hash(password, saltRounds, (err, hash) => {
       // Store hash in DB
       console.log(hash);
     });
 
     // 3. Logic to create user
     // TODO end
+
+    const token = jwt.sign(email, process.env.JWT_SECRET);
+    res.set(
+      'Set-Cookie',
+      cookie.serialize('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'strict',
+        maxAge: 3600,
+        path: '/',
+      })
+    );
 
     return res
       .status(201)
