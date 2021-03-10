@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 //Remove the next line when backend data is available.
-import places from "../database/places";
+import places from "../../database/places";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Favorite from "@material-ui/icons/Favorite";
-import Checkbox from "@material-ui/core/Checkbox";
-import { withStyles } from "@material-ui/core/styles";
+import {CustomSmallerCheckBox} from "../../themes/theme";
 
 const useStyles = makeStyles({
   pageContainer: {
@@ -35,13 +34,26 @@ const useStyles = makeStyles({
     width: "5px",
     height: "5px",
   },
-});
-
-const CustomSmallerCheckBox = withStyles({
-  root: {
-    "& .MuiSvgIcon-root": { width: "15px", height: "15px" },
+  bottomInformationContainer: {
+    display: "flex",
+    height: "15%",
+    borderTop: "1px solid #a9a9a9",
+    padding: 10,
+    justifyContent: "space-between",
   },
-})(Checkbox);
+  bottomInformationSubContainer1: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    paddingLeft: 10,
+  },
+  bottomInformationSubContainer2: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+});
 
 function FavoriteCheckBox() {
   const classes = useStyles();
@@ -87,23 +99,8 @@ const ExplorerPage = () => {
                 backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  height: "15%",
-                  borderTop: "1px solid #a9a9a9",
-                  padding: 10,
-                  justifyContent: "space-between",
-                }}
-              >
-                <span
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    paddingLeft: 10,
-                  }}
-                >
+              <div className={classes.bottomInformationContainer}>
+                <span className={classes.bottomInformationSubContainer1}>
                   <span style={{ fontSize: 17, color: "white" }}>
                     {place.townName},
                   </span>
@@ -111,14 +108,7 @@ const ExplorerPage = () => {
                     {place.countryName}
                   </span>
                 </span>
-                <span
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "flex-end",
-                  }}
-                >
+                <span className={classes.bottomInformationSubContainer2}>
                   <FavoriteCheckBox />
                 </span>
               </div>
