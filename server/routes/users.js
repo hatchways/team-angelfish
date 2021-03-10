@@ -23,7 +23,7 @@ const register = (req, res) => {
 
   User.findOne({ email: email }).then((user) => {
     if (user) {
-      return res.status(400).json({ email: 'Email already exists' });
+      return res.status(400).json({ email: 'Authentication Failed' });
     } else {
       const newUser = new User({
         name: name,
@@ -71,7 +71,7 @@ const login = (req, res) => {
 
   User.findOne({ email }).then((user) => {
     if (!user) {
-      return res.status(400).json({ email: 'Email does not exist' });
+      return res.status(400).json({ email: 'Authentication Failed' });
     }
     bcrypt.compare(password, user.password).then((passwordMatches) => {
       if (passwordMatches) {
