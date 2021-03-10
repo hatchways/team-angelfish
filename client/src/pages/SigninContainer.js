@@ -6,20 +6,16 @@ import { TextField, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { useStyles } from "../themes/theme";
 
-const SignupOne = ({ next }) => {
+const SigninContainer = ({ redirect }) => {
 	const classes = useStyles();
 
 	const initialState = {
-		name: "",
-		emailSignup: "",
-		pwdSignup: "",
-		confirmPwdSignup: "",
-		userInfo: {},
+		emailSignin: "",
+		pwdSignin: "",
 		emailError: false,
-		nameValidationError: false,
 		emailValidationError: false,
+		pwdError: false,
 		pwdValidationError: false,
-		confirmPwdValidationError: false,
 	};
 
 	const reducer = (state, action) => {
@@ -29,17 +25,14 @@ const SignupOne = ({ next }) => {
 					...state,
 					[action.name]: action.value,
 					emailError: false,
-					nameValidationError: false,
 					emailValidationError: false,
+					pwdError: false,
 					pwdValidationError: false,
-					confirmPwdValidationError: false,
 				};
 			case "error":
 				return { ...state, [action.error]: true };
 			case "update":
 				return state;
-			case "reset":
-				return initialState;
 			default:
 				throw new Error();
 		}
@@ -59,72 +52,48 @@ const SignupOne = ({ next }) => {
 		});
 	};
 
-	const checkUser = () => {
-		const userPattern = new RegExp(
-			`^(?=.*[A-Za-z].*[A-Za-z])[A-Za-z0-9@$!%*#?&]{4,}$`
-		);
-		const userTest = userPattern.test(state.name);
-		return userTest;
-	};
-
 	const checkEmail = () => {
 		const emailPattern = new RegExp(`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$`);
-		const emailTest = emailPattern.test(state.emailSignup);
+		const emailTest = emailPattern.test(state.emailSignin);
 		return emailTest;
-	};
-
-	const checkPwd = () => {
-		const pwdPattern = new RegExp(".{6,}");
-		const pwdTest = pwdPattern.test(state.pwdSignup);
-		return pwdTest;
 	};
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		const { name, emailSignup, pwdSignup, confirmPwdSignup } = state;
-		const data = {
-			name: name.trim().toLowerCase(),
-			email: emailSignup.trim().toLowerCase(),
-			password: pwdSignup.trim(),
+		const { emailSignin, pwdSignin } = state;
+		const userInfo = {
+			email: emailSignin.trim().toLowerCase(),
+			password: pwdSignin.trim().toLowerCase(),
 		};
-		if (
-			checkUser() &&
-			checkEmail() &&
-			checkPwd() &&
-			pwdSignup === confirmPwdSignup
-		) {
-			fetch("/api/users/register", {
+		if (checkEmail() && pwdSignin) {
+			fetch("/api/users/login", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify(data),
+				body: JSON.stringify(userInfo),
 			})
 				.then((res) => res.json())
 				.then((results) => {
 					if (results.status === "success") {
-						next();
+						redirect(); // redirect to dashboard
 					} else if ("email" in results) {
 						dispatch({ type: "error", error: "emailError" });
+					} else if ("password" in results) {
+						dispatch({ type: "error", error: "pwdError" });
 					} else if ("errors" in results) {
 						if ("email" in results.errors) {
 							dispatch({ type: "error", error: "emailValidationError" });
 						}
 					}
 				})
-				.catch((err) => console.error(err));
-			dispatch({ type: "reset" });
-		} else if (!checkUser()) {
-			dispatch({ type: "error", error: "nameValidationError" });
+				.catch((err) => console.error(err.message));
 		} else if (!checkEmail()) {
 			dispatch({ type: "error", error: "emailValidationError" });
-		} else if (!checkPwd()) {
+		} else if (!pwdSignin) {
 			dispatch({ type: "error", error: "pwdValidationError" });
-		} else {
-			dispatch({ type: "error", error: "confirmPwdValidationError" });
 		}
 	};
-
 	return (
 		<Container id="modal-content" maxWidth="xs">
 			<Box textAlign="right" className="modal-header">
@@ -139,7 +108,7 @@ const SignupOne = ({ next }) => {
 					align="center"
 					className={classes.modalTitle}
 				>
-					Sign Up
+					Sign In
 				</Typography>
 				<Typography
 					component="p"
@@ -156,29 +125,10 @@ const SignupOne = ({ next }) => {
 								variant="outlined"
 								required
 								fullWidth
-								label="Name"
-								value={state.name}
-								id="name"
-								name="name"
-								color="secondary"
-								error={state.nameValidationError ? true : false}
-								helperText={
-									state.nameValidationError
-										? "Name must be at least 4 characters with no spaces."
-										: ""
-								}
-								onChange={handleInputChange}
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								variant="outlined"
-								required
-								fullWidth
 								label="Email Address"
-								value={state.emailSignup}
-								id="emailSignup"
-								name="emailSignup"
+								value={state.emailSignin}
+								id="emailSignin"
+								name="emailSignin"
 								type="email"
 								color="secondary"
 								error={
@@ -187,7 +137,7 @@ const SignupOne = ({ next }) => {
 								helperText={
 									state.emailError || state.emailValidationError
 										? state.emailError
-											? "This email already exists."
+											? "This email does not exist in our records."
 											: "Please enter a valid email address."
 										: ""
 								}
@@ -200,35 +150,19 @@ const SignupOne = ({ next }) => {
 								required
 								fullWidth
 								label="Password"
-								value={state.pwdSignup}
-								id="pwdSignup"
-								name="pwdSignup"
+								value={state.pwdSignin}
+								id="pwdSignin"
+								name="pwdSignin"
 								type="password"
 								color="secondary"
-								error={state.pwdValidationError ? true : false}
-								helperText={
-									state.pwdValidationError
-										? "Your password must be at least 6 characters."
-										: ""
+								error={
+									state.pwdError || state.pwdValidationError ? true : false
 								}
-								onChange={handleInputChange}
-							/>
-						</Grid>
-						<Grid item xs={12}>
-							<TextField
-								variant="outlined"
-								required
-								fullWidth
-								label="Confirm Password"
-								value={state.confirmPwdSignup}
-								id="confirmPwdSignup"
-								name="confirmPwdSignup"
-								type="password"
-								color="secondary"
-								error={state.confirmPwdValidationError ? true : false}
 								helperText={
-									state.confirmPwdValidationError
-										? "Your passwords do not match."
+									state.pwdError || state.pwdValidationError
+										? state.pwdError
+											? "You have entered an incorrect password."
+											: "Please enter a password."
 										: ""
 								}
 								onChange={handleInputChange}
@@ -245,7 +179,7 @@ const SignupOne = ({ next }) => {
 						classes={{ root: classes.modalSubmit }}
 						onClick={handleSubmit}
 					>
-						Continue
+						Sign In
 					</Button>
 				</Box>
 			</div>
@@ -257,13 +191,13 @@ const SignupOne = ({ next }) => {
 					align="center"
 					className={classes.modalFooter}
 				>
-					Already have an account?{" "}
-					<Link to="/signin" className={classes.link}>
-						Sign In
+					Don't have an account?{" "}
+					<Link to="/signup" className={classes.link}>
+						Sign Up
 					</Link>
 				</Typography>
 			</div>
 		</Container>
 	);
 };
-export default SignupOne;
+export default SigninContainer;

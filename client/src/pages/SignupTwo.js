@@ -13,17 +13,12 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import FormControl from "@material-ui/core/FormControl";
 
-const SignupTwo = ({ data }) => {
+const SignupTwo = ({ redirect }) => {
 	const classes = useStyles();
 	const [travel, setTravel] = useState({
 		destination: "",
 		list: [],
 		add: false, //open textbox to add new destination
-	});
-	const [message, setMessage] = useState({
-		open: false,
-		error: false,
-		success: false,
 	});
 
 	useEffect(() => {
@@ -43,7 +38,7 @@ const SignupTwo = ({ data }) => {
 
 		if (isInList || !newAdd) {
 			setTravel({ ...travel, destination: "", add: false });
-		} else if (newAdd) {
+		} else {
 			setTravel({
 				...travel,
 				destination: "",
@@ -60,21 +55,22 @@ const SignupTwo = ({ data }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		const userInfo = { ...data, travel: travel.list };
-		fetch("/api/users/register", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(userInfo),
-		})
-			.then((res) => res.json())
-			.then((results) => {
-				results.status === 200
-					? setMessage({ ...message, success: true })
-					: setMessage({ ...message, error: true });
+		const travelInfo = { travel: travel.list };
+		if (travel.list.length > 0) {
+			// url to send travel list
+			fetch("", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(travelInfo),
 			})
-			.catch();
+				.then((res) => res.json())
+				.then(redirect())
+				.catch((err) => console.error(err));
+		} else {
+			redirect();
+		}
 	};
 	return (
 		<Container id="modal-content" maxWidth="xs">
