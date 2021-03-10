@@ -9,6 +9,7 @@ import {
   Typography,
   MenuItem,
   Button,
+  Grid,
 } from "@material-ui/core";
 
 import useStyles from "./style";
@@ -29,7 +30,7 @@ function Header() {
   };
 
   return (
-    <div className={classes.root}>
+    <Grid container className={classes.root}>
       <AppBar position="static" className={classes.appbar}>
         <Toolbar>
           <IconButton
@@ -41,7 +42,7 @@ function Header() {
           <Typography variant="h6" className={classes.title}>
             Travel Booking
           </Typography>
-          <div className={classes.pages}>
+          <Grid className={classes.pages}>
             <NavLink className={classes.navlinks} to="#">
               Explore
             </NavLink>
@@ -62,10 +63,10 @@ function Header() {
             >
               Rent
             </NavLink>
-          </div>
+          </Grid>
 
           {auth ? (
-            <div>
+            <Grid>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -96,7 +97,7 @@ function Header() {
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
-            </div>
+            </Grid>
           ) : (
             <Button onClick={() => setAuth(true)} className={classes.loginbtn}>
               Login
@@ -104,7 +105,7 @@ function Header() {
           )}
         </Toolbar>
       </AppBar>
-    </div>
+    </Grid>
   );
 }
 
