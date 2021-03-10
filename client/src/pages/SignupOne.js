@@ -4,7 +4,7 @@ import React, { useReducer, useEffect } from "react";
 import { Box, Container, Grid, Typography } from "@material-ui/core";
 import { TextField, Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { useStyles } from "../themes/theme";
+import { useStyles } from '../styles/styles';
 
 const SignupOne = ({ next }) => {
 	const classes = useStyles();
@@ -245,7 +245,7 @@ const SignupOne = ({ next }) => {
 						classes={{ root: classes.modalSubmit }}
 						onClick={handleSubmit}
 					>
-						Continue
+						Sign Up
 					</Button>
 				</Box>
 			</div>

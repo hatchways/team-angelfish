@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Box, Container, Grid, Typography } from "@material-ui/core";
-import { useStyles } from "../themes/theme";
+import { useStyles } from "../styles/styles";
 import { Button, Input } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
@@ -165,7 +165,7 @@ const SignupTwo = ({ redirect }) => {
 						classes={{ root: classes.modalSubmit }}
 						onClick={handleSubmit}
 					>
-						Sign Up
+						Continue
 					</Button>
 				</Box>
 			</div>
