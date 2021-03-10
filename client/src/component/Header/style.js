@@ -18,7 +18,15 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#FFA000',
       color: 'white',
       marginRight: theme.spacing(2),
-    }
+    },
+    pages:{
+      color: '#373737',
+      display: 'flex',
+      listStyle: 'none',
+      justifyContent: 'space-evenly',
+      marginRight: theme.spacing(7),
+      width: '40%'
+    },
   }));
 
 export default useStyles

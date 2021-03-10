@@ -32,6 +32,14 @@ function Header() {
             <Typography variant="h6" className={classes.title}>
               Travel Booking
             </Typography>
+            <>
+                <ul className={classes.pages}>
+                    <li>Explore</li>
+                    <li>Flights</li>
+                    <li>Hotels</li>
+                    <li>Rent</li>
+                </ul>
+            </>
             {auth ? (
               <div>
                 <IconButton
