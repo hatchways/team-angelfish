@@ -41,9 +41,12 @@ const Signin = () => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const { emailSignin, pwdSignin } = state;
-		const userInfo = { email: emailSignin, password: pwdSignin };
+		const userInfo = {
+			email: emailSignin.toLowerCase(),
+			password: pwdSignin.toLowerCase(),
+		};
 		if (checkEmail() && pwdSignin) {
-			fetch("url", {
+			fetch("/api/users/login", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -65,7 +68,7 @@ const Signin = () => {
 		} else if (!checkEmail()) {
 			setState({ ...state, emailValidationError: true });
 		} else if (!pwdSignin) {
-			setState({ ...state, emailValidationError: true });
+			setState({ ...state, pwdError: true });
 		}
 	};
 

@@ -38,7 +38,7 @@ const SignupTwo = ({ data }) => {
 	};
 
 	const handleAdd = () => {
-		const newAdd = travel.destination.toLowerCase();
+		const newAdd = travel.destination.trim().toLowerCase();
 		const isInList = travel.list.includes(newAdd);
 
 		if (isInList || !newAdd) {
@@ -61,7 +61,7 @@ const SignupTwo = ({ data }) => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const userInfo = { ...data, travel: travel.list };
-		fetch("url", {
+		fetch("/api/users/register", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",

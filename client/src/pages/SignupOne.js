@@ -59,7 +59,11 @@ const SignupOne = ({ setData }) => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const { name, emailSignup, pwdSignup, confirmPwdSignup } = state;
-		const data = { name: name, email: emailSignup, password: pwdSignup };
+		const data = {
+			name: name.trim().toLowerCase(),
+			email: emailSignup.trim().toLowerCase(),
+			password: pwdSignup.trim(),
+		};
 		if (
 			checkUser() &&
 			checkEmail() &&
