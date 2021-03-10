@@ -3,7 +3,7 @@ import React from 'react'
 function Rent() {
     return (
         <div>
-            This is rent Page
+            <h1>This is rent page</h1>
         </div>
     )
 }

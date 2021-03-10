@@ -3,7 +3,7 @@ import React from 'react'
 function Flights() {
     return (
         <div>
-            This is flight page
+            <h1>This is the flight page currently serving as the home page</h1>
         </div>
     )
 }

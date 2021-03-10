@@ -20,12 +20,16 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(2),
     },
     pages:{
-      color: '#373737',
       display: 'flex',
-      listStyle: 'none',
+      fontSize: '14px',
+      fontWeight: 'bold',
       justifyContent: 'space-evenly',
-      marginRight: theme.spacing(7),
-      width: '40%'
+      marginRight: theme.spacing(3),
+      width: '45%',
+    },
+    navlinks:{
+      color:'#373737',
+      textDecoration: 'none',
     },
   }));
 

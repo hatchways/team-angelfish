@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import {AppBar, Avatar, Toolbar, IconButton, Menu, Typography, MenuItem, Button} from '@material-ui/core'
 
 
@@ -32,14 +32,13 @@ function Header() {
             <Typography variant="h6" className={classes.title}>
               Travel Booking
             </Typography>
-            <>
-                <ul className={classes.pages}>
-                    <li>Explore</li>
-                    <li>Flights</li>
-                    <li>Hotels</li>
-                    <li>Rent</li>
-                </ul>
-            </>
+            <div className={classes.pages}>
+                    <NavLink className={classes.navlinks} to="#">Explore</NavLink>
+                    <NavLink className={classes.navlinks} to="/">Flights</NavLink>
+                    <NavLink className={classes.navlinks} to="/hotel" activeStyle={{ color: "#FFA000"}}>Hotels</NavLink>
+                    <NavLink className={classes.navlinks} to="/rent" activeStyle={{ color: "#FFA000"}}>Rent</NavLink>
+             </div>
+          
             {auth ? (
               <div>
                 <IconButton
@@ -49,7 +48,7 @@ function Header() {
                   onClick={handleMenu}
                   color="inherit"
                 >
-                  <Avatar className={classes.avatar} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdX7wWCMOvGYD6_4-MthVKf-DjjgLF_GqQzg&usqp=CAU" onClick={handleMenu}/>
+                  <Avatar className={classes.avatar} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdX7wWCMOvGYD6_4-MthVKf-DjjgLF_GqQzg&usqp=CAU" />
 
                 </IconButton>
                 <Menu
@@ -71,7 +70,7 @@ function Header() {
                   <MenuItem onClick={handleClose}>Logout</MenuItem>
                 </Menu>
               </div>
-            ) : <Button className={classes.loginbtn}>Login</Button>}
+            ) : <Button onClick={()=> setAuth(true)} className={classes.loginbtn}>Login</Button>}
           </Toolbar>
         </AppBar>
       </div>
@@ -79,6 +78,3 @@ function Header() {
 }
 
 export default Header
-
-
-{/* <Avatar className={classes.avatar} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdX7wWCMOvGYD6_4-MthVKf-DjjgLF_GqQzg&usqp=CAU" onClick={handleMenu}/> */}

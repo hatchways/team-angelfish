@@ -3,7 +3,7 @@ import React from 'react'
 function Hotels() {
     return (
         <div>
-            This is hotel page
+            <h1>This is the hotel page</h1>
         </div>
     )
 }
