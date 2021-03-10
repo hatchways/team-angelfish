@@ -2,7 +2,7 @@
 
 import React from "react";
 import { MuiThemeProvider } from "@material-ui/core";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 
@@ -14,9 +14,11 @@ function App() {
 	return (
 		<MuiThemeProvider theme={theme}>
 			<BrowserRouter>
-				<Route exact path="/" render={() => <Redirect to="/signup" />} />
-				<Route path="/signup" render={() => <Signup />} />
-				<Route path="/signin" render={() => <Signin />} />
+				<Switch>
+					<Redirect exact from="/" to="/signup" />
+					<Route path="/signup" component={Signup} />
+					<Route path="/signin" component={Signin} />
+				</Switch>
 			</BrowserRouter>
 		</MuiThemeProvider>
 	);
