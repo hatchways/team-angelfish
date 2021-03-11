@@ -43,12 +43,18 @@ function Header() {
             Travel Booking
           </Typography>
           <Grid className={classes.pages}>
-            <NavLink className={classes.navlinks} to="#">
+            <NavLink
+              className={classes.navlinks}
+              to="/explore"
+              activeStyle={{ color: "#FFA000" }}
+            >
               Explore
             </NavLink>
-            <NavLink className={classes.navlinks} to="/">
+
+            <NavLink className={classes.navlinks} to="/flights" activeStyle={{ color: "#FFA000" }}>
               Flights
             </NavLink>
+            
             <NavLink
               className={classes.navlinks}
               to="/hotel"
@@ -94,7 +100,7 @@ function Header() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <NavLink to="/profile"><MenuItem onClick={handleClose}>Profile</MenuItem></NavLink>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
             </Grid>

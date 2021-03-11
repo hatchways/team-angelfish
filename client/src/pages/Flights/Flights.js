@@ -1,9 +1,11 @@
 import React from 'react'
+import Header from '../../component/Header/Header'
 
 function Flights() {
     return (
         <div>
-            <h1>This is the flight page currently serving as the home page</h1>
+            <Header />
+            <h1>This is the flight page</h1>
         </div>
     )
 }
