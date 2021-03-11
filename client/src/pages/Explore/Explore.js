@@ -71,7 +71,7 @@ function FavoriteCheckBox() {
   );
 }
 
-const ExplorerPage = () => {
+const Explore = () => {
   const classes = useStyles();
   return (
     <Container className={classes.pageContainer}>
@@ -120,4 +120,4 @@ const ExplorerPage = () => {
   );
 };
 
-export default ExplorerPage;
+export default Explore;

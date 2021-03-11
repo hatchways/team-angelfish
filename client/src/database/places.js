@@ -27,7 +27,7 @@ const places = [
       townName: "Majunga",
       countryName: "Madagascar",
       imageUrl:
-      "https://drive.google.com/uc?id=1WKh9QU-t8VYHHMr8fjtrFRWOembI8RrM",
+      "https://angelfishteam.s3.us-east-2.amazonaws.com/1615494069980",
     },{
       townName: "Grand baie",
       countryName: "Mauritius",

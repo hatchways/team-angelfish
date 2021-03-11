@@ -5,9 +5,8 @@ const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const flightRouter = require("./routes/flight");
-
 const userRoutes = require('./routes/users');
-
+const uploadRouter = require('./routes/file-upload');
 const trim = require('./middleware/trim');
 
 //Added mongoose to help connect with our Mongodb database
@@ -26,6 +25,7 @@ app.use(express.static(join(__dirname, 'public')));
 
 app.use('/api/users', userRoutes);
 app.use("/api/flights", flightRouter);
+app.use("/api", uploadRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
