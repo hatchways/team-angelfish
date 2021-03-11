@@ -14,20 +14,14 @@ import { theme } from "./themes/theme";
 import "./App.css";
 
 function App() {
-  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   useEffect(() => {
     fetch("/api/users/auth").then((res) =>
       res.json().then((data) => {
         setUser(data.user);
-        setLoading(false);
       }),
     );
   }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <MuiThemeProvider theme={theme}>
