@@ -1,10 +1,11 @@
 require('dotenv').config();
-const createError = require("http-errors");
-const express = require("express");
-const { join } = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const flightRouter = require("./routes/flight");
+const createError = require('http-errors');
+const express = require('express');
+const { join } = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const cors = require('cors');
+const flightRouter = require('./routes/flight');
 
 const userRoutes = require('./routes/users');
 
@@ -17,6 +18,7 @@ const { json, urlencoded } = express;
 
 const app = express();
 
+app.use(cors({ origin: true }));
 app.use(logger('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
@@ -25,7 +27,7 @@ app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 
 app.use('/api/users', userRoutes);
-app.use("/api/flights", flightRouter);
+app.use('/api/flights', flightRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
