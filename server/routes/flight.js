@@ -136,9 +136,8 @@ router.get("/quotes/:from/:to/:outboundDate", (req, res, next) => {
 			`https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/US/USD/en-US/${origin}/${destination}/${departDate}`
 		);
 		request.headers({
-			"x-rapidapi-key": "3031e33fd9msh3c73fd1d3122a19p1a03abjsn0397c5598162",
-			"x-rapidapi-host":
-				"skyscanner-skyscanner-flight-search-v1.p.rapidapi.com",
+			"x-rapidapi-key": rapidApiKey,
+			"x-rapidapi-host": rapidApiHost,
 			useQueryString: true,
 		});
 
