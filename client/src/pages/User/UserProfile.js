@@ -17,6 +17,8 @@ export default function MaxWidthDialog() {
   const [selectedFile, setSelectedFile] = useState();
 
   const handleClickOpen = () => {
+    setSelectedFile(null);
+    setLoading(false);
     setOpen(true);
   };
 
@@ -39,7 +41,8 @@ export default function MaxWidthDialog() {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log("Success:", result);
+        setDisplaySnack(true);
+        setDisplaySnackError(false);
         setOpen(false);
         setLoading(false);
         setSelectedFile(null);
@@ -47,7 +50,8 @@ export default function MaxWidthDialog() {
       .catch((error) => {
         console.error("Error:", error);
         setLoading(false);
-        setSelectedFile(null);
+        setDisplaySnack(false);
+        setDisplaySnackError(true);
       });
   };
 
@@ -64,7 +68,7 @@ export default function MaxWidthDialog() {
       <FileUploaderDialog file={selectedFile} open={open} loading={loading} close={handleClose} submit={handleSubmission} handleDrop={handleDrop}/>
       <Snackbar
         open={displaySnack}
-        autoHideDuration={900}
+        autoHideDuration={1000}
         onClose={handleCloseSnack}
       >
         <Alert onClose={handleCloseSnack} severity="success">
@@ -73,7 +77,7 @@ export default function MaxWidthDialog() {
       </Snackbar>
       <Snackbar
         open={displaySnackError}
-        autoHideDuration={900}
+        autoHideDuration={1000}
         onClose={handleCloseSnack}
       >
         <Alert onClose={handleCloseSnack} severity="error">
