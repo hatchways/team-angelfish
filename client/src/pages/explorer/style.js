@@ -7,8 +7,8 @@ const useStyles = makeStyles({
     alignItems: "center",
   },
   paperContainer: {
-    height: 250,
-    width: 195,
+    height: 270,
+    width: 210,
     borderRadius: 10,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
@@ -20,6 +20,12 @@ const useStyles = makeStyles({
   title: {
     margin: 5,
     textAlign: "center",
+    marginTop: 40,
+    fontWeight: "bold",
+    letterSpacing: 1,
+  },
+  subtitle:{
+    letterSpacing: 1,
   },
   customCheckBoxRoot: {
     width: "5px",

@@ -83,7 +83,7 @@ function Header() {
                 <Avatar
                   className={classes.avatar}
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdX7wWCMOvGYD6_4-MthVKf-DjjgLF_GqQzg&usqp=CAU"
-                />
+                alt="User profile image"/>
               </IconButton>
               <Menu
                 id="menu-appbar"

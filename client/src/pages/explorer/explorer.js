@@ -18,7 +18,7 @@ function FavoriteCheckBox() {
         checked={checked}
         onChange={(e) => setChecked(e.target.checked)}
         icon={<Favorite style={{ color: "white" }} />}
-        checkedIcon={<Favorite style={{ color: "orange" }} />}
+        checkedIcon={<Favorite style={{ color: "#FFA000" }} />}
         classes={{ root: classes.customCheckBoxRoot }}
       />
     </div>
@@ -35,13 +35,13 @@ const ExplorerPage = () => {
    </Typography>
    <Typography
    variant="subtitle2"
-   className={classes.title}
+   className={classes.subtitle}
    style={{ color: "#c5bec4", fontSize: 12 }}>
    World's top destinations to explore
  </Typography>
   <Grid
    container
-   spacing={2}
+   spacing={3}
    justify="center"
    style={{ maxWidth: "75%", marginTop: 32 }} >
    {places.map((place, index) => (
