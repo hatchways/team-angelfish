@@ -5,7 +5,7 @@ import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
-import Flights from "./pages/Flights/Flights";
+import FlightsPage from "./pages/Flights/Flights";
 import Hotels from "./pages/Hotels/Hotels";
 import Rent from "./pages/Rent/Rent";
 
@@ -30,7 +30,7 @@ function App() {
           <Redirect exact from="/" to="/signup" />
           <Route path="/signup" component={Signup} />
           <Route path="/signin" component={Signin} />
-          <Route path="/flights" component={Flights} exact />
+          <Route exact path="/flights" component={FlightsPage} />
           <Route path="/hotel" component={Hotels} exact />
           <Route path="/rent" component={Rent} exact />
         </Switch>

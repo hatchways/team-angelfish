@@ -1,6 +1,8 @@
 /** @format */
 
 import { createMuiTheme } from "@material-ui/core";
+import Checkbox from "@material-ui/core/Checkbox";
+import { withStyles } from "@material-ui/core/styles";
 
 export const theme = createMuiTheme({
 	typography: {
@@ -20,3 +22,8 @@ export const theme = createMuiTheme({
 	},
 });
 
+export const CustomSmallerCheckBox= withStyles({
+  root: {
+    "& .MuiSvgIcon-root": { width: "15px", height: "15px" },
+  },
+})(Checkbox)
