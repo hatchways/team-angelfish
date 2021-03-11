@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import Signup from "./pages/Signup";
@@ -14,6 +14,15 @@ import { theme } from "./themes/theme";
 import "./App.css";
 
 function App() {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    fetch("/api/users/auth").then((res) =>
+      res.json().then((data) => {
+        setUser(data.user);
+      }),
+    );
+  }, []);
+
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
