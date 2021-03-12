@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: "#FFA000",
 		color: "white",
 		marginRight: theme.spacing(2),
+		"&:hover": {
+			backgroundColor: "#FFA000",
+		},
 	},
 	pages: {
 		display: "flex",
