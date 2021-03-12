@@ -99,11 +99,28 @@ const authorized = (req, res) => {
   return res.json({ user: res.locals.user });
 };
 
+const updateFavoriteCities = (req, res) => {
+  const user = res.locals.user;
+  user.favoriteCities = req.body.cities;
+  user.save().then((updatedUser) => {
+    res.json({message: "Updated"});
+  }).catch((err) => {
+    throw err;
+  });
+}
+
+const favoriteCities = (req, res) => {
+  const result = res.locals.user.favoriteCities || [];
+  res.json(result);
+}
+
 // TODO
 // 1.Logout route
 
 router.post('/register', register);
 router.post('/login', login);
 router.get('/auth', auth, authorized);
+router.post('/updateFavoriteCities', auth, updateFavoriteCities);
+router.get('/favoriteCities', auth, favoriteCities);
 
 module.exports = router;

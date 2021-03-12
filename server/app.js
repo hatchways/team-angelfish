@@ -5,6 +5,7 @@ const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const flightRouter = require("./routes/flight");
+const cityRouter = require("./routes/city");
 
 const userRoutes = require('./routes/users');
 
@@ -26,6 +27,7 @@ app.use(express.static(join(__dirname, 'public')));
 
 app.use('/api/users', userRoutes);
 app.use("/api/flights", flightRouter);
+app.use("/api/cities", cityRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
