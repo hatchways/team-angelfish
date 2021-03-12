@@ -8,7 +8,9 @@ const rapidApiHost = process.env.RAPID_API_HOST;
 const validator = require("validator");
 
 //rapid API appears to limit all results up to 10
+// move methods to separate file
 
+// check date
 const dateInPast = (date1, date2 = new Date()) => {
 	if (typeof date2 === "string") {
 		const splitDate2 = date2.split("-");
@@ -23,30 +25,35 @@ const dateInPast = (date1, date2 = new Date()) => {
 	date1 = new Date(splitDate1[0], splitDate1[1] - 1, splitDate1[2]);
 	return date1 < date2;
 };
+// check date format
+const validatorOptions = { format: "YYYY-MM-DD", strictMode: true };
+const validateDate = (date) => {
+	return validator.isDate(date, validatorOptions) ? date : "";
+};
+// check location
+const validateLocation = (location, err, key) => {
+	if (validator.isAlpha(location) || location.includes("-sky")) {
+		return location;
+	}
+	return (err[key] = "Invalid format.");
+};
 
 router.get("/quotes/:from/:to/:outboundDate", (req, res, next) => {
 	const { from, to, outboundDate } = req.params;
 	const { inboundDate } = req.query;
-	// check date format
-	const validatorOptions = { format: "YYYY-MM-DD", strictMode: true };
-	const outDate = validator.isDate(outboundDate, validatorOptions)
-		? outboundDate
-		: "";
-	const inDate = validator.isDate(inboundDate, validatorOptions)
-		? inboundDate
-		: "";
-	// test for errors
+	const outDate = validateDate(outboundDate);
+	const inDate = validateDate(inboundDate);
 	const errors = {};
-	const origin = from.includes("-sky")
-		? from
-		: (errors.from = "Invalid format or missing value.");
-	const destination = to.includes("-sky")
-		? to
-		: (errors.to = "Invalid format or missing value.");
+	const origin = validateLocation(from, errors, 'from');
+	const destination = validateLocation(to, errors, 'to');
+	const checkDepartDate = () => {
+		if (dateInPast(outDate)) {
+			return (errors.outboundDate = "Departure date is a past date.");
+		}
+		return outboundDate;
+	};
 	const departDate = outDate
-		? !dateInPast(outDate)
-			? outboundDate
-			: (errors.outboundDate = "Departure date is a past date.")
+		? checkDepartDate()
 		: (errors.outboundDate = "Invalid date format.");
 
 	if (Object.keys(errors).length === 0) {
@@ -60,11 +67,8 @@ router.get("/quotes/:from/:to/:outboundDate", (req, res, next) => {
 		});
 		// API does not return results for inboundDate
 		if (inboundDate) {
-			const returnDate = inDate
-				? !dateInPast(inDate, outDate)
-					? inboundDate
-					: ""
-				: "";
+			let returnDate = "";
+			if (inDate && !dateInPast(inDate, outDate)) returnDate = inboundDate;
 
 			request.query({
 				query: returnDate,
@@ -84,12 +88,8 @@ router.get("/quotes/:from/:to/:outboundDate", (req, res, next) => {
 
 router.get("/places/:regionId", (req, res, next) => {
 	const { regionId } = req.params;
-	// regionId can be either the full name or abbreviation of the state, same results
 	const error = {};
-	const region = validator.isAlpha(regionId)
-		? regionId
-		: (error.region = "Region not in proper format.");
-
+	const region = validateLocation(regionId, error, 'region');
 	if (Object.keys(error).length === 0) {
 		const request = unirest(
 			"GET",
