@@ -3,10 +3,9 @@
 import React, { useReducer, useEffect } from "react";
 import { Box, Container, Grid, Typography } from "@material-ui/core";
 import { TextField, Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import { useStyles } from '../styles/styles';
+import { useStyles } from "../styles/Signup_in";
 
-const SignupOne = ({ next }) => {
+const SignupOne = ({ next, close, signin }) => {
 	const classes = useStyles();
 
 	const initialState = {
@@ -81,6 +80,7 @@ const SignupOne = ({ next }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		next();
 		const { name, emailSignup, pwdSignup, confirmPwdSignup } = state;
 		const data = {
 			name: name.trim().toLowerCase(),
@@ -126,9 +126,14 @@ const SignupOne = ({ next }) => {
 	};
 
 	return (
-		<Container id="modal-content" maxWidth="xs">
+		<Container
+			id="modal-content"
+			maxWidth="xs"
+			className={classes.paper}
+			classes={{ root: classes.contain }}
+		>
 			<Box textAlign="right" className="modal-header">
-				<Button size="small" className={classes.close}>
+				<Button size="small" onClick={() => close()} className={classes.close}>
 					&times;
 				</Button>
 			</Box>
@@ -249,7 +254,6 @@ const SignupOne = ({ next }) => {
 					</Button>
 				</Box>
 			</div>
-			<hr />
 			<div className="modal-footer">
 				<Typography
 					component="p"
@@ -258,9 +262,9 @@ const SignupOne = ({ next }) => {
 					className={classes.modalFooter}
 				>
 					Already have an account?{" "}
-					<Link to="/signin" className={classes.link}>
+					<span className={classes.link} onClick={() => signin()}>
 						Sign In
-					</Link>
+					</span>
 				</Typography>
 			</div>
 		</Container>
