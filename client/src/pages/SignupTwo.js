@@ -1,8 +1,8 @@
 /** @format */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Container, Grid, Typography } from "@material-ui/core";
-import { useStyles } from "../styles/styles";
+import { useStyles } from "../styles/Signup_in";
 import { Button, Input } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import OutlinedInput from "@material-ui/core/OutlinedInput";
@@ -13,51 +13,45 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 import FormControl from "@material-ui/core/FormControl";
 
-const SignupTwo = ({ redirect }) => {
+const SignupTwo = ({ dash, close }) => {
 	const classes = useStyles();
-	const [travel, setTravel] = useState({
-		destination: "",
-		list: [],
-		add: false, //open textbox to add new destination
-	});
 
-	useEffect(() => {
-		setTravel(travel);
-	}, [travel]);
+	const [travelList, setTravelList] = useState([]);
+	const [destination, setDestination] = useState("");
+	const [open, setOpen] = useState(false);
 
 	const handleTextChange = (event) => {
-		setTravel({ ...travel, destination: event.target.value });
+		setDestination(event.target.value);
 	};
-	const openAddTextbox = () => {
-		setTravel({ ...travel, add: true });
+	const openAdd = () => {
+		setOpen(!open);
 	};
 
 	const handleAdd = () => {
-		const newAdd = travel.destination.trim().toLowerCase();
-		const isInList = travel.list.includes(newAdd);
+		const newAdd = destination.trim().toLowerCase();
+		const isInList = travelList.includes(newAdd);
 
-		if (isInList || !newAdd) {
-			setTravel({ ...travel, destination: "", add: false });
+		if (isInList) {
+			setDestination("");
+			setOpen(!open);
 		} else {
-			setTravel({
-				...travel,
-				destination: "",
-				list: [...travel.list, newAdd],
-				add: false,
-			});
+			setTravelList((prevState) => [...prevState, newAdd]);
+			setDestination("");
+			setOpen(!open);
 		}
+		console.log(destination)
 	};
 
-	const handleDelete = (destination) => {
-		const newList = travel.list.filter((t) => t !== destination);
-		setTravel({ ...travel, list: [...newList] });
+	const handleDelete = (place) => {
+		const newList = travelList.filter((t) => t !== place);
+		setTravelList(newList);
 	};
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		const travelInfo = { travel: travel.list };
-		if (travel.list.length > 0) {
-			// url to send travel list
+		const travelInfo = { travel: travelList };
+		if (travelList.length > 0) {
+			// url to post travel list
 			fetch("", {
 				method: "POST",
 				headers: {
@@ -66,16 +60,21 @@ const SignupTwo = ({ redirect }) => {
 				body: JSON.stringify(travelInfo),
 			})
 				.then((res) => res.json())
-				.then(redirect())
+				.then(dash())
 				.catch((err) => console.error(err));
 		} else {
-			redirect();
+			dash();
 		}
 	};
 	return (
-		<Container id="modal-content" maxWidth="xs">
+		<Container
+			id="modal-content"
+			maxWidth="xs"
+			className={classes.paper}
+			classes={{ root: classes.contain }}
+		>
 			<Box textAlign="right" className="modal-header">
-				<Button size="small" className={classes.close}>
+				<Button size="small" onClick={() => close()} className={classes.close}>
 					&times;
 				</Button>
 			</Box>
@@ -94,10 +93,10 @@ const SignupTwo = ({ redirect }) => {
 					align="center"
 					className={classes.modalSubtitle}
 				>
-					Please select your favorite travel travel
+					Please select your favorite travel destinations
 				</Typography>
 				<Grid container spacing={2}>
-					{travel.list.map((destination) => (
+					{travelList.map((destination) => (
 						<Grid key={destination} item xs={12}>
 							<FormControl variant="outlined" fullWidth>
 								<OutlinedInput
@@ -130,13 +129,13 @@ const SignupTwo = ({ redirect }) => {
 					))}
 				</Grid>
 				<Box textAlign="center" mt={3} mb={2}>
-					{travel.add ? (
+					{open ? (
 						<FormControl>
 							<Input
 								id="add-destination"
 								color="secondary"
 								onChange={handleTextChange}
-								value={travel.destination}
+								value={destination}
 								endAdornment={
 									<InputAdornment position="end">
 										<IconButton
@@ -151,7 +150,7 @@ const SignupTwo = ({ redirect }) => {
 							/>
 						</FormControl>
 					) : (
-						<Button className={classes.link} onClick={openAddTextbox}>
+						<Button className={classes.link} onClick={openAdd}>
 							Add more
 						</Button>
 					)}
@@ -169,7 +168,7 @@ const SignupTwo = ({ redirect }) => {
 					</Button>
 				</Box>
 			</div>
-			<hr />
+			{/* Need to change the footer if user is automatically signed in. */}
 			<div className="modal-footer">
 				<Typography
 					component="p"

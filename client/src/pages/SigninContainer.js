@@ -3,10 +3,9 @@
 import React, { useReducer, useEffect } from "react";
 import { Box, Container, Grid, Typography } from "@material-ui/core";
 import { TextField, Button } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import { useStyles } from "../styles/styles";
+import { useStyles } from "../styles/Signup_in";
 
-const SigninContainer = ({ redirect }) => {
+const SigninContainer = ({ dash, signup, close }) => {
 	const classes = useStyles();
 
 	const initialState = {
@@ -76,7 +75,7 @@ const SigninContainer = ({ redirect }) => {
 				.then((res) => res.json())
 				.then((results) => {
 					if (results.status === "success") {
-						redirect(); // redirect to dashboard
+						dash(); // redirect to user's dashboard
 					} else if ("email" in results) {
 						dispatch({ type: "error", error: "emailError" });
 					} else if ("password" in results) {
@@ -95,9 +94,14 @@ const SigninContainer = ({ redirect }) => {
 		}
 	};
 	return (
-		<Container id="modal-content" maxWidth="xs">
+		<Container
+			id="modal-content"
+			maxWidth="xs"
+			className={classes.paper}
+			classes={{ root: classes.contain }}
+		>
 			<Box textAlign="right" className="modal-header">
-				<Button size="small" className={classes.close}>
+				<Button size="small" onClick={() => close()} className={classes.close}>
 					&times;
 				</Button>
 			</Box>
@@ -183,7 +187,6 @@ const SigninContainer = ({ redirect }) => {
 					</Button>
 				</Box>
 			</div>
-			<hr />
 			<div className="modal-footer">
 				<Typography
 					component="p"
@@ -192,12 +195,13 @@ const SigninContainer = ({ redirect }) => {
 					className={classes.modalFooter}
 				>
 					Don't have an account?{" "}
-					<Link to="/signup" className={classes.link}>
+					<span className={classes.link} onClick={() => signup()}>
 						Sign Up
-					</Link>
+					</span>
 				</Typography>
 			</div>
 		</Container>
 	);
 };
+
 export default SigninContainer;

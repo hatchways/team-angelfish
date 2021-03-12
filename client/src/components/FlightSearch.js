@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Grid, Paper, TextField, Button, InputLabel } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 
-import useStyles from "./styles";
+import useStyles from "../styles/FlightSearch";
 
 // Mock Data
 const cities = [
