@@ -158,6 +158,7 @@ export default function ClippedDrawer() {
             ))}
           </List>
         </Grid>
+        <Button style={{ color: "#c5bec4", fontSize: 12 }}>Logout</Button>
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
