@@ -41,8 +41,13 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
   },
   avatar:{
-    width: theme.spacing(12),
-    height: theme.spacing(12),
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+    marginLeft: 130,
+  },
+  profilePosition:{
+    textAlign: "center",
+    marginTop: 35,
   },
   content: {
     flexGrow: 1,

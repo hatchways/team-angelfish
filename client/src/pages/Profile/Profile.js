@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import useStyles from './style'
+import React, { useState } from "react";
+import useStyles from "./style";
 import { NavLink } from "react-router-dom";
 import {
   AppBar,
@@ -17,8 +17,6 @@ import {
   Button,
   Grid,
 } from "@material-ui/core";
-
-
 
 export default function ClippedDrawer() {
   const [auth, setAuth] = useState(false);
@@ -137,10 +135,16 @@ export default function ClippedDrawer() {
         }}
       >
         <Toolbar />
+        <Grid className={classes.profilePosition}>
         <Avatar src={mockUser.avatar} className={classes.avatar} />
-        <Typography>{mockUser.name}</Typography>
-        <Typography 
-   style={{ color: "#c5bec4", fontSize: 12, letterSpacing: 1 }}>{mockUser.email}</Typography>
+        <Typography variant="h6">{mockUser.name}</Typography>
+        <Typography
+          style={{ color: "#c5bec4", fontSize: 12, letterSpacing: 1 }}
+        >
+          {mockUser.email}
+        </Typography>
+        <Button>Edit</Button>
+        </Grid>
         <Grid className={classes.drawerContainer}>
           <List>
             {[
@@ -149,7 +153,7 @@ export default function ClippedDrawer() {
               "Account Settings",
             ].map((text, index) => (
               <ListItem button key={text}>
-                <ListItemText primary={text} />
+                <ListItemText style={{textAlign: "center"}} primary={text} />
               </ListItem>
             ))}
           </List>
