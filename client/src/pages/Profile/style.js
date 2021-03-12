@@ -1,33 +1,53 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-   root:{
-     marginTop: 90,
-   },
-   avatar:{
+  root: {
+    display: "flex",
+    flexGrow: 1,
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: 'white',
+  },
+  navlinks:{
+    color:'#373737',
+    textDecoration: 'none',
+  },
+  title: {
+    flexGrow: 1,
+    color: '#6464FF'
+  },
+  pages:{
+    display: 'flex',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    justifyContent: 'space-evenly',
+    marginRight: theme.spacing(3),
+    width: '45%',
+  },
+  loginbtn:{
+    backgroundColor: '#FFA000',
+    color: 'white',
+    marginRight: theme.spacing(2),
+  },
+  drawer: {
+    width: 360,
+    flexShrink: 0,
+  },
+  drawerPaper: {
+    width: 360,
+  },
+  drawerContainer: {
+    overflow: "auto",
+  },
+  avatar:{
     width: theme.spacing(12),
     height: theme.spacing(12),
-    marginLeft: 130,
-   },
-   sideNav:{
-    height: "100%",
-    width: 360, 
-    position: "fixed", 
-    zIndex: 1, 
-    top: 0,
-    left: 0,
-    backgroundColor: "grey",
-    overflowX: "hidden",
-    paddingTop: 20,
-   },
-   navItemPosition:{
-     marginTop: 90,
-     textAlign: "center"
-   },
-   mainContent:{
-     marginLeft: 370,
-     marginTop: 70,
-   },
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+  },
   }));
 
 export default useStyles
