@@ -146,14 +146,14 @@ export default function ClippedDrawer() {
         <Button>Edit</Button>
         </Grid>
         <Grid className={classes.drawerContainer}>
-          <List>
+          <List component="nav">
             {[
               "Favourite Destinations",
               "Notifications",
               "Account Settings",
             ].map((text, index) => (
               <ListItem button key={text}>
-                <ListItemText style={{textAlign: "center"}} primary={text} />
+                <ListItemText style={{textAlign: "center", fontWeight: "bold"}} primary={text} />
               </ListItem>
             ))}
           </List>
@@ -162,6 +162,7 @@ export default function ClippedDrawer() {
       </Drawer>
       <main className={classes.content}>
         <Toolbar />
+        <h1>Page Content</h1>
       </main>
     </Grid>
   );
