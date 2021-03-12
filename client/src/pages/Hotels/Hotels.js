@@ -5,7 +5,7 @@ function Hotels() {
     return (
         <div>
             <Header />
-            <h1>This is the hotel page</h1>
+            <h1 style={{marginTop: 70}}>This is the hotel page</h1>
         </div>
     )
 }

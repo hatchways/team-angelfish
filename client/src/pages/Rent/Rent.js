@@ -5,7 +5,7 @@ function Rent() {
     return (
         <div>
             <Header />
-            <h1>This is rent page</h1>
+            <h1 style={{marginTop: 70}}>This is rent page</h1>
         </div>
     )
 }

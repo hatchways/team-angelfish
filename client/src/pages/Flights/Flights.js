@@ -5,7 +5,7 @@ function Flights() {
     return (
         <div>
             <Header />
-            <h1>This is the flight page</h1>
+            <h1 style={{marginTop: 70}}>This is the flight page</h1>
         </div>
     )
 }

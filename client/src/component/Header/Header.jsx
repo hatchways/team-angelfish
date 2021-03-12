@@ -31,7 +31,7 @@ function Header() {
 
   return (
     <Grid container className={classes.root}>
-      <AppBar position="static" className={classes.appbar}>
+      <AppBar position="fixed" className={classes.appbar}>
         <Toolbar>
           <IconButton
             edge="start"
