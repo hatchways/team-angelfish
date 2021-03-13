@@ -82,48 +82,48 @@ const SignupOne = ({ next }) => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		next();
-		// const { name, emailSignup, pwdSignup, confirmPwdSignup } = state;
-		// const data = {
-		// 	name: name.trim().toLowerCase(),
-		// 	email: emailSignup.trim().toLowerCase(),
-		// 	password: pwdSignup.trim(),
-		// };
-		// if (
-		// 	checkUser() &&
-		// 	checkEmail() &&
-		// 	checkPwd() &&
-		// 	pwdSignup === confirmPwdSignup
-		// ) {
-		// 	fetch("/api/users/register", {
-		// 		method: "POST",
-		// 		headers: {
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		body: JSON.stringify(data),
-		// 	})
-		// 		.then((res) => res.json())
-		// 		.then((results) => {
-		// 			if (results.status === "success") {
-		// 				next();
-		// 			} else if ("email" in results) {
-		// 				dispatch({ type: "error", error: "emailError" });
-		// 			} else if ("errors" in results) {
-		// 				if ("email" in results.errors) {
-		// 					dispatch({ type: "error", error: "emailValidationError" });
-		// 				}
-		// 			}
-		// 		})
-		// 		.catch((err) => console.error(err));
-		// 	dispatch({ type: "reset" });
-		// } else if (!checkUser()) {
-		// 	dispatch({ type: "error", error: "nameValidationError" });
-		// } else if (!checkEmail()) {
-		// 	dispatch({ type: "error", error: "emailValidationError" });
-		// } else if (!checkPwd()) {
-		// 	dispatch({ type: "error", error: "pwdValidationError" });
-		// } else {
-		// 	dispatch({ type: "error", error: "confirmPwdValidationError" });
-		// }
+		const { name, emailSignup, pwdSignup, confirmPwdSignup } = state;
+		const data = {
+			name: name.trim().toLowerCase(),
+			email: emailSignup.trim().toLowerCase(),
+			password: pwdSignup.trim(),
+		};
+		if (
+			checkUser() &&
+			checkEmail() &&
+			checkPwd() &&
+			pwdSignup === confirmPwdSignup
+		) {
+			fetch("/api/users/register", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(data),
+			})
+				.then((res) => res.json())
+				.then((results) => {
+					if (results.status === "success") {
+						next();
+					} else if ("email" in results) {
+						dispatch({ type: "error", error: "emailError" });
+					} else if ("errors" in results) {
+						if ("email" in results.errors) {
+							dispatch({ type: "error", error: "emailValidationError" });
+						}
+					}
+				})
+				.catch((err) => console.error(err));
+			dispatch({ type: "reset" });
+		} else if (!checkUser()) {
+			dispatch({ type: "error", error: "nameValidationError" });
+		} else if (!checkEmail()) {
+			dispatch({ type: "error", error: "emailValidationError" });
+		} else if (!checkPwd()) {
+			dispatch({ type: "error", error: "pwdValidationError" });
+		} else {
+			dispatch({ type: "error", error: "confirmPwdValidationError" });
+		}
 	};
 
 	return (
