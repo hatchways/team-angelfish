@@ -83,15 +83,6 @@ const SigninContainer = ({ redirect }) => {
             // Errors object
             console.log(results);
           }
-          // else if ("email" in results) {
-          // 	dispatch({ type: "error", error: "emailError" });
-          // } else if ("password" in results) {
-          // 	dispatch({ type: "error", error: "pwdError" });
-          // } else if ("errors" in results) {
-          // 	if ("email" in results.errors) {
-          // 		dispatch({ type: "error", error: "emailValidationError" });
-          // 	}
-          // }
         })
         .catch((err) => console.error(err.message));
     } else if (!checkEmail()) {

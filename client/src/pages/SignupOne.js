@@ -110,13 +110,6 @@ const SignupOne = ({ next }) => {
             // Errors Object
             console.log(results);
           }
-          //  else if ("email" in results) {
-          // 	dispatch({ type: "error", error: "emailError" });
-          // } else if ("errors" in results) {
-          // 	if ("email" in results.errors) {
-          // 		dispatch({ type: "error", error: "emailValidationError" });
-          // 	}
-          // }
         })
         .catch((err) => console.error(err));
       dispatch({ type: "reset" });
