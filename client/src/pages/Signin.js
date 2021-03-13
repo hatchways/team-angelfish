@@ -4,13 +4,17 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import SigninContainer from "./SigninContainer";
 
-const Signin = () => {
+const Signin = ({ close, signup }) => {
   const [state, setState] = useState(false);
-  const handleRedirect = () => setState(true);
+  const goToDash = () => setState(true);
+  const goToSignup = () => signup();
+  const handleModal = () => close();
+
   return state ? (
     <Redirect to="/dashboard" />
   ) : (
-    <SigninContainer redirect={handleRedirect} />
+    <SigninContainer dash={goToDash} signup={goToSignup} close={handleModal} />
   );
 };
+
 export default Signin;

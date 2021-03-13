@@ -2,14 +2,17 @@
 
 import { makeStyles } from "@material-ui/core/styles";
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme) => ({
+	contain: {
+		padding: 0,
+	},
 	modalBody: {
-		width: "75%",
+		width: "70%",
 		margin: "0 auto",
 	},
 	modalSubmit: {
 		padding: "0.65rem 3em",
-		margin: "2.75em 0",
+		margin: "2.85em 0 3.25em",
 		fontSize: "0.875em",
 		backgroundColor: "orange",
 		"&:hover": {
@@ -17,9 +20,10 @@ export const useStyles = makeStyles({
 		},
 	},
 	modalFooter: {
-		margin: "1.5em 0",
+		padding: "1.85em 0 1.95em",
 		color: "#a6a6a6",
 		fontWeight: "bold",
+		borderTop: "1px solid #e6e6e6",
 	},
 	modalTitle: {
 		fontWeight: "bold",
@@ -32,7 +36,9 @@ export const useStyles = makeStyles({
 	},
 	link: {
 		textDecoration: "none",
-		color: "#551A8b",
+		color: "#9966ff",
+		padding: 0,
+		cursor: 'pointer'
 	},
 	icon: {
 		color: "#7986cb",
@@ -42,4 +48,9 @@ export const useStyles = makeStyles({
 		color: "#bfbfbf",
 		fontWeight: "lighter",
 	},
-});
+	paper: {
+		backgroundColor: theme.palette.background.paper,
+		borderRadius: "10px",
+		boxShadow: theme.shadows[3],
+	},
+}));

@@ -5,23 +5,21 @@ import { Redirect } from "react-router";
 import SignupOne from "./SignupOne";
 import SignupTwo from "./SignupTwo";
 
-const Signup = () => {
-	const [redirect, setRedirect] = useState(false);
+const Signup = ({ close, signin }) => {
+	const [dash, setDash] = useState(false);
 	const [next, setNext] = useState(false);
 
-	const handleNext = () => {
-		setNext(true);
-	};
-	const handleRedirect = () => {
-		setRedirect(true);
-	};
-	return (
-		redirect 
-		? <Redirect to="/dashboard"/> 
-		: next 
-		  ? <SignupTwo redirect={handleRedirect} /> 
-		  : <SignupOne next={handleNext} />
-
+	const goToNext = () => setNext(true);
+	const goToDash = () => setDash(true);
+	const goToSignin = () => signin();
+	const handleModal = () => close();
+	
+	return dash ? (
+		<Redirect to="/dashboard" />
+	) : next ? (
+		<SignupTwo dash={goToDash} close={handleModal} />
+	) : (
+		<SignupOne next={goToNext} signin={goToSignin} close={handleModal} />
 	);
 };
 export default Signup;

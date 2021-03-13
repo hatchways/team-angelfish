@@ -2,15 +2,14 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    height: "92%",
     backgroundColor: '#ededed',
   },
   container: {
-    '@media (max-width:1000px)': {
-      height: '80%',
-    },
+    height: '75%',
   },
   titleContainer: {
+    height: '100%', 
     backgroundColor: '#fff',
     display: 'flex',
     justifyContent: 'center',
@@ -33,7 +32,7 @@ export default makeStyles((theme) => ({
     },
   },
   heroContainer: {
-    height: '700px',
+    height: '100%',
   },
   heroImg: {
     height: '100%',
@@ -44,8 +43,8 @@ export default makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
-    position: 'relative',
-    bottom: '63px',
+    position: 'absolute',
+    bottom: '150px',
     '@media (max-width:900px)': {
       position: 'initial',
     },
