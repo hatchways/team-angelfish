@@ -80,6 +80,7 @@ const SignupOne = ({ next, close, signin }) => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
+		next();
 		const { name, emailSignup, pwdSignup, confirmPwdSignup } = state;
 		const data = {
 			name: name.trim().toLowerCase(),
