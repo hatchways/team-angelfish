@@ -8,15 +8,17 @@ import Signin from "./pages/Signin";
 import FlightsPage from "./pages/Flights/Flights";
 import Hotels from "./pages/Hotels/Hotels";
 import Rent from "./pages/Rent/Rent";
+import Payment from "./component/Stripe/Payment";
+import Header from "./component/Header/Header";
 
 import { theme } from "./themes/theme";
-
-import "./App.css";
+import Checkout from "./component/Stripe/Checkout";
 
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
+        <Header />
         <Switch>
           <Redirect exact from="/" to="/signup" />
           <Route path="/signup" component={Signup} />
@@ -24,6 +26,7 @@ function App() {
           <Route exact path="/flights" component={FlightsPage} />
           <Route path="/hotel" component={Hotels} exact />
           <Route path="/rent" component={Rent} exact />
+          <Route exact path="/checkout" component={Checkout} />
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>
