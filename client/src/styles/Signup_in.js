@@ -44,10 +44,8 @@ export const useStyles = makeStyles((theme) => ({
 		color: "#9999ff",
 		fontSize: "22px",
 	},
-	close: {
-		fontSize: "1.75em",
+	closeModal: {
 		color: "#bfbfbf",
-		fontWeight: "lighter",
 	},
 	paper: {
 		backgroundColor: theme.palette.background.paper,

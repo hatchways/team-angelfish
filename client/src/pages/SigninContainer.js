@@ -2,7 +2,8 @@
 
 import React, { useReducer, useEffect } from "react";
 import { Box, Container, Grid, Typography } from "@material-ui/core";
-import { TextField, Button } from "@material-ui/core";
+import { TextField, Button, IconButton } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../styles/Signup_in";
 
 const SigninContainer = ({ dash, signup, close }) => {
@@ -101,9 +102,9 @@ const SigninContainer = ({ dash, signup, close }) => {
 			classes={{ root: classes.contain }}
 		>
 			<Box textAlign="right" className="modal-header">
-				<Button size="small" onClick={() => close()} className={classes.close}>
-					&times;
-				</Button>
+				<IconButton onClick={() => close()}>
+					<CloseIcon classes={{ root: classes.closeModal }} />
+				</IconButton>
 			</Box>
 			<div className={`modal-body ${classes.modalBody}`}>
 				<Typography

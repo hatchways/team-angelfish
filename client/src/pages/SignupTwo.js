@@ -73,9 +73,9 @@ const SignupTwo = ({ dash, close }) => {
 			classes={{ root: classes.contain }}
 		>
 			<Box textAlign="right" className="modal-header">
-				<Button size="small" onClick={() => close()} className={classes.close}>
-					&times;
-				</Button>
+				<IconButton onClick={() => close()}>
+					<CloseIcon classes={{ root: classes.closeModal }} />
+				</IconButton>
 			</Box>
 			<div className={`modal-body ${classes.modalBody}`}>
 				<Typography
