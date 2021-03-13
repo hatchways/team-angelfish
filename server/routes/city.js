@@ -30,7 +30,7 @@ router.get("/us", (req, res, next) => {
   const cityList = cities
     .filter((city) => city.country.match("US"))
     .filter((b) => b.population > populationFilter);
-  let formattedList = [];
+  const formattedList = [];
   if (cityList.length > 0) {
     cityList.forEach((element) => {
       const { name, country, cityId } = element;
