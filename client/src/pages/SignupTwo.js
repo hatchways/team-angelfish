@@ -3,15 +3,13 @@
 import React, { useState } from "react";
 import { Box, Container, Grid, Typography } from "@material-ui/core";
 import { useStyles } from "../styles/Signup_in";
-import { Button, Input } from "@material-ui/core";
+import { Button, Input, InputBase } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import OutlinedInput from "@material-ui/core/OutlinedInput";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
 import LocationOnOutlinedIcon from "@material-ui/icons/LocationOnOutlined";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
-import FormControl from "@material-ui/core/FormControl";
 
 const SignupTwo = ({ dash, close }) => {
 	const classes = useStyles();
@@ -28,7 +26,7 @@ const SignupTwo = ({ dash, close }) => {
 	};
 
 	const handleAdd = () => {
-		const newAdd = destination.trim().toLowerCase();
+		const newAdd = destination.trim();
 		const isInList = travelList.includes(newAdd);
 
 		if (isInList) {
@@ -39,11 +37,12 @@ const SignupTwo = ({ dash, close }) => {
 			setDestination("");
 			setOpen(!open);
 		}
-		console.log(destination)
 	};
 
 	const handleDelete = (place) => {
-		const newList = travelList.filter((t) => t !== place);
+		const newList = travelList.filter(
+			(t) => t.toLowerCase() !== place.toLowerCase()
+		);
 		setTravelList(newList);
 	};
 
@@ -95,60 +94,57 @@ const SignupTwo = ({ dash, close }) => {
 				>
 					Please select your favorite travel destinations
 				</Typography>
-				<Grid container spacing={2}>
-					{travelList.map((destination) => (
-						<Grid key={destination} item xs={12}>
-							<FormControl variant="outlined" fullWidth>
-								<OutlinedInput
-									name={destination}
-									id={destination}
-									value={destination}
-									color="secondary"
-									readOnly
-									startAdornment={
-										<InputAdornment position="end">
-											<LocationOnOutlinedIcon
-												classes={{ root: classes.icon }}
-											/>
-										</InputAdornment>
-									}
-									endAdornment={
-										<InputAdornment position="end">
-											<IconButton
-												aria-label="remove destination"
-												onClick={handleDelete(destination)}
-												edge="end"
-											>
-												<CloseIcon />
-											</IconButton>
-										</InputAdornment>
-									}
-								/>
-							</FormControl>
+				<Grid container spacing={1}>
+					{travelList.map((place) => (
+						<Grid key={place} item xs={12}>
+							<InputBase
+								name={place}
+								id={place}
+								value={place}
+								readOnly
+								fullWidth
+								classes={{ root: classes.inputBase, input: classes.input }}
+								startAdornment={
+									<InputAdornment position="start">
+										<LocationOnOutlinedIcon
+											classes={{ root: classes.locationIcon }}
+										/>
+									</InputAdornment>
+								}
+								endAdornment={
+									<InputAdornment position="end">
+										<IconButton
+											aria-label={`remove ${place}`}
+											onClick={() => handleDelete(place)}
+											size="small"
+										>
+											<CloseIcon classes={{ root: classes.closeIcon }} />
+										</IconButton>
+									</InputAdornment>
+								}
+							/>
 						</Grid>
 					))}
 				</Grid>
 				<Box textAlign="center" mt={3} mb={2}>
 					{open ? (
-						<FormControl>
-							<Input
-								id="add-destination"
-								color="secondary"
-								onChange={handleTextChange}
-								value={destination}
-								endAdornment={
-									<InputAdornment position="end">
-										<IconButton
-											aria-label="add destination"
-											onClick={handleAdd}
-											edge="end"
-										>
-											<AddIcon />
-										</IconButton>
-									</InputAdornment>
-								}
-							/>
-						</FormControl>
+						<Input
+							id="add-destination"
+							color="secondary"
+							onChange={handleTextChange}
+							value={destination}
+							endAdornment={
+								<InputAdornment position="end">
+									<IconButton
+										aria-label="add destination"
+										onClick={handleAdd}
+										edge="end"
+									>
+										<AddIcon />
+									</IconButton>
+								</InputAdornment>
+							}
+						/>
 					) : (
 						<Button className={classes.link} onClick={openAdd}>
 							Add more

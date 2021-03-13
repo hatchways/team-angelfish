@@ -38,10 +38,11 @@ export const useStyles = makeStyles((theme) => ({
 		textDecoration: "none",
 		color: "#9966ff",
 		padding: 0,
-		cursor: 'pointer'
+		cursor: "pointer",
 	},
-	icon: {
-		color: "#7986cb",
+	locationIcon: {
+		color: "#9999ff",
+		fontSize: "22px",
 	},
 	close: {
 		fontSize: "1.75em",
@@ -52,5 +53,19 @@ export const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.background.paper,
 		borderRadius: "10px",
 		boxShadow: theme.shadows[3],
+	},
+	closeIcon: {
+		color: "#cccccc",
+		fontSize: "14px",
+	},
+	input: {
+		marginLeft: "-4px",
+	},
+	inputBase: {
+		fontWeight: "bold",
+		border: "1px solid #e6e6e6",
+		borderRadius: theme.shape.borderRadius,
+		height: "6vh",
+		padding: "24px 14px",
 	},
 }));
