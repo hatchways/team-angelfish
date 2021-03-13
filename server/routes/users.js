@@ -12,7 +12,6 @@ const { createStripeCustomer } = require("../utils/stripe");
 
 const validateRegisterInput = require("../validation/register");
 const validateLoginInput = require("../validation/login");
-const { create } = require("../models/User");
 
 const register = async (req, res) => {
   const { email, name, password } = req.body;

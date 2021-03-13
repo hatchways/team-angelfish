@@ -1,8 +1,9 @@
+import { useStripe } from "@stripe/react-stripe-js";
 import React, { useEffect, useState } from "react";
 
-const stripe = window.Stripe(process.env.REACT_APP_STRIPE_PK);
 const Success = ({ clientSecret }) => {
   const [paymentDetails, setPaymentDetails] = useState([]);
+  const stripe = useStripe();
   const getPayment = async () => {
     const paymentIntent = await stripe.retrievePaymentIntent(clientSecret);
     setPaymentDetails(paymentIntent);
