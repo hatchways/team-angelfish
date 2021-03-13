@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 
-import {
-  CardElement,
-  CardNumberElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 import Success from "./Success";
 
-const StripeForm = ({ secretKey }) => {
-  const history = useHistory();
+const StripeForm = ({ secretKey, clientSecretObj }) => {
   const [errors, setErrors] = useState();
   const [name, handleName] = useState("");
   const [email, handleEmail] = useState("");
@@ -28,8 +21,12 @@ const StripeForm = ({ secretKey }) => {
       credentials: "include",
       body: JSON.stringify(data),
     })
-      .then((data) => console.log("DATA", data))
-      .catch((err) => console.log(err));
+      .then((data) => {
+        return data;
+      })
+      .catch((_) => {
+        throw new Error();
+      });
   };
 
   const createAPaymentMethod = async () => {
@@ -42,7 +39,6 @@ const StripeForm = ({ secretKey }) => {
       setErrors(error.message);
     } else {
       setErrors(null);
-      console.log("PAYMENT METHOD", paymentMethod);
       createNewPayment({ id: paymentMethod.id });
     }
   };
@@ -81,6 +77,8 @@ const StripeForm = ({ secretKey }) => {
   if (success) {
     return <Success clientSecret={secretKey} />;
   }
+
+  const { receipt_email } = clientSecretObj;
   return (
     <>
       {errors ? <div style={{ color: "red" }}>{errors}</div> : null}
@@ -92,7 +90,7 @@ const StripeForm = ({ secretKey }) => {
         ></input>
         <input
           onChange={(e) => handleEmail(e.target.value)}
-          value={email}
+          value={receipt_email ? receipt_email : email}
           placeholder="email"
         ></input>
         <label>Save card?</label>

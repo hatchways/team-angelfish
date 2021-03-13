@@ -7,12 +7,12 @@ import { Elements } from "@stripe/react-stripe-js";
 
 const stripe = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
-function Payment({ secretKey }) {
+function Payment({ secretKey, clientSecretObj }) {
   return (
     <div>
       <h1>Payment</h1>
       <Elements stripe={stripe}>
-        <StripeForm secretKey={secretKey} />
+        <StripeForm secretKey={secretKey} clientSecretObj={clientSecretObj} />
       </Elements>
     </div>
   );

@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import Payment from "./Payment";
 
-// Mock data
+// Mock data based on if USER is logged and Authenticated
 const paymentDetails = {
   details: "Flight00",
   amount: 1000,
   departure: "11/21/21",
   arrival: "11/21/21",
   currency: "usd",
-  email: "23@gmail.com",
+  // Need to fix if logged in/ email is filled in on Stripeform but Stripe gives error that is invalid.
+  // email: "1@gmail.com",
   id: "604b41b8d7cad7730161bb16",
 };
 
@@ -25,13 +26,14 @@ const Checkout = () => {
       body: JSON.stringify(paymentDetails),
     })
       .then((res) => res.json())
-      .then(({ clientSecret }) => setSecret(clientSecret));
+      .then((clientSecretObj) => setSecret(clientSecretObj));
   };
 
   if (key) {
+    const clientSecret = key.client_secret;
     return (
       <>
-        <Payment secretKey={key} />{" "}
+        <Payment secretKey={clientSecret} clientSecretObj={key} />{" "}
       </>
     );
   }

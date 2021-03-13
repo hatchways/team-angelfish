@@ -3,8 +3,6 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const { attachPaymentMethod, paymentIntent } = require("../utils/stripe");
 
-const stripe = require("stripe")(process.env.STRIPE_SK);
-
 const createNewPaymentMethod = async (req, res) => {
   const { user } = res.locals;
   if (user) {
@@ -22,7 +20,7 @@ const createNewPaymentMethod = async (req, res) => {
 
 const getSecret = async (req, res) => {
   const intent = await paymentIntent(req.body);
-  return res.json({ clientSecret: intent.client_secret });
+  return res.json(intent);
 };
 
 router.post("/payment/create", auth, createNewPaymentMethod);

@@ -8,7 +8,7 @@ const createStripeCustomer = async ({ email }) => {
 };
 
 const attachPaymentMethod = async ({ customer, id }) => {
-  const paymentMethod = await stripe.paymentMethods.list({
+  await stripe.paymentMethods.list({
     customer: customer,
     type: "card",
   });
@@ -19,6 +19,7 @@ const paymentIntent = async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
     amount: req.amount,
     currency: req.currency,
+    receipt_email: req.email,
     metadata: { integration__check: "accept_a_payment" },
   });
   return paymentIntent;
