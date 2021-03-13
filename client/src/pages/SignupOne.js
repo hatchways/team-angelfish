@@ -111,7 +111,7 @@ const SignupOne = ({ next, close, signin }) => {
           }
         })
         .catch((err) => console.error(err));
-      dispatch({ type: "reset" });
+      // dispatch({ type: "reset" });
     } else if (!checkUser()) {
       dispatch({ type: "error", error: "nameValidationError" });
     } else if (!checkEmail()) {
