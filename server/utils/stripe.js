@@ -7,22 +7,4 @@ const createStripeCustomer = async ({ email }) => {
   return data.length === 0 ? stripe.customers.create({ email }) : data[0];
 };
 
-const attachPaymentMethod = async ({ customer, id }) => {
-  await stripe.paymentMethods.list({
-    customer: customer,
-    type: "card",
-  });
-  return stripe.paymentMethods.attach(id, { customer });
-};
-
-const paymentIntent = async (req, res) => {
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: req.amount,
-    currency: req.currency,
-    receipt_email: req.email,
-    metadata: { integration__check: "accept_a_payment" },
-  });
-  return paymentIntent;
-};
-
-module.exports = { createStripeCustomer, attachPaymentMethod, paymentIntent };
+module.exports = { createStripeCustomer };

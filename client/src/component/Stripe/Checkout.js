@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -17,11 +18,12 @@ const paymentDetails = {
 };
 
 const Checkout = () => {
+  const history = useHistory();
   const goToPayment = async (e) => {
     e.preventDefault();
     const stripe = await stripePromise;
 
-    const response = await fetch("http://localhost:3001/api/checkout/secret", {
+    const response = await fetch("/api/checkout/create-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -36,20 +38,10 @@ const Checkout = () => {
     });
 
     if (result.error) {
-      // If `redirectToCheckout` fails due to a browser or network
-      // error, display the localized error message to your customer
-      // using `result.error.message`.
+      history.push("/error");
     }
   };
 
-  // if (key) {
-  //   const clientSecret = key.client_secret;
-  //   return (
-  //     <>
-  //       <Payment secretKey={clientSecret} clientSecretObj={key} />{" "}
-  //     </>
-  //   );
-  // }
   return (
     <div>
       <button onClick={goToPayment}>Proceed with payment</button>
