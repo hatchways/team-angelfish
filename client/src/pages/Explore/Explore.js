@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+//Remove the next line when backend data is available.
+import places from "../../database/places";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Favorite from "@material-ui/icons/Favorite";
-import { CustomSmallerCheckBox } from "../themes/theme";
-
-const USER_ID_KEY = "This is to be defined for now";
+import {CustomSmallerCheckBox} from "../../themes/theme";
 
 const useStyles = makeStyles({
   pageContainer: {
@@ -31,8 +31,8 @@ const useStyles = makeStyles({
     textAlign: "center",
   },
   customCheckBoxRoot: {
-    width: 5,
-    height: 5,
+    width: "5px",
+    height: "5px",
   },
   bottomInformationContainer: {
     display: "flex",
@@ -55,80 +55,24 @@ const useStyles = makeStyles({
   },
 });
 
-function FavoriteCheckBox({ place, handleFavoriteChange }) {
+function FavoriteCheckBox() {
   const classes = useStyles();
-  const [checked, setChecked] = useState(place.favorite);
+  const [checked, setChecked] = useState(false);
   return (
-    <>
+    <div>
       <CustomSmallerCheckBox
         checked={checked}
-        onChange={(e) => {
-          handleFavoriteChange(e.target.checked, place.name);
-          setChecked(e.target.checked);
-        }}
+        onChange={(e) => setChecked(e.target.checked)}
         icon={<Favorite style={{ color: "white" }} />}
         checkedIcon={<Favorite style={{ color: "orange" }} />}
         classes={{ root: classes.customCheckBoxRoot }}
       />
-    </>
+    </div>
   );
 }
 
-const ExplorerPage = () => {
+const Explore = () => {
   const classes = useStyles();
-  const [favorites, setFavorites] = useState([]);
-  const [places, setPlaces] = useState([]);
-  useEffect(() => {
-    async function getData() {
-      try {
-        const favoriteList = await (
-          await fetch(`/api/users/${localStorage.getItem(USER_ID_KEY)}/favorite-cities`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-        ).json();
-        setFavorites(Array.isArray(favoriteList) ? favoriteList : []);
-        setPlaces(
-          await (
-            await fetch("/api/cities", {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            })
-          ).json()
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    getData();
-  }, []);
-  function handleFavoriteChange(checked, name) {
-    const userFavoritePlaces = [...favorites];
-    if (checked) {
-      //add
-      userFavoritePlaces.push(name);
-    } else {
-      //remove
-      const placeIndex = userFavoritePlaces.indexOf(name);
-      if (placeIndex >= 0) {
-        userFavoritePlaces.splice(placeIndex, 1);
-      }
-    }
-    setFavorites(userFavoritePlaces);
-    fetch(`/api/users/${localStorage.getItem(USER_ID_KEY)}/favorite-cities`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ cities: userFavoritePlaces }),
-    })
-      .then((results) => {})
-      .catch((err) => console.error(err.message));
-  }
   return (
     <Container className={classes.pageContainer}>
       <Typography variant="h4" className={classes.title}>
@@ -148,28 +92,24 @@ const ExplorerPage = () => {
         style={{ maxWidth: "75%", marginTop: 32 }}
       >
         {places.map((place) => (
-          <Grid item key={place.name}>
+          <Grid item>
             <div
               className={classes.paperContainer}
               style={{
                 backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
               }}
             >
-              {(place.favorite = favorites.indexOf(place.name) >= 0)}
               <div className={classes.bottomInformationContainer}>
                 <span className={classes.bottomInformationSubContainer1}>
                   <span style={{ fontSize: 17, color: "white" }}>
-                    {place.name},
+                    {place.townName},
                   </span>
                   <span style={{ fontSize: 11, color: "rgb(175 175 175)" }}>
-                    {place.country}
+                    {place.countryName}
                   </span>
                 </span>
                 <span className={classes.bottomInformationSubContainer2}>
-                  <FavoriteCheckBox
-                    place={place}
-                    handleFavoriteChange={handleFavoriteChange}
-                  />
+                  <FavoriteCheckBox />
                 </span>
               </div>
             </div>
@@ -180,4 +120,4 @@ const ExplorerPage = () => {
   );
 };
 
-export default ExplorerPage;
+export default Explore;
