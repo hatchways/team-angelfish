@@ -8,6 +8,7 @@ const cors = require("cors");
 
 const flightRouter = require("./routes/flight");
 const userRoutes = require("./routes/users");
+const uploadRouter = require("./routes/file-upload");
 
 const trim = require("./middleware/trim");
 
