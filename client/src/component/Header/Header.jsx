@@ -31,7 +31,7 @@ function Header() {
 
   return (
     <Grid container className={classes.root}>
-      <AppBar position="static" className={classes.appbar}>
+      <AppBar position="fixed" className={classes.appbar}>
         <Toolbar>
           <IconButton
             edge="start"
@@ -43,12 +43,18 @@ function Header() {
             Travel Booking
           </Typography>
           <Grid className={classes.pages}>
-            <NavLink className={classes.navlinks} to="#">
+            <NavLink
+              className={classes.navlinks}
+              to="/explore"
+              activeStyle={{ color: "#FFA000" }}
+            >
               Explore
             </NavLink>
-            <NavLink className={classes.navlinks} to="/">
+
+            <NavLink className={classes.navlinks} to="/flights" activeStyle={{ color: "#FFA000" }}>
               Flights
             </NavLink>
+            
             <NavLink
               className={classes.navlinks}
               to="/hotel"
@@ -77,7 +83,7 @@ function Header() {
                 <Avatar
                   className={classes.avatar}
                   src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdX7wWCMOvGYD6_4-MthVKf-DjjgLF_GqQzg&usqp=CAU"
-                />
+                alt="User profile image"/>
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -94,7 +100,7 @@ function Header() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <NavLink to="/profile"><MenuItem onClick={handleClose}>Profile</MenuItem></NavLink>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
             </Grid>
