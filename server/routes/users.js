@@ -121,6 +121,6 @@ router.post('/register', register);
 router.post('/login', login);
 router.get('/auth', auth, authorized);
 router.post('/:userId/favorite-cities', auth, updateFavoriteCities)
-.get(auth, favoriteCities);
+router.get('/:userId/favorite-cities', auth, favoriteCities)
 
 module.exports = router;
