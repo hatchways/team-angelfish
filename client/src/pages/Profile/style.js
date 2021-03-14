@@ -34,13 +34,13 @@ const useStyles = makeStyles((theme) => ({
    paddingTop: 2,
   },
   logoutBtn:{
-    marginTop: 100, 
+    paddingTop: 100, 
     textAlign: "center",
-    [theme.breakpoints.up('md')]: {
-      marginTop: 70,
+    [theme.breakpoints.down('md')]: {
+      paddingTop: 70,
     },
-    [theme.breakpoints.up('sm')]: {
-      marginTop: 50,
+    [theme.breakpoints.down('sm')]: {
+      paddingTop: 50,
     },
   },
   }));
