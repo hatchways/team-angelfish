@@ -5,7 +5,7 @@ function Notifications() {
   
     return (
         <div>
-            <h1>Notifications are here</h1>
+            <h1 style={{marginLeft: 390}}>Notifications are here</h1>
         </div>
     )
 }

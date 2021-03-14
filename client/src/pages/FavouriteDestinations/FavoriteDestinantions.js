@@ -34,7 +34,7 @@ function FavoriteDestinantions() {
    container
    spacing={3}
    justify="center"
-   style={{ maxWidth: "75%", marginTop: 32 }} >
+   style={{  marginTop: 10 }} >
    {places.map((place, index) => (
      <Grid item key={index}>
        <Grid

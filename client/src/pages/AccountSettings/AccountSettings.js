@@ -3,7 +3,7 @@ import React from 'react'
 function AccountSettings() {
     return (
         <div>
-            <h1>Account Settings </h1>
+            <h1  style={{marginLeft: 390}} >Account Settings </h1>
         </div>
     )
 }

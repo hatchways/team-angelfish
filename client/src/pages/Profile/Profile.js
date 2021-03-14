@@ -1,37 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import useStyles from "./style";
 import { NavLink, useRouteMatch, Switch, Route } from "react-router-dom";
 import Notifications from "../Notifications/Notifications";
-import FavoriteDestination from "../FavouriteDestinations/FavouriteDestinantions";
+import FavoriteDestination from "../FavouriteDestinations/FavoriteDestinantions";
 import AccountSettings from "../AccountSettings/AccountSettings";
-
+import Header from "../../components/Header"
 import {
-  AppBar,
   Avatar,
-  CssBaseline,
-  Toolbar,
-  IconButton,
-  Menu,
   Drawer,
   Typography,
-  MenuItem,
   Button,
   Grid,
 } from "@material-ui/core";
 
 export default function ClippedDrawer() {
-  const [auth, setAuth] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
   const { path } = useRouteMatch();
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const classes = useStyles();
   const mockUser = {
     avatar:
@@ -42,93 +27,8 @@ export default function ClippedDrawer() {
 
   return (
     <Grid className={classes.root}>
-      <CssBaseline />
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          ></IconButton>
-          <Typography variant="h6" className={classes.title}>
-            Travel Booking
-          </Typography>
-          <Grid className={classes.pages}>
-            <NavLink
-              className={classes.navlinks}
-              to="/explore"
-              activeStyle={{ color: "#FFA000" }}
-            >
-              Explore
-            </NavLink>
-
-            <NavLink
-              className={classes.navlinks}
-              to="/flights"
-              activeStyle={{ color: "#FFA000" }}
-            >
-              Flights
-            </NavLink>
-
-            <NavLink
-              className={classes.navlinks}
-              to="/hotel"
-              activeStyle={{ color: "#FFA000" }}
-            >
-              Hotels
-            </NavLink>
-            <NavLink
-              className={classes.navlinks}
-              to="/rent"
-              activeStyle={{ color: "#FFA000" }}
-            >
-              Rent
-            </NavLink>
-          </Grid>
-
-          {auth ? (
-            <Grid>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <Avatar
-                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdX7wWCMOvGYD6_4-MthVKf-DjjgLF_GqQzg&usqp=CAU"
-                  alt="User profile image"
-                />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <NavLink to="/profile">
-                  <MenuItem onClick={handleClose}>Profile</MenuItem>
-                </NavLink>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </Menu>
-            </Grid>
-          ) : (
-            <Button onClick={() => setAuth(true)} className={classes.loginbtn}>
-              Login
-            </Button>
-          )}
-        </Toolbar>
-      </AppBar>
+    <Header />
+ 
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -136,7 +36,6 @@ export default function ClippedDrawer() {
           paper: classes.drawerPaper,
         }}
       >
-        <Toolbar />
         <Grid className={classes.profilePosition}>
           <Avatar src={mockUser.avatar} className={classes.avatar} />
           <Typography variant="h6">{mockUser.name}</Typography>
@@ -155,7 +54,7 @@ export default function ClippedDrawer() {
             <NavLink
               activeStyle={{ color: "black", borderLeft: "3px solid #FFA000", }}
               className={classes.profileLinks}
-              to="/profile/favouritedestination"
+              to="/profile/favoritedestinations"
             >
               <li>Favorite Destinations</li>
             </NavLink>
@@ -181,10 +80,9 @@ export default function ClippedDrawer() {
       </Drawer>
 
       <Grid className={classes.content}>
-        <Toolbar />
         <Switch>
           <Route
-            path={`${path}/favouritedestination`}
+            path={`${path}/favoritedestinations`}
             component={FavoriteDestination}
           />
           <Route path={`${path}/notifications`} component={Notifications} />

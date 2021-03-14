@@ -2,13 +2,12 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
     root:{
-     marginLeft: 45,
+     marginLeft: 390,
+     overflow: "hidden"
     },
   pageContainer: {
     display: "flex",
-    flexDirection: "column",
     alignItems: "center",
-    marginTop: 50,
   },
   paperContainer: {
     height: 275,
@@ -19,12 +18,10 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-end",
-    overflow: "hidden",
   },
   title: {
-    marginTop: 40,
+    marginTop: 20,
     fontWeight: "bold",
-    letterSpacing: 1,
   },
   customCheckBoxRoot: {
     width: "5px",
