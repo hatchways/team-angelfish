@@ -1,15 +1,13 @@
 /** @format */
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
-import Signup from "./pages/Signup";
-import Signin from "./pages/Signin";
-import FlightsPage from "./pages/Flights/Flights";
-import Hotels from "./pages/Hotels/Hotels";
-import Rent from "./pages/Rent/Rent";
-import UserProfile from "./pages/User/UserProfile";
-import Explore from "./pages/Explore/Explore";
+import ExplorerPage from "./pages/Explorer";
+import Flights from "./pages/Flights";
+import Hotels from "./pages/Hotels";
+import Rent from "./pages/Rent";
+import Header from "./components/Header";
 
 import { theme } from "./themes/theme";
 
@@ -19,15 +17,13 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
+        <Header />
         <Switch>
-          <Redirect exact from="/" to="/signup" />
-          <Route path="/signup" component={Signup} />
-          <Route path="/signin" component={Signin} />
-          <Route exact path="/flights" component={FlightsPage} />
-          <Route path="/hotel" component={Hotels} exact />
-          <Route path="/rent" component={Rent} exact />
-          <Route path="/profile" component={UserProfile} exact />
-          <Route path="/explore" component={Explore} exact />
+          <Redirect exact from="/" to="/explore" />
+          <Route path="/explore" component={ExplorerPage} />
+          <Route exact path="/flights" component={Flights} />
+          <Route exact path="/hotel" component={Hotels} />
+          <Route exact path="/rent" component={Rent} />
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>
