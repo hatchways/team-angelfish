@@ -8,11 +8,12 @@ import Signin from "./pages/Signin";
 import FlightsPage from "./pages/Flights/Flights";
 import Hotels from "./pages/Hotels/Hotels";
 import Rent from "./pages/Rent/Rent";
-import Payment from "./component/Stripe/Payment";
 import Header from "./component/Header/Header";
 
 import { theme } from "./themes/theme";
 import Checkout from "./component/Stripe/Checkout";
+import Success from "./component/Stripe/Success";
+import ErrorPage from "./component/Stripe/Error";
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
           <Route path="/hotel" component={Hotels} exact />
           <Route path="/rent" component={Rent} exact />
           <Route exact path="/checkout" component={Checkout} />
+          <Route exact path="/success" component={Success} />
+          <Route exact path="/error" component={ErrorPage} />
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>
