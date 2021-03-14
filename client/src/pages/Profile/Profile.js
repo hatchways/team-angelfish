@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import useStyles from "./style";
-import { NavLink, useRouteMatch, Switch, Route,  } from "react-router-dom";
-import Notifications from "../Notifications/Notifications"
-import FavouriteDestination from "../FavouriteDestinations/FavouriteDestinantions"
-import AccountSettings from "../AccountSettings/AccountSettings"
+import { NavLink, useRouteMatch, Switch, Route } from "react-router-dom";
+import Notifications from "../Notifications/Notifications";
+import FavoriteDestination from "../FavouriteDestinations/FavouriteDestinantions";
+import AccountSettings from "../AccountSettings/AccountSettings";
 
 import {
   AppBar,
@@ -20,7 +20,6 @@ import {
 } from "@material-ui/core";
 
 export default function ClippedDrawer() {
-  
   const [auth, setAuth] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -139,38 +138,58 @@ export default function ClippedDrawer() {
       >
         <Toolbar />
         <Grid className={classes.profilePosition}>
-        <Avatar src={mockUser.avatar} className={classes.avatar} />
-        <Typography variant="h6">{mockUser.name}</Typography>
-        <Typography
-          style={{ color: "#c5bec4", fontSize: 12, letterSpacing: 1 }}
-        >
-          {mockUser.email}
-        </Typography>
+          <Avatar src={mockUser.avatar} className={classes.avatar} />
+          <Typography variant="h6">{mockUser.name}</Typography>
+          <Typography
+            style={{ color: "#c5bec4", fontSize: 12, letterSpacing: 1 }}
+          >
+            {mockUser.email}
+          </Typography>
 
-        <Grid style={{lineHeight: 8}}>
-        <Button>Edit</Button>
-        </Grid>
-        
+          <Grid style={{lineHeight: 8 }}>
+            <Button style={{ color: "#c5bec4", fontSize: 12,}} variant="outlined">Edit</Button>
+          </Grid>
         </Grid>
         <Grid className={classes.drawerContainer}>
           <ul>
-          <NavLink aria-current="step" activeStyle={{color: "black", left: "yellow"}} className={classes.profileLinks} to="/profile/favouritedestination"><li>Favorite Destinations</li></NavLink>
-         <NavLink className={classes.profileLinks} to="/profile/notifications"><li>Notifications</li></NavLink>
-         <NavLink className={classes.profileLinks} to="/profile/accountsettings"><li>Account Settings</li></NavLink>
+            <NavLink
+              activeStyle={{ color: "black", borderLeft: "3px solid #FFA000", }}
+              className={classes.profileLinks}
+              to="/profile/favouritedestination"
+            >
+              <li>Favorite Destinations</li>
+            </NavLink>
+            <NavLink
+            activeStyle={{ color: "black", borderLeft: "3px solid #FFA000", }}
+              className={classes.profileLinks}
+              to="/profile/notifications"
+            >
+              <li>Notifications</li>
+            </NavLink>
+            <NavLink
+            activeStyle={{ color: "black", borderLeft: "3px solid #FFA000", }}
+              className={classes.profileLinks}
+              to="/profile/accountsettings"
+            >
+              <li>Account Settings</li>
+            </NavLink>
           </ul>
         </Grid>
-
-        <Button style={{ color: "#c5bec4", fontSize: 12 }}>Logout</Button>
+        <Grid style={{ marginTop: 130, textAlign: "center" }}>
+          <Button  style={{ color: "#c5bec4", fontSize: 12 }}>Logout</Button>
+        </Grid>
       </Drawer>
 
       <Grid className={classes.content}>
         <Toolbar />
-        <h1>Main content</h1>
         <Switch>
-        <Route path={`${path}/favouritedestination`} component={FavouriteDestination} />
-        <Route path={`${path}/notifications`} component={Notifications} />
-        <Route path={`${path}/accountsettings`} component={AccountSettings} />
-      </Switch>
+          <Route
+            path={`${path}/favouritedestination`}
+            component={FavoriteDestination}
+          />
+          <Route path={`${path}/notifications`} component={Notifications} />
+          <Route path={`${path}/accountsettings`} component={AccountSettings} />
+        </Switch>
       </Grid>
     </Grid>
   );

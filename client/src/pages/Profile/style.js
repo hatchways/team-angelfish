@@ -56,13 +56,10 @@ const useStyles = makeStyles((theme) => ({
    fontWeight: "bold",
    textDecoration: "none",
    fontSize: 14,
-   lineHeight: 2,
+   lineHeight: 2.5,
    color: "#c5bec4",
    marginRight: 30,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
+   marginTop: 2,
   },
   }));
 
