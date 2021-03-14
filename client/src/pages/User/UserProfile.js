@@ -1,19 +1,29 @@
-import React, {useState}from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
-import FileUploaderDialog from '../../component/Uploader/FileUploaderDialog';
-import "./styles.css";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import FileUploaderDialog from "../../component/Uploader/FileUploaderDialog";
+import { makeStyles } from "@material-ui/core/styles";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+
+const useStyles = makeStyles({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+  }
+});
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
 export default function MaxWidthDialog() {
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [displaySnack, setDisplaySnack] = useState(false);
-  const [displaySnackError, setDisplaySnackError] = useState(false);
+  const [snack, setSnack] = useState({ type: "", message: "", open: false });
   const [selectedFile, setSelectedFile] = useState();
 
   const handleClickOpen = () => {
@@ -26,10 +36,23 @@ export default function MaxWidthDialog() {
     setSelectedFile(files[0]);
   };
 
-
   const handleClose = () => {
     setOpen(false);
   };
+
+  const closeSnack = () => {
+    setSnack((prevState) => {
+      return { ...prevState, open: false };
+    });
+  };
+
+  const openSnack = (errorMessage) =>{
+    if(errorMessage){
+      setSnack({ type: "error", message: errorMessage, open: true });
+    }else{
+      setSnack({ type: "success", message: "Success", open: true });
+    }
+  }
 
   const handleSubmission = () => {
     setLoading(true);
@@ -41,8 +64,7 @@ export default function MaxWidthDialog() {
     })
       .then((response) => response.json())
       .then((result) => {
-        setDisplaySnack(true);
-        setDisplaySnackError(false);
+        openSnack(result.error);
         setOpen(false);
         setLoading(false);
         setSelectedFile(null);
@@ -50,38 +72,30 @@ export default function MaxWidthDialog() {
       .catch((error) => {
         console.error("Error:", error);
         setLoading(false);
-        setDisplaySnack(false);
-        setDisplaySnackError(true);
+        openSnack(error.message);
       });
   };
 
-  const handleCloseSnack = (event, reason) => {
-    setDisplaySnackError(false);
-    setDisplaySnack(false);
-  };
-
   return (
-    <div class="Container">
+    <div className={classes.container}>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open dialog
       </Button>
-      <FileUploaderDialog file={selectedFile} open={open} loading={loading} close={handleClose} submit={handleSubmission} handleDrop={handleDrop}/>
+      <FileUploaderDialog
+        file={selectedFile}
+        open={open}
+        loading={loading}
+        close={handleClose}
+        submit={handleSubmission}
+        handleDrop={handleDrop}
+      />
       <Snackbar
-        open={displaySnack}
+        open={snack.open}
         autoHideDuration={1000}
-        onClose={handleCloseSnack}
+        onClose={closeSnack}
       >
-        <Alert onClose={handleCloseSnack} severity="success">
-          Success
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={displaySnackError}
-        autoHideDuration={1000}
-        onClose={handleCloseSnack}
-      >
-        <Alert onClose={handleCloseSnack} severity="error">
-          Upload fail!
+        <Alert severity={snack.type}>
+          {snack.message}
         </Alert>
       </Snackbar>
     </div>
