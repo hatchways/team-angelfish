@@ -20,7 +20,8 @@ const useStyles = makeStyles({
     justifyContent: "flex-end",
   },
   title: {
-    marginTop: 20,
+    marginTop: 15,
+    marginLeft: 20,
     fontWeight: "bold",
   },
   customCheckBoxRoot: {
