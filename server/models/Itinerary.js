@@ -5,6 +5,6 @@ const itinerarySchema = new Schema({
   // Add schema structure
   });
   
-  const User = mongoose.model('User', userSchema);
+  const Itinerary = mongoose.model('Itinerary', userSchema);
   
-  module.exports = User;
+  module.exports = Itinerary;
