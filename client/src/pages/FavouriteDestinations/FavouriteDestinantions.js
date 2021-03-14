@@ -1,45 +1,36 @@
-import React, { useState } from "react";
-import Typography from "@material-ui/core/Typography";
-//Remove the next line when backend data is available.
-import Header from '../../component/Header/Header'
+import React, {useState} from 'react'
+import {Typography, Grid, Button} from "@material-ui/core";
 import places from "../../database/places";
-import Grid from "@material-ui/core/Grid";
 import Favorite from "@material-ui/icons/Favorite";
 import {CustomSmallerCheckBox} from "../../themes/theme";
 import useStyles from './style'
 
 
 function FavoriteCheckBox() {
-  const classes = useStyles();
-  const [checked, setChecked] = useState(false);
-  return (
-    <div>
-      <CustomSmallerCheckBox
-        checked={checked}
-        onChange={(e) => setChecked(e.target.checked)}
-        icon={<Favorite style={{ color: "white" }} />}
-        checkedIcon={<Favorite style={{ color: "#FFA000" }} />}
-        classes={{ root: classes.customCheckBoxRoot }}
-      />
-    </div>
-  );
-}
+    const classes = useStyles();
+    const [checked, setChecked] = useState(false);
+    return (
+      <div>
+        <CustomSmallerCheckBox
+          checked={checked}
+          onChange={(e) => setChecked(e.target.checked)}
+          icon={<Favorite style={{ color: "white" }} />}
+          checkedIcon={<Favorite style={{ color: "#FFA000" }} />}
+          classes={{ root: classes.customCheckBoxRoot }}
+        />
+      </div>
+    );
+  }
 
-const ExplorerPage = () => {
-  const classes = useStyles();
-  return (
-  <Grid container className={classes.pageContainer}>
-   <Header />
-   <Typography variant="h4" className={classes.title}>
-    Explore destinations
-   </Typography>
-   <Typography
-   variant="subtitle2"
-   className={classes.subtitle}
-   style={{ color: "#c5bec4", fontSize: 12 }}>
-   World's top destinations to explore
- </Typography>
-  <Grid
+
+function FavoriteDestinantions() {
+
+    const classes = useStyles();
+    return (
+        <Grid className={classes.root}>
+          <Button variant="outlined" style={{float: "right", marginRight: 25}}>Explore</Button>
+          <Typography className={classes.title} variant="h5">Favorite Destinations</Typography>
+            <Grid
    container
    spacing={3}
    justify="center"
@@ -69,8 +60,8 @@ const ExplorerPage = () => {
      </Grid>
    ))}
  </Grid>
-  </Grid>
-  );
-};
+        </Grid>
+    )
+}
 
-export default ExplorerPage;
+export default FavoriteDestinantions

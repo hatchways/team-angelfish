@@ -1,9 +1,11 @@
 import React from 'react'
+import Header from '../../component/Header/Header'
 
 function Hotels() {
     return (
         <div>
-            <h1>This is the hotel page</h1>
+            <Header />
+            <h1 style={{marginTop: 70}}>This is the hotel page</h1>
         </div>
     )
 }
