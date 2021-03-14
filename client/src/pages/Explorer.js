@@ -6,6 +6,8 @@ import Container from "@material-ui/core/Container";
 import Favorite from "@material-ui/icons/Favorite";
 import { CustomSmallerCheckBox } from "../themes/theme";
 
+const USER_ID_KEY = "This is to be defined for now";
+
 const useStyles = makeStyles({
   pageContainer: {
     display: "flex",
@@ -29,8 +31,8 @@ const useStyles = makeStyles({
     textAlign: "center",
   },
   customCheckBoxRoot: {
-    width: "5px",
-    height: "5px",
+    width: 5,
+    height: 5,
   },
   bottomInformationContainer: {
     display: "flex",
@@ -52,83 +54,81 @@ const useStyles = makeStyles({
     alignItems: "flex-end",
   },
 });
-let userFavoritePlaces = [];
-function handleChange(checked, selectedElement) {
-  if (checked) {
-    //add
-    userFavoritePlaces.push(selectedElement.name);
-  } else {
-    //remove
-    const placeIndex = userFavoritePlaces.indexOf(selectedElement.name);
-    if (placeIndex >= 0) {
-      userFavoritePlaces.splice(placeIndex, 1);
-    }
-  }
-  fetch("/api/users/updateFavoriteCities", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ cities: userFavoritePlaces }),
-  })
-    .then((results) => {
-      console.log(JSON.stringify(results));
-    })
-    .catch((err) => console.error(err.message));
-}
 
-function FavoriteCheckBox(props) {
+function FavoriteCheckBox({ place, handleFavoriteChange }) {
   const classes = useStyles();
-  const [checked, setChecked] = useState(props.favorite);
+  const [checked, setChecked] = useState(place.favorite);
   return (
-    <div>
+    <>
       <CustomSmallerCheckBox
         checked={checked}
         onChange={(e) => {
-          handleChange(e.target.checked, props.currentPlace);
+          handleFavoriteChange(e.target.checked, place.name);
           setChecked(e.target.checked);
         }}
         icon={<Favorite style={{ color: "white" }} />}
         checkedIcon={<Favorite style={{ color: "orange" }} />}
         classes={{ root: classes.customCheckBoxRoot }}
       />
-    </div>
+    </>
   );
 }
 
 const ExplorerPage = () => {
   const classes = useStyles();
-  const [generalData, setGeneralData] = useState({places: [], favorites: []});
-  const citiesUrl = "/api/cities/us/?population=1500000";
-  const userFavoriteCitiesUrl = "/api/users/favoriteCities";
+  const [favorites, setFavorites] = useState([]);
+  const [places, setPlaces] = useState([]);
   useEffect(() => {
-    async function getData(){
+    async function getData() {
       try {
-        const result1 = await fetch(userFavoriteCitiesUrl, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-        const result2 = await fetch(citiesUrl, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          }
-        })
-        const places = await result2.json();
-        const favorites = await result1.json();
-        userFavoritePlaces = Array.isArray(favorites) ? favorites : [];
-        setGeneralData({
-          places: Array.isArray(places) ? places : [],
-          favorites: Array.isArray(favorites) ? favorites : []
-        });
+        const favoriteList = await (
+          await fetch(`/api/users/${localStorage.getItem(USER_ID_KEY)}/favorite-cities`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+        ).json();
+        setFavorites(Array.isArray(favoriteList) ? favoriteList : []);
+        setPlaces(
+          await (
+            await fetch("/api/cities", {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            })
+          ).json()
+        );
       } catch (error) {
-         console.log();
+        console.log(error);
       }
     }
     getData();
-  }, [userFavoriteCitiesUrl, citiesUrl]);
+  }, []);
+  function handleFavoriteChange(checked, name) {
+    const userFavoritePlaces = [...favorites];
+    if (checked) {
+      //add
+      userFavoritePlaces.push(name);
+    } else {
+      //remove
+      const placeIndex = userFavoritePlaces.indexOf(name);
+      if (placeIndex >= 0) {
+        userFavoritePlaces.splice(placeIndex, 1);
+      }
+    }
+    setFavorites(userFavoritePlaces);
+    fetch(`/api/users/${localStorage.getItem(USER_ID_KEY)}/favorite-cities`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ cities: userFavoritePlaces }),
+    })
+      .then((results) => {})
+      .catch((err) => console.error(err.message));
+  }
   return (
     <Container className={classes.pageContainer}>
       <Typography variant="h4" className={classes.title}>
@@ -147,7 +147,7 @@ const ExplorerPage = () => {
         justify="center"
         style={{ maxWidth: "75%", marginTop: 32 }}
       >
-        {generalData.places.map((place) => (
+        {places.map((place) => (
           <Grid item key={place.name}>
             <div
               className={classes.paperContainer}
@@ -155,6 +155,7 @@ const ExplorerPage = () => {
                 backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
               }}
             >
+              {(place.favorite = favorites.indexOf(place.name) >= 0)}
               <div className={classes.bottomInformationContainer}>
                 <span className={classes.bottomInformationSubContainer1}>
                   <span style={{ fontSize: 17, color: "white" }}>
@@ -165,7 +166,10 @@ const ExplorerPage = () => {
                   </span>
                 </span>
                 <span className={classes.bottomInformationSubContainer2}>
-                  <FavoriteCheckBox currentPlace={place} favorite={generalData.favorites.indexOf(place.name) >=0 }/>
+                  <FavoriteCheckBox
+                    place={place}
+                    handleFavoriteChange={handleFavoriteChange}
+                  />
                 </span>
               </div>
             </div>

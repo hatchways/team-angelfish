@@ -120,7 +120,7 @@ const favoriteCities = (req, res) => {
 router.post('/register', register);
 router.post('/login', login);
 router.get('/auth', auth, authorized);
-router.post('/updateFavoriteCities', auth, updateFavoriteCities);
-router.get('/favoriteCities', auth, favoriteCities);
+router.post('/:userId/favorite-cities', auth, updateFavoriteCities)
+.get(auth, favoriteCities);
 
 module.exports = router;
