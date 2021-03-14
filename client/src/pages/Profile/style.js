@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     flexShrink: 0,
   },
   drawerPaper: {
-    width: 360,
+    width: 350,
   },
   drawerContainer: {
     overflow: "auto",
@@ -48,6 +48,17 @@ const useStyles = makeStyles((theme) => ({
   profilePosition:{
     textAlign: "center",
     marginTop: 35,
+  },
+  profileLinks:{
+    display: "block",
+   listStyle: "none",
+   textAlign: "center",
+   fontWeight: "bold",
+   textDecoration: "none",
+   fontSize: 14,
+   lineHeight: 2,
+   color: "#c5bec4",
+   marginRight: 30,
   },
   content: {
     flexGrow: 1,

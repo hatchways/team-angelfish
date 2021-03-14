@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import useStyles from "./style";
-import { NavLink } from "react-router-dom";
+import { NavLink, useRouteMatch, Switch, Route,  } from "react-router-dom";
+import Notifications from "../Notifications/Notifications"
+import FavouriteDestination from "../FavouriteDestinations/FavouriteDestinantions"
+import AccountSettings from "../AccountSettings/AccountSettings"
+
 import {
   AppBar,
   Avatar,
@@ -9,9 +13,6 @@ import {
   IconButton,
   Menu,
   Drawer,
-  ListItem,
-  List,
-  ListItemText,
   Typography,
   MenuItem,
   Button,
@@ -19,9 +20,11 @@ import {
 } from "@material-ui/core";
 
 export default function ClippedDrawer() {
+  
   const [auth, setAuth] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const { path } = useRouteMatch();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -143,27 +146,32 @@ export default function ClippedDrawer() {
         >
           {mockUser.email}
         </Typography>
+
+        <Grid style={{lineHeight: 8}}>
         <Button>Edit</Button>
         </Grid>
-        <Grid className={classes.drawerContainer}>
-          <List component="nav">
-            {[
-              "Favourite Destinations",
-              "Notifications",
-              "Account Settings",
-            ].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemText style={{textAlign: "center", fontWeight: "bold"}} primary={text} />
-              </ListItem>
-            ))}
-          </List>
+        
         </Grid>
+        <Grid className={classes.drawerContainer}>
+          <ul>
+          <NavLink aria-current="step" activeStyle={{color: "black", left: "yellow"}} className={classes.profileLinks} to="/profile/favouritedestination"><li>Favorite Destinations</li></NavLink>
+         <NavLink className={classes.profileLinks} to="/profile/notifications"><li>Notifications</li></NavLink>
+         <NavLink className={classes.profileLinks} to="/profile/accountsettings"><li>Account Settings</li></NavLink>
+          </ul>
+        </Grid>
+
         <Button style={{ color: "#c5bec4", fontSize: 12 }}>Logout</Button>
       </Drawer>
-      <main className={classes.content}>
+
+      <Grid className={classes.content}>
         <Toolbar />
-        <h1>Page Content</h1>
-      </main>
+        <h1>Main content</h1>
+        <Switch>
+        <Route path={`${path}/favouritedestination`} component={FavouriteDestination} />
+        <Route path={`${path}/notifications`} component={Notifications} />
+        <Route path={`${path}/accountsettings`} component={AccountSettings} />
+      </Switch>
+      </Grid>
     </Grid>
   );
 }

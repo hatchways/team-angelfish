@@ -26,7 +26,7 @@ function App() {
 					<Route path="/flights" component={Flights} exact />
 					<Route path="/hotel" component={Hotels} exact />
 					<Route path="/rent" component={Rent} exact />
-					<Route path="/profile" component={Profile} exact />
+					<Route path="/profile" component={Profile}  />
 				</Switch>
 			</BrowserRouter>
 		</MuiThemeProvider>
