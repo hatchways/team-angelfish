@@ -7,9 +7,10 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: 350,
     zIndex: 0,
+    overflowY: "unset",
   },
   drawerContainer: {
-    overflowY: "hidden",
+    overflowY: "unset",
   },
   avatar:{
     width: theme.spacing(10),
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   profilePosition:{
     textAlign: "center",
-    marginTop: 100,
+    marginTop: 95,
   },
   profileLinks:{
     display: "block",
@@ -31,6 +32,16 @@ const useStyles = makeStyles((theme) => ({
    marginRight: 30,
    lineHeight: 2.2,
    paddingTop: 2,
+  },
+  logoutBtn:{
+    marginTop: 100, 
+    textAlign: "center",
+    [theme.breakpoints.up('md')]: {
+      marginTop: 70,
+    },
+    [theme.breakpoints.up('sm')]: {
+      marginTop: 50,
+    },
   },
   }));
 

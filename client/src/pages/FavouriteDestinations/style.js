@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     justifyContent: "flex-end",
   },
   title: {
-    marginTop: 15,
+    marginTop: 20,
     marginLeft: 20,
     fontWeight: "bold",
   },

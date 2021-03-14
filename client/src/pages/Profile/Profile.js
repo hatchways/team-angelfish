@@ -74,7 +74,7 @@ export default function ClippedDrawer() {
             </NavLink>
           </ul>
         </Grid>
-        <Grid style={{ marginTop: 130, textAlign: "center" }}>
+        <Grid className={classes.logoutBtn}>
           <Button  style={{ color: "#c5bec4", fontSize: 12 }}>Logout</Button>
         </Grid>
       </Drawer>
