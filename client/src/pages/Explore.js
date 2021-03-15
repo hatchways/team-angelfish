@@ -5,11 +5,6 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Favorite from "@material-ui/icons/Favorite";
 import { CustomSmallerCheckBox } from "../themes/theme";
-import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
-
-//@TODO: Remove next line when localStorage is set after signing/signup/
-const USER_ID_KEY = "temporary_user_id_key";
 
 const useStyles = makeStyles({
   pageContainer: {
@@ -17,7 +12,8 @@ const useStyles = makeStyles({
     flexDirection: "column",
     alignItems: "center",
     marginTop: 20,
-    padding: "0 20px"
+    paddingTop: 0,
+    paddingLeft: 20,
   },
   paperContainer: {
     height: 300,
@@ -56,11 +52,11 @@ const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "flex-end",
   },
+  subtitle2: {
+    color: "#c5bec4",
+    fontSize: 12,
+  },
 });
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 function FavoriteCheckBox({ place, handleFavoriteChange }) {
   const classes = useStyles();
@@ -81,41 +77,26 @@ function FavoriteCheckBox({ place, handleFavoriteChange }) {
   );
 }
 
+//@TODO: This userId should come from props 
+const userId = "abcd123";
 const Explore = () => {
   const classes = useStyles();
   const [favorites, setFavorites] = useState([]);
   const [places, setPlaces] = useState([]);
-  const [snack, setSnack] = useState({ type: "", message: "", open: false });
-  const closeSnack = () => {
-    setSnack((prevState) => {
-      return { ...prevState, open: false };
-    });
-  };
   useEffect(() => {
     async function getData() {
       try {
-        //@TODO: Remove the auth call when localStorage is set after signing/signup/
-        const userResponse = await (
-          await fetch(`/api/users/auth`, {
+        const favoriteResponse = await (await fetch(
+          `/api/users/${userId}/favorite-cities`,
+          {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
-          })
-        ).json();
-        if(!userResponse.user){
-          return setSnack({ type: "error", message: "Unauthenticated!", open: true });
-        }
-        localStorage.setItem(USER_ID_KEY, userResponse.user._id);
-        const favoriteList = await (
-          await fetch(`/api/users/${localStorage.getItem(USER_ID_KEY)}/favorite-cities`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-        ).json();
-        setFavorites(Array.isArray(favoriteList) ? favoriteList : []);
+          }
+        )).json();
+        //Assuming that the explore page can be accessed be both auth and unAuth user.
+        setFavorites(Array.isArray(favoriteResponse) ? favoriteResponse : []);
         setPlaces(
           await (
             await fetch("/api/cities", {
@@ -145,7 +126,7 @@ const Explore = () => {
       }
     }
     setFavorites(userFavoritePlaces);
-    fetch(`/api/users/${localStorage.getItem(USER_ID_KEY)}/favorite-cities`, {
+    fetch(`/api/users/${userId}/favorite-cities`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -162,8 +143,7 @@ const Explore = () => {
       </Typography>
       <Typography
         variant="subtitle2"
-        className={classes.title}
-        style={{ color: "#c5bec4", fontSize: 12 }}
+        className={(classes.title, classes.subtitle2)}
       >
         World's top destinations to explore
       </Typography>
@@ -202,14 +182,6 @@ const Explore = () => {
           </Grid>
         ))}
       </Grid>
-      <Snackbar
-        open={snack.open}
-        autoHideDuration={1000}
-        onClose={closeSnack}>
-        <Alert severity={snack.type}>
-          {snack.message}
-        </Alert>
-      </Snackbar>
     </Container>
   );
 };

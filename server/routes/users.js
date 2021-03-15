@@ -110,8 +110,7 @@ const updateFavoriteCities = (req, res) => {
 }
 
 const favoriteCities = (req, res) => {
-  const result = res.locals.user.favoriteCities || [];
-  res.json(result);
+  res.json(res.locals.user.favoriteCities);
 }
 
 // TODO
