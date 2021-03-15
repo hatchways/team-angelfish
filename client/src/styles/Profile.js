@@ -22,6 +22,11 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     marginTop: 95,
   },
+  email:{
+    color: "#c5bec4", 
+    fontSize: 12, 
+    letterSpacing: 1 
+  },
   profileLinks:{
     display: "block",
    listStyle: "none",
@@ -51,6 +56,10 @@ const useStyles = makeStyles((theme) => ({
       paddingTop: 50,
     },
   },
+  logoutMainBtn:{
+     color: "#c5bec4", 
+     fontSize: 12,
+  }
   }));
 
 export default useStyles
