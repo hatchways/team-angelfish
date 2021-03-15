@@ -1,3 +1,3 @@
-import { useState, useDispatch, Provider } from "./context";
+import { useStateContext, useDispatchContext, Provider } from "./context";
 
-export { useState, useDispatch, Provider };
+export { useStateContext, useDispatchContext, Provider };
