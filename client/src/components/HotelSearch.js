@@ -1,66 +1,43 @@
-import React, { useState } from "react";
+import React, {useState} from 'react'
 import { Grid, Paper, TextField, Button, InputLabel } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
+import useStyles from "../styles/HotelSearch"
 
-import useStyles from "../styles/FlightSearch";
-
-// Mock Data
-const cities = [
-  { title: "Vancouver" },
-  { title: "Calgary" },
-  { title: "Toronto" },
-  { title: "Bangkok" },
-];
-
-const FlightSearch = () => {
-  const classes = useStyles();
-
+const hotelCities = [
+    { title: "Bali" },
+    { title: "Tokyo" },
+    { title: "Barcelona" },
+    { title: "Bangkok" },
+  ];
   const curr = new Date();
   curr.setDate(curr.getDate());
   const date = curr.toISOString().substr(0, 10);
 
-  const [from, setFrom] = useState("Vancouver");
-  const [to, setTo] = useState("Bangkok");
-  const [arrival, setArrival] = useState(date);
-  const [departure, setDeparture] = useState(date);
+  
+function HotelSearch() {
+    const classes = useStyles();
+
+    const [to, setTo] = useState("Bali");
+  const [checkIn, setcheckIn] = useState(date);
+  const [checkOut, setCheckOut] = useState(date);
   const [travellers, setTravellers] = useState(1);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const searchObject = {
-      from: from,
-      to: to,
-      arrival: arrival,
-      departure: departure,
-      travellers: travellers,
-    };
-  };
 
-  return (
-    <div className={classes.root}>
-      <form onSubmit={handleSubmit}>
+
+
+
+    return (
+        <Grid>
+           <Grid className={classes.root}>
+      <form>
         <Paper className={classes.paperContainer} elevation={7}>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
-            <InputLabel>From</InputLabel>
-            <Autocomplete
-              freeSolo
-              id="from"
-              name="from"
-              options={cities.map((city) => city.title)}
-              defaultValue={from}
-              value={from}
-              onChange={(...[, v]) => setFrom(v)}
-              style={{ width: 150 }}
-              renderInput={(params) => <TextField name="from" {...params} />}
-            />
-          </Grid>
-          <Grid className={classes.input} lg={2} sm={3} xs={6} item>
-            <InputLabel>Where to go</InputLabel>
+            <InputLabel>Going to</InputLabel>
             <Autocomplete
               freeSolo
               id="to"
               name="to"
-              options={cities.map((city) => city.title)}
+              options={hotelCities.map((city) => city.title)}
               defaultValue={to}
               value={to}
               onChange={(...[, v]) => setTo(v)}
@@ -69,13 +46,13 @@ const FlightSearch = () => {
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
-            <InputLabel>Arrival</InputLabel>
+            <InputLabel>Check-in</InputLabel>
             <TextField
               id="date"
               type="date"
-              name="departure"
-              defaultValue={arrival}
-              onChange={(e) => setArrival(e.target.value)}
+              name="Check-In"
+              defaultValue={checkIn}
+              onChange={(e) => setcheckIn(e.target.value)}
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
@@ -83,14 +60,14 @@ const FlightSearch = () => {
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
-            <InputLabel>Departure</InputLabel>
+            <InputLabel>Check-out</InputLabel>
             <TextField
               id="date"
               type="date"
-              name="departure"
-              defaultValue={departure}
+              name="Check-Out"
+              defaultValue={checkOut}
               className={classes.textField}
-              onChange={(e) => setDeparture(e.target.value)}
+              onChange={(e) => setCheckOut(e.target.value)}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -108,15 +85,16 @@ const FlightSearch = () => {
               />
             </Grid>
             <Grid item lg={4} sm={9} xs={6}>
-              <Button onClick={handleSubmit} className={classes.searchBtn}>
+              <Button  className={classes.searchBtn}>
                 Search
               </Button>
             </Grid>
           </Grid>
         </Paper>
       </form>
-    </div>
-  );
-};
+    </Grid>
+        </Grid>
+    )
+}
 
-export default FlightSearch;
+export default HotelSearch
