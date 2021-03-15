@@ -64,7 +64,7 @@ export default function MaxWidthDialog() {
     })
       .then((response) => response.json())
       .then((result) => {
-        openSnack(result.error);
+        openSnack(!result.imageUrl ? "Upload failed!" : null);
         setOpen(false);
         setLoading(false);
         setSelectedFile(null);
