@@ -56,6 +56,23 @@ const useStyles = makeStyles({
     color: "#c5bec4",
     fontSize: 12,
   },
+  favoriteDefaultIcon:{
+    color: "white"
+  },
+  favoriteCheckedIcon:{
+    color: "orange"
+  },
+  gridContainer: {
+    marginTop: 32, height: "75%"
+  },
+  legend1: {
+    fontSize: 17,
+    color: "white"
+  },
+  legend2:{
+    fontSize: 11,
+    color: "rgb(175 175 175)"
+  }
 });
 
 function FavoriteCheckBox({ place, handleFavoriteChange }) {
@@ -69,8 +86,8 @@ function FavoriteCheckBox({ place, handleFavoriteChange }) {
           handleFavoriteChange(e.target.checked, place.name);
           setChecked(e.target.checked);
         }}
-        icon={<Favorite style={{ color: "white" }} />}
-        checkedIcon={<Favorite style={{ color: "orange" }} />}
+        icon={<Favorite className={classes.favoriteDefaultIcon} />}
+        checkedIcon={<Favorite className={classes.favoriteCheckedIcon} />}
         classes={{ root: classes.customCheckBoxRoot }}
       />
     </>
@@ -95,18 +112,22 @@ const Explore = () => {
             },
           }
         )).json();
-        //Assuming that the explore page can be accessed be both auth and unAuth user.
-        setFavorites(Array.isArray(favoriteResponse) ? favoriteResponse : []);
-        setPlaces(
-          await (
-            await fetch("/api/cities", {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            })
-          ).json()
-        );
+        //Assuming that the explore page can be accessed be both authenticated and unAuthenticated user.
+        const favoriteList = Array.isArray(favoriteResponse) ? favoriteResponse : [];
+        setFavorites(favoriteList);
+        const cityList = await (
+          await fetch("/api/cities", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+        ).json()
+        cityList.map(el => {
+          el.favorite = favoriteList.indexOf(el.name) >= 0;
+          return el;
+        });
+        setPlaces(cityList);
       } catch (error) {
         console.log(error);
       }
@@ -151,7 +172,7 @@ const Explore = () => {
         container
         spacing={3}
         justify="center"
-        style={{ marginTop: 32, height: "75%" }}
+        className={classes.gridContainer}
       >
         {places.map((place) => (
           <Grid item key={place.name} xs={12} sm={3}>
@@ -161,13 +182,12 @@ const Explore = () => {
                 backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
               }}
             >
-              {(place.favorite = favorites.indexOf(place.name) >= 0)}
               <div className={classes.bottomInformationContainer}>
                 <span className={classes.bottomInformationSubContainer1}>
-                  <span style={{ fontSize: 17, color: "white" }}>
+                  <span className={classes.legend1}>
                     {place.name},
                   </span>
-                  <span style={{ fontSize: 11, color: "rgb(175 175 175)" }}>
+                  <span className={classes.legend2}>
                     {place.country}
                   </span>
                 </span>

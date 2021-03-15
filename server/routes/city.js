@@ -21,12 +21,13 @@ router.get("/", (req, res, next) => {
       }
       res.json(cities);
     })
-    .catch((err) => {
-      throw err;
+    .catch(() => {
+        res.status(500).json({error: "An error has occurred!"});
     });
 });
 
 function createCities() {
+  //This is here because we need only 20 cities for now
   const populationFilter = 800000;
   const cityList = cities
     .filter((city) => city.country.match("US"))
@@ -49,11 +50,10 @@ function createCities() {
         callback(err);
       });
     },
-    (err) => {
+    () => {
       return formattedList;
     }
   );
-  return formattedList;
 }
 
 module.exports = router;
