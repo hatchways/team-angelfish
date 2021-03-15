@@ -71,49 +71,53 @@ function FavoriteCheckBox() {
   );
 }
 
-const ExplorerPage = () => {
+const Explore = () => {
   const classes = useStyles();
   return (
-		<Container className={classes.pageContainer}>
-			<Typography variant="h4" className={classes.title}>
-				Explore destinations
-			</Typography>
-			<Typography
-				variant="subtitle2"
-				className={classes.title}
-				style={{ color: "#c5bec4", fontSize: 12 }}
-			>
-				World's top destinations to explore
-			</Typography>
-			<Grid container spacing={3} justify="center" style={{ marginTop: 32, height: "75%" }}>
-				{places.map((place) => (
-					<Grid item key={place.countryName} xs={12} sm={3}>
-						<div
-							className={classes.paperContainer}
-							style={{
-								backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
-								// height: "100%",
-							}}
-						>
-							<div className={classes.bottomInformationContainer}>
-								<span className={classes.bottomInformationSubContainer1}>
-									<span style={{ fontSize: 17, color: "white" }}>
-										{place.townName},
-									</span>
-									<span style={{ fontSize: 11, color: "rgb(175 175 175)" }}>
-										{place.countryName}
-									</span>
-								</span>
-								<span className={classes.bottomInformationSubContainer2}>
-									<FavoriteCheckBox />
-								</span>
-							</div>
-						</div>
-					</Grid>
-				))}
-			</Grid>
-		</Container>
-	);
+    <Container className={classes.pageContainer}>
+      <Typography variant="h4" className={classes.title}>
+        Explore destinations
+      </Typography>
+      <Typography
+        variant="subtitle2"
+        className={classes.title}
+        style={{ color: "#c5bec4", fontSize: 12 }}
+      >
+        World's top destinations to explore
+      </Typography>
+      <Grid
+        container
+        spacing={3}
+        justify="center"
+        style={{ marginTop: 32, height: "75%" }}
+      >
+        {places.map((place) => (
+          <Grid item key={place.townName} xs={12} sm={3}>
+            <div
+              className={classes.paperContainer}
+              style={{
+                backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
+              }}
+            >
+              <div className={classes.bottomInformationContainer}>
+                <span className={classes.bottomInformationSubContainer1}>
+                  <span style={{ fontSize: 17, color: "white" }}>
+                    {place.townName},
+                  </span>
+                  <span style={{ fontSize: 11, color: "rgb(175 175 175)" }}>
+                    {place.countryName}
+                  </span>
+                </span>
+                <span className={classes.bottomInformationSubContainer2}>
+                  <FavoriteCheckBox />
+                </span>
+              </div>
+            </div>
+          </Grid>
+        ))}
+      </Grid>
+    </Container>
+  );
 };
 
-export default ExplorerPage;
+export default Explore;
