@@ -1,9 +1,9 @@
 import React, {useState} from 'react'
 import {Typography, Grid, Button} from "@material-ui/core";
-import places from "../../database/places";
+import places from "../database/places";
 import Favorite from "@material-ui/icons/Favorite";
-import {CustomSmallerCheckBox} from "../../themes/theme";
-import useStyles from './style'
+import {CustomSmallerCheckBox} from "../themes/theme";
+import useStyles from '../styles/FavoriteDestinations'
 
 
 function FavoriteCheckBox() {
@@ -35,8 +35,8 @@ function FavoriteDestinantions() {
    spacing={3}
    justify="center"
    style={{  marginTop: 10 }} >
-   {places.map((place, index) => (
-     <Grid item key={index}>
+   {places.map((place, id) => (
+     <Grid item key={id}>
        <Grid
          className={classes.paperContainer}
          style={{

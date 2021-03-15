@@ -1,10 +1,9 @@
 import React from "react";
-import useStyles from "./style";
+import useStyles from "../styles/Profile";
 import { NavLink, useRouteMatch, Switch, Route } from "react-router-dom";
-import Notifications from "../Notifications/Notifications";
-import FavoriteDestination from "../FavouriteDestinations/FavoriteDestinantions";
-import AccountSettings from "../AccountSettings/AccountSettings";
-import Header from "../../components/Header"
+import Notifications from "./Notifications";
+import FavoriteDestination from "./FavoriteDestinantions";
+import AccountSettings from "./AccountSettings";
 import {
   Avatar,
   Drawer,
@@ -13,7 +12,7 @@ import {
   Grid,
 } from "@material-ui/core";
 
-export default function ClippedDrawer() {
+ function Profile() {
   const { path } = useRouteMatch();
 
 
@@ -27,8 +26,6 @@ export default function ClippedDrawer() {
 
   return (
     <Grid className={classes.root}>
-    <Header />
- 
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -45,8 +42,8 @@ export default function ClippedDrawer() {
             {mockUser.email}
           </Typography>
 
-          <Grid style={{lineHeight: 8 }}>
-            <Button style={{ color: "#c5bec4", fontSize: 12,}} variant="outlined">Edit</Button>
+          <Grid className={classes.editBtnContainer}>
+            <Button className={classes.editBtn}  variant="outlined">Edit</Button>
           </Grid>
         </Grid>
         <Grid className={classes.drawerContainer}>
@@ -92,3 +89,5 @@ export default function ClippedDrawer() {
     </Grid>
   );
 }
+
+export default Profile;

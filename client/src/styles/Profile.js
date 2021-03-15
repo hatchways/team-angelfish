@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   drawer: {
     flexShrink: 0,
+    marginTop: 40,
   },
   drawerPaper: {
     width: 350,
@@ -32,6 +33,13 @@ const useStyles = makeStyles((theme) => ({
    marginRight: 30,
    lineHeight: 2.2,
    paddingTop: 2,
+  },
+  editBtnContainer:{
+    lineHeight: 8,
+  },
+  editBtn:{
+   color: "#c5bec4", 
+   fontSize: 12,
   },
   logoutBtn:{
     paddingTop: 100, 
