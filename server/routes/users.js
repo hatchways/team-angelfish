@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 
 const auth = require("../middleware/auth");
 
+const { createStripeCustomer } = require("../utils/stripe");
 const User = require("../models/User");
 
 const validateRegisterInput = require("../validation/register");
