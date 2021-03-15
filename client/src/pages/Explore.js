@@ -5,8 +5,11 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Favorite from "@material-ui/icons/Favorite";
 import { CustomSmallerCheckBox } from "../themes/theme";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
-const USER_ID_KEY = "This is to be defined for now";
+//@TODO: Remove next line when localStorage is set after signing/signup/
+const USER_ID_KEY = "temporary_user_id_key";
 
 const useStyles = makeStyles({
   pageContainer: {
@@ -55,6 +58,10 @@ const useStyles = makeStyles({
   },
 });
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 function FavoriteCheckBox({ place, handleFavoriteChange }) {
   const classes = useStyles();
   const [checked, setChecked] = useState(place.favorite);
@@ -78,11 +85,30 @@ const Explore = () => {
   const classes = useStyles();
   const [favorites, setFavorites] = useState([]);
   const [places, setPlaces] = useState([]);
+  const [snack, setSnack] = useState({ type: "", message: "", open: false });
+  const closeSnack = () => {
+    setSnack((prevState) => {
+      return { ...prevState, open: false };
+    });
+  };
   useEffect(() => {
     async function getData() {
       try {
+        //@TODO: Remove the auth call when localStorage is set after signing/signup/
+        const userResponse = await (
+          await fetch(`/api/users/auth`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+        ).json();
+        if(!userResponse.user){
+          return setSnack({ type: "error", message: "Unauthenticated!", open: true });
+        }
+        localStorage.setItem(USER_ID_KEY, userResponse.user._id);
         const favoriteList = await (
-          await fetch(`/api/users/123456/favorite-cities`, {
+          await fetch(`/api/users/${localStorage.getItem(USER_ID_KEY)}/favorite-cities`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
@@ -176,6 +202,14 @@ const Explore = () => {
           </Grid>
         ))}
       </Grid>
+      <Snackbar
+        open={snack.open}
+        autoHideDuration={1000}
+        onClose={closeSnack}>
+        <Alert severity={snack.type}>
+          {snack.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
