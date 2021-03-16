@@ -10,6 +10,7 @@ import Hotels from "./pages/Hotels";
 import Rent from "./pages/Rent";
 import Header from "./components/Header";
 import Profile from "./pages/User/UserProfile";
+import TestRoute from "./components/Cart/addToCartTestPage";
 
 import { Provider } from "./context";
 
@@ -31,6 +32,7 @@ function App() {
               <Route exact path="/hotel" component={Hotels} />
               <Route exact path="/rent" component={Rent} />
               <Route exact path="/profile" component={Profile} />
+              <Route exact path="/test" component={TestRoute} />
             </Switch>
           </BrowserRouter>
         </Provider>
