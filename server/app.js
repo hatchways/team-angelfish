@@ -4,6 +4,7 @@ const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const cityRouter = require("./routes/city");
 const cors = require("cors");
 
 const flightRouter = require("./routes/flight");
@@ -30,6 +31,7 @@ app.use(express.static(join(__dirname, "public")));
 
 app.use("/api/users", userRoutes);
 app.use("/api/flights", flightRouter);
+app.use("/api/cities", cityRouter);
 app.use("/api", uploadRouter);
 app.use("/api/checkout", checkoutPayment);
 
