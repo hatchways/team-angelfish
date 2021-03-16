@@ -34,6 +34,7 @@ export default makeStyles((theme) => ({
   },
   input: {
     '@media (min-width:1280px)': {
+      borderRight: "1px solid #EEEFF9",
       height: '100%',
       display: 'flex',
       flexDirection: 'column',

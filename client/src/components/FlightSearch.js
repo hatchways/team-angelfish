@@ -118,6 +118,7 @@ const FlightSearch = () => {
               }}
                 value={travellers}
               />
+              
             </Grid>
             <Grid item lg={4} sm={9} xs={6}>
               <Button onClick={handleSubmit} className={classes.searchBtn}>

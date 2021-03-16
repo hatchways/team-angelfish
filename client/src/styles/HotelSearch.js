@@ -38,12 +38,22 @@ export default makeStyles((theme) => ({
   },
   input: {
     '@media (min-width:1280px)': {
+      borderRight: "1px solid #EEEFF9",
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'start',
     },
+  },
+  roomandtravellers:{
+   display: "flex",
+   width: 90,
+   fontWeight: "bold",
+   color: "black",
+  },
+  endAdornmentent:{
+    fontWeight: "bold",
   },
   textField:{
     fontWeight: "bold",
