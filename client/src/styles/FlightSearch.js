@@ -4,6 +4,8 @@ export default makeStyles((theme) => ({
   root: {
     '& > *': {
       width: '1200px',
+      position: "absolute",
+      top: 37,
     },
     width: '100%',
     display: 'flex',
