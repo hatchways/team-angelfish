@@ -1,7 +1,7 @@
 export const initialState = {
   authenticated: false,
   user: {},
-  cart: [],
+  cart: { flights: [], hotels: [], rentalCar: [] },
 };
 
 export const userReducer = (initialState, action) => {
@@ -22,15 +22,21 @@ export const userReducer = (initialState, action) => {
     case "ADD_TO_CART":
       return {
         ...initialState,
-        cart: [...initialState.cart, action.item],
+        cart: {
+          ...initialState.cart,
+          [action.purhcaseType]: [
+            ...initialState.cart[action.purhcaseType],
+            action.item,
+          ],
+        },
       };
     case "REMOVE_FROM_CART":
-      const indOfItem = action.index;
-      const newCart = [...initialState.cart];
-      const filteredCart = newCart.filter((_, ind) => ind !== indOfItem);
       return {
         ...initialState,
-        cart: filteredCart,
+        cart: {
+          ...initialState.cart,
+          [action.purchaseType]: [],
+        },
       };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);

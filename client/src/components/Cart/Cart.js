@@ -25,15 +25,23 @@ const Cart = () => {
     setOpen(!open);
   };
 
+  const getCartLength = () => {
+    let length = 0;
+    if (cart?.flights.length > 0) length += 1;
+    if (cart?.hotels.length > 0) length += 1;
+    if (cart?.rentalCar.length > 0) length += 1;
+    return length;
+  };
+
   return (
     <>
       <IconButton onClick={handleToggle}>
-        <StyledBadge badgeContent={cart.length}>
+        <StyledBadge badgeContent={getCartLength()}>
           <ShoppingCartIcon />
         </StyledBadge>
       </IconButton>
       <Drawer anchor="right" open={open} onClose={handleToggle}>
-        <CartList />
+        <CartList closeCart={handleToggle} />
       </Drawer>
     </>
   );
