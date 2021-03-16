@@ -49,13 +49,8 @@ export default makeStyles((theme) => ({
     },
   },
   roomandtravellers:{
-   display: "flex",
-   width: 90,
    fontWeight: "bold",
    color: "black",
-  },
-  endAdornmentent:{
-    fontWeight: "bold",
   },
   textField:{
     fontWeight: "bold",

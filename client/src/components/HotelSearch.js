@@ -25,8 +25,8 @@ function HotelSearch() {
   const [to, setTo] = useState("Bali");
   const [checkIn, setcheckIn] = useState(date);
   const [checkOut, setCheckOut] = useState(date);
-  const [travellers, setTravellers] = useState(2);
-  const [room, setRoom] = useState(1);
+  const [travellers, setTravellers] = useState("1 room, 2 travellers");
+  
 
   return (
     <Grid>
@@ -44,7 +44,7 @@ function HotelSearch() {
                 value={to}
                 onChange={(...[, v]) => setTo(v)}
                 style={{ width: 150 }}
-                renderInput={(params) => <TextField name="to" {...params} />}
+                renderInput={ (params) => <TextField name="to"  {...params} />}
               />
             </Grid>
             <Grid className={classes.input} lg={2} sm={3} xs={6} item>
@@ -89,26 +89,12 @@ function HotelSearch() {
                 </InputLabel>
                 <TextField
                   id="travellers"
-                  onChange={(e) => setRoom(e.target.value)}
-                  type="number"
-                  name="travellers"
-                  value={room}
-                  InputProps={{
-                    className: classes.roomandtravellers,
-                    endAdornment: <span className={classes.span}  position="end">room</span>,
-                    disableUnderline: true,
-                  }}
-                />
-
-                <TextField
-                  id="travellers"
                   onChange={(e) => setTravellers(e.target.value)}
-                  type="number"
+                  type="text"
                   name="travellers"
                   value={travellers}
                   InputProps={{
                     className: classes.roomandtravellers,
-                    endAdornment: <span className={classes.span} position="end">travellers</span>,
                     disableUnderline: true,
                   }}
                 />
