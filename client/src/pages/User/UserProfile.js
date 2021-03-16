@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
-import FileUploaderDialog from "../../component/Uploader/FileUploaderDialog";
+import FileUploaderDialog from "../../components/FileUploaderDialog";
 import { makeStyles } from "@material-ui/core/styles";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
