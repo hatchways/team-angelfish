@@ -36,5 +36,5 @@ export const Provider = ({ children }) => {
   );
 };
 
-export const useState = () => useContext(StateContext);
-export const useDispatch = () => useContext(DispatchContext);
+export const useStateContext = () => useContext(StateContext);
+export const useDispatchContext = () => useContext(DispatchContext);
