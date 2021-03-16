@@ -20,7 +20,8 @@ function HotelSearch() {
     const [to, setTo] = useState("Bali");
   const [checkIn, setcheckIn] = useState(date);
   const [checkOut, setCheckOut] = useState(date);
-  const [travellers, setTravellers] = useState(1);
+  const [travellers, setTravellers] = useState(2);
+  const [room, setRoom] = useState(1)
 
 
 
@@ -35,6 +36,7 @@ function HotelSearch() {
             <InputLabel className={classes.inputLabel}>Going to</InputLabel>
             <Autocomplete
               freeSolo
+              autoSelect="true"
               id="to"
               name="to"
               options={hotelCities.map((city) => city.title)}
@@ -42,9 +44,7 @@ function HotelSearch() {
               value={to}
               onChange={(...[, v]) => setTo(v)}
               style={{ width: 150 }}
-              renderInput={(params) => <TextField  name="to" {...params}  InputProps={{
-                className: classes.textField,
-            }} />}
+              renderInput={(params) => <TextField  name="to" {...params}  />}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
@@ -57,6 +57,7 @@ function HotelSearch() {
               onChange={(e) => setcheckIn(e.target.value)}
               InputProps={{
                 className: classes.textField,
+                 disableUnderline: true 
             }}
               InputLabelProps={{
                 shrink: true,
@@ -74,6 +75,7 @@ function HotelSearch() {
               onChange={(e) => setCheckOut(e.target.value)}
               InputProps={{
                 className: classes.textField,
+                 disableUnderline: true 
             }}
               InputLabelProps={{
                 shrink: true,
@@ -91,6 +93,7 @@ function HotelSearch() {
                 value={travellers}
                 InputProps={{
                     className: classes.textField,
+                    disableUnderline: true 
                 }}
               />
             </Grid>

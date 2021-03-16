@@ -51,9 +51,7 @@ const FlightSearch = () => {
               value={from}
               onChange={(...[, v]) => setFrom(v)}
               style={{ width: 150 }}
-              renderInput={(params) => <TextField name="from" {...params}   InputProps={{
-                className: classes.textField,
-            }} />}
+              renderInput={(params) => <TextField name="from" {...params} />}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
@@ -67,9 +65,7 @@ const FlightSearch = () => {
               value={to}
               onChange={(...[, v]) => setTo(v)}
               style={{ width: 150 }}
-              renderInput={(params) => <TextField name="to" {...params}   InputProps={{
-                className: classes.textField,
-            }} />}
+              renderInput={(params) => <TextField name="to" {...params} />}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
@@ -83,6 +79,7 @@ const FlightSearch = () => {
               className={classes.textField}
               InputProps={{
                 className: classes.textField,
+                disableUnderline: true
             }}
               InputLabelProps={{
                 shrink: true,
@@ -100,6 +97,7 @@ const FlightSearch = () => {
               onChange={(e) => setDeparture(e.target.value)}
               InputProps={{
                 className: classes.textField,
+                disableUnderline: true
             }}
               InputLabelProps={{
                 shrink: true,
@@ -116,6 +114,7 @@ const FlightSearch = () => {
                 name="travellers"
                 InputProps={{
                   className: classes.textField,
+                  disableUnderline: true
               }}
                 value={travellers}
               />
