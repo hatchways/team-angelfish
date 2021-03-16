@@ -5,7 +5,6 @@ import {
   TextField,
   Button,
   InputLabel,
-  InputAdornment,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import useStyles from "../styles/HotelSearch";
