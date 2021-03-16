@@ -96,7 +96,7 @@ function HotelSearch() {
                   value={room}
                   InputProps={{
                     className: classes.roomandtravellers,
-                    endAdornment: <span className={classes.span}  position="start">room</span>,
+                    endAdornment: <span className={classes.span}  position="end">room</span>,
                     disableUnderline: true,
                   }}
                 />
@@ -109,7 +109,7 @@ function HotelSearch() {
                   value={travellers}
                   InputProps={{
                     className: classes.roomandtravellers,
-                    endAdornment: <span className={classes.span} position="start">travellers</span>,
+                    endAdornment: <span className={classes.span} position="end">travellers</span>,
                     disableUnderline: true,
                   }}
                 />
