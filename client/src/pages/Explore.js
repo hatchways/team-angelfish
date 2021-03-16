@@ -1,78 +1,111 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-//Remove the next line when backend data is available.
-import places from "../database/places";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Favorite from "@material-ui/icons/Favorite";
-import {CustomSmallerCheckBox} from "../themes/theme";
+import { CustomSmallerCheckBox } from "../themes/theme";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import useStyles from "../styles/Explore";
 
-const useStyles = makeStyles({
-	pageContainer: {
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-		marginTop: 20,
-		padding: "0 20px",
-	},
-	paperContainer: {
-		height: 300,
-		borderRadius: 10,
-		backgroundRepeat: "no-repeat",
-		backgroundSize: "cover",
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "flex-end",
-		overflow: "hidden",
-	},
-	title: {
-		margin: 5,
-		textAlign: "center",
-	},
-	customCheckBoxRoot: {
-		width: "5px",
-		height: "5px",
-	},
-	bottomInformationContainer: {
-		display: "flex",
-		height: "15%",
-		borderTop: "1px solid #a9a9a9",
-		padding: 10,
-		justifyContent: "space-between",
-	},
-	bottomInformationSubContainer1: {
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "center",
-		paddingLeft: 10,
-	},
-	bottomInformationSubContainer2: {
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "center",
-		alignItems: "flex-end",
-	},
-});
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
-function FavoriteCheckBox() {
+function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack}) {
   const classes = useStyles();
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(place.favorite);
   return (
-    <div>
+    <>
       <CustomSmallerCheckBox
         checked={checked}
-        onChange={(e) => setChecked(e.target.checked)}
-        icon={<Favorite style={{ color: "white" }} />}
-        checkedIcon={<Favorite style={{ color: "orange" }} />}
+        onChange={(e) => {
+          if(userId){
+            setChecked(e.target.checked);
+            handleFavoriteChange(e.target.checked, place.name);
+          }else{
+            //@TODO: display login form
+            openSnack();
+          }
+        }}
+        icon={<Favorite className={classes.favoriteDefaultIcon} />}
+        checkedIcon={<Favorite className={classes.favoriteCheckedIcon} />}
         classes={{ root: classes.customCheckBoxRoot }}
       />
-    </div>
+    </>
   );
 }
 
-const Explore = () => {
+const Explore = ({userId}) => {
   const classes = useStyles();
+  const [favorites, setFavorites] = useState([]);
+  const [places, setPlaces] = useState([]);
+  const [snack, setSnack] = useState({ type: "", message: "", open: false });
+  const closeSnack = () => {
+    setSnack((prevState) => {
+      return { ...prevState, open: false };
+    });
+  };
+
+  const openSnack = (errorMessage) =>{
+    setSnack({ type: "info", message: "Please signing or signup first!", open: true });
+  }
+  useEffect(() => {
+    async function getData() {
+      try {
+        let favoriteList = [];
+        //Assuming that the explore page can be accessed by both authenticated and unAuthenticated user.
+        if(userId){
+          favoriteList = await (await fetch(
+            `/api/users/${userId}/favorite-cities`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )).json();
+          setFavorites(favoriteList);
+        }
+        const cityListResponse = await fetch("/api/cities", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const cityList = await cityListResponse.json();
+        cityList.map(city => {
+          city.favorite = favoriteList.indexOf(city.name) >= 0;
+          return city;
+        });
+        setPlaces(cityList);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }, [userId]);
+  function handleFavoriteChange(checked, name) {
+    const userFavoritePlaces = [...favorites];
+    if (checked) {
+      //add
+      userFavoritePlaces.push(name);
+    } else {
+      //remove
+      const placeIndex = userFavoritePlaces.indexOf(name);
+      if (placeIndex >= 0) {
+        userFavoritePlaces.splice(placeIndex, 1);
+      }
+    }
+    setFavorites(userFavoritePlaces);
+    fetch(`/api/users/${userId}/favorite-cities`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ cities: userFavoritePlaces }),
+    });
+  }
   return (
     <Container className={classes.pageContainer}>
       <Typography variant="h4" className={classes.title}>
@@ -80,8 +113,7 @@ const Explore = () => {
       </Typography>
       <Typography
         variant="subtitle2"
-        className={classes.title}
-        style={{ color: "#c5bec4", fontSize: 12 }}
+        className={(classes.title, classes.subtitle2)}
       >
         World's top destinations to explore
       </Typography>
@@ -89,10 +121,10 @@ const Explore = () => {
         container
         spacing={3}
         justify="center"
-        style={{ marginTop: 32, height: "75%" }}
+        className={classes.gridContainer}
       >
         {places.map((place) => (
-          <Grid item key={place.townName} xs={12} sm={3}>
+          <Grid item key={place.name} xs={12} sm={3}>
             <div
               className={classes.paperContainer}
               style={{
@@ -101,21 +133,35 @@ const Explore = () => {
             >
               <div className={classes.bottomInformationContainer}>
                 <span className={classes.bottomInformationSubContainer1}>
-                  <span style={{ fontSize: 17, color: "white" }}>
-                    {place.townName},
+                  <span className={classes.legend1}>
+                    {place.name},
                   </span>
-                  <span style={{ fontSize: 11, color: "rgb(175 175 175)" }}>
-                    {place.countryName}
+                  <span className={classes.legend2}>
+                    {place.country}
                   </span>
                 </span>
                 <span className={classes.bottomInformationSubContainer2}>
-                  <FavoriteCheckBox />
+                  <FavoriteCheckBox
+                    place={place}
+                    userId={userId}
+                    handleFavoriteChange={handleFavoriteChange}
+                    openSnack={openSnack}
+                  />
                 </span>
               </div>
             </div>
           </Grid>
         ))}
       </Grid>
+      <Snackbar
+        open={snack.open}
+        autoHideDuration={3000}
+        onClose={closeSnack}
+      >
+        <Alert severity={snack.type}>
+          {snack.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
