@@ -8,7 +8,6 @@ export default makeStyles((theme) => ({
     width: '100%',
     display: 'flex',
     justifyContent: 'center',
-    marginTop: "70px",
   },
   paperContainer: {
     padding: '20px',
@@ -33,14 +32,20 @@ export default makeStyles((theme) => ({
     height: '40px',
     width: '100px',
   },
+  inputLabel:{
+    color: "#c5bec4",
+    fontWeight: 500,
+  },
   input: {
     '@media (min-width:1280px)': {
-      borderRight: '1px solid lightgray',
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'start',
     },
+  },
+  textField:{
+    fontWeight: "bold",
   },
 }));

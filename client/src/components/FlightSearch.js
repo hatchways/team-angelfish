@@ -41,7 +41,7 @@ const FlightSearch = () => {
       <form onSubmit={handleSubmit}>
         <Paper className={classes.paperContainer} elevation={7}>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
-            <InputLabel>From</InputLabel>
+            <InputLabel className={classes.inputLabel}>From</InputLabel>
             <Autocomplete
               freeSolo
               id="from"
@@ -51,11 +51,13 @@ const FlightSearch = () => {
               value={from}
               onChange={(...[, v]) => setFrom(v)}
               style={{ width: 150 }}
-              renderInput={(params) => <TextField name="from" {...params} />}
+              renderInput={(params) => <TextField name="from" {...params}   InputProps={{
+                className: classes.textField,
+            }} />}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
-            <InputLabel>Where to go</InputLabel>
+            <InputLabel className={classes.inputLabel}>Where to go</InputLabel>
             <Autocomplete
               freeSolo
               id="to"
@@ -65,11 +67,13 @@ const FlightSearch = () => {
               value={to}
               onChange={(...[, v]) => setTo(v)}
               style={{ width: 150 }}
-              renderInput={(params) => <TextField name="to" {...params} />}
+              renderInput={(params) => <TextField name="to" {...params}   InputProps={{
+                className: classes.textField,
+            }} />}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
-            <InputLabel>Arrival</InputLabel>
+            <InputLabel className={classes.inputLabel}>Arrival</InputLabel>
             <TextField
               id="date"
               type="date"
@@ -77,13 +81,16 @@ const FlightSearch = () => {
               defaultValue={arrival}
               onChange={(e) => setArrival(e.target.value)}
               className={classes.textField}
+              InputProps={{
+                className: classes.textField,
+            }}
               InputLabelProps={{
                 shrink: true,
               }}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
-            <InputLabel>Departure</InputLabel>
+            <InputLabel className={classes.inputLabel}>Departure</InputLabel>
             <TextField
               id="date"
               type="date"
@@ -91,6 +98,9 @@ const FlightSearch = () => {
               defaultValue={departure}
               className={classes.textField}
               onChange={(e) => setDeparture(e.target.value)}
+              InputProps={{
+                className: classes.textField,
+            }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -98,12 +108,15 @@ const FlightSearch = () => {
           </Grid>
           <Grid className={classes.travelDiv} lg={3} sm={12} xs={12} item>
             <Grid item lg={8} sm={3} xs={6}>
-              <InputLabel>Travellers</InputLabel>
+              <InputLabel className={classes.inputLabel}>Travellers</InputLabel>
               <TextField
                 id="travellers"
                 onChange={(e) => setTravellers(e.target.value)}
                 type="number"
                 name="travellers"
+                InputProps={{
+                  className: classes.textField,
+              }}
                 value={travellers}
               />
             </Grid>

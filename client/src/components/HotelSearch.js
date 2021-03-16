@@ -32,7 +32,7 @@ function HotelSearch() {
       <form>
         <Paper className={classes.paperContainer} elevation={7}>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
-            <InputLabel>Going to</InputLabel>
+            <InputLabel className={classes.inputLabel}>Going to</InputLabel>
             <Autocomplete
               freeSolo
               id="to"
@@ -42,25 +42,29 @@ function HotelSearch() {
               value={to}
               onChange={(...[, v]) => setTo(v)}
               style={{ width: 150 }}
-              renderInput={(params) => <TextField name="to" {...params} />}
+              renderInput={(params) => <TextField  name="to" {...params}  InputProps={{
+                className: classes.textField,
+            }} />}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
-            <InputLabel>Check-in</InputLabel>
+            <InputLabel className={classes.inputLabel}>Check-in</InputLabel>
             <TextField
               id="date"
               type="date"
               name="Check-In"
               defaultValue={checkIn}
               onChange={(e) => setcheckIn(e.target.value)}
-              className={classes.textField}
+              InputProps={{
+                className: classes.textField,
+            }}
               InputLabelProps={{
                 shrink: true,
               }}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
-            <InputLabel>Check-out</InputLabel>
+            <InputLabel className={classes.inputLabel}>Check-out</InputLabel>
             <TextField
               id="date"
               type="date"
@@ -68,6 +72,9 @@ function HotelSearch() {
               defaultValue={checkOut}
               className={classes.textField}
               onChange={(e) => setCheckOut(e.target.value)}
+              InputProps={{
+                className: classes.textField,
+            }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -75,13 +82,16 @@ function HotelSearch() {
           </Grid>
           <Grid className={classes.travelDiv} lg={3} sm={12} xs={12} item>
             <Grid item lg={8} sm={3} xs={6}>
-              <InputLabel>Travellers</InputLabel>
+              <InputLabel className={classes.inputLabel}>Travellers</InputLabel>
               <TextField
                 id="travellers"
                 onChange={(e) => setTravellers(e.target.value)}
                 type="number"
                 name="travellers"
                 value={travellers}
+                InputProps={{
+                    className: classes.textField,
+                }}
               />
             </Grid>
             <Grid item lg={4} sm={9} xs={6}>

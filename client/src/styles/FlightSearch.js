@@ -15,7 +15,7 @@ export default makeStyles((theme) => ({
     justifyContent: 'space-around',
     flexWrap: 'wrap',
     alignItems: 'center',
-    height: '100%',
+    height: '70%',
     borderRadius: '20px',
   },
   travelDiv: {
@@ -34,12 +34,18 @@ export default makeStyles((theme) => ({
   },
   input: {
     '@media (min-width:1280px)': {
-      borderRight: '1px solid lightgray',
       height: '100%',
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'start',
     },
+  },
+  inputLabel:{
+    color: "#c5bec4",
+    fontWeight: 500,
+  },
+  textField:{
+    fontWeight: "bold",
   },
 }));
