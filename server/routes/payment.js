@@ -5,6 +5,7 @@ const stripe = require("stripe")(process.env.STRIPE_SK);
 
 const makePayment = async (req, res) => {
   const customer = req.body.stripeId;
+  const { currency, amount, details, stripeId } = req.body;
   let session;
   if (customer) {
     session = await stripe.checkout.sessions.create({
@@ -16,19 +17,19 @@ const makePayment = async (req, res) => {
       'customer_email' creates a new customer everytime but doesn't allow customer to change email in form*/
 
       // customer_email: req.body.email,
-      customer: req.body.stripeId,
+      customer: stripeId,
       payment_method_types: ["card"],
       line_items: [
         {
-          currency: req.body.currency,
-          amount: req.body.amount,
-          name: req.body.details,
+          currency: currency,
+          amount: amount,
+          name: details,
           quantity: 1,
         },
       ],
       mode: "payment",
-      success_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/error",
+      success_url: "http://localhost:3000/payment-success",
+      cancel_url: "http://localhost:3000/payment-error",
     });
 
     res.json({ id: session.id });
@@ -37,15 +38,15 @@ const makePayment = async (req, res) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          currency: req.body.currency,
-          amount: req.body.amount,
-          name: req.body.details,
+          currency: currency,
+          amount: amount,
+          name: details,
           quantity: 1,
         },
       ],
       mode: "payment",
-      success_url: "http://localhost:3000/success",
-      cancel_url: "http://localhost:3000/error",
+      success_url: "http://localhost:3000/payment-success",
+      cancel_url: "http://localhost:3000/payment-error",
     });
 
     res.json({ id: session.id });

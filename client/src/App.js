@@ -28,8 +28,8 @@ function App() {
           <Route exact path="/rent" component={Rent} />
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/checkout" component={Checkout} />
-          <Route exact path="/success" component={Success} />
-          <Route exact path="/error" component={Error} />
+          <Route exact path="/payment-success" component={Success} />
+          <Route exact path="/payment-error" component={Error} />
         </Switch>
       </BrowserRouter>
     </MuiThemeProvider>
