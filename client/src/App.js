@@ -11,6 +11,8 @@ import Checkout from "./components/Stripe/Checkout";
 import Success from "./components/Stripe/Success";
 import Error from "./components/Stripe/Error";
 
+import { Provider } from "./context";
+
 import { theme } from "./themes/theme";
 
 import "./App.css";
@@ -23,7 +25,7 @@ function App() {
         <Switch>
           <Redirect exact from="/" to="/explore" />
           {/* @TODO: Add userId props here and pass the currentUserId from Backend */}
-          <Route path="/explore" component={() => <ExplorerPage/>} />
+          <Route path="/explore" component={() => <ExplorerPage />} />
           <Route exact path="/flights" component={Flights} />
           <Route exact path="/hotel" component={Hotels} />
           <Route exact path="/rent" component={Rent} />
