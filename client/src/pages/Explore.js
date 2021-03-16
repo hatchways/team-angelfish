@@ -123,8 +123,9 @@ const Explore = ({userId}) => {
     async function getData() {
       try {
         let favoriteList = [];
+        //Assuming that the explore page can be accessed by both authenticated and unAuthenticated user.
         if(userId){
-          const favoriteResponse = await (await fetch(
+          favoriteList = await (await fetch(
             `/api/users/${userId}/favorite-cities`,
             {
               method: "GET",
@@ -133,8 +134,6 @@ const Explore = ({userId}) => {
               },
             }
           )).json();
-          //Assuming that the explore page can be accessed by both authenticated and unAuthenticated user.
-          favoriteList = Array.isArray(favoriteResponse) ? favoriteResponse : [];
           setFavorites(favoriteList);
         }
         const cityListResponse = await fetch("/api/cities", {
