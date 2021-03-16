@@ -21,6 +21,7 @@ const useStyles = makeStyles({
   },
   title: {
     marginTop: 20,
+    marginLeft: 20,
     fontWeight: "bold",
   },
   customCheckBoxRoot: {

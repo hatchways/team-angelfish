@@ -1,21 +1,13 @@
 import React from "react";
-import useStyles from "./style";
+import useStyles from "../styles/Profile";
 import { NavLink, useRouteMatch, Switch, Route } from "react-router-dom";
-import Notifications from "../Notifications/Notifications";
-import FavoriteDestination from "../FavouriteDestinations/FavoriteDestinantions";
-import AccountSettings from "../AccountSettings/AccountSettings";
-import Header from "../../components/Header"
-import {
-  Avatar,
-  Drawer,
-  Typography,
-  Button,
-  Grid,
-} from "@material-ui/core";
+import Notifications from "./Notifications";
+import FavoriteDestination from "./FavoriteDestinantions";
+import AccountSettings from "./AccountSettings";
+import { Avatar, Drawer, Typography, Button, Grid } from "@material-ui/core";
 
-export default function ClippedDrawer() {
+function Profile() {
   const { path } = useRouteMatch();
-
 
   const classes = useStyles();
   const mockUser = {
@@ -27,8 +19,6 @@ export default function ClippedDrawer() {
 
   return (
     <Grid className={classes.root}>
-    <Header />
- 
       <Drawer
         className={classes.drawer}
         variant="permanent"
@@ -39,34 +29,32 @@ export default function ClippedDrawer() {
         <Grid className={classes.profilePosition}>
           <Avatar src={mockUser.avatar} className={classes.avatar} />
           <Typography variant="h6">{mockUser.name}</Typography>
-          <Typography
-            style={{ color: "#c5bec4", fontSize: 12, letterSpacing: 1 }}
-          >
-            {mockUser.email}
-          </Typography>
+          <Typography className={classes.email}>{mockUser.email}</Typography>
 
-          <Grid style={{lineHeight: 8 }}>
-            <Button style={{ color: "#c5bec4", fontSize: 12,}} variant="outlined">Edit</Button>
+          <Grid className={classes.editBtnContainer}>
+            <Button className={classes.editBtn} variant="outlined">
+              Edit
+            </Button>
           </Grid>
         </Grid>
         <Grid className={classes.drawerContainer}>
           <ul>
             <NavLink
-              activeStyle={{ color: "black", borderLeft: "3px solid #FFA000", }}
+              activeStyle={{ color: "black", borderLeft: "3px solid #FFA000" }}
               className={classes.profileLinks}
               to="/profile/favoritedestinations"
             >
               <li>Favorite Destinations</li>
             </NavLink>
             <NavLink
-            activeStyle={{ color: "black", borderLeft: "3px solid #FFA000", }}
+              activeStyle={{ color: "black", borderLeft: "3px solid #FFA000" }}
               className={classes.profileLinks}
               to="/profile/notifications"
             >
               <li>Notifications</li>
             </NavLink>
             <NavLink
-            activeStyle={{ color: "black", borderLeft: "3px solid #FFA000", }}
+              activeStyle={{ color: "black", borderLeft: "3px solid #FFA000" }}
               className={classes.profileLinks}
               to="/profile/accountsettings"
             >
@@ -74,8 +62,8 @@ export default function ClippedDrawer() {
             </NavLink>
           </ul>
         </Grid>
-        <Grid style={{ marginTop: 130, textAlign: "center" }}>
-          <Button  style={{ color: "#c5bec4", fontSize: 12 }}>Logout</Button>
+        <Grid className={classes.logoutBtn}>
+          <Button className={classes.logoutMainBtn}>Logout</Button>
         </Grid>
       </Drawer>
 
@@ -92,3 +80,5 @@ export default function ClippedDrawer() {
     </Grid>
   );
 }
+
+export default Profile;
