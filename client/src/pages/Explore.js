@@ -5,6 +5,8 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import Favorite from "@material-ui/icons/Favorite";
 import { CustomSmallerCheckBox } from "../themes/theme";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles({
   pageContainer: {
@@ -75,7 +77,11 @@ const useStyles = makeStyles({
   }
 });
 
-function FavoriteCheckBox({ place, handleFavoriteChange }) {
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack}) {
   const classes = useStyles();
   const [checked, setChecked] = useState(place.favorite);
   return (
@@ -83,8 +89,13 @@ function FavoriteCheckBox({ place, handleFavoriteChange }) {
       <CustomSmallerCheckBox
         checked={checked}
         onChange={(e) => {
-          handleFavoriteChange(e.target.checked, place.name);
-          setChecked(e.target.checked);
+          if(userId){
+            setChecked(e.target.checked);
+            handleFavoriteChange(e.target.checked, place.name);
+          }else{
+            //@TODO: display login form
+            openSnack();
+          }
         }}
         icon={<Favorite className={classes.favoriteDefaultIcon} />}
         checkedIcon={<Favorite className={classes.favoriteCheckedIcon} />}
@@ -94,38 +105,48 @@ function FavoriteCheckBox({ place, handleFavoriteChange }) {
   );
 }
 
-//@TODO: This userId should come from props 
-const userId = "abcd123";
-const Explore = () => {
+const Explore = ({userId}) => {
   const classes = useStyles();
   const [favorites, setFavorites] = useState([]);
   const [places, setPlaces] = useState([]);
+  const [snack, setSnack] = useState({ type: "", message: "", open: false });
+  const closeSnack = () => {
+    setSnack((prevState) => {
+      return { ...prevState, open: false };
+    });
+  };
+
+  const openSnack = (errorMessage) =>{
+    setSnack({ type: "info", message: "Please signing or signup first!", open: true });
+  }
   useEffect(() => {
     async function getData() {
       try {
-        const favoriteResponse = await (await fetch(
-          `/api/users/${userId}/favorite-cities`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )).json();
-        //Assuming that the explore page can be accessed be both authenticated and unAuthenticated user.
-        const favoriteList = Array.isArray(favoriteResponse) ? favoriteResponse : [];
-        setFavorites(favoriteList);
-        const cityList = await (
-          await fetch("/api/cities", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-        ).json()
-        cityList.map(el => {
-          el.favorite = favoriteList.indexOf(el.name) >= 0;
-          return el;
+        let favoriteList = [];
+        if(userId){
+          const favoriteResponse = await (await fetch(
+            `/api/users/${userId}/favorite-cities`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )).json();
+          //Assuming that the explore page can be accessed by both authenticated and unAuthenticated user.
+          favoriteList = Array.isArray(favoriteResponse) ? favoriteResponse : [];
+          setFavorites(favoriteList);
+        }
+        const cityListResponse = await fetch("/api/cities", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const cityList = await cityListResponse.json();
+        cityList.map(city => {
+          city.favorite = favoriteList.indexOf(city.name) >= 0;
+          return city;
         });
         setPlaces(cityList);
       } catch (error) {
@@ -153,9 +174,7 @@ const Explore = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ cities: userFavoritePlaces }),
-    })
-      .then((results) => {})
-      .catch((err) => console.error(err.message));
+    });
   }
   return (
     <Container className={classes.pageContainer}>
@@ -194,7 +213,9 @@ const Explore = () => {
                 <span className={classes.bottomInformationSubContainer2}>
                   <FavoriteCheckBox
                     place={place}
+                    userId={userId}
                     handleFavoriteChange={handleFavoriteChange}
+                    openSnack={openSnack}
                   />
                 </span>
               </div>
@@ -202,6 +223,15 @@ const Explore = () => {
           </Grid>
         ))}
       </Grid>
+      <Snackbar
+        open={snack.open}
+        autoHideDuration={3000}
+        onClose={closeSnack}
+      >
+        <Alert severity={snack.type}>
+          {snack.message}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
