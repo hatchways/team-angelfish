@@ -17,11 +17,36 @@ function Flights() {
   const dispatch = useDispatchContext();
 
   const addToCart = () => {
-    const flight = {
-      name: "FLIGHT001",
-      price: 10000,
-      details: "Details",
-    };
+    // MOCK Data
+    const flight = [
+      {
+        type: "Departure",
+        name: "FLIGHT001",
+        price: 10000,
+        taxes: 1000,
+        date: "03/20/21",
+        departureTime: "2:45pm",
+        durtion: "0h 30m",
+        arrivalTime: "4:45pm",
+        departurePlace: "YVR",
+        numberOfStops: "Non-stop",
+        arrivalPlace: "LAX",
+      },
+      {
+        type: "Arrival",
+        name: "FLIGHT001",
+        price: 10000,
+        taxes: 1000,
+        date: "03/20/21",
+        departureTime: "2:45pm",
+        durtion: "0h 30m",
+        arrivalTime: "4:45pm",
+        departurePlace: "LAX",
+        numberOfStops: "Non-stop",
+        arrivalPlace: "YVr",
+      },
+    ];
+
     dispatch({ type: "ADD_TO_CART", item: flight });
     enqueueSnackbar("Added to cart", {
       variant: "success",
