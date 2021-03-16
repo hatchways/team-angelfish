@@ -58,4 +58,8 @@ export default makeStyles((theme) => ({
   textField:{
     fontWeight: "bold",
   },
+  span:{
+    fontWeight: "bold",
+    marginRight: 10,
+  },
 }));
