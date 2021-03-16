@@ -1,31 +1,31 @@
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles({
-    root:{
-     marginLeft: 390,
-     overflow: "hidden"
-    },
+export default makeStyles(() => ({
   pageContainer: {
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
+    marginTop: 20,
+    paddingTop: 0,
+    paddingLeft: 20,
   },
   paperContainer: {
-    height: 275,
-    width: 210,
+    height: 300,
     borderRadius: 10,
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-end",
+    overflow: "hidden",
   },
   title: {
-    marginTop: 20,
-    fontWeight: "bold",
+    margin: 5,
+    textAlign: "center",
   },
   customCheckBoxRoot: {
-    width: "5px",
-    height: "5px",
+    width: 5,
+    height: 5,
   },
   bottomInformationContainer: {
     display: "flex",
@@ -46,6 +46,25 @@ const useStyles = makeStyles({
     justifyContent: "center",
     alignItems: "flex-end",
   },
-});
-
-export default useStyles
+  subtitle2: {
+    color: "#c5bec4",
+    fontSize: 12,
+  },
+  favoriteDefaultIcon:{
+    color: "white"
+  },
+  favoriteCheckedIcon:{
+    color: "orange"
+  },
+  gridContainer: {
+    marginTop: 32, height: "75%"
+  },
+  legend1: {
+    fontSize: 17,
+    color: "white"
+  },
+  legend2:{
+    fontSize: 11,
+    color: "rgb(175 175 175)"
+  }
+}));
