@@ -43,9 +43,10 @@ const AddToCartTestPage = () => {
     const hotelData = {
       arrival: "03/20/21",
       departure: "03/20/21",
-      nmberOfNights: 3,
+      numberOfNights: 3,
       numberOfGuests: 2,
       place: "LA cottage",
+      city: "LA, USA",
       taxes: 100,
       price: 1000,
     };
@@ -53,8 +54,10 @@ const AddToCartTestPage = () => {
     const rentalCarData = {
       arrival: "03/20/21",
       departure: "03/20/21",
-      nmberOfNights: 3,
+      numberOfNights: 3,
       typeOfCar: "Dodge Caravan",
+      placeOfRental: "LA Car Service",
+      city: "LA, USA",
       taxes: 100,
       price: 1000,
     };
@@ -139,7 +142,6 @@ const AddToCartTestPage = () => {
       }
     }
   };
-  console.log(cart);
 
   return (
     <div>

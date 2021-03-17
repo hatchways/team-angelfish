@@ -55,8 +55,6 @@ const CartList = ({ closeCart }) => {
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
 
-  console.log("CARt", cart);
-
   function getSteps() {
     return [
       "Confirm flight details",

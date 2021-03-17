@@ -6,14 +6,19 @@ import { useStateContext } from "../../../context";
 
 import CartFlightContainer from "../CartFlight/CartFlightContainer";
 import StepIconStyles from "./StepIconStyles";
+import CartHotelContainer from "../CartHotel/CartHotelContainer";
+import CartRentalCarContainer from "../CartRentalCar/CartRentalCarContainer";
 
 import { makeStyles } from "@material-ui/core/styles";
-import Stepper from "@material-ui/core/Stepper";
-import Step from "@material-ui/core/Step";
-import StepLabel from "@material-ui/core/StepLabel";
-import StepContent from "@material-ui/core/StepContent";
-import Paper from "@material-ui/core/Paper";
-import { Typography, Button } from "@material-ui/core";
+import {
+  Typography,
+  Button,
+  Stepper,
+  Step,
+  StepLabel,
+  StepContent,
+  Paper,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   cartContainer: {
@@ -76,9 +81,34 @@ const StepperComponent = ({ closeCart, activeStep, setActiveStep, steps }) => {
           </div>
         );
       case 1:
-        return <CartFlightContainer />;
+        return cart.hotels.length > 0 ? (
+          <CartHotelContainer />
+        ) : (
+          <div>
+            <Typography>
+              Would you like to choose a{" "}
+              <Link onClick={closeCart} to="/hotels">
+                hotel
+              </Link>
+              ?
+            </Typography>
+          </div>
+        );
       case 2:
-        return <CartFlightContainer />;
+        return cart.rentalCar.length > 0 ? (
+          <CartRentalCarContainer />
+        ) : (
+          <div>
+            <Typography>
+              Would you like to choose a{" "}
+              <Link onClick={closeCart} to="/rent">
+                rental car
+              </Link>
+              ?
+            </Typography>
+          </div>
+        );
+
       default:
         return "Unknown step";
     }
@@ -114,7 +144,15 @@ const StepperComponent = ({ closeCart, activeStep, setActiveStep, steps }) => {
             <StepContent
               style={{ paddingLeft: 15, paddingRight: 15, marginTop: 10 }}
             >
-              <>{getStepContent(index)}</>
+              <div
+                style={{
+                  border: "1px solid lightgray",
+                  padding: 20,
+                  borderRadius: 15,
+                }}
+              >
+                {getStepContent(index)}
+              </div>
               <div className={classes.actionsContainer}>
                 <div>
                   <Button
