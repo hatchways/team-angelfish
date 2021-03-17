@@ -49,6 +49,7 @@ const AddToCartTestPage = () => {
       city: "LA, USA",
       taxes: 100,
       price: 1000,
+      rating: 4,
     };
 
     const rentalCarData = {
@@ -60,6 +61,7 @@ const AddToCartTestPage = () => {
       city: "LA, USA",
       taxes: 100,
       price: 1000,
+      rating: 3,
     };
 
     if (purchaseType === "flights") {

@@ -13,23 +13,23 @@ const useStyles = makeStyles({
   root: {
     marginBottom: 30,
   },
-  cartContainer: {
-    width: 350,
-    paddingLeft: 40,
-    paddingRight: 50,
+  colContainer: {
+    marginTop: 20,
+  },
+  div: {
+    paddingBottom: 20,
+    borderBottom: "1px solid #B8B8B8",
+  },
+  price: {
+    fontWeight: 600,
+    color: "#6464FF",
   },
   title: {
-    marginBottom: 50,
-    marginTop: 30,
+    fontWeight: 600,
   },
-  colContainer: {
-    marginTop: 10,
-  },
-  btn: {
-    backgroundColor: "#ffb347",
-    color: "#fff",
-    height: 40,
-    width: 100,
+  removBtn: {
+    color: "#D3D3D3",
+    borderColor: "#D3D3D3",
   },
 });
 
@@ -44,70 +44,78 @@ const CartHotelContainer = () => {
 
   return (
     <div className={classes.root}>
-      {cart?.hotels.map((i, ind) => {
-        const {
-          arrival,
-          departure,
-          numberOfNights,
-          numberOfGuests,
-          place,
-          city,
-          price,
-          taxes,
-        } = i;
-        return (
-          <div key={ind}>
-            <CartHotelDetails
-              place={place}
-              arrival={arrival}
-              departure={departure}
-              numberOfNights={numberOfNights}
-              numberOfGuests={numberOfGuests}
-              city={city}
-              price={price}
-              taxes={taxes}
-            />
-          </div>
-        );
-      })}
+      <div className={classes.div}>
+        {cart?.hotels.map((i, ind) => {
+          const {
+            arrival,
+            departure,
+            numberOfNights,
+            numberOfGuests,
+            place,
+            city,
+            price,
+            rating,
+            taxes,
+          } = i;
+          return (
+            <div key={ind}>
+              <CartHotelDetails
+                place={place}
+                arrival={arrival}
+                departure={departure}
+                numberOfNights={numberOfNights}
+                numberOfGuests={numberOfGuests}
+                city={city}
+                price={price}
+                taxes={taxes}
+                rating={rating}
+              />
+            </div>
+          );
+        })}
+      </div>
       {cart.hotels.length > 0 && (
         <>
           <Grid container className={classes.colContainer}>
             <Grid xs={6} item container justify="flex-start">
-              <Typography>Taxes</Typography>
+              <Typography className={classes.title}>Taxes:</Typography>
             </Grid>
             <Grid
-              style={{ color: "#6464FF", fontWeight: 600 }}
               xs={6}
+              className={classes.price}
               item
               container
               justify="flex-end"
             >
-              <Typography>${cart.hotels[0].taxes}</Typography>
+              <Typography className={classes.price}>
+                ${cart.hotels[0].taxes}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container>
             <Grid xs={6} item container justify="flex-start">
-              <Typography>Total</Typography>
+              <Typography className={classes.title}>Total:</Typography>
             </Grid>
             <Grid
               xs={6}
               item
-              style={{ color: "#6464FF", fontWeight: 600 }}
+              className={classes.price}
               container
               justify="flex-end"
             >
-              <Typography>${getCartHotelTotal(cart)}</Typography>
+              <Typography className={classes.price}>
+                ${getCartHotelTotal(cart)}
+              </Typography>
             </Grid>
           </Grid>
         </>
       )}
-      <Grid container justify="center">
+
+      <Grid style={{ marginTop: 20 }} container justify="center">
         <Button
-          variant="outlined"
+          className={classes.removBtn}
           style={{
             display: cart?.hotels.length > 0 ? "block" : "none",
-            color: "#B8B8B8",
           }}
           onClick={removeFromCart}
         >

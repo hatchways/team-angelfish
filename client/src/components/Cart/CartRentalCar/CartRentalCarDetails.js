@@ -2,16 +2,36 @@ import React from "react";
 
 import { Typography, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import Rating from "@material-ui/lab/Rating";
 
-import backgroundImage from "../../../assets/images/birdseye-beach.jpeg";
+import backgroundImage from "../../../assets/images/car.jpeg";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   infoDiv: { marginTop: 10 },
-  hotelImage: {
+  image: {
     width: 130,
-    height: 90,
+    height: 100,
     objectFit: "cover",
     borderRadius: 10,
+    boxShadow: "0px 0px 4px 1px #888888",
+    "@media (max-width:450px)": {
+      width: 110,
+      height: 80,
+    },
+  },
+  title: {
+    fontWeight: 600,
+    fontSize: 15,
+    textAlign: "right",
+  },
+  details: {
+    textAlign: "right",
+    fontSize: 10,
+    color: "grey",
+  },
+  text: {
+    fontWeight: 600,
   },
 }));
 const CartRentalCarDetails = ({
@@ -22,31 +42,40 @@ const CartRentalCarDetails = ({
   placeOfRental,
   city,
   price,
+  rating,
 }) => {
   const classes = useStyles();
   return (
     <>
       <Grid className={classes.div} container justify="space-between">
         <Grid item>
-          <img className={classes.hotelImage} src={backgroundImage}></img>
+          <img
+            alt="rentalCar"
+            className={classes.image}
+            src={backgroundImage}
+          ></img>
         </Grid>
         <Grid item>
-          <Typography>{placeOfRental}</Typography>
-          <Typography style={{ textAlign: "right", fontSize: 10 }}>
-            {city}
-          </Typography>
-          <Typography style={{ textAlign: "right" }}> *****</Typography>
+          <Typography className={classes.title}>{placeOfRental}</Typography>
+          <Typography className={classes.details}>{city}</Typography>
           <Typography style={{ textAlign: "right" }}>
+            {" "}
+            <Rating
+              name="customized-empty"
+              defaultValue={rating}
+              precision={0.5}
+              emptyIcon={<StarBorderIcon fontSize="inherit" />}
+            />
+          </Typography>
+          <Typography className={classes.title}>
             ${Math.round(price / numberOfNights)}
           </Typography>
-          <Typography style={{ textAlign: "right", fontSize: 10 }}>
-            per day
-          </Typography>
+          <Typography className={classes.details}>per day</Typography>
         </Grid>
         <Grid container className={classes.infoDiv}>
           <Grid container justify="space-between">
             <Grid item>
-              <Typography>Check In</Typography>
+              <Typography className={classes.text}>Check In:</Typography>
             </Grid>
             <Grid item>
               <Typography>{arrival}</Typography>
@@ -54,7 +83,7 @@ const CartRentalCarDetails = ({
           </Grid>
           <Grid container justify="space-between">
             <Grid item>
-              <Typography>Check Out</Typography>
+              <Typography className={classes.text}>Check Out:</Typography>
             </Grid>
             <Grid item>
               <Typography>{departure}</Typography>
@@ -62,7 +91,7 @@ const CartRentalCarDetails = ({
           </Grid>
           <Grid container justify="space-between">
             <Grid item>
-              <Typography>Type of Car:</Typography>
+              <Typography className={classes.text}>Type of Car:</Typography>
             </Grid>
             <Grid item>
               <Typography>{typeOfCar}</Typography>

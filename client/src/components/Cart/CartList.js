@@ -13,7 +13,13 @@ import Stepper from "./Stepper/Stepper";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Button } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
+  div: {
+    width: 400,
+    "@media (max-width:450px)": {
+      width: "inherit",
+    },
+  },
   cartContainer: {
     padding: 30,
     "@media (max-width:450px)": {
@@ -40,13 +46,26 @@ const useStyles = makeStyles((theme) => ({
   header: {
     backgroundColor: "#6464ff",
     height: 100,
+    boxShadow: "-3px -7px 5px 10px #888888",
   },
   cartDiv: {
     height: "100vh",
   },
+
   footer: {
     backgroundColor: "#6464ff",
     minHeight: 100,
+    boxShadow: "-3px 7px 7px 10px #888888",
+  },
+  backBtnCont: {
+    display: "none",
+    "@media (max-width:450px)": {
+      padding: 20,
+      display: "block",
+    },
+  },
+  backBtn: {
+    borderColor: "#ffb347",
   },
 }));
 
@@ -55,6 +74,7 @@ const CartList = ({ closeCart }) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
+  const isCartEmpty = getCartLength(cart) === 0 ? true : false;
 
   function getSteps() {
     return [
@@ -63,6 +83,7 @@ const CartList = ({ closeCart }) => {
       "Confirm car rental",
     ];
   }
+
   const totalPrice = () => {
     let total = 0;
     total += getCartFlightsTotal(cart);
@@ -71,10 +92,9 @@ const CartList = ({ closeCart }) => {
     return total;
   };
 
-  const isCartEmpty = getCartLength(cart) === 0 ? true : false;
   return (
     <>
-      <div style={{ width: 400 }}>
+      <div className={classes.div}>
         <Grid container className={classes.cartDiv}>
           <Grid
             item
@@ -88,6 +108,15 @@ const CartList = ({ closeCart }) => {
               Travel Summary
             </Typography>
           </Grid>
+          <div className={classes.backBtnCont}>
+            <Button
+              className={classes.backBtn}
+              onClick={closeCart}
+              variant="outlined"
+            >
+              Back
+            </Button>
+          </div>
           <Grid className={classes.cartContainer} xs={12} item>
             <Stepper
               closeCart={closeCart}

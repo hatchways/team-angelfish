@@ -13,23 +13,16 @@ const useStyles = makeStyles({
   root: {
     marginBottom: 30,
   },
-  cartContainer: {
-    width: 350,
-    paddingLeft: 40,
-    paddingRight: 50,
-  },
-  title: {
-    marginBottom: 50,
-    marginTop: 30,
-  },
   colContainer: {
-    marginTop: 10,
+    marginTop: 20,
   },
-  btn: {
-    backgroundColor: "#ffb347",
-    color: "#fff",
-    height: 40,
-    width: 100,
+  div: {
+    paddingBottom: 20,
+    borderBottom: "1px solid #B8B8B8",
+  },
+  removBtn: {
+    color: "#D3D3D3",
+    borderColor: "#D3D3D3",
   },
 });
 
@@ -44,63 +37,65 @@ const CartFlightContainer = () => {
 
   return (
     <div className={classes.root}>
-      {cart?.flights.map((i, ind) => {
-        const {
-          type,
-          date,
-          departureTime,
-          duration,
-          arrivalTime,
-          departurePlace,
-          numberOfStops,
-          arrivalPlace,
-        } = i.departure;
-        return (
-          <div key={ind}>
-            <CartFlightDetails
-              name={type}
-              date={date}
-              departureTime={departureTime}
-              duration={duration}
-              arrivalTime={arrivalTime}
-              departurePlace={departurePlace}
-              numberOfStops={numberOfStops}
-              arrivalPlace={arrivalPlace}
-            />
-          </div>
-        );
-      })}
-      {cart?.flights.map((i, ind) => {
-        const {
-          type,
-          date,
-          departureTime,
-          duration,
-          arrivalTime,
-          departurePlace,
-          numberOfStops,
-          arrivalPlace,
-        } = i.arrival;
-        return (
-          <div key={ind}>
-            <CartFlightDetails
-              name={type}
-              date={date}
-              departureTime={departureTime}
-              duration={duration}
-              arrivalTime={arrivalTime}
-              departurePlace={departurePlace}
-              numberOfStops={numberOfStops}
-              arrivalPlace={arrivalPlace}
-            />
-          </div>
-        );
-      })}
+      <div className={classes.div}>
+        {cart?.flights.map((i, ind) => {
+          const {
+            type,
+            date,
+            departureTime,
+            duration,
+            arrivalTime,
+            departurePlace,
+            numberOfStops,
+            arrivalPlace,
+          } = i.departure;
+          return (
+            <div key={ind}>
+              <CartFlightDetails
+                name={type}
+                date={date}
+                departureTime={departureTime}
+                duration={duration}
+                arrivalTime={arrivalTime}
+                departurePlace={departurePlace}
+                numberOfStops={numberOfStops}
+                arrivalPlace={arrivalPlace}
+              />
+            </div>
+          );
+        })}
+        {cart?.flights.map((i, ind) => {
+          const {
+            type,
+            date,
+            departureTime,
+            duration,
+            arrivalTime,
+            departurePlace,
+            numberOfStops,
+            arrivalPlace,
+          } = i.arrival;
+          return (
+            <div key={ind}>
+              <CartFlightDetails
+                name={type}
+                date={date}
+                departureTime={departureTime}
+                duration={duration}
+                arrivalTime={arrivalTime}
+                departurePlace={departurePlace}
+                numberOfStops={numberOfStops}
+                arrivalPlace={arrivalPlace}
+              />
+            </div>
+          );
+        })}
+      </div>
       {cart.flights.length > 0 && (
         <>
           <Grid container className={classes.colContainer}>
             <Grid xs={6} item container justify="flex-start">
-              <Typography>Taxes</Typography>
+              <Typography style={{ fontWeight: 600 }}>Taxes:</Typography>
             </Grid>
             <Grid
               style={{ color: "#6464FF", fontWeight: 600 }}
@@ -109,7 +104,8 @@ const CartFlightContainer = () => {
               container
               justify="flex-end"
             >
-              <Typography>
+              <Typography style={{ fontWeight: 600 }}>
+                $
                 {cart.flights[0].arrival.taxes +
                   cart.flights[0].departure.taxes}
               </Typography>
@@ -117,7 +113,7 @@ const CartFlightContainer = () => {
           </Grid>
           <Grid container>
             <Grid xs={6} item container justify="flex-start">
-              <Typography>Total</Typography>
+              <Typography style={{ fontWeight: 600 }}>Total:</Typography>
             </Grid>
             <Grid
               xs={6}
@@ -126,18 +122,17 @@ const CartFlightContainer = () => {
               container
               justify="flex-end"
             >
-              <Typography>{getCartFlightsTotal(cart)}</Typography>
+              <Typography style={{ fontWeight: 600 }}>
+                ${getCartFlightsTotal(cart)}
+              </Typography>
             </Grid>
           </Grid>
         </>
       )}
-      <Grid container justify="center">
+      <Grid style={{ marginTop: 20 }} container justify="center">
         <Button
-          variant="outlined"
-          style={{
-            display: cart?.flights.length > 0 ? "block" : "none",
-            color: "#B8B8B8",
-          }}
+          style={{ display: cart?.flights.length > 0 ? "block" : "none" }}
+          className={classes.removBtn}
           onClick={removeFromCart}
         >
           Remove Flight

@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 
-import mockFlightImg from "../../../assets/images/airplanelogo.png";
+import mockFlightImg from "../../../assets/images/airCanada.jpg";
 import FlightIcon from "@material-ui/icons/Flight";
 
 const useStyles = makeStyles({
@@ -36,6 +36,23 @@ const useStyles = makeStyles({
   avatar: {
     width: 30,
     height: 30,
+    boxShadow: "0px 0px 4px 1px #888888",
+  },
+  title: {
+    fontWeight: 600,
+    fontSize: 15,
+  },
+  titleDate: {
+    color: "#6464FF",
+    fontWeight: 600,
+  },
+  details: {
+    color: "#787878",
+    fontSize: 10,
+  },
+  place: {
+    fontWeight: 600,
+    fontSize: 15,
   },
 });
 
@@ -65,10 +82,12 @@ const CartFlightDetails = ({
             container
             justify="flex-start"
           >
-            <Typography style={{ fontWeight: 600 }}>{name}</Typography>
+            <Typography className={classes.title}>
+              {name.toUpperCase()}
+            </Typography>
           </Grid>
           <Grid
-            style={{ color: "#6464FF", fontWeight: 600 }}
+            className={classes.titleDate}
             xs={5}
             container
             item
@@ -84,7 +103,7 @@ const CartFlightDetails = ({
           </Grid>
           <Grid alignItems="center" container item xs={4}>
             <Grid container justify="center">
-              <Typography style={{ color: "#787878" }}>{duration}</Typography>
+              <Typography className={classes.details}>{duration}</Typography>
             </Grid>
           </Grid>
           <Grid justify="flex-end" container item xs={4}>
@@ -104,17 +123,13 @@ const CartFlightDetails = ({
 
         <Grid className={classes.cityCont} container>
           <Grid justify="space-between" container item xs={4}>
-            <Typography style={{ fontWeight: 600 }}>
-              {departurePlace}
-            </Typography>
+            <Typography className={classes.place}>{departurePlace}</Typography>
           </Grid>
           <Grid container item xs={4} justify="center">
-            <Typography style={{ color: "#787878" }}>
-              {numberOfStops}
-            </Typography>
+            <Typography className={classes.details}>{numberOfStops}</Typography>
           </Grid>
           <Grid justify="flex-end" container item xs={4}>
-            <Typography style={{ fontWeight: 600 }}>{arrivalPlace}</Typography>
+            <Typography className={classes.place}>{arrivalPlace}</Typography>
           </Grid>
         </Grid>
       </Grid>
