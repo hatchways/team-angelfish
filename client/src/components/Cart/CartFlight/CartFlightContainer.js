@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Grid, Button } from "@material-ui/core";
+import { Grid, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { useStateContext, useDispatchContext } from "../../../context";
@@ -99,29 +99,34 @@ const CartFlightContainer = () => {
       {cart.flights.length > 0 && (
         <>
           <Grid container className={classes.colContainer}>
-            <Grid xs={6} container justify="flex-start">
-              Taxes
+            <Grid xs={6} item container justify="flex-start">
+              <Typography>Taxes</Typography>
             </Grid>
             <Grid
               style={{ color: "#6464FF", fontWeight: 600 }}
               xs={6}
+              item
               container
               justify="flex-end"
             >
-              {cart.flights[0].arrival.taxes + cart.flights[0].departure.taxes}
+              <Typography>
+                {cart.flights[0].arrival.taxes +
+                  cart.flights[0].departure.taxes}
+              </Typography>
             </Grid>
           </Grid>
           <Grid container>
-            <Grid xs={6} container justify="flex-start">
-              Total
+            <Grid xs={6} item container justify="flex-start">
+              <Typography>Total</Typography>
             </Grid>
             <Grid
               xs={6}
+              item
               style={{ color: "#6464FF", fontWeight: 600 }}
               container
               justify="flex-end"
             >
-              {getCartFlightsTotal(cart)}
+              <Typography>{getCartFlightsTotal(cart)}</Typography>
             </Grid>
           </Grid>
         </>

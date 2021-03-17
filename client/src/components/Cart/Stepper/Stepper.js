@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useStateContext } from "../../../context";
 
 import CartFlightContainer from "../CartFlight/CartFlightContainer";
+import StepIconStyles from "./StepIconStyles";
 
 import { makeStyles } from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
@@ -54,19 +55,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const StepperComponent = ({ closeCart }) => {
+const StepperComponent = ({ closeCart, activeStep, setActiveStep, steps }) => {
   const { cart } = useStateContext();
   const classes = useStyles();
-  const [activeStep, setActiveStep] = useState(0);
-  const steps = getSteps();
-
-  function getSteps() {
-    return [
-      "Confirm flight details",
-      "Confirm hotel details",
-      "Confirm car rental",
-    ];
-  }
 
   const getStepContent = (step) => {
     switch (step) {
@@ -75,13 +66,13 @@ const StepperComponent = ({ closeCart }) => {
           <CartFlightContainer />
         ) : (
           <div>
-            <p>
+            <Typography>
               Would you like to choose a{" "}
               <Link onClick={closeCart} to="/flights">
                 flight
               </Link>
               ?
-            </p>
+            </Typography>
           </div>
         );
       case 1:
@@ -114,9 +105,16 @@ const StepperComponent = ({ closeCart }) => {
       >
         {steps.map((label, index) => (
           <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-            <StepContent style={{ paddingLeft: 15, paddingRight: 15 }}>
-              <Typography>{getStepContent(index)}</Typography>
+            <StepLabel
+              StepIconComponent={StepIconStyles}
+              style={{ color: "yellow" }}
+            >
+              {label}
+            </StepLabel>
+            <StepContent
+              style={{ paddingLeft: 15, paddingRight: 15, marginTop: 10 }}
+            >
+              <>{getStepContent(index)}</>
               <div className={classes.actionsContainer}>
                 <div>
                   <Button
@@ -128,8 +126,8 @@ const StepperComponent = ({ closeCart }) => {
                   </Button>
                   <Button
                     variant="contained"
-                    color="primary"
                     onClick={handleNext}
+                    style={{ backgroundColor: "#ffb347", color: "#fff" }}
                     className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? "Finish" : "Next"}
@@ -142,9 +140,9 @@ const StepperComponent = ({ closeCart }) => {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Typography>Complete! Proceed to payment</Typography>
           <Button onClick={handleReset} className={classes.button}>
-            Reset
+            Not done?
           </Button>
         </Paper>
       )}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useStateContext } from "../../context";
 import {
@@ -15,34 +15,49 @@ import { Grid, Typography, Button } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   cartContainer: {
     width: 400,
-    paddingLeft: 30,
-    paddingRight: 30,
-    "@media (max-width:400px)": {
+    minHeight: "50%",
+    padding: 30,
+    "@media (max-width:450px)": {
       paddingLeft: 40,
       paddingRight: 20,
+      width: "inherit",
     },
   },
-  title: {
-    marginBottom: 15,
-    marginTop: 30,
-  },
+  title: { backgroundColor: "#6464ff", padding: 30, marginBottom: 20 },
   colContainer: {
     marginBottom: 40,
     marginTop: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
+    display: "flex",
+    justifyContent: "space-between",
   },
   btn: {
     backgroundColor: "#ffb347",
     color: "#fff",
-    height: "40px",
-    width: "100px",
+    height: 50,
+    width: 150,
+  },
+  btnCo: {
+    marginBottom: 50,
   },
 }));
 
 const CartList = ({ closeCart }) => {
   const { cart } = useStateContext();
   const classes = useStyles();
+  const [activeStep, setActiveStep] = useState(0);
+  const steps = getSteps();
+
   console.log("CARt", cart);
 
+  function getSteps() {
+    return [
+      "Confirm flight details",
+      "Confirm hotel details",
+      "Confirm car rental",
+    ];
+  }
   const totalPrice = () => {
     let total = 0;
     total += getCartFlightsTotal(cart);
@@ -53,24 +68,43 @@ const CartList = ({ closeCart }) => {
 
   return (
     <>
-      <Grid className={classes.cartContainer} container>
-        <Grid className={classes.title} justify="center" xs={12} container>
-          <Typography variant="h4">Travel Summary</Typography>
+      <div style={{ flex: 1, backgroundColor: "#6464ff" }}>
+        <Grid className={classes.title} justify="center" container>
+          <Typography style={{ color: "#fff", fontWeight: 600 }} variant="h4">
+            Travel Summary
+          </Typography>
         </Grid>
-        <Stepper closeCart={closeCart} />
-
-        <Grid container className={classes.colContainer}>
-          <Grid xs={6} container justify="flex-start">
-            Total
+        <Grid
+          className={classes.cartContainer}
+          style={{ backgroundColor: "white" }}
+          container
+        >
+          <Stepper
+            closeCart={closeCart}
+            activeStep={activeStep}
+            setActiveStep={setActiveStep}
+            steps={steps}
+          />
+          <Grid container className={classes.colContainer}>
+            <Grid item>
+              <Typography style={{ fontWeight: 600 }}> Total</Typography>
+            </Grid>
+            <Grid item>
+              <Typography style={{ fontWeight: 600, color: "#6464ff" }}>
+                {totalPrice()}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid xs={6} container justify="flex-end">
-            {totalPrice()}
+          <Grid className={classes.btnCont} container justify="center">
+            <Button
+              disabled={activeStep === steps.length ? false : true}
+              className={classes.btn}
+            >
+              Payment
+            </Button>
           </Grid>
         </Grid>
-        <Grid container justify="center">
-          <Button className={classes.btn}>Search</Button>
-        </Grid>
-      </Grid>
+      </div>
     </>
   );
 };
