@@ -20,10 +20,21 @@ export const theme = createMuiTheme({
 		primary: { main: "#DF1B1B" },
 		secondary: { main: "#737373" },
 	},
+	overrides: {
+		MuiPickersDay: {
+			daySelected: {
+				backgroundColor: "orange",
+				"&:hover": {
+					backgroundColor: "orange",
+				},
+			},
+			current: { color: "orange" },
+		},
+	},
 });
 
-export const CustomSmallerCheckBox= withStyles({
-  root: {
-    "& .MuiSvgIcon-root": { width: "15px", height: "15px" },
-  },
-})(Checkbox)
+export const CustomSmallerCheckBox = withStyles({
+	root: {
+		"& .MuiSvgIcon-root": { width: "15px", height: "15px" },
+	},
+})(Checkbox);
