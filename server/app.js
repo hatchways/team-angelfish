@@ -11,7 +11,7 @@ const flightRouter = require("./routes/flight");
 const userRoutes = require("./routes/users");
 const uploadRouter = require("./routes/file-upload");
 const sendEmail = require("./routes/email")
-
+const checkoutPayment = require("./routes/payment");
 const trim = require("./middleware/trim");
 
 //Added mongoose to help connect with our Mongodb database
@@ -21,7 +21,7 @@ const { json, urlencoded } = express;
 
 const app = express();
 
-app.use(cors({ origin: true }));
+app.use(cors({ origin: true, credentials: true }));
 app.use(logger("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
@@ -34,6 +34,7 @@ app.use("/api/flights", flightRouter);
 app.use("/api/cities", cityRouter);
 app.use("/api/email", sendEmail)
 app.use("/api", uploadRouter);
+app.use("/api/checkout", checkoutPayment);
 
 
 
