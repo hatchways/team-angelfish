@@ -37,8 +37,7 @@ const sendEmail = async (req, res) => {
       await sgMail.send(msg);
       res.status(200).json({message: "Email Sent"})
     } catch (error) {
-      console.error(error);
-  
+      res.status(500).json({message: "You might not be authorized to make this action"})
       if (error.response) {
         console.error(error.response.body)
       }
