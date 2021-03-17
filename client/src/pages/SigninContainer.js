@@ -1,8 +1,15 @@
 /** @format */
 
 import React, { useReducer, useEffect } from "react";
-import { Box, Container, Grid, Typography } from "@material-ui/core";
-import { TextField, Button, IconButton } from "@material-ui/core";
+import {
+	Box,
+	Container,
+	Grid,
+	Typography,
+	TextField,
+	Button,
+	IconButton,
+} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../styles/Signup_in";
 

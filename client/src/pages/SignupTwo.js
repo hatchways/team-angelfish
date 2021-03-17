@@ -1,9 +1,16 @@
 /** @format */
 
 import React, { useState } from "react";
-import { Box, Container, Grid, Typography } from "@material-ui/core";
+import {
+	Box,
+	Container,
+	Grid,
+	Typography,
+	Button,
+	Input,
+	InputBase,
+} from "@material-ui/core";
 import { useStyles } from "../styles/Signup_in";
-import { Button, Input, InputBase } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
