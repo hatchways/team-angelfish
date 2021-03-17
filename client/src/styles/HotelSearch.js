@@ -34,6 +34,10 @@ export default makeStyles((theme) => ({
     height: '40px',
     width: '100px',
   },
+  inputLabel:{
+    color: "#c5bec4",
+    fontWeight: 500,
+  },
   input: {
     '@media (min-width:1280px)': {
       borderRight: "1px solid #EEEFF9",
@@ -44,11 +48,15 @@ export default makeStyles((theme) => ({
       alignItems: 'start',
     },
   },
-  inputLabel:{
-    color: "#c5bec4",
-    fontWeight: 500,
+  roomandtravellers:{
+   fontWeight: "bold",
+   color: "black",
   },
   textField:{
     fontWeight: "bold",
+  },
+  span:{
+    fontWeight: "bold",
+    marginRight: 10,
   },
 }));

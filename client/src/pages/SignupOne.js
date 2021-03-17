@@ -60,7 +60,7 @@ const SignupOne = ({ next, close, signin }) => {
 
   const checkUser = () => {
     const userPattern = new RegExp(
-      `^(?=.*[A-Za-z].*[A-Za-z])[A-Za-z0-9@$!%*#?&]{4,}$`,
+      `^(?=.*[A-Za-z].*[A-Za-z])[A-Za-z0-9@$!%*#?&]{4,}$`
     );
     const userTest = userPattern.test(state.name);
     return userTest;

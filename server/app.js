@@ -4,11 +4,13 @@ const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const cityRouter = require("./routes/city");
 const cors = require("cors");
 
 const flightRouter = require("./routes/flight");
 const userRoutes = require("./routes/users");
 const uploadRouter = require("./routes/file-upload");
+const checkoutPayment = require("./routes/payment");
 
 const trim = require("./middleware/trim");
 
@@ -19,7 +21,7 @@ const { json, urlencoded } = express;
 
 const app = express();
 
-app.use(cors({ origin: true }));
+app.use(cors({ origin: true, credentials: true }));
 app.use(logger("dev"));
 app.use(json());
 app.use(urlencoded({ extended: false }));
@@ -29,7 +31,9 @@ app.use(express.static(join(__dirname, "public")));
 
 app.use("/api/users", userRoutes);
 app.use("/api/flights", flightRouter);
+app.use("/api/cities", cityRouter);
 app.use("/api", uploadRouter);
+app.use("/api/checkout", checkoutPayment);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
