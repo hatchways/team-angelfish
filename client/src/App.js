@@ -1,4 +1,6 @@
 /** @format */
+
+import React from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import ExplorerPage from "./pages/Explore";
@@ -16,6 +18,7 @@ import { Provider } from "./context";
 import { theme } from "./themes/theme";
 
 import "./App.css";
+
 
 function App() {
   return (

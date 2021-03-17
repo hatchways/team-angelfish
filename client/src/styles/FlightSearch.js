@@ -27,7 +27,7 @@ export default makeStyles((theme) => ({
     },
   },
   searchBtn: {
-    backgroundColor: '#ffb347',
+    backgroundColor: '#FFA000',
     color: '#fff',
     height: '40px',
     width: '100px',
