@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 
 import { useStateContext } from "../../../context";
 
+import { getCartLength } from "../../../utils/utils";
+
 import CartFlightContainer from "../CartFlight/CartFlightContainer";
 import StepIconStyles from "./StepIconStyles";
 import CartHotelContainer from "../CartHotel/CartHotelContainer";
@@ -126,6 +128,7 @@ const StepperComponent = ({ closeCart, activeStep, setActiveStep, steps }) => {
     setActiveStep(0);
   };
 
+  const isCartyEmpty = getCartLength(cart);
   return (
     <div className={classes.root}>
       <Stepper
@@ -176,9 +179,14 @@ const StepperComponent = ({ closeCart, activeStep, setActiveStep, steps }) => {
           </Step>
         ))}
       </Stepper>
+
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>Complete! Proceed to payment</Typography>
+          {isCartyEmpty === 0 ? (
+            <Typography>Nothing in cart</Typography>
+          ) : (
+            <Typography>Complete! Proceed to payment</Typography>
+          )}
           <Button onClick={handleReset} className={classes.button}>
             Not done?
           </Button>

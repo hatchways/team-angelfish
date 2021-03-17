@@ -5,6 +5,7 @@ import {
   getCartFlightsTotal,
   getCartHotelTotal,
   getCartCarTotal,
+  getCartLength,
 } from "../../utils/utils";
 
 import Stepper from "./Stepper/Stepper";
@@ -70,6 +71,7 @@ const CartList = ({ closeCart }) => {
     return total;
   };
 
+  const isCartEmpty = getCartLength(cart) === 0 ? true : false;
   return (
     <>
       <div style={{ width: 400 }}>
@@ -106,7 +108,9 @@ const CartList = ({ closeCart }) => {
           </Grid>
           <Grid className={classes.btnCont} container justify="center">
             <Button
-              disabled={activeStep === steps.length ? false : true}
+              disabled={
+                isCartEmpty ? true : activeStep === steps.length ? false : true
+              }
               className={classes.btn}
             >
               Payment

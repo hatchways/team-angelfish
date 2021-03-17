@@ -28,3 +28,11 @@ export const getCartCarTotal = (cart) => {
   );
   return total;
 };
+
+export const getCartLength = (cart) => {
+  let length = 0;
+  if (cart?.flights.length > 0) length += 1;
+  if (cart?.hotels.length > 0) length += 1;
+  if (cart?.rentalCar.length > 0) length += 1;
+  return length;
+};

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import { useStateContext } from "../../context";
 
+import { getCartLength } from "../../utils/utils";
+
 import { withStyles } from "@material-ui/core/styles";
 import { IconButton, Drawer, Badge } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
@@ -25,18 +27,10 @@ const Cart = () => {
     setOpen(!open);
   };
 
-  const getCartLength = () => {
-    let length = 0;
-    if (cart?.flights.length > 0) length += 1;
-    if (cart?.hotels.length > 0) length += 1;
-    if (cart?.rentalCar.length > 0) length += 1;
-    return length;
-  };
-
   return (
     <>
       <IconButton onClick={handleToggle}>
-        <StyledBadge badgeContent={getCartLength()}>
+        <StyledBadge badgeContent={getCartLength(cart)}>
           <ShoppingCartIcon />
         </StyledBadge>
       </IconButton>
