@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
-import SigninContainer from "./SigninContainer";
+import SigninContainer from "../components/SigninContainer";
 
 const Signin = ({ close, signup }) => {
 	const [state, setState] = useState(false);
