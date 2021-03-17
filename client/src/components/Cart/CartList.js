@@ -14,8 +14,6 @@ import { Grid, Typography, Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   cartContainer: {
-    width: 400,
-    minHeight: "50%",
     padding: 30,
     "@media (max-width:450px)": {
       paddingLeft: 40,
@@ -23,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
       width: "inherit",
     },
   },
-  title: { backgroundColor: "#6464ff", padding: 30, marginBottom: 20 },
   colContainer: {
     marginBottom: 40,
     marginTop: 20,
@@ -37,9 +34,18 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     height: 50,
     width: 150,
+    marginBottom: 30,
   },
-  btnCo: {
-    marginBottom: 50,
+  header: {
+    backgroundColor: "#6464ff",
+    height: 100,
+  },
+  cartDiv: {
+    height: "100vh",
+  },
+  footer: {
+    backgroundColor: "#6464ff",
+    minHeight: 100,
   },
 }));
 
@@ -68,31 +74,36 @@ const CartList = ({ closeCart }) => {
 
   return (
     <>
-      <div style={{ flex: 1, backgroundColor: "#6464ff" }}>
-        <Grid className={classes.title} justify="center" container>
-          <Typography style={{ color: "#fff", fontWeight: 600 }} variant="h4">
-            Travel Summary
-          </Typography>
-        </Grid>
-        <Grid
-          className={classes.cartContainer}
-          style={{ backgroundColor: "white" }}
-          container
-        >
-          <Stepper
-            closeCart={closeCart}
-            activeStep={activeStep}
-            setActiveStep={setActiveStep}
-            steps={steps}
-          />
-          <Grid container className={classes.colContainer}>
-            <Grid item>
-              <Typography style={{ fontWeight: 600 }}> Total</Typography>
-            </Grid>
-            <Grid item>
-              <Typography style={{ fontWeight: 600, color: "#6464ff" }}>
-                {totalPrice()}
-              </Typography>
+      <div style={{ width: 400 }}>
+        <Grid container className={classes.cartDiv}>
+          <Grid
+            item
+            xs={12}
+            container
+            justify="center"
+            alignItems="center"
+            className={classes.header}
+          >
+            <Typography style={{ color: "#fff", fontWeight: 600 }} variant="h4">
+              Travel Summary
+            </Typography>
+          </Grid>
+          <Grid className={classes.cartContainer} xs={12} item>
+            <Stepper
+              closeCart={closeCart}
+              activeStep={activeStep}
+              setActiveStep={setActiveStep}
+              steps={steps}
+            />
+            <Grid container className={classes.colContainer}>
+              <Grid item>
+                <Typography style={{ fontWeight: 600 }}> Total</Typography>
+              </Grid>
+              <Grid item>
+                <Typography style={{ fontWeight: 600, color: "#6464ff" }}>
+                  ${totalPrice()}
+                </Typography>
+              </Grid>
             </Grid>
           </Grid>
           <Grid className={classes.btnCont} container justify="center">
@@ -103,6 +114,7 @@ const CartList = ({ closeCart }) => {
               Payment
             </Button>
           </Grid>
+          <Grid xs={12} item className={classes.footer}></Grid>
         </Grid>
       </div>
     </>
