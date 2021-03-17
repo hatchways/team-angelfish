@@ -19,18 +19,18 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 
 const SignupTwo = ({ dash, close }) => {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	const [travelList, setTravelList] = useState([]);
-	const [destination, setDestination] = useState("");
-	const [open, setOpen] = useState(false);
+  const [travelList, setTravelList] = useState([]);
+  const [destination, setDestination] = useState("");
+  const [open, setOpen] = useState(false);
 
-	const handleTextChange = (event) => {
-		setDestination(event.target.value);
-	};
-	const openAdd = () => {
-		setOpen(!open);
-	};
+  const handleTextChange = (event) => {
+    setDestination(event.target.value);
+  };
+  const openAdd = () => {
+    setOpen(!open);
+  };
 
 	const handleAdd = () => {
 		const newAdd = destination.trim();

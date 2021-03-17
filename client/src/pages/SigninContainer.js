@@ -14,56 +14,56 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../styles/Signup_in";
 
 const SigninContainer = ({ dash, signup, close }) => {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	const initialState = {
-		emailSignin: "",
-		pwdSignin: "",
-		emailError: false,
-		emailValidationError: false,
-		pwdError: false,
-		pwdValidationError: false,
-	};
+  const initialState = {
+    emailSignin: "",
+    pwdSignin: "",
+    emailError: false,
+    emailValidationError: false,
+    pwdError: false,
+    pwdValidationError: false,
+  };
 
-	const reducer = (state, action) => {
-		switch (action.type) {
-			case "textChange":
-				return {
-					...state,
-					[action.name]: action.value,
-					emailError: false,
-					emailValidationError: false,
-					pwdError: false,
-					pwdValidationError: false,
-				};
-			case "error":
-				return { ...state, [action.error]: true };
-			case "update":
-				return state;
-			default:
-				throw new Error();
-		}
-	};
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "textChange":
+        return {
+          ...state,
+          [action.name]: action.value,
+          emailError: false,
+          emailValidationError: false,
+          pwdError: false,
+          pwdValidationError: false,
+        };
+      case "error":
+        return { ...state, [action.error]: true };
+      case "update":
+        return state;
+      default:
+        throw new Error();
+    }
+  };
 
-	const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-	useEffect(() => {
-		dispatch({ type: "update" });
-	}, [state]);
+  useEffect(() => {
+    dispatch({ type: "update" });
+  }, [state]);
 
-	const handleInputChange = (event) => {
-		dispatch({
-			type: "textChange",
-			name: event.target.name,
-			value: event.target.value,
-		});
-	};
+  const handleInputChange = (event) => {
+    dispatch({
+      type: "textChange",
+      name: event.target.name,
+      value: event.target.value,
+    });
+  };
 
-	const checkEmail = () => {
-		const emailPattern = new RegExp(`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$`);
-		const emailTest = emailPattern.test(state.emailSignin);
-		return emailTest;
-	};
+  const checkEmail = () => {
+    const emailPattern = new RegExp(`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$`);
+    const emailTest = emailPattern.test(state.emailSignin);
+    return emailTest;
+  };
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
