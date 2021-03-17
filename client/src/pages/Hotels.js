@@ -12,7 +12,7 @@ function Hotels() {
 		<Grid classes={{ container: classes.container }} container>
 		  <Grid className={classes.titleContainer} item xs={5}>
 			<Typography className={classes.header}>
-			  Find the best hotels<br></br> around the world.
+			  Find the best hotels <br /> around the world.
 			</Typography>
 		  </Grid>
 		  <Grid className={classes.heroContainer} item xs={7}>
