@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Grid, Button, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 import { useStateContext, useDispatchContext } from "../../../context";
 
@@ -9,26 +8,11 @@ import { getCartFlightsTotal } from "../../../utils/utils";
 
 import CartFlightDetails from "./CartFlightDetails";
 
-const useStyles = makeStyles({
-  root: {
-    marginBottom: 30,
-  },
-  colContainer: {
-    marginTop: 20,
-  },
-  div: {
-    paddingBottom: 20,
-    borderBottom: "1px solid #B8B8B8",
-  },
-  removBtn: {
-    color: "#D3D3D3",
-    borderColor: "#D3D3D3",
-  },
-});
+import { flightContainerStyle } from "./styles";
 
 const CartFlightContainer = () => {
   const { cart } = useStateContext();
-  const classes = useStyles();
+  const classes = flightContainerStyle();
   const dispatch = useDispatchContext();
 
   const removeFromCart = () => {

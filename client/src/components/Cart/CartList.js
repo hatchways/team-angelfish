@@ -10,64 +10,9 @@ import {
 
 import Stepper from "./Stepper/Stepper";
 
-import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography, Button } from "@material-ui/core";
 
-const useStyles = makeStyles(() => ({
-  div: {
-    width: 400,
-    "@media (max-width:450px)": {
-      width: "inherit",
-    },
-  },
-  cartContainer: {
-    padding: 30,
-    "@media (max-width:450px)": {
-      paddingLeft: 40,
-      paddingRight: 20,
-      width: "inherit",
-    },
-  },
-  colContainer: {
-    marginBottom: 40,
-    marginTop: 20,
-    paddingRight: 20,
-    paddingLeft: 20,
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  btn: {
-    backgroundColor: "#ffb347",
-    color: "#fff",
-    height: 50,
-    width: 150,
-    marginBottom: 30,
-  },
-  header: {
-    backgroundColor: "#6464ff",
-    height: 100,
-    boxShadow: "-3px -7px 5px 10px #888888",
-  },
-  cartDiv: {
-    height: "100vh",
-  },
-
-  footer: {
-    backgroundColor: "#6464ff",
-    minHeight: 100,
-    boxShadow: "-3px 7px 7px 10px #888888",
-  },
-  backBtnCont: {
-    display: "none",
-    "@media (max-width:450px)": {
-      padding: 20,
-      display: "block",
-    },
-  },
-  backBtn: {
-    borderColor: "#ffb347",
-  },
-}));
+import { useStyles } from "./styles";
 
 const CartList = ({ closeCart }) => {
   const { cart } = useStateContext();

@@ -1,60 +1,12 @@
 import React from "react";
 
-import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Typography } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 
 import mockFlightImg from "../../../assets/images/airCanada.jpg";
 import FlightIcon from "@material-ui/icons/Flight";
 
-const useStyles = makeStyles({
-  line: {
-    width: "100%",
-    height: ".125rem",
-    backgroundColor: "#68697f",
-  },
-  titleContainer: {
-    marginBottom: 15,
-    alignItems: "center",
-  },
-  airplaneIcon: {
-    transform: "rotate(90deg)",
-    position: "relative",
-    left: 5,
-    bottom: 10,
-  },
-  cityCont: {
-    position: "relative",
-    bottom: 10,
-  },
-  lineAirCont: {
-    paddingRight: 50,
-    paddingLeft: 50,
-    position: "relative",
-    top: 5,
-  },
-  avatar: {
-    width: 30,
-    height: 30,
-    boxShadow: "0px 0px 4px 1px #888888",
-  },
-  title: {
-    fontWeight: 600,
-    fontSize: 15,
-  },
-  titleDate: {
-    color: "#6464FF",
-    fontWeight: 600,
-  },
-  details: {
-    color: "#787878",
-    fontSize: 10,
-  },
-  place: {
-    fontWeight: 600,
-    fontSize: 15,
-  },
-});
+import { flightDetailsStyle } from "./styles";
 
 const CartFlightDetails = ({
   name,
@@ -67,7 +19,7 @@ const CartFlightDetails = ({
   arrivalPlace,
   img,
 }) => {
-  const classes = useStyles();
+  const classes = flightDetailsStyle();
   return (
     <>
       <Grid container className={classes.colContainer}>

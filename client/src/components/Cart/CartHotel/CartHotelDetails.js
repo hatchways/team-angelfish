@@ -1,39 +1,12 @@
 import React from "react";
 
 import { Typography, Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 
 import backgroundImage from "../../../assets/images/hotel.jpeg";
 
-const useStyles = makeStyles(() => ({
-  infoDiv: { marginTop: 10 },
-  hotelImage: {
-    width: 130,
-    height: 100,
-    objectFit: "cover",
-    borderRadius: 10,
-    boxShadow: "0px 0px 4px 1px #888888",
-    "@media (max-width:450px)": {
-      width: 110,
-      height: 80,
-    },
-  },
-  title: {
-    fontWeight: 600,
-    fontSize: 15,
-    textAlign: "right",
-  },
-  details: {
-    textAlign: "right",
-    fontSize: 10,
-    color: "grey",
-  },
-  text: {
-    fontWeight: 600,
-  },
-}));
+import { hotelDetailsStyle } from "./styles";
 
 const CartHotelDetails = ({
   arrival,
@@ -46,7 +19,7 @@ const CartHotelDetails = ({
   taxes,
   rating,
 }) => {
-  const classes = useStyles();
+  const classes = hotelDetailsStyle();
 
   return (
     <>

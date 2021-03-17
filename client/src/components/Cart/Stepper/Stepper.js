@@ -11,7 +11,8 @@ import StepIconStyles from "./StepIconStyles";
 import CartHotelContainer from "../CartHotel/CartHotelContainer";
 import CartRentalCarContainer from "../CartRentalCar/CartRentalCarContainer";
 
-import { makeStyles } from "@material-ui/core/styles";
+import { stepperStyle } from "./styles";
+
 import {
   Typography,
   Button,
@@ -22,42 +23,9 @@ import {
   Paper,
 } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
-  button: {
-    marginTop: theme.spacing(1),
-    marginRight: theme.spacing(1),
-  },
-  actionsContainer: {
-    display: "flex",
-    justifyContent: "space-around",
-    marginBottom: theme.spacing(2),
-    marginTop: 10,
-  },
-  resetContainer: {
-    padding: theme.spacing(3),
-  },
-  cartDetailDiv: {
-    border: "1px solid lightgray",
-    padding: 20,
-    borderRadius: 15,
-  },
-  stepCont: {
-    paddingLeft: 15,
-    paddingRight: 15,
-    marginTop: 10,
-  },
-  route: {
-    textDecoration: "none",
-    color: "#ffb347",
-  },
-}));
-
 const StepperComponent = ({ closeCart, activeStep, setActiveStep, steps }) => {
   const { cart } = useStateContext();
-  const classes = useStyles();
+  const classes = stepperStyle();
   const isCartyEmpty = getCartLength(cart);
 
   const getStepContent = (step) => {

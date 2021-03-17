@@ -7,33 +7,8 @@ import Rating from "@material-ui/lab/Rating";
 
 import backgroundImage from "../../../assets/images/car.jpeg";
 
-const useStyles = makeStyles(() => ({
-  infoDiv: { marginTop: 10 },
-  image: {
-    width: 130,
-    height: 100,
-    objectFit: "cover",
-    borderRadius: 10,
-    boxShadow: "0px 0px 4px 1px #888888",
-    "@media (max-width:450px)": {
-      width: 110,
-      height: 80,
-    },
-  },
-  title: {
-    fontWeight: 600,
-    fontSize: 15,
-    textAlign: "right",
-  },
-  details: {
-    textAlign: "right",
-    fontSize: 10,
-    color: "grey",
-  },
-  text: {
-    fontWeight: 600,
-  },
-}));
+import { carDetailsStyle } from "./styles";
+
 const CartRentalCarDetails = ({
   arrival,
   departure,
@@ -44,7 +19,7 @@ const CartRentalCarDetails = ({
   price,
   rating,
 }) => {
-  const classes = useStyles();
+  const classes = carDetailsStyle();
   return (
     <>
       <Grid className={classes.div} container justify="space-between">
