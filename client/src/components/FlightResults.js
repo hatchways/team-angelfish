@@ -31,7 +31,7 @@ const FlightResults = ({ data }) => {
 
 	const handlePriceChange = (event) => {
 		const range = event.target.value;
-		if (range !== "None") {
+		if (range) {
 			const priceRange = prices.options.find((price) => price.range === range);
 			const minPrice = priceRange.min;
 			const maxPrice = priceRange.max;
