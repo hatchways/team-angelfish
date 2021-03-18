@@ -13,18 +13,18 @@ import {
 import useStyles from "../styles/FlightResults";
 import FlightAccordion from "./FlightAccordion";
 
+const prices = {
+	default: "Price",
+	options: [
+		{ min: 50, max: 350, range: "$50 - $350" },
+		{ min: 350, max: 650, range: "$350 - $650" },
+		{ min: 650, max: 1000, range: "$650 - $1,000" },
+		{ min: 1000, range: "$1,000 +" },
+	],
+};
+
 const FlightResults = ({ data }) => {
 	const classes = useStyles();
-
-	const prices = {
-		default: "Price",
-		options: [
-			{ min: 50, max: 350, range: "$50 - $350" },
-			{ min: 350, max: 650, range: "$350 - $650" },
-			{ min: 650, max: 1000, range: "$650 - $1,000" },
-			{ min: 1000, range: "$1,000 +" },
-		],
-	};
 
 	const [price, setPrice] = useState("");
 	const [filter, setFilter] = useState("");
