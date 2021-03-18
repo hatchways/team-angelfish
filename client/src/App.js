@@ -9,7 +9,6 @@ import Hotels from "./pages/Hotels";
 import Rent from "./pages/Rent";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
-import Profile from "./pages/User/UserProfile";
 import Checkout from "./components/Stripe/Checkout";
 import Success from "./components/Stripe/Success";
 import Error from "./components/Stripe/Error";
