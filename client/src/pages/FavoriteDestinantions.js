@@ -1,11 +1,11 @@
 import React from "react";
 import { Typography, Grid, Button } from "@material-ui/core";
-import places from "../database/places";
 import useStyles from "../styles/FavoriteDestinations";
 import FavoriteCheckBox from "../components/FavoriteCheckBox";
 
 function FavoriteDestinantions() {
   const classes = useStyles();
+  const places = [];
   return (
     <Grid className={classes.root}>
       <Button variant="outlined" style={{ float: "right", marginRight: 25 }}>

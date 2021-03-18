@@ -70,7 +70,7 @@ const SigninContainer = ({ dash, signup, close }) => {
 		const { emailSignin, pwdSignin } = state;
 		const userInfo = {
 			email: emailSignin.trim().toLowerCase(),
-			password: pwdSignin.trim().toLowerCase(),
+			password: pwdSignin.trim(),
 		};
 		if (checkEmail() && pwdSignin) {
 			fetch("/api/users/login", {
