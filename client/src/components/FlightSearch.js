@@ -36,8 +36,8 @@ const FlightSearch = ({ submit }) => {
 		const year = date.getFullYear();
 		const month = date.getMonth();
 		const day = date.getDate();
-		date = new Date(year, month, day);
-		return date.toISOString().split("T")[0];
+		const newDate = new Date(year, month, day);
+		return newDate.toISOString().split("T")[0];
 	};
 
 	const handleFromLocation = (event, value) => {
