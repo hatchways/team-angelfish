@@ -27,12 +27,12 @@ const sendEmail = async (req, res) => {
     hotelName,
   } = flightData;
 
-  let msg = {
+  const msg = {
     //  Chnage this to your own email to get mail sent to your inbox
-    to: "gbudjeakp@gmail.com",
+    to: "plug in any email you want sent to",
 
     //Do not change verified (The from email) Sender as SendGrid will only send from this email.
-    from: "sebdwebdev@gmail.com",
+    from: "I'm sending the verified email to slack",
     subject: "Flight Details",
     html: `<h4>Passenger Name: ${passenger}</h4>
       <h4>from: ${from}</h4>

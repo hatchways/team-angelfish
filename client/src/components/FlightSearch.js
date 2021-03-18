@@ -26,14 +26,8 @@ const FlightSearch = () => {
   const [travellers, setTravellers] = useState(1);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const searchObject = {
-      from: from,
-      to: to,
-      arrival: arrival,
-      departure: departure,
-      travellers: travellers,
-    };
+    e.preventDefault();  
+   console.log("submitted form")
   };
 
   return (
