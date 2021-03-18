@@ -12,8 +12,6 @@ function FavoriteDestinantions() {
   useEffect(() => {
     async function getData() {
       try {
-        let favoriteList = [];
-        //Assuming that the explore page can be accessed by both authenticated and unAuthenticated user.
         const cityListResponse = await fetch("/api/cities", {
           method: "GET",
           headers: {
@@ -22,8 +20,7 @@ function FavoriteDestinantions() {
         });
         const cityList = await cityListResponse.json();
         cityList.map(city => {
-          city.favorite = favoriteList.indexOf(city.name) >= 0;
-          return city;
+          return city.name
         });
         setPlaces(cityList);
       } catch (error) {

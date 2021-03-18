@@ -10,15 +10,15 @@ const FlightSearch = () => {
   const curr = new Date();
   curr.setDate(curr.getDate());
   const date = curr.toISOString().substr(0, 10);
-  const [from, setFrom] = useState("Vancouver");
-  const [to, setTo] = useState("Bangkok");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [arrival, setArrival] = useState(date);
   const [cities, setCities] = useState([])
   const [departure, setDeparture] = useState(date);
   const [travellers, setTravellers] = useState(1);
 
 
-  useEffect(()=>{
+  useEffect((e)=>{
     const getCities = async () =>{
       try{
        const cityListResponse = await fetch("/api/cities", {
@@ -30,19 +30,26 @@ const FlightSearch = () => {
        const cityList = await cityListResponse.json();
        setCities(cityList)
       } catch(err){
-        console.log(err)
+        console.error()
       }
     }
     getCities()
    }, [])
-
-   console.log(cities)
 
   const handleSubmit = (e) => {
     e.preventDefault();
    console.log("submitted form")
   };
 
+  const handleFrom = (...[, v]) =>{
+   if(cities.length < 2){
+     return null
+   } else{
+    setFrom(v)
+   }
+  }
+ 
+  const places = cities.map((city)=> city.name)
   return (
     <div className={classes.root}>
       <form onSubmit={handleSubmit}>
@@ -50,13 +57,12 @@ const FlightSearch = () => {
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
             <InputLabel className={classes.inputLabel}>From</InputLabel>
             <Autocomplete
-              freeSolo
               id="from"
               name="from"
-              options={cities.map((city) => city.name)}
+              options={places}
               defaultValue={from}
               value={from}
-              onChange={(...[, v]) => setFrom(v)}
+              onChange={handleFrom}
               style={{ width: 150 }}
               renderInput={(params) => <TextField name="from" {...params} />}
             />
@@ -64,10 +70,9 @@ const FlightSearch = () => {
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
             <InputLabel className={classes.inputLabel}>Where to go</InputLabel>
             <Autocomplete
-              freeSolo
               id="to"
               name="to"
-              options={cities.map((city) => city.name)}
+              options={places}
               defaultValue={to}
               value={to}
               onChange={(...[, v]) => setTo(v)}
