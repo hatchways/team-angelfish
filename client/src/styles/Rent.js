@@ -1,53 +1,142 @@
 import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
-  root: {
-    height: "92%",
-    backgroundColor: "#ededed",
+  pageContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginTop: 20,
+    paddingTop: 0,
+    paddingLeft: 20,
   },
-  container: {
+  paperContainer: {
+    height: 300,
+    borderRadius: 10,
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "contain",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    overflow: "hidden",
+    backgroundPosition: "center",
+  },
+  title: {
+    margin: 5,
+    textAlign: "center",
+  },
+  customCheckBoxRoot: {
+    width: 5,
+    height: 5,
+  },
+  bottomInformationContainer: {
+    display: "flex",
+    height: "20%",
+    padding: 10,
+    flexDirection: "column",
+    justifyContent: "center",
+    paddingLeft: 25,
+  },
+  headerInformation: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  bottomInformationSubContainer2: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
+  imageContainer: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  image: {
+    maxWidth: 170,
+    minWidth: 120,
+  },
+  subtitle2: {
+    color: "#c5bec4",
+    fontSize: 12,
+  },
+  favoriteDefaultIcon: {
+    color: "black",
+  },
+  favoriteCheckedIcon: {
+    color: "orange",
+  },
+  gridContainer: {
+    marginTop: 23,
     height: "75%",
   },
-  titleContainer: {
-    height: "100%",
-    backgroundColor: "#fff",
+  legend1: {
+    fontSize: 15,
+    color: "black",
+    fontWeight: "bold"
+  },
+  legend2: {
+    fontSize: 11,
+    color: "black",
+    fontWeight: "bold"
+  },
+  filterContainer: {
     display: "flex",
-    justifyContent: "center",
-    textAlign: "center",
-    paddingTop: 100,
-    "@media (max-width:1100px)": {
-      paddingTop: 100,
-    },
+    justifyContent: "space-between",
   },
-  header: {
-    padding: 10,
-    fontSize: "3.5rem",
-    "@media (max-width:1100px)": {
-      fontSize: "2.8rem",
-      paddingTop: 100,
-    },
-    "@media (max-width:600px)": {
-      fontSize: "2rem",
-      paddingTop: 100,
-    },
-    color: "red"
+  filterContainer1: {
+    marginTop: 30,
+    alignItems: "center",
   },
-  heroContainer: {
-    height: "100%",
+  textFieldContainer0: {
+    border: "1px solid #cdcaca",
+    borderRadius: "7px 0px 0px 7px",
+    padding: "10px 0px 10px 10px",
+    width: 200,
+    height: 35,
   },
-  heroImg: {
-    height: "100%",
-    objectFit: "cover",
-    width: "100%",
+  textFieldContainer1: {
+    border: "1px solid #cdcaca",
+    padding: "10px 0px 10px 10px",
+    borderRadius: "0px 7px 7px 0px",
+    borderLeft: "none",
+    width: 200,
+    height: 35,
   },
-  searchDiv: {
+  disabled: {
+    color: "black",
+    fontWeight: "bold",
+    textDecoration: "none",
+  },
+  select: {
+    width: 150,
+  },
+  filter0: {
+    margin: 10,
+  },
+  filter01: {
+    marginRight: 25,
     display: "flex",
-    justifyContent: "center",
-    width: "100%",
-    position: "absolute",
-    bottom: 210,
-    "@media (max-width:900px)": {
-      position: "initial",
+  },
+  filter0Last: {
+    marginRight: "0px!important",
+  },
+  formControl: {
+    [`& fieldset`]: {
+      borderRadius: 30,
     },
   },
+  countResult: {
+    fontSize: 20,
+    fontWeight: "bold"
+  },
+  switchFilterText:{
+    color: "#4d4d4d"
+  },
+  subLegend1:{
+    color: "grey",
+    fontSize: 10,
+    fontWeight: "bold"
+  },
+  comment:{
+    fontSize: 11
+  }
 }));
