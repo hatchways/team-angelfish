@@ -76,27 +76,26 @@ const FlightResults = ({ data }) => {
 					spacing={2}
 					classes={{ root: classes.departFlightsContainer }}
 				>
-					{data.quotes.map((quote) =>
-						filter ? (
-							filter.min <= quote.MinPrice <= filter.max ? (
+					{data.quotes.map((quote) => (
+						<>
+							{filter && filter.min <= quote.MinPrice <= filter.max && (
 								<FlightAccordion
 									key={quote.QuoteId}
 									quote={quote}
 									carrier={data.carriers}
 									date={data.date}
 								/>
-							) : (
-								<></>
-							)
-						) : (
-							<FlightAccordion
-								key={quote.QuoteId}
-								quote={quote}
-								carrier={data.carriers}
-								date={data.date}
-							/>
-						)
-					)}
+							)}
+							{!filter && (
+								<FlightAccordion
+									key={quote.QuoteId}
+									quote={quote}
+									carrier={data.carriers}
+									date={data.date}
+								/>
+							)}
+						</>
+					))}
 				</Grid>
 			</Container>
 		</>
