@@ -1,39 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Paper, TextField, Button, InputLabel } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 
 import useStyles from "../styles/FlightSearch";
 
-// Mock Data
-const cities = [
-  { title: "Vancouver" },
-  { title: "Calgary" },
-  { title: "Toronto" },
-  { title: "Bangkok" },
-];
 
 const FlightSearch = () => {
   const classes = useStyles();
-
   const curr = new Date();
   curr.setDate(curr.getDate());
   const date = curr.toISOString().substr(0, 10);
-
   const [from, setFrom] = useState("Vancouver");
   const [to, setTo] = useState("Bangkok");
   const [arrival, setArrival] = useState(date);
+  const [cities, setCities] = useState([])
   const [departure, setDeparture] = useState(date);
   const [travellers, setTravellers] = useState(1);
 
+
+  useEffect(()=>{
+    const getCities = async () =>{
+      try{
+       const cityListResponse = await fetch("/api/cities", {
+         method: "GET",
+         headers: {
+           "Content-Type": "application/json",
+         },
+       });
+       const cityList = await cityListResponse.json();
+       setCities(cityList)
+      } catch(err){
+        console.log(err)
+      }
+    }
+    getCities()
+   }, [])
+
+   console.log(cities)
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const searchObject = {
-      from: from,
-      to: to,
-      arrival: arrival,
-      departure: departure,
-      travellers: travellers,
-    };
+   console.log("submitted form")
   };
 
   return (
@@ -46,7 +53,7 @@ const FlightSearch = () => {
               freeSolo
               id="from"
               name="from"
-              options={cities.map((city) => city.title)}
+              options={cities.map((city) => city.name)}
               defaultValue={from}
               value={from}
               onChange={(...[, v]) => setFrom(v)}
@@ -60,7 +67,7 @@ const FlightSearch = () => {
               freeSolo
               id="to"
               name="to"
-              options={cities.map((city) => city.title)}
+              options={cities.map((city) => city.name)}
               defaultValue={to}
               value={to}
               onChange={(...[, v]) => setTo(v)}

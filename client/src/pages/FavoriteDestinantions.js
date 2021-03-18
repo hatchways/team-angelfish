@@ -55,10 +55,10 @@ function FavoriteDestinantions() {
               <Grid className={classes.bottomInformationContainer}>
                 <span className={classes.bottomInformationSubContainer1}>
                   <span style={{ fontSize: 17, color: "white" }}>
-                    {place.townName},
+                    {place.name},
                   </span>
                   <span style={{ fontSize: 11, color: "rgb(175 175 175)" }}>
-                    {place.countryName}
+                    {place.country}
                   </span>
                 </span>
                 <span className={classes.bottomInformationSubContainer2}>
