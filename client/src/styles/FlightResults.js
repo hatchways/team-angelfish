@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
 	departFlightsContainer: {
 		border: "1px solid #ced4da",
 		margin: 0,
-		width: "100%"
+		width: "100%",
 	},
 	bottomHeader: {
 		fontWeight: theme.typography.fontWeightMedium,
@@ -21,15 +21,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 	flightInfoContainer: {
 		padding: "1em 3.2em 2em 2.8em",
-		width: "100%"
+		width: "100%",
 	},
 	margin: {
 		marginTop: "3em",
 	},
 	formControl: {
-    minWidth: 120,
-	marginBottom: "1em"
-  }
+		minWidth: 120,
+		marginBottom: "1em",
+	},
 }));
 
 export default useStyles;
