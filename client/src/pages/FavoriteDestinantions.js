@@ -24,7 +24,7 @@ function FavoriteDestinantions() {
         });
         setPlaces(cityList);
       } catch (error) {
-        console.log(error);
+        console.error();
       }
     }
     getData();
