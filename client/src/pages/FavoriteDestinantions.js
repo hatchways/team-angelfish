@@ -1,11 +1,40 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Typography, Grid, Button } from "@material-ui/core";
-import places from "../database/places";
 import useStyles from "../styles/FavoriteDestinations";
 import FavoriteCheckBox from "../components/FavoriteCheckBox";
 
 function FavoriteDestinantions() {
   const classes = useStyles();
+  const [places, setPlaces] = useState([])
+
+
+
+  useEffect(() => {
+    async function getData() {
+      try {
+        let favoriteList = [];
+        //Assuming that the explore page can be accessed by both authenticated and unAuthenticated user.
+        const cityListResponse = await fetch("/api/cities", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const cityList = await cityListResponse.json();
+        cityList.map(city => {
+          city.favorite = favoriteList.indexOf(city.name) >= 0;
+          return city;
+        });
+        setPlaces(cityList);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getData();
+  }, []);
+
+
+  
   return (
     <Grid className={classes.root}>
       <Button variant="outlined" style={{ float: "right", marginRight: 25 }}>

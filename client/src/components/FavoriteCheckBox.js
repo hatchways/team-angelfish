@@ -3,8 +3,9 @@ import { Typography, Grid, Button } from "@material-ui/core";
 import Favorite from "@material-ui/icons/Favorite";
 import { CustomSmallerCheckBox } from "../themes/theme";
 
+
 function FavoriteCheckBox() {
-  const classes = useStyles();
+
   const [checked, setChecked] = useState(false);
   return (
     <Grid>
@@ -13,7 +14,6 @@ function FavoriteCheckBox() {
         onChange={(e) => setChecked(e.target.checked)}
         icon={<Favorite style={{ color: "white" }} />}
         checkedIcon={<Favorite style={{ color: "#FFA000" }} />}
-        classes={{ root: classes.customCheckBoxRoot }}
       />
     </Grid>
   );

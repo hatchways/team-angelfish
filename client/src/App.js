@@ -9,12 +9,9 @@ import Hotels from "./pages/Hotels";
 import Rent from "./pages/Rent";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
-import Profile from "./pages/User/UserProfile";
 import Checkout from "./components/Stripe/Checkout";
 import Success from "./components/Stripe/Success";
 import Error from "./components/Stripe/Error";
-
-
 import { Provider } from "./context";
 
 import { theme } from "./themes/theme";
@@ -34,7 +31,7 @@ function App() {
           <Route exact path="/flights" component={Flights} />
           <Route exact path="/hotel" component={Hotels} />
           <Route exact path="/rent" component={Rent} />
-          <Route exact path="/profile" component={Profile} />
+          <Route  path="/profile" component={Profile} />
           <Route exact path="/checkout" component={Checkout} />
           <Route exact path="/payment-success" component={Success} />
           <Route exact path="/payment-error" component={Error} />
