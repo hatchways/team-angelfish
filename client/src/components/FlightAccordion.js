@@ -26,11 +26,7 @@ const FlightAccordion = ({ quote, carrier, date }) => {
 	const [expand, setExpand] = useState(false);
 
 	const showDetails = (event, expanded) => {
-		if (expanded) {
-			setExpand(true);
-		} else {
-			setExpand(false);
-		}
+		setExpand(expanded)
 	};
 
 	return (
