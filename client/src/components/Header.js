@@ -34,10 +34,10 @@ function Header() {
 	const openModal = () => setModal(!modal);
 	const closeModal = () => {
 		setModal(!modal);
-		setSignup(!signup);
+		setSignup(false);
 	};
-	const handleSignup = () => setSignup(!signup);
-	const handleSignin = () => setSignup(!signup);
+	const handleSignup = () => setSignup(true);
+	const handleSignin = () => setSignup(false);
 
 	const WrappedSignin = React.forwardRef((props, ref) => (
 		<Signin {...props} forwardedRef={ref} />
