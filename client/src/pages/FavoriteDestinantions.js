@@ -19,9 +19,6 @@ function FavoriteDestinantions() {
           },
         });
         const cityList = await cityListResponse.json();
-        cityList.map(city => {
-          return city.name
-        });
         setPlaces(cityList);
       } catch (error) {
         console.error();

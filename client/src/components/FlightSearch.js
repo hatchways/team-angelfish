@@ -42,8 +42,8 @@ const FlightSearch = () => {
   };
 
   const handleFrom = (...[, v]) =>{
-   if(cities.length < 2){
-     return null
+   if(v.length < 2){
+     return v
    } else{
     setFrom(v)
    }
