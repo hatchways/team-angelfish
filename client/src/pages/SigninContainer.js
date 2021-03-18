@@ -65,7 +65,7 @@ const SigninContainer = ({ dash, signup, close }) => {
     return emailTest;
   };
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 		const { emailSignin, pwdSignin } = state;
 		const userInfo = {
@@ -73,28 +73,24 @@ const SigninContainer = ({ dash, signup, close }) => {
 			password: pwdSignin.trim(),
 		};
 		if (checkEmail() && pwdSignin) {
-			fetch("/api/users/login", {
+			const loginResponse = await (await fetch("/api/users/login", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(userInfo),
-			})
-				.then((res) => res.json())
-				.then((results) => {
-					if (results.status === "success") {
-						dash(); // redirect to user's dashboard
-					} else if ("email" in results) {
-						dispatch({ type: "error", error: "emailError" });
-					} else if ("password" in results) {
-						dispatch({ type: "error", error: "pwdError" });
-					} else if ("errors" in results) {
-						if ("email" in results.errors) {
-							dispatch({ type: "error", error: "emailValidationError" });
-						}
-					}
-				})
-				.catch((err) => console.error(err.message));
+			})).json();
+			if (loginResponse.status === "success") {
+				dash(); // redirect to user's dashboard
+			} else if ("email" in loginResponse) {
+				dispatch({ type: "error", error: "emailError" });
+			} else if ("password" in loginResponse) {
+				dispatch({ type: "error", error: "pwdError" });
+			} else if ("errors" in loginResponse) {
+				if ("email" in loginResponse.errors) {
+					dispatch({ type: "error", error: "emailValidationError" });
+				}
+			}
 		} else if (!checkEmail()) {
 			dispatch({ type: "error", error: "emailValidationError" });
 		} else if (!pwdSignin) {
