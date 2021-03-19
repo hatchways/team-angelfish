@@ -60,11 +60,11 @@ function Profile() {
           body: formData,
         })
       ).json();
+      openSnack(!uploadResponse.imageUrl ? "Upload failed!" : null);
       if (uploadResponse.imageUrl) {
         setAvatarImage(uploadResponse.imageUrl);
+        setOpen(false);
       }
-      openSnack(!uploadResponse.imageUrl ? "Upload failed!" : null);
-      setOpen(false);
       setLoading(false);
       setSelectedFile(null);
     } catch (error) {
