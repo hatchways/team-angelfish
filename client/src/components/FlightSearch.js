@@ -20,6 +20,79 @@ const cities = [
 	{ title: "Bangkok", placeId: "" },
 ];
 
+const mockData = {
+	Quotes: [
+		{
+			QuoteId: 1,
+			MinPrice: 381,
+			Direct: true,
+			OutboundLeg: {
+				CarrierIds: [29],
+				OriginId: 68033,
+				DestinationId: 42833,
+				DepartureDate: "2021-04-03",
+			},
+			InboundLeg: {
+				CarrierIds: [29],
+				OriginId: 42833,
+				DestinationId: 68033,
+				DepartureDate: "2021-04-03",
+			},
+			QuoteDateTime: "2021-03-19",
+		},
+		{
+			QuoteId: 2,
+			MinPrice: 398,
+			Direct: true,
+			OutboundLeg: {
+				CarrierIds: [173],
+				OriginId: 45108,
+				DestinationId: 52843,
+				DepartureDate: "2021-04-03",
+			},
+			InboundLeg: {
+				CarrierIds: [173],
+				OriginId: 52843,
+				DestinationId: 45108,
+				DepartureDate: "2021-04-03",
+			},
+			QuoteDateTime: "2021-03-19",
+		},
+		{
+			QuoteId: 3,
+			MinPrice: 187,
+			Direct: false,
+			OutboundLeg: {
+				CarrierIds: [173],
+				OriginId: 45108,
+				DestinationId: 52843,
+				DepartureDate: "2021-04-03",
+			},
+			InboundLeg: {
+				CarrierIds: [173],
+				OriginId: 52843,
+				DestinationId: 45108,
+				DepartureDate: "2021-04-03",
+			},
+			QuoteDateTime: "2021-03-19",
+		},
+	],
+	Carriers: [
+		{
+			CarrierId: 29,
+			Name: "Mombasa Air Safari",
+		},
+		{
+			CarrierId: 173,
+			Name: "Silver Airways",
+		},
+		{
+			CarrierId: 870,
+			Name: "jetBlue",
+		},
+	],
+};
+
 const FlightSearch = ({ submit }) => {
 	const classes = useStyles();
 
@@ -57,18 +130,23 @@ const FlightSearch = ({ submit }) => {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		if (from && to && departDate >= arrivalDate) {
-			const fromCity = cities.find((city) => from === city.title).placeId;
-			const toCity = cities.find((city) => to === city.title).placeId;
-			const arriveDate = formatDate(arrivalDate);
-			const leaveDate = formatDate(departDate);
-			const response = await fetch(
-				`api/flights/quotes/${fromCity}/${toCity}/${arriveDate}/?inboundDate=${leaveDate}`
-			);
-			const data = await response.json();
+			// const fromCity = cities.find((city) => from === city.title).placeId;
+			// const toCity = cities.find((city) => to === city.title).placeId;
+			// const arriveDate = formatDate(arrivalDate);
+			// const leaveDate = formatDate(departDate);
+			// const response = await fetch(
+			// 	`api/flights/quotes/${fromCity}/${toCity}/${arriveDate}/?inboundDate=${leaveDate}`
+			// );
+			// const data = await response.json();
+			// submit({
+			// 	date: arrivalDate.toString(),
+			// 	quotes: data.Quotes,
+			// 	carriers: data.Carriers,
+			// });
 			submit({
-				date: arrivalDate,
-				quotes: data.Quotes,
-				carriers: data.Carriers,
+				date: arrivalDate.toString(),
+				quotes: mockData.Quotes,
+				carriers: mockData.Carriers,
 			});
 		} else if (!from) {
 			setFromError(true);

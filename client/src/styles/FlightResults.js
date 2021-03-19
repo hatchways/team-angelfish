@@ -4,9 +4,17 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
 	departFlightsContainer: {
-		border: "1px solid #ced4da",
-		margin: 0,
-		width: "100%",
+		"&:not(:empty)": {
+			border: "1px solid #ced4da",
+			margin: 0,
+			width: "100%",
+		},
+		"&:empty::before": {
+			content: '"No results found"',
+			color: "gray",
+			marginLeft: "0.4em",
+			marginTop: "1em",
+		},
 	},
 	bottomHeader: {
 		fontWeight: theme.typography.fontWeightMedium,
