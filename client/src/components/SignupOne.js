@@ -1,88 +1,136 @@
 /** @format */
 
 import React, { useReducer, useEffect } from "react";
-import { Box, Container, Grid, Typography } from "@material-ui/core";
-import { TextField, Button } from "@material-ui/core";
+import {
+	Box,
+	Container,
+	Grid,
+	Typography,
+	TextField,
+	Button,
+	IconButton,
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../styles/Signup_in";
 
 const SignupOne = ({ next, close, signin }) => {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	const initialState = {
-		name: "",
-		emailSignup: "",
-		pwdSignup: "",
-		confirmPwdSignup: "",
-		userInfo: {},
-		emailError: false,
-		nameValidationError: false,
-		emailValidationError: false,
-		pwdValidationError: false,
-		confirmPwdValidationError: false,
-	};
+  const initialState = {
+    name: "",
+    emailSignup: "",
+    pwdSignup: "",
+    confirmPwdSignup: "",
+    userInfo: {},
+    emailError: false,
+    nameValidationError: false,
+    emailValidationError: false,
+    pwdValidationError: false,
+    confirmPwdValidationError: false,
+  };
 
-	const reducer = (state, action) => {
-		switch (action.type) {
-			case "textChange":
-				return {
-					...state,
-					[action.name]: action.value,
-					emailError: false,
-					nameValidationError: false,
-					emailValidationError: false,
-					pwdValidationError: false,
-					confirmPwdValidationError: false,
-				};
-			case "error":
-				return { ...state, [action.error]: true };
-			case "update":
-				return state;
-			case "reset":
-				return initialState;
-			default:
-				throw new Error();
-		}
-	};
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "textChange":
+        return {
+          ...state,
+          [action.name]: action.value,
+          emailError: false,
+          nameValidationError: false,
+          emailValidationError: false,
+          pwdValidationError: false,
+          confirmPwdValidationError: false,
+        };
+      case "error":
+        return { ...state, [action.error]: true };
+      case "update":
+        return state;
+      case "reset":
+        return initialState;
+      default:
+        throw new Error();
+    }
+  };
 
-	const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-	useEffect(() => {
-		dispatch({ type: "update" });
-	}, [state]);
+  useEffect(() => {
+    dispatch({ type: "update" });
+  }, [state]);
 
-	const handleInputChange = (event) => {
-		dispatch({
-			type: "textChange",
-			name: event.target.name,
-			value: event.target.value,
-		});
-	};
+  const handleInputChange = (event) => {
+    dispatch({
+      type: "textChange",
+      name: event.target.name,
+      value: event.target.value,
+    });
+  };
 
-	const checkUser = () => {
-		const userPattern = new RegExp(
-			`^(?=.*[A-Za-z].*[A-Za-z])[A-Za-z0-9@$!%*#?&]{4,}$`
-		);
-		const userTest = userPattern.test(state.name);
-		return userTest;
-	};
+  const checkUser = () => {
+    const userPattern = new RegExp(
+      `^(?=.*[A-Za-z].*[A-Za-z])[A-Za-z0-9@$!%*#?&]{4,}$`
+    );
+    const userTest = userPattern.test(state.name);
+    return userTest;
+  };
 
-	const checkEmail = () => {
-		const emailPattern = new RegExp(`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$`);
-		const emailTest = emailPattern.test(state.emailSignup);
-		return emailTest;
-	};
+  const checkEmail = () => {
+    const emailPattern = new RegExp(`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$`);
+    const emailTest = emailPattern.test(state.emailSignup);
+    return emailTest;
+  };
 
-	const checkPwd = () => {
-		const pwdPattern = new RegExp(".{6,}");
-		const pwdTest = pwdPattern.test(state.pwdSignup);
-		return pwdTest;
-	};
+  const checkPwd = () => {
+    const pwdPattern = new RegExp(".{6,}");
+    const pwdTest = pwdPattern.test(state.pwdSignup);
+    return pwdTest;
+  };
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		next();
-	};
-
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const { name, emailSignup, pwdSignup, confirmPwdSignup } = state;
+    const data = {
+      name: name.trim().toLowerCase(),
+      email: emailSignup.trim().toLowerCase(),
+      password: pwdSignup.trim(),
+    };
+    if (
+      checkUser() &&
+      checkEmail() &&
+      checkPwd() &&
+      pwdSignup === confirmPwdSignup
+    ) {
+      fetch("/api/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((results) => {
+          if (results.status === "success") {
+            next();
+            // User Object
+            console.log(results);
+          } else {
+            // Errors Object
+            console.log(results);
+          }
+        })
+        .catch((err) => console.error(err));
+      // dispatch({ type: "reset" });
+    } else if (!checkUser()) {
+      dispatch({ type: "error", error: "nameValidationError" });
+    } else if (!checkEmail()) {
+      dispatch({ type: "error", error: "emailValidationError" });
+    } else if (!checkPwd()) {
+      dispatch({ type: "error", error: "pwdValidationError" });
+    } else {
+      dispatch({ type: "error", error: "confirmPwdValidationError" });
+    }
+  };
+  
 	return (
 		<Container
 			id="modal-content"
@@ -91,9 +139,9 @@ const SignupOne = ({ next, close, signin }) => {
 			classes={{ root: classes.contain }}
 		>
 			<Box textAlign="right" className="modal-header">
-				<Button size="small" onClick={() => close()} className={classes.close}>
-					&times;
-				</Button>
+				<IconButton onClick={() => close()}>
+					<CloseIcon classes={{ root: classes.closeModal }} />
+				</IconButton>
 			</Box>
 			<div className={`modal-body ${classes.modalBody}`}>
 				<Typography
