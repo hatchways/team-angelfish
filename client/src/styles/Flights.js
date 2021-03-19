@@ -1,17 +1,17 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export default makeStyles((theme) => ({
-	root: {
+	rootWithoutResults: {
 		height: "92%",
 		backgroundColor: '#ededed',
 	},
-	rootTwo: {
+	rootWithResults: {
 		height: "80%",
 	},
-	container: {
+	containerWithoutResults: {
 		height: "74%",
 	},
-	containerTwo: {
+	containerWithResults: {
 		height: "85%",
 	},
 	titleContainer: {

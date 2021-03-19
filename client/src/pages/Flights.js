@@ -22,16 +22,23 @@ function Flights() {
 
 	return (
 		<>
-			<div className={showResults ? classes.rootTwo : classes.root}>
+			<div
+				className={
+					showResults ? classes.rootWithResults : classes.rootWithoutResults
+				}
+			>
 				<Grid
 					classes={{
-						container: showResults ? classes.containerTwo : classes.container,
+						container: showResults
+							? classes.containerWithResults
+							: classes.containerWithoutResults,
 					}}
 					container
 				>
 					<Grid className={classes.titleContainer} item xs={5}>
 						<Typography className={classes.header}>
-							Find the flights and<br></br> start the holiday.
+							Find the flights and
+							<br /> start the holiday.
 						</Typography>
 					</Grid>
 					<Grid className={classes.heroContainer} item xs={7}>
@@ -46,7 +53,7 @@ function Flights() {
 					<FlightSearchComponent submit={handleResults} />
 				</div>
 			</div>
-			{showResults ? <FlightResults data={data}/> : <></>}
+			{showResults ? <FlightResults data={data} /> : null}
 		</>
 	);
 }
