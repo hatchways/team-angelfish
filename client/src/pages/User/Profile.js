@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import useStyles from "../styles/Profile";
+import useStyles from "./ProfileStyle";
 import { NavLink, useRouteMatch, Switch, Route } from "react-router-dom";
-import Notifications from "./Notifications";
-import FavoriteDestination from "./FavoriteDestinantions";
-import AccountSettings from "./AccountSettings";
+import Notifications from "../Notifications";
+import FavoriteDestination from "../FavoriteDestinantions";
+import AccountSettings from "../AccountSettings";
 import {
   Avatar,
   Drawer,
@@ -12,7 +12,7 @@ import {
   Grid,
   ButtonBase,
 } from "@material-ui/core";
-import FileUploaderDialog from "../components/FileUploaderDialog";
+import FileUploaderDialog from "../../components/Uploader/FileUploaderDialog";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 

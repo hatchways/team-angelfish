@@ -6,7 +6,7 @@ import Dropzone from "react-dropzone";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import uploadIcon from "../assets/images/upload.png";
+import uploadIcon from "../../assets/images/upload.png";
 
 const useStyles = makeStyles({
   dialogContainer: {
