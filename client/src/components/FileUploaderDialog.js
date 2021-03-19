@@ -10,7 +10,9 @@ import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
   dialogContainer: {
-    height: "50%",
+    width: "50%",
+    background: "#979797",
+    color: "white"
   },
   progress: {
     color: "#48ff00",
@@ -18,23 +20,23 @@ const useStyles = makeStyles({
     top: "50%",
     left: "50%",
   },
+  dialogContainer:{
+    display: "flex",
+    justifyContent: "center"
+  }
 });
 
 const FileUploaderDialog = (props) => {
   const classes = useStyles();
   return (
-    <>
+    <div className={classes.dialogContainer}>
       <Dialog
         fullWidth="true"
-        maxWidth="md"
         open={props.open}
         onClose={props.close}
         aria-labelledby="max-width-dialog-title"
         className={classes.dialogContainer}
       >
-        <DialogTitle id="max-width-dialog-title">
-          Upload Profile picture
-        </DialogTitle>
         <DialogContent>
           <Dropzone onDrop={props.handleDrop}>
             {({ getRootProps, getInputProps }) => (
@@ -42,7 +44,7 @@ const FileUploaderDialog = (props) => {
                 <div {...getRootProps()}>
                   <input {...getInputProps()} />
                   {props.file ? (
-                    <p>{props.file.name}</p>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdX7wWCMOvGYD6_4-MthVKf-DjjgLF_GqQzg&usqp=CAU" />
                   ) : (
                     <p>
                       Drag 'n' drop some files here, or click to select files
@@ -64,7 +66,7 @@ const FileUploaderDialog = (props) => {
         </DialogActions>
         {props.loading && <CircularProgress size={50} className={classes.progress} />}
       </Dialog>
-    </>
+    </div>
   );
 };
 
