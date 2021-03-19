@@ -36,6 +36,8 @@ const FlightResults = ({ data }) => {
 			const minPrice = priceRange.min;
 			const maxPrice = priceRange.max;
 			setFilter({ min: minPrice, max: maxPrice });
+		} else {
+			setFilter("");
 		}
 		setPrice(range);
 	};
@@ -76,26 +78,28 @@ const FlightResults = ({ data }) => {
 					spacing={2}
 					classes={{ root: classes.departFlightsContainer }}
 				>
-					{data.quotes.map((quote) => (
-						<>
-							{filter && filter.min <= quote.MinPrice <= filter.max && (
+					{filter
+						? data.quotes
+								.filter(
+									(quote) =>
+										quote.MinPrice >= filter.min && quote.MinPrice <= filter.max
+								)
+								.map((quote) => (
+									<FlightAccordion
+										key={quote.QuoteId}
+										quote={quote}
+										carrier={data.carriers}
+										date={data.date}
+									/>
+								))
+						: data.quotes.map((quote) => (
 								<FlightAccordion
 									key={quote.QuoteId}
 									quote={quote}
 									carrier={data.carriers}
 									date={data.date}
 								/>
-							)}
-							{!filter && (
-								<FlightAccordion
-									key={quote.QuoteId}
-									quote={quote}
-									carrier={data.carriers}
-									date={data.date}
-								/>
-							)}
-						</>
-					))}
+						  ))}
 				</Grid>
 			</Container>
 		</>
