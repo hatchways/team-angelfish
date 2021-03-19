@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import ExplorerPage from "./pages/Explore";
 import Flights from "./pages/Flights";
 import Hotels from "./pages/Hotels";
-import Rent from "./pages/Rent";
+import Rent from "./pages/Rental/Rent";
 import Header from "./components/Header";
 import Profile from "./pages/Profile";
 import Checkout from "./components/Stripe/Checkout";

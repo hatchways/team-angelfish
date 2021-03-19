@@ -1,7 +1,7 @@
 import React, { useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
-import useStyles from "../styles/Rent";
+import useStyles from "./RentStyle";
 import TextField from "@material-ui/core/TextField";
 import { Paper, Typography } from "@material-ui/core";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
