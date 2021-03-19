@@ -66,7 +66,7 @@ const FlightSearch = ({ submit }) => {
 			);
 			const data = await response.json();
 			submit({
-				date: arrivalDate,
+				date: arrivalDate.toString(),
 				quotes: data.Quotes,
 				carriers: data.Carriers,
 			});
