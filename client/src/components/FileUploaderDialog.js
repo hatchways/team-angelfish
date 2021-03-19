@@ -1,29 +1,47 @@
-
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Dropzone from "react-dropzone";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import uploadIcon from "../assets/images/upload.png";
 
 const useStyles = makeStyles({
   dialogContainer: {
-    width: "50%",
-    background: "#979797",
-    color: "white"
-  },
-  progress: {
-    color: "#48ff00",
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-  },
-  dialogContainer:{
     display: "flex",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+    justifyContent: "center",
+  },
+  button: {
+    backgroundColor: "#FFA000",
+    color: "white",
+  },
+  dialogContentContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    border: "2px dashed #ccc",
+    margin: 25,
+  },
+  uploadImageContainer: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  imageUpload: {
+    width: "35%",
+  },
+  imagePreview: {
+    borderRadius: 10,
+    width: 100,
+    height: 100,
+  },
+  thumbsContainer: {
+    display: "flex",
+    marginTop: 10,
+    marginLeft: 25,
+  },
 });
 
 const FileUploaderDialog = (props) => {
@@ -36,35 +54,65 @@ const FileUploaderDialog = (props) => {
         onClose={props.close}
         aria-labelledby="max-width-dialog-title"
         className={classes.dialogContainer}
+        PaperProps={{
+          style: {
+            height: 500,
+            width: 500,
+            backgroundColor: "white",
+            borderRadius: 10,
+          },
+        }}
       >
-        <DialogContent>
+        <DialogTitle id="max-width-dialog-title">
+          Upload your file here
+        </DialogTitle>
+        <DialogContent className={classes.dialogContentContainer}>
           <Dropzone onDrop={props.handleDrop}>
             {({ getRootProps, getInputProps }) => (
               <section>
                 <div {...getRootProps()}>
                   <input {...getInputProps()} />
-                  {props.file ? (
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdX7wWCMOvGYD6_4-MthVKf-DjjgLF_GqQzg&usqp=CAU" />
-                  ) : (
-                    <p>
-                      Drag 'n' drop some files here, or click to select files
-                    </p>
-                  )}
+                  <div className={classes.uploadImageContainer}>
+                    <img
+                      className={classes.imageUpload}
+                      src={uploadIcon}
+                      alt="Upload-Icon"
+                    />
+                  </div>
                 </div>
               </section>
             )}
           </Dropzone>
         </DialogContent>
-        <DialogActions>
+        {props.file ? (
+          <div className={classes.thumbsContainer}>
+            <img className={classes.imagePreview} src={props.file.preview} />
+          </div>
+        ) : (
+          <></>
+        )}
+        <DialogActions className={classes.dialogActionContainer}>
           <Button
-            disabled={!props.file}
+            variant="contained"
+            onClick={props.close}
+            color="primary"
+            size="large"
+            className={classes.button}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            disabled={props.loading || !props.file}
             onClick={props.submit}
             color="primary"
+            size="large"
+            className={classes.button}
           >
-            Upload
+            Save
           </Button>
         </DialogActions>
-        {props.loading && <CircularProgress size={50} className={classes.progress} />}
+        {props.loading && <LinearProgress color="secondary" />}
       </Dialog>
     </div>
   );

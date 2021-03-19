@@ -1,10 +1,17 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import useStyles from "../styles/Profile";
 import { NavLink, useRouteMatch, Switch, Route } from "react-router-dom";
 import Notifications from "./Notifications";
 import FavoriteDestination from "./FavoriteDestinantions";
 import AccountSettings from "./AccountSettings";
-import { Avatar, Drawer, Typography, Button, Grid, ButtonBase } from "@material-ui/core";
+import {
+  Avatar,
+  Drawer,
+  Typography,
+  Button,
+  Grid,
+  ButtonBase,
+} from "@material-ui/core";
 import FileUploaderDialog from "../components/FileUploaderDialog";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -22,7 +29,7 @@ function Profile() {
     name: "Devin Jones",
     email: "DevinJones@gmail.com",
   };
-
+  const [avatarImage, setAvatarImage] = useState(mockUser.avatar);
   const handleClickOpen = () => {
     setSelectedFile(null);
     setLoading(false);
@@ -33,37 +40,41 @@ function Profile() {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
 
-  const openSnack = (errorMessage) =>{
-    if(errorMessage){
+  const openSnack = (errorMessage) => {
+    if (errorMessage) {
       setSnack({ type: "error", message: errorMessage, open: true });
-    }else{
+    } else {
       setSnack({ type: "success", message: "Success", open: true });
     }
-  }
+  };
 
-  const handleSubmission = () => {
+  const handleSubmission = async () => {
     setLoading(true);
     const formData = new FormData();
     formData.append("file", selectedFile);
-    fetch("/api/file-upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        openSnack(!result.imageUrl ? "Upload failed!" : null);
-        setOpen(false);
-        setLoading(false);
-        setSelectedFile(null);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        setLoading(false);
-        openSnack(error.message);
-      });
+
+    try {
+      const uploadResponse = await (
+        await fetch("/api/file-upload", {
+          method: "POST",
+          body: formData,
+        })
+      ).json();
+      if (uploadResponse.imageUrl) {
+        setAvatarImage(uploadResponse.imageUrl);
+      }
+      openSnack(!uploadResponse.imageUrl ? "Upload failed!" : null);
+      setOpen(false);
+      setLoading(false);
+      setSelectedFile(null);
+    } catch (error) {
+      setLoading(false);
+      openSnack(error.message);
+    }
   };
 
   const handleDrop = (files) => {
+    files[0].preview = URL.createObjectURL(files[0]);
     setSelectedFile(files[0]);
   };
 
@@ -79,7 +90,7 @@ function Profile() {
 
   return (
     <Grid className={classes.root}>
-    <FileUploaderDialog
+      <FileUploaderDialog
         file={selectedFile}
         open={open}
         loading={loading}
@@ -95,7 +106,12 @@ function Profile() {
         }}
       >
         <Grid className={classes.profilePosition}>
-        <Avatar component={ButtonBase} src={mockUser.avatar} className={classes.avatar} onClick={handleClickOpen}/>
+          <Avatar
+            component={ButtonBase}
+            src={avatarImage}
+            className={classes.avatar}
+            onClick={handleClickOpen}
+          />
           <Typography variant="h6">{mockUser.name}</Typography>
           <Typography className={classes.email}>{mockUser.email}</Typography>
 
@@ -145,14 +161,8 @@ function Profile() {
           <Route path={`${path}/accountsettings`} component={AccountSettings} />
         </Switch>
       </Grid>
-      <Snackbar
-        open={snack.open}
-        autoHideDuration={1000}
-        onClose={closeSnack}
-      >
-        <Alert severity={snack.type}>
-          {snack.message}
-        </Alert>
+      <Snackbar open={snack.open} autoHideDuration={1000} onClose={closeSnack}>
+        <Alert severity={snack.type}>{snack.message}</Alert>
       </Snackbar>
     </Grid>
   );
