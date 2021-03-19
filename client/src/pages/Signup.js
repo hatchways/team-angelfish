@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { Redirect } from "react-router";
-import SignupOne from "./SignupOne";
-import SignupTwo from "./SignupTwo";
+import SignupOne from "../components/SignupOne";
+import SignupTwo from "../components/SignupTwo";
 
 const Signup = ({ close, signin }) => {
 	const [dash, setDash] = useState(false);
