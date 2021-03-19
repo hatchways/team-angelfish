@@ -94,6 +94,7 @@ const FileUploaderDialog = (props) => {
         <DialogActions className={classes.dialogActionContainer}>
           <Button
             variant="contained"
+            disabled={props.loading}
             onClick={props.close}
             color="primary"
             size="large"
