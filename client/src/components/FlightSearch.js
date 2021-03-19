@@ -64,7 +64,7 @@ const FlightSearch = () => {
               value={from}
               onChange={handleFrom}
               style={{ width: 150 }}
-              renderInput={(params) => <TextField name="from" {...params} />}
+              renderInput={(params) => <TextField name="places" {...params} />}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
@@ -77,7 +77,7 @@ const FlightSearch = () => {
               value={to}
               onChange={(...[, v]) => setTo(v)}
               style={{ width: 150 }}
-              renderInput={(params) => <TextField name="to" {...params} />}
+              renderInput={(params) => <TextField name="places" {...params} />}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
@@ -91,8 +91,8 @@ const FlightSearch = () => {
               className={classes.textField}
               InputProps={{
                 className: classes.textField,
-                disableUnderline: true
-            }}
+                disableUnderline: true,
+              }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -109,8 +109,8 @@ const FlightSearch = () => {
               onChange={(e) => setDeparture(e.target.value)}
               InputProps={{
                 className: classes.textField,
-                disableUnderline: true
-            }}
+                disableUnderline: true,
+              }}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -126,11 +126,10 @@ const FlightSearch = () => {
                 name="travellers"
                 InputProps={{
                   className: classes.textField,
-                  disableUnderline: true
-              }}
+                  disableUnderline: true,
+                }}
                 value={travellers}
               />
-              
             </Grid>
             <Grid item lg={4} sm={9} xs={6}>
               <Button onClick={handleSubmit} className={classes.searchBtn}>

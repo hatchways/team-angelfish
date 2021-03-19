@@ -61,8 +61,8 @@ router.get("/quotes/:from/:to/:outboundDate", (req, res, next) => {
 			`https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsequotes/v1.0/US/USD/en-US/${origin}/${destination}/${departDate}`
 		);
 		request.headers({
-			"x-rapidapi-key": rapidApiKey,
-			"x-rapidapi-host": rapidApiHost,
+			"x-rapidapi-key": process.env.RAPID_API_KEY,
+			"x-rapidapi-host": process.env.RAPID_API_HOST,
 			useQueryString: true,
 		});
 		// API does not return results for inboundDate
@@ -86,18 +86,18 @@ router.get("/quotes/:from/:to/:outboundDate", (req, res, next) => {
 	}
 });
 
-router.get("/places/:regionId", (req, res, next) => {
-	const { regionId } = req.params;
+router.get("/places", (req, res, next) => {
+	const { places} = req.params;
+
 	const error = {};
-	const region = validateLocation(regionId, error, 'region');
 	if (Object.keys(error).length === 0) {
 		const request = unirest(
 			"GET",
-			"https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US/USD/en-US/"
+			"https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US\/USD/en-US/"
 		);
 
 		request.query({
-			query: region,
+			query: "France",
 		});
 
 		request.headers({
