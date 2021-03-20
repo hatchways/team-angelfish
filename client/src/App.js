@@ -3,7 +3,7 @@
 import React from "react";
 import { MuiThemeProvider } from "@material-ui/core";
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
-import ExplorerPage from "./pages/Explore";
+import ExplorerPage from "./pages/Explorer/Explore";
 import Flights from "./pages/Flights";
 import Hotels from "./pages/Hotels";
 import Rent from "./pages/Rent";
