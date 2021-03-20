@@ -17,7 +17,7 @@ export const getCartHotelTotal = (cart) => {
 };
 
 export const getCartCarTotal = (cart) => {
-  return cart.rentalcar.reduce((item, total) => {
+  return cart.rentalCar.reduce((total, item) => {
     return total + item.price + item.taxes;
   }, 0);
 };

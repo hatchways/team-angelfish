@@ -9,6 +9,7 @@ import {
 } from "../../utils/utils";
 
 import Stepper from "./Stepper/Stepper";
+import CheckoutButton from "../Stripe/Checkout";
 
 import { Grid, Typography, Button } from "@material-ui/core";
 
@@ -81,14 +82,11 @@ const CartList = ({ closeCart }) => {
             </Grid>
           </Grid>
           <Grid className={classes.btnCont} container justify="center">
-            <Button
-              disabled={
-                isCartEmpty ? true : activeStep === steps.length ? false : true
-              }
-              className={classes.btn}
-            >
-              Payment
-            </Button>
+            <CheckoutButton
+              isCartEmpty={isCartEmpty}
+              activeStep={activeStep}
+              steps={steps}
+            />
           </Grid>
           <Grid xs={12} item className={classes.footer}></Grid>
         </Grid>
