@@ -20,9 +20,9 @@ const CartFlightContainer = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.div}>
-        {cart?.flights.map((i, ind) => {
+    <Grid className={classes.root}>
+      <Grid className={classes.div}>
+        {cart?.flights.map((flight, _) => {
           const {
             type,
             date,
@@ -32,23 +32,23 @@ const CartFlightContainer = () => {
             departurePlace,
             numberOfStops,
             arrivalPlace,
-          } = i.departure;
+            id,
+          } = flight.departure;
           return (
-            <div key={ind}>
-              <CartFlightDetails
-                name={type}
-                date={date}
-                departureTime={departureTime}
-                duration={duration}
-                arrivalTime={arrivalTime}
-                departurePlace={departurePlace}
-                numberOfStops={numberOfStops}
-                arrivalPlace={arrivalPlace}
-              />
-            </div>
+            <CartFlightDetails
+              key={id}
+              name={type}
+              date={date}
+              departureTime={departureTime}
+              duration={duration}
+              arrivalTime={arrivalTime}
+              departurePlace={departurePlace}
+              numberOfStops={numberOfStops}
+              arrivalPlace={arrivalPlace}
+            />
           );
         })}
-        {cart?.flights.map((i, ind) => {
+        {cart?.flights.map((flight, _) => {
           const {
             type,
             date,
@@ -58,58 +58,41 @@ const CartFlightContainer = () => {
             departurePlace,
             numberOfStops,
             arrivalPlace,
-          } = i.arrival;
+            id,
+          } = flight.arrival;
           return (
-            <div key={ind}>
-              <CartFlightDetails
-                name={type}
-                date={date}
-                departureTime={departureTime}
-                duration={duration}
-                arrivalTime={arrivalTime}
-                departurePlace={departurePlace}
-                numberOfStops={numberOfStops}
-                arrivalPlace={arrivalPlace}
-              />
-            </div>
+            <CartFlightDetails
+              key={id}
+              name={type}
+              date={date}
+              departureTime={departureTime}
+              duration={duration}
+              arrivalTime={arrivalTime}
+              departurePlace={departurePlace}
+              numberOfStops={numberOfStops}
+              arrivalPlace={arrivalPlace}
+            />
           );
         })}
-      </div>
+      </Grid>
       {cart.flights.length > 0 && (
         <>
-          <Grid container className={classes.colContainer}>
-            <Grid xs={6} item container justify="flex-start">
-              <Typography style={{ fontWeight: 600 }}>Taxes:</Typography>
-            </Grid>
-            <Grid
-              style={{ color: "#6464FF", fontWeight: 600 }}
-              xs={6}
-              item
-              container
-              justify="flex-end"
-            >
-              <Typography style={{ fontWeight: 600 }}>
-                $
-                {cart.flights[0].arrival.taxes +
-                  cart.flights[0].departure.taxes}
-              </Typography>
-            </Grid>
+          <Grid
+            container
+            justify="space-between"
+            className={classes.colContainer}
+          >
+            <Typography style={{ fontWeight: 600 }}>Taxes:</Typography>
+            <Typography style={{ fontWeight: 600, color: "#6464FF" }}>
+              ${cart.flights[0].arrival.taxes + cart.flights[0].departure.taxes}
+            </Typography>
           </Grid>
-          <Grid container>
-            <Grid xs={6} item container justify="flex-start">
-              <Typography style={{ fontWeight: 600 }}>Total:</Typography>
-            </Grid>
-            <Grid
-              xs={6}
-              item
-              style={{ color: "#6464FF", fontWeight: 600 }}
-              container
-              justify="flex-end"
-            >
-              <Typography style={{ fontWeight: 600 }}>
-                ${getCartFlightsTotal(cart)}
-              </Typography>
-            </Grid>
+
+          <Grid justify="space-between" container>
+            <Typography style={{ fontWeight: 600 }}>Total:</Typography>
+            <Typography style={{ color: "#6464FF", fontWeight: 600 }}>
+              ${getCartFlightsTotal(cart)}
+            </Typography>
           </Grid>
         </>
       )}
@@ -122,7 +105,7 @@ const CartFlightContainer = () => {
           Remove Flight
         </Button>
       </Grid>
-    </div>
+    </Grid>
   );
 };
 

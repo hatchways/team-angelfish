@@ -1,32 +1,25 @@
 export const getCartFlightsTotal = (cart) => {
-  let total = 0;
-  total += cart.flights.reduce(
-    (total, item) => item.departure.price + item.departure.taxes + total,
-    0,
-  );
-  total += cart?.flights.reduce(
-    (total, item) => item.arrival.price + item.arrival.taxes + total,
-    0,
-  );
-  return total;
+  return cart.flights.reduce((total, item) => {
+    return (
+      total +
+      item.departure.price +
+      item.departure.taxes +
+      item.arrival.price +
+      item.arrival.taxes
+    );
+  }, 0);
 };
 
 export const getCartHotelTotal = (cart) => {
-  let total = 0;
-  total += cart.hotels.reduce(
-    (total, item) => item.price + item.taxes + total,
-    0,
-  );
-  return total;
+  return cart.hotels.reduce((total, item) => {
+    return total + item.price + item.taxes;
+  }, 0);
 };
 
 export const getCartCarTotal = (cart) => {
-  let total = 0;
-  total += cart.rentalCar.reduce(
-    (total, item) => item.price + item.taxes + total,
-    0,
-  );
-  return total;
+  return cart.rentalcar.reduce((item, total) => {
+    return total + item.price + item.taxes;
+  }, 0);
 };
 
 export const getCartLength = (cart) => {

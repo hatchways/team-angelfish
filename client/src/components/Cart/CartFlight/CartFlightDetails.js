@@ -23,66 +23,38 @@ const CartFlightDetails = ({
   return (
     <>
       <Grid container className={classes.colContainer}>
-        <Grid container justify="center" className={classes.titleContainer}>
-          <Grid container item xs={2}>
+        <Grid
+          container
+          justify="space-between"
+          className={classes.titleContainer}
+        >
+          <Grid className={classes.avatarTitleCont}>
             <Avatar className={classes.avatar} src={mockFlightImg}></Avatar>
-          </Grid>
-          <Grid
-            style={{ fontWeight: 600 }}
-            xs={5}
-            item
-            container
-            justify="flex-start"
-          >
-            <Typography className={classes.title}>
+            <Typography className={classes.title} style={{ fontWeight: 600 }}>
               {name.toUpperCase()}
             </Typography>
           </Grid>
-          <Grid
-            className={classes.titleDate}
-            xs={5}
-            container
-            item
-            justify="flex-end"
-          >
-            <Typography>{date}</Typography>
-          </Grid>
+          <Typography className={classes.titleDate}>{date}</Typography>
         </Grid>
 
-        <Grid className={classes.detailsCont} container>
-          <Grid justify="flex-start" container item xs={4}>
-            <Typography style={{ fontWeight: 600 }}>{departureTime}</Typography>
-          </Grid>
-          <Grid alignItems="center" container item xs={4}>
-            <Grid container justify="center">
-              <Typography className={classes.details}>{duration}</Typography>
-            </Grid>
-          </Grid>
-          <Grid justify="flex-end" container item xs={4}>
-            <Typography style={{ fontWeight: 600 }}>{arrivalTime}</Typography>
-          </Grid>
+        <Grid justify="space-between" className={classes.detailsCont} container>
+          <Typography style={{ fontWeight: 600 }}>{departureTime}</Typography>
+          <Typography className={classes.details}>{duration}</Typography>
+          <Typography style={{ fontWeight: 600 }}>{arrivalTime}</Typography>
         </Grid>
 
         <Grid className={classes.lineAirCont} container justify="center">
           <Grid xs={10} item className={classes.line}></Grid>
-          <Grid xs={2} item>
-            <FlightIcon
-              style={{ color: "#787878" }}
-              className={classes.airplaneIcon}
-            />
-          </Grid>
+          <FlightIcon
+            style={{ color: "#787878" }}
+            className={classes.airplaneIcon}
+          />
         </Grid>
 
-        <Grid className={classes.cityCont} container>
-          <Grid justify="space-between" container item xs={4}>
-            <Typography className={classes.place}>{departurePlace}</Typography>
-          </Grid>
-          <Grid container item xs={4} justify="center">
-            <Typography className={classes.details}>{numberOfStops}</Typography>
-          </Grid>
-          <Grid justify="flex-end" container item xs={4}>
-            <Typography className={classes.place}>{arrivalPlace}</Typography>
-          </Grid>
+        <Grid className={classes.cityCont} justify="space-between" container>
+          <Typography className={classes.place}>{departurePlace}</Typography>
+          <Typography className={classes.details}>{numberOfStops}</Typography>
+          <Typography className={classes.place}>{arrivalPlace}</Typography>
         </Grid>
       </Grid>
     </>

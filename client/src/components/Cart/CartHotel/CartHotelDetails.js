@@ -24,18 +24,15 @@ const CartHotelDetails = ({
   return (
     <>
       <Grid className={classes.div} container justify="space-between">
-        <Grid item>
-          <img
-            alt="hotelImage"
-            className={classes.hotelImage}
-            src={backgroundImage}
-          ></img>
-        </Grid>
+        <img
+          alt="hotelImage"
+          className={classes.hotelImage}
+          src={backgroundImage}
+        />
         <Grid item>
           <Typography className={classes.title}>{place}</Typography>
           <Typography className={classes.details}>{city}</Typography>
           <Typography style={{ textAlign: "right" }}>
-            {" "}
             <Rating
               name="customized-empty"
               defaultValue={rating}
@@ -48,31 +45,15 @@ const CartHotelDetails = ({
           </Typography>
           <Typography className={classes.details}>per night</Typography>
         </Grid>
-        <Grid container className={classes.infoDiv}>
+        <Grid justify="space-between" container className={classes.infoDiv}>
+          <Typography className={classes.text}>Check In:</Typography>
+          <Typography>{arrival}</Typography>
           <Grid container justify="space-between">
-            <Grid item>
-              <Typography className={classes.text}>Check In:</Typography>
-            </Grid>
-            <Grid item>
-              <Typography>{arrival}</Typography>
-            </Grid>
+            <Typography className={classes.text}>Check Out:</Typography>
+            <Typography>{departure}</Typography>
           </Grid>
-          <Grid container justify="space-between">
-            <Grid item>
-              <Typography className={classes.text}>Check Out:</Typography>
-            </Grid>
-            <Grid item>
-              <Typography>{departure}</Typography>
-            </Grid>
-          </Grid>
-          <Grid container justify="space-between">
-            <Grid item>
-              <Typography className={classes.text}> Guests:</Typography>
-            </Grid>
-            <Grid item>
-              <Typography>{numberOfGuests}</Typography>
-            </Grid>
-          </Grid>
+          <Typography className={classes.text}> Guests:</Typography>
+          <Typography>{numberOfGuests}</Typography>
         </Grid>
       </Grid>
     </>

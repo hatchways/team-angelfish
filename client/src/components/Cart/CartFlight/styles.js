@@ -27,9 +27,15 @@ export const flightDetailsStyle = makeStyles({
     top: 5,
   },
   avatar: {
+    marginRight: 10,
     width: 30,
     height: 30,
     boxShadow: "0px 0px 4px 1px #888888",
+  },
+  avatarTitleCont: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
   title: {
     fontWeight: 600,

@@ -20,10 +20,11 @@ const CartRentalCarContainer = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.div}>
-        {cart?.rentalCar.map((i, ind) => {
+    <Grid className={classes.root}>
+      <Grid className={classes.div}>
+        {cart?.rentalCar.map((car, _) => {
           const {
+            id,
             arrival,
             departure,
             numberOfNights,
@@ -33,57 +34,40 @@ const CartRentalCarContainer = () => {
             price,
             taxes,
             rating,
-          } = i;
+          } = car;
           return (
-            <div key={ind}>
-              <CartRentalCarDetails
-                placeOfRental={placeOfRental}
-                arrival={arrival}
-                departure={departure}
-                numberOfNights={numberOfNights}
-                typeOfCar={typeOfCar}
-                city={city}
-                price={price}
-                taxes={taxes}
-                rating={rating}
-              />
-            </div>
+            <CartRentalCarDetails
+              key={id}
+              placeOfRental={placeOfRental}
+              arrival={arrival}
+              departure={departure}
+              numberOfNights={numberOfNights}
+              typeOfCar={typeOfCar}
+              city={city}
+              price={price}
+              taxes={taxes}
+              rating={rating}
+            />
           );
         })}
-      </div>
+      </Grid>
       {cart.rentalCar.length > 0 && (
         <>
-          <Grid container className={classes.colContainer}>
-            <Grid xs={6} item container justify="flex-start">
-              <Typography className={classes.title}>Taxes:</Typography>
-            </Grid>
-            <Grid
-              className={classes.price}
-              xs={6}
-              item
-              container
-              justify="flex-end"
-            >
-              <Typography className={classes.price}>
-                ${cart.rentalCar[0].taxes}
-              </Typography>
-            </Grid>
+          <Grid
+            container
+            justify="space-between"
+            className={classes.colContainer}
+          >
+            <Typography className={classes.title}>Taxes:</Typography>
+            <Typography className={classes.price}>
+              ${cart.rentalCar[0].taxes}
+            </Typography>
           </Grid>
-          <Grid container>
-            <Grid xs={6} item container justify="flex-start">
-              <Typography className={classes.title}>Total:</Typography>
-            </Grid>
-            <Grid
-              xs={6}
-              item
-              className={classes.price}
-              container
-              justify="flex-end"
-            >
-              <Typography className={classes.price}>
-                ${getCartCarTotal(cart)}
-              </Typography>
-            </Grid>
+          <Grid container justify="space-between">
+            <Typography className={classes.title}>Total:</Typography>
+            <Typography className={classes.price}>
+              ${getCartCarTotal(cart)}
+            </Typography>
           </Grid>
         </>
       )}
@@ -99,7 +83,7 @@ const CartRentalCarContainer = () => {
           Remove Hotel
         </Button>
       </Grid>
-    </div>
+    </Grid>
   );
 };
 

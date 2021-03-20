@@ -20,10 +20,11 @@ const CartHotelContainer = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <div className={classes.div}>
-        {cart?.hotels.map((i, ind) => {
+    <Grid className={classes.root}>
+      <Grid className={classes.div}>
+        {cart?.hotels.map((hotel, _) => {
           const {
+            id,
             arrival,
             departure,
             numberOfNights,
@@ -33,57 +34,40 @@ const CartHotelContainer = () => {
             price,
             rating,
             taxes,
-          } = i;
+          } = hotel;
           return (
-            <div key={ind}>
-              <CartHotelDetails
-                place={place}
-                arrival={arrival}
-                departure={departure}
-                numberOfNights={numberOfNights}
-                numberOfGuests={numberOfGuests}
-                city={city}
-                price={price}
-                taxes={taxes}
-                rating={rating}
-              />
-            </div>
+            <CartHotelDetails
+              key={id}
+              place={place}
+              arrival={arrival}
+              departure={departure}
+              numberOfNights={numberOfNights}
+              numberOfGuests={numberOfGuests}
+              city={city}
+              price={price}
+              taxes={taxes}
+              rating={rating}
+            />
           );
         })}
-      </div>
+      </Grid>
       {cart.hotels.length > 0 && (
         <>
-          <Grid container className={classes.colContainer}>
-            <Grid xs={6} item container justify="flex-start">
-              <Typography className={classes.title}>Taxes:</Typography>
-            </Grid>
-            <Grid
-              xs={6}
-              className={classes.price}
-              item
-              container
-              justify="flex-end"
-            >
-              <Typography className={classes.price}>
-                ${cart.hotels[0].taxes}
-              </Typography>
-            </Grid>
+          <Grid
+            container
+            justify="space-between"
+            className={classes.colContainer}
+          >
+            <Typography className={classes.title}>Taxes:</Typography>
+            <Typography className={classes.price}>
+              ${cart.hotels[0].taxes}
+            </Typography>
           </Grid>
-          <Grid container>
-            <Grid xs={6} item container justify="flex-start">
-              <Typography className={classes.title}>Total:</Typography>
-            </Grid>
-            <Grid
-              xs={6}
-              item
-              className={classes.price}
-              container
-              justify="flex-end"
-            >
-              <Typography className={classes.price}>
-                ${getCartHotelTotal(cart)}
-              </Typography>
-            </Grid>
+          <Grid justify="space-between" container>
+            <Typography className={classes.title}>Total:</Typography>
+            <Typography className={classes.price}>
+              ${getCartHotelTotal(cart)}
+            </Typography>
           </Grid>
         </>
       )}
@@ -99,7 +83,7 @@ const CartHotelContainer = () => {
           Remove Hotel
         </Button>
       </Grid>
-    </div>
+    </Grid>
   );
 };
 

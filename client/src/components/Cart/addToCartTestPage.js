@@ -1,5 +1,7 @@
 import React from "react";
 
+import { nanoid } from "nanoid";
+
 import { useDispatchContext, useStateContext } from "../../context";
 
 import { useSnackbar } from "notistack";
@@ -13,6 +15,7 @@ const AddToCartTestPage = () => {
     // MOCK Data
     const flightData = {
       departure: {
+        id: nanoid(),
         type: "Departure",
         name: "FLIGHT001",
         price: 10000,
@@ -26,6 +29,7 @@ const AddToCartTestPage = () => {
         arrivalPlace: "LAX",
       },
       arrival: {
+        id: nanoid(),
         type: "Arrival",
         name: "FLIGHT001",
         price: 10000,
@@ -41,6 +45,7 @@ const AddToCartTestPage = () => {
     };
 
     const hotelData = {
+      id: nanoid(),
       arrival: "03/20/21",
       departure: "03/20/21",
       numberOfNights: 3,
@@ -53,6 +58,7 @@ const AddToCartTestPage = () => {
     };
 
     const rentalCarData = {
+      id: nanoid(),
       arrival: "03/20/21",
       departure: "03/20/21",
       numberOfNights: 3,

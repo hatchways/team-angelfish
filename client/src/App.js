@@ -11,7 +11,6 @@ import Flights from "./pages/Flights";
 import Hotels from "./pages/Hotels";
 import Rent from "./pages/Rent";
 import Header from "./components/Header";
-// import Profile from "./pages/Profile";
 import Profile from "./pages/User/UserProfile";
 import TestRoute from "./components/Cart/addToCartTestPage";
 import Checkout from "./components/Stripe/Checkout";
