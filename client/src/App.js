@@ -27,7 +27,6 @@ function App() {
           <Header />
           <Switch>
             <Redirect exact from="/" to="/explore" />
-            {/* @TODO: Add userId props here and pass the currentUserId from Backend */}
             <Route path="/explore" component={() => <ExplorerPage />} />
             <Route exact path="/flights" component={Flights} />
             <Route exact path="/hotel" component={Hotels} />
