@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
@@ -6,7 +7,10 @@ import Button from "@material-ui/core/Button";
 import Favorite from "@material-ui/icons/Favorite";
 import { CustomSmallerCheckBox } from "../../themes/theme";
 import Snackbar from "@material-ui/core/Snackbar";
+import Tooltip from "@material-ui/core/Tooltip";
 import MuiAlert from "@material-ui/lab/Alert";
+import ShuffleIcon from "@material-ui/icons/Shuffle";
+
 import useStyles from "../../styles/Explore";
 
 import { useStateContext } from "../../context";
@@ -142,7 +146,12 @@ const Explore = () => {
         >
           World's top destinations to explore
         </Typography>
-        <Button onClick={handleShuffleButton}>Shuffle</Button>
+
+        <Button className={classes.shuffle} onClick={handleShuffleButton}>
+          <Tooltip title="Shuffle Cities">
+            <ShuffleIcon />
+          </Tooltip>
+        </Button>
         <Grid
           container
           spacing={3}
