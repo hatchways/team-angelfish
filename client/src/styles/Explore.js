@@ -70,5 +70,8 @@ export default makeStyles(() => ({
   },
   shuffle: {
     marginTop: 20,
+    "&:hover": {
+      color: "orange",
+    },
   },
 }));
