@@ -147,7 +147,11 @@ const Explore = () => {
           World's top destinations to explore
         </Typography>
 
-        <Button className={classes.shuffle} onClick={handleShuffleButton}>
+        <Button
+          style={{ backgroundColor: "#fff" }}
+          className={classes.shuffle}
+          onClick={handleShuffleButton}
+        >
           <Tooltip title="Shuffle Cities">
             <ShuffleIcon />
           </Tooltip>
