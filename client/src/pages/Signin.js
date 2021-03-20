@@ -11,7 +11,7 @@ const Signin = ({ close, signup }) => {
   const handleModal = () => close();
 
   return state ? (
-    <Redirect to="/dashboard" />
+    <Redirect to="/explore" />
   ) : (
     <SigninContainer dash={goToDash} signup={goToSignup} close={handleModal} />
   );
