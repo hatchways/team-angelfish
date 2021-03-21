@@ -87,17 +87,18 @@ router.get("/quotes/:from/:to/:outboundDate", (req, res, next) => {
 });
 
 router.get("/places", (req, res, next) => {
-	const { places} = req.params;
+	const { query } = req.body;
+
 
 	const error = {};
 	if (Object.keys(error).length === 0) {
 		const request = unirest(
 			"GET",
-			"https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US\/USD/en-US/"
+			`https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/UK\/USD/en-US/`
 		);
 
 		request.query({
-			query: "France",
+			query: "New York",
 		});
 
 		request.headers({

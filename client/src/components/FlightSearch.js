@@ -4,52 +4,55 @@ import { Autocomplete } from "@material-ui/lab";
 
 import useStyles from "../styles/FlightSearch";
 
+// Mock Data
+const cities = [
+  { title: "Vancouver" },
+  { title: "Calgary" },
+  { title: "Toronto" },
+  { title: "Bangkok" },
+];
 
 const FlightSearch = () => {
   const classes = useStyles();
+
   const curr = new Date();
   curr.setDate(curr.getDate());
   const date = curr.toISOString().substr(0, 10);
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+
+  const [from, setFrom] = useState("Vancouver");
+  const [to, setTo] = useState("Bangkok");
   const [arrival, setArrival] = useState(date);
-  const [cities, setCities] = useState([])
   const [departure, setDeparture] = useState(date);
   const [travellers, setTravellers] = useState(1);
+  const [places, setPlaces] = useState([]);
 
+  useEffect(() => {
+    const getPlaces = async () => {
+      const data = await fetch(`/api/flights/places`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const result = await data.json();
+      setPlaces(result.Places);
+    };
+    getPlaces();
+  }, []);
 
-  useEffect((e)=>{
-    const getCities = async () =>{
-      try{
-       const cityListResponse = await fetch("/api/cities", {
-         method: "GET",
-         headers: {
-           "Content-Type": "application/json",
-         },
-       });
-       const cityList = await cityListResponse.json();
-       setCities(cityList)
-      } catch(err){
-        console.error()
-      }
-    }
-    getCities()
-   }, [])
+  console.log(places);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   console.log("submitted form")
+    const searchObject = {
+      from: from,
+      to: to,
+      arrival: arrival,
+      departure: departure,
+      travellers: travellers,
+    };
   };
 
-  const handleFrom = (...[, v]) =>{
-   if(v.length < 2){
-     return v
-   } else{
-    setFrom(v)
-   }
-  }
- 
-  const places = cities.map((city)=> city.name)
   return (
     <div className={classes.root}>
       <form onSubmit={handleSubmit}>
@@ -57,27 +60,27 @@ const FlightSearch = () => {
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
             <InputLabel className={classes.inputLabel}>From</InputLabel>
             <Autocomplete
+              freeSolo
               id="from"
               name="from"
-              options={places}
-              defaultValue={from}
+              options={places.map((place) => place.PlaceName)}
               value={from}
-              onChange={handleFrom}
+              onChange={(...[, v]) => setFrom(v)}
               style={{ width: 150 }}
-              renderInput={(params) => <TextField name="places" {...params} />}
+              renderInput={(params) => <TextField name=" " {...params} />}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
             <InputLabel className={classes.inputLabel}>Where to go</InputLabel>
             <Autocomplete
+              freeSolo
               id="to"
               name="to"
-              options={places}
-              defaultValue={to}
+              options={places.map((place) => place.PlaceName)}
               value={to}
               onChange={(...[, v]) => setTo(v)}
               style={{ width: 150 }}
-              renderInput={(params) => <TextField name="places" {...params} />}
+              renderInput={(params) => <TextField name="to" {...params} />}
             />
           </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
