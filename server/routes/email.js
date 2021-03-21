@@ -9,7 +9,7 @@ sgMail.setApiKey(sendGridApiKey);
 
 const sendEmail = async (req, res) => {
 
-  const {passenger, from, to, subject, content} = req.body;
+  const { from, to, subject, content} = req.body;
 
   const msg = {
     //  Chnage this to your own email to get mail sent to your inbox
