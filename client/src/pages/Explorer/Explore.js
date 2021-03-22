@@ -134,28 +134,45 @@ const Explore = () => {
     });
   }
 
+  const windowParams = window.location.pathname;
   return (
     <>
       <Container className={classes.pageContainer}>
-        <Typography variant="h4" className={classes.title}>
-          Explore destinations
-        </Typography>
-        <Typography
-          variant="subtitle2"
-          className={(classes.title, classes.subtitle2)}
-        >
-          World's top destinations to explore
-        </Typography>
+        {windowParams === "/profile/favoritedestinations" ? (
+          <Grid container justify="space-between">
+            <Typography variant="h4" className={classes.title}>
+              Favorite Destinations
+            </Typography>
+            <Button
+              variant="outlined"
+              style={{ float: "right", marginRight: 25 }}
+            >
+              Explore
+            </Button>
+          </Grid>
+        ) : (
+          <>
+            <Typography variant="h4" className={classes.title}>
+              Explore destinations
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              className={(classes.title, classes.subtitle2)}
+            >
+              World's top destinations to explore
+            </Typography>
 
-        <Button
-          style={{ backgroundColor: "#fff" }}
-          className={classes.shuffle}
-          onClick={handleShuffleButton}
-        >
-          <Tooltip title="Shuffle Cities">
-            <ShuffleIcon />
-          </Tooltip>
-        </Button>
+            <Button
+              style={{ backgroundColor: "#fff" }}
+              className={classes.shuffle}
+              onClick={handleShuffleButton}
+            >
+              <Tooltip title="Shuffle Cities">
+                <ShuffleIcon />
+              </Tooltip>
+            </Button>
+          </>
+        )}
         <Grid
           container
           spacing={3}
