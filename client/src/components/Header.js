@@ -129,7 +129,12 @@ function Header() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>
-                  <Link to="/profile/favoritedestinations">Profile</Link>
+                  <Link
+                    className={classes.ProfileLink}
+                    to="/profile/favoritedestinations"
+                  >
+                    Profile
+                  </Link>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
