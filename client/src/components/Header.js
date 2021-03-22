@@ -18,6 +18,7 @@ import {
 import useStyles from "../styles/Header";
 import Signin from "../pages/Signin";
 import Signup from "../pages/Signup";
+import Cart from "./Cart/Cart";
 
 import { useStateContext } from "../context";
 
@@ -43,10 +44,10 @@ function Header() {
   const openModal = () => setModal(!modal);
   const closeModal = () => {
     setModal(!modal);
-    setSignup(false);
+    setSignup(!signup);
   };
-  const handleSignup = () => setSignup(true);
-  const handleSignin = () => setSignup(false);
+  const handleSignup = () => setSignup(!signup);
+  const handleSignin = () => setSignup(!signup);
 
   const WrappedSignin = React.forwardRef((props, ref) => (
     <Signin {...props} forwardedRef={ref} />
@@ -152,6 +153,7 @@ function Header() {
               </Modal>
             </div>
           )}
+          <Cart />
         </Toolbar>
       </AppBar>
       <Toolbar />
