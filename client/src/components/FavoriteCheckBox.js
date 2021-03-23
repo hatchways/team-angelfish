@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Grid} from "@material-ui/core";
+import React, { useState, useStyles } from "react";
+import { Typography, Grid, Button } from "@material-ui/core";
 import Favorite from "@material-ui/icons/Favorite";
 import { CustomSmallerCheckBox } from "../themes/theme";
 

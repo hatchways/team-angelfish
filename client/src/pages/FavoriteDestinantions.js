@@ -5,30 +5,7 @@ import FavoriteCheckBox from "../components/FavoriteCheckBox";
 
 function FavoriteDestinantions() {
   const classes = useStyles();
-  const [places, setPlaces] = useState([])
-
-
-
-  useEffect(() => {
-    async function getData() {
-      try {
-        const cityListResponse = await fetch("/api/cities", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        const cityList = await cityListResponse.json();
-        setPlaces(cityList);
-      } catch (error) {
-        console.error();
-      }
-    }
-    getData();
-  }, []);
-
-
-  
+  const places = [];
   return (
     <Grid className={classes.root}>
       <Button variant="outlined" style={{ float: "right", marginRight: 25 }}>
