@@ -10,13 +10,6 @@ import {
 
 import useStyles from "../styles/FlightSearch";
 
-// Mock Data
-const cities = [
-	{ title: "Vancouver", placeId: "" },
-	{ title: "Calgary", placeId: "" },
-	{ title: "Toronto", placeId: "" },
-	{ title: "Bangkok", placeId: "" },
-];
 
 const mockData = {
 	Quotes: [
@@ -94,14 +87,16 @@ const mockData = {
 const FlightSearch = ({ submit }) => {
 	const classes = useStyles();
 
-	const [from, setFrom] = useState("Vancouver");
-	const [to, setTo] = useState("Bangkok");
+	const [from, setFrom] = useState("Paris");
+	const [to, setTo] = useState("Tokyo");
 	const [arrivalDate, setArrivalDate] = useState(new Date());
 	const [departDate, setDepartDate] = useState(new Date());
 	const [travellers, setTravellers] = useState(1);
 	const [dateError, setDateError] = useState(false);
 	const [fromError, setFromError] = useState(false);
 	const [toError, setToError] = useState(false);
+	const [cities, setCities] = useState([])
+
 
 	const formatDate = (date) => {
 		const year = date.getFullYear();
@@ -110,15 +105,33 @@ const FlightSearch = ({ submit }) => {
 		const newDate = new Date(year, month, day);
 		return newDate.toISOString().split("T")[0];
 	};
+	
 
 	const handleFromLocation = (event, value) => {
-		setFrom(value);
-		setFromError(false);
+		const getCity = async () =>{
+			const response = await fetch(`/api/flights/places/${from}`)
+			const data = await response.json()
+			setCities(data.Places)
+		}
+			getCity()
+			setFrom(value)
+		   setFromError(false);
 	};
+
+	console.log(cities)
+	
 	const handleToLocation = (event, value) => {
-		setTo(value);
-		setToError(false);
+		const getCity = async () =>{
+			const response = await fetch(`/api/flights/places/${to}`)
+			const data = await response.json()
+			setCities(data.Places)
+			setTo(value);
+	    	setToError(false);
+		}
+ 		getCity()	
 	};
+
+
 	const handleArrivalDate = (date) => setArrivalDate(date);
 	const handleDepartDate = (date) => {
 		setDepartDate(date);
@@ -165,7 +178,7 @@ const FlightSearch = ({ submit }) => {
 							id="from"
 							name="from"
 							value={from}
-							options={cities.map((option) => option.title)}
+							options={cities.map((option) => option.PlaceName)}
 							onChange={handleFromLocation}
 							renderInput={(params) => (
 								<TextField
@@ -188,7 +201,7 @@ const FlightSearch = ({ submit }) => {
 							id="to"
 							name="to"
 							value={to}
-							options={cities.map((option) => option.title)}
+							options={cities.map((option) => option.PlaceName)}
 							onChange={handleToLocation}
 							renderInput={(params) => (
 								<TextField
