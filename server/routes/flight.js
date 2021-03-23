@@ -85,11 +85,10 @@ router.get("/quotes/:from/:to/:outboundDate", (req, res, next) => {
 	}
 });
 
-router.get("/places", (req, res, next) => {
-	const { query } = req.body;
-
-
+router.get("/places/:regionId", (req, res, next) => {
+	const { regionId } = req.params;
 	const error = {};
+	const region = validateLocation(regionId, error, "region")
 	if (Object.keys(error).length === 0) {
 		const request = unirest(
 			"GET",
@@ -97,7 +96,7 @@ router.get("/places", (req, res, next) => {
 		);
 
 		request.query({
-			query: "New York",
+			query: region,
 		});
 
 		request.headers({
