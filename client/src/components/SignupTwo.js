@@ -44,6 +44,7 @@ const SignupTwo = ({ dash, close, user }) => {
   const handleAdd = () => {
     const newAdd = destination.trim();
     const isInList = travelList.includes(newAdd);
+
     if (destination.length === 0) {
       setSelectCityError(true);
     } else {
@@ -191,7 +192,11 @@ const SignupTwo = ({ dash, close, user }) => {
               />
             </>
           ) : (
-            <Button className={classes.link} onClick={openAdd}>
+            <Button
+              disabled={travelList.length === 3 ? true : false}
+              className={classes.link}
+              onClick={openAdd}
+            >
               Add more
             </Button>
           )}
