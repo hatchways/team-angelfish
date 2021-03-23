@@ -49,22 +49,26 @@ const SigninContainer = ({ dash, signup, close }) => {
 			password: pwd.trim(),
 		};
 		if (checkEmail() && pwd) {
-			const loginResponse = await fetch("/api/users/login", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(userInfo),
-			});
-			const loginData = await loginResponse.json();
-			if (loginData.status === "success") {
-				// need to close modal
-				dispatch({ type: "AUTHENTICATED", payload: loginData.data });
-				dash(); // redirect to explore page
-			} else if ("password" in loginData) {
-				setPwdServerError(true);
-			} else if ("email" in loginData) {
-				setEmailServerError(true);
+			try {
+				const loginResponse = await fetch("/api/users/login", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(userInfo),
+				});
+				const loginData = await loginResponse.json();
+				if (loginData.status === "success") {
+					// need to close modal
+					dispatch({ type: "AUTHENTICATED", payload: loginData.data });
+					dash(); // redirect to explore page
+				} else if ("password" in loginData) {
+					setPwdServerError(true);
+				} else if ("email" in loginData) {
+					setEmailServerError(true);
+				}
+			} catch (err) {
+				console.log(err);
 			}
 		} else if (!checkEmail()) {
 			setEmailClientError(true);

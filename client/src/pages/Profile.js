@@ -20,8 +20,12 @@ function Profile() {
 		email: "DevinJones@gmail.com",
 	};
 	const handleLogout = async () => {
-		await fetch(`api/users/logout`);
-    dispatch({ type: "LOG_OUT" });
+		try {
+			await fetch(`api/users/logout`);
+			dispatch({ type: "LOG_OUT" });
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	return (
