@@ -1,18 +1,31 @@
 const mongoose = require('mongoose');
-
 const { Schema } = mongoose;
+const Cars = require("./Cars")
+const Flights = require("./Flights")
+const Hotels = require("./Hotel")
+const User = require("./User")
 
 const itinerarySchema = new Schema({
-    airline: { type: String, required: true },
-    from: { type: String, required: true },
-    to: { type: String, required: true },
-    gate: {type: String, required: true},
-    departureTime: {type: Date, required: true},
-    passenger:[{
-        ticketNumber:{type: String},
-        name:{type: String, required: true},
-        seat: {type: String, required: true}
-    }]
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User,
+    required: true,
+  },
+  car: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Cars,
+    required: false,
+  },
+  flight: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Flights,
+    required: false,
+  },
+  hotel: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Hotels,
+    required: false,
+  },
   });
   
 
