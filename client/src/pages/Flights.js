@@ -17,7 +17,7 @@ function Flights() {
       <Grid classes={{ container: classes.container }} container>
         <Grid className={classes.titleContainer} item xs={5}>
           <Typography className={classes.header}>
-            Find the flights and<br></br> start the holiday.
+            Find the flights and<br />start the holiday.
           </Typography>
         </Grid>
         <Grid className={classes.heroContainer} item xs={7}>

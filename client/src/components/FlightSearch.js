@@ -1,16 +1,7 @@
 import React, { useState } from "react";
 import { Grid, Paper, TextField, Button, InputLabel } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-
 import useStyles from "../styles/FlightSearch";
-
-// Mock Data
-const cities = [
-  { title: "Vancouver" },
-  { title: "Calgary" },
-  { title: "Toronto" },
-  { title: "Bangkok" },
-];
 
 const FlightSearch = () => {
   const classes = useStyles();
@@ -19,22 +10,15 @@ const FlightSearch = () => {
   curr.setDate(curr.getDate());
   const date = curr.toISOString().substr(0, 10);
 
-  const [from, setFrom] = useState("Vancouver");
-  const [to, setTo] = useState("Bangkok");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [arrival, setArrival] = useState(date);
   const [departure, setDeparture] = useState(date);
   const [travellers, setTravellers] = useState(1);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const searchObject = {
-      from: from,
-      to: to,
-      arrival: arrival,
-      departure: departure,
-      travellers: travellers,
-    };
-  };
+   const handleSubmit = ()=>{
+     console.log("Hello")
+   }
 
   return (
     <div className={classes.root}>
@@ -49,12 +33,12 @@ const FlightSearch = () => {
               options={cities.map((city) => city.title)}
               defaultValue={from}
               value={from}
-              onChange={(...[, v]) => setFrom(v)}
+              onChange={(e)=> setFrom(e.target.value)}
               style={{ width: 150 }}
               renderInput={(params) => <TextField name="from" {...params} />}
             />
           </Grid>
-          <Grid className={classes.input} lg={2} sm={3} xs={6} item>
+          {/* <Grid className={classes.input} lg={2} sm={3} xs={6} item>
             <InputLabel className={classes.inputLabel}>Where to go</InputLabel>
             <Autocomplete
               freeSolo
@@ -63,11 +47,13 @@ const FlightSearch = () => {
               options={cities.map((city) => city.title)}
               defaultValue={to}
               value={to}
-              onChange={(...[, v]) => setTo(v)}
+              onChange={(_, newValue) => {
+                setTo((v) => ({ ...v, to: newValue }));
+              }}
               style={{ width: 150 }}
-              renderInput={(params) => <TextField name="to" {...params} />}
+              renderInput={(params) => <TextField {...params} />}
             />
-          </Grid>
+          </Grid> */}
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
             <InputLabel className={classes.inputLabel}>Arrival</InputLabel>
             <TextField
