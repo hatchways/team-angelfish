@@ -65,41 +65,25 @@ function Header() {
 						className={classes.menuButton}
 						color="inherit"
 						aria-label="menu"
-					></IconButton>
+					/>
 					<Typography variant="h6" className={classes.title}>
 						Travel Booking
 					</Typography>
 					<Grid className={classes.pages}>
-						<NavLink
-							className={classes.navlinks}
-							to="/explore"
-							activeStyle={{ color: "#FFA000" }}
-						>
+						<NavLink className={classes.navlinks} to="/explore">
 							Explore
 						</NavLink>
-						<NavLink
-							className={classes.navlinks}
-							to="/flights"
-							activeStyle={{ color: "#FFA000" }}
-						>
+						<NavLink className={classes.navlinks} to="/flights">
 							Flights
 						</NavLink>
-						<NavLink
-							className={classes.navlinks}
-							to="/hotel"
-							activeStyle={{ color: "#FFA000" }}
-						>
+						<NavLink className={classes.navlinks} to="/hotel">
 							Hotels
 						</NavLink>
-						<NavLink
-							className={classes.navlinks}
-							to="/rent"
-							activeStyle={{ color: "#FFA000" }}
-						>
+						<NavLink className={classes.navlinks} to="/rent">
 							Rent
 						</NavLink>
 					</Grid>
-					{authenticated? (
+					{authenticated ? (
 						<Grid>
 							<IconButton
 								aria-label="account of current user"

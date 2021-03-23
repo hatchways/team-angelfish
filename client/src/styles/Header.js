@@ -1,4 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles';
+/** @format */
+
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -31,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
 		width: "45%",
 	},
 	navlinks: {
+		"&.active": {
+			color: "#FFA000",
+		},
 		color: "#373737",
 		textDecoration: "none",
 	},
@@ -41,4 +46,4 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default useStyles
+export default useStyles;
