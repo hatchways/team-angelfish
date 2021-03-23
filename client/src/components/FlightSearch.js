@@ -1,14 +1,22 @@
+/** @format */
+
 import React, { useState } from "react";
-import { Grid, Paper, TextField, Button, InputLabel } from "@material-ui/core";
+
+import { Grid, Paper, TextField, Button } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import useStyles from "../styles/FlightSearch";
 
 const FlightSearch = () => {
   const classes = useStyles();
 
-  const curr = new Date();
-  curr.setDate(curr.getDate());
-  const date = curr.toISOString().substr(0, 10);
+	const [from, setFrom] = useState("Vancouver");
+	const [to, setTo] = useState("Bangkok");
+	const [arrivalDate, setArrivalDate] = useState(new Date());
+	const [departDate, setDepartDate] = useState(new Date());
+	const [travellers, setTravellers] = useState(1);
+	const [dateError, setDateError] = useState(false);
+	const [fromError, setFromError] = useState(false);
+	const [toError, setToError] = useState(false);
 
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");

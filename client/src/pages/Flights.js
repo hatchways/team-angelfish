@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import React, { useState } from "react";
 
 import { Grid, Typography } from "@material-ui/core";
 
@@ -8,6 +8,7 @@ import backgroundImg from "../assets/images/birdseye-beach.jpeg";
 import FlightSearchComponent from "../components/FlightSearch";
 
 import useStyles from "../styles/Flights";
+import FlightResults from "../components/FlightResults";
 
 function Flights() {
   const classes = useStyles();
