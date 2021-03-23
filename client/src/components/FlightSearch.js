@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-import { Grid, Paper, TextField, Button } from "@material-ui/core";
+import { Grid, Paper, TextField, Button, InputLabel } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import useStyles from "../styles/FlightSearch";
 
@@ -17,12 +17,6 @@ const FlightSearch = () => {
 	const [dateError, setDateError] = useState(false);
 	const [fromError, setFromError] = useState(false);
 	const [toError, setToError] = useState(false);
-
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [arrival, setArrival] = useState(date);
-  const [departure, setDeparture] = useState(date);
-  const [travellers, setTravellers] = useState(1);
 
    const handleSubmit = ()=>{
      console.log("Hello")
@@ -46,7 +40,7 @@ const FlightSearch = () => {
               renderInput={(params) => <TextField name="from" {...params} />}
             />
           </Grid>
-          {/* <Grid className={classes.input} lg={2} sm={3} xs={6} item>
+          <Grid className={classes.input} lg={2} sm={3} xs={6} item>
             <InputLabel className={classes.inputLabel}>Where to go</InputLabel>
             <Autocomplete
               freeSolo
@@ -61,15 +55,15 @@ const FlightSearch = () => {
               style={{ width: 150 }}
               renderInput={(params) => <TextField {...params} />}
             />
-          </Grid> */}
+          </Grid>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
             <InputLabel className={classes.inputLabel}>Arrival</InputLabel>
             <TextField
               id="date"
               type="date"
               name="departure"
-              defaultValue={arrival}
-              onChange={(e) => setArrival(e.target.value)}
+              defaultValue={arrivalDate}
+              onChange={(e) => setArrivalDate(e.target.value)}
               className={classes.textField}
               InputProps={{
                 className: classes.textField,
@@ -86,9 +80,9 @@ const FlightSearch = () => {
               id="date"
               type="date"
               name="departure"
-              defaultValue={departure}
+              defaultValue={departDate}
               className={classes.textField}
-              onChange={(e) => setDeparture(e.target.value)}
+              onChange={(e) => setDepartDate(e.target.value)}
               InputProps={{
                 className: classes.textField,
                 disableUnderline: true
