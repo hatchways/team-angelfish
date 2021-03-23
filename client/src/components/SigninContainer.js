@@ -140,7 +140,7 @@ const SigninContainer = ({ dash, signup, close }) => {
 								name="pwdSignin"
 								type="password"
 								color="secondary"
-								error={pwdClientError || pwdServerError ? true : false}
+								error={pwdClientError || pwdServerError}
 								helperText={
 									pwdServerError || pwdClientError
 										? pwdServerError
