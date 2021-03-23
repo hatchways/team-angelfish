@@ -1,6 +1,11 @@
 import React from "react";
+
 import { loadStripe } from "@stripe/stripe-js";
 import { useHistory } from "react-router";
+
+import { Button } from "@material-ui/core";
+
+import { useStyles } from "../Cart/styles";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
@@ -16,8 +21,9 @@ const paymentDetails = {
   id: "604b41b8d7cad7730161bb16",
 };
 
-const Checkout = () => {
+const Checkout = ({ isCartEmpty, activeStep, steps }) => {
   const history = useHistory();
+  const classes = useStyles();
   const goToPayment = async (e) => {
     e.preventDefault();
     const stripe = await stripePromise;
@@ -38,9 +44,17 @@ const Checkout = () => {
   };
 
   return (
-    <div>
-      <button onClick={goToPayment}>Proceed with payment</button>
-    </div>
+    <>
+      <Button
+        onClick={goToPayment}
+        disabled={
+          isCartEmpty ? true : activeStep === steps.length ? false : true
+        }
+        className={classes.btn}
+      >
+        Payment
+      </Button>
+    </>
   );
 };
 
