@@ -8,6 +8,7 @@ import SignupTwo from "../components/SignupTwo";
 const Signup = ({ close, signin }) => {
   const [dash, setDash] = useState(false);
   const [next, setNext] = useState(false);
+  const [user, setUser] = useState(null);
 
   const goToNext = () => setNext(true);
   const goToDash = () => setDash(true);
@@ -17,9 +18,14 @@ const Signup = ({ close, signin }) => {
   return dash ? (
     <Redirect to="/explore" />
   ) : next ? (
-    <SignupTwo dash={goToDash} close={handleModal} />
+    <SignupTwo dash={goToDash} user={user} next={next} close={handleModal} />
   ) : (
-    <SignupOne next={goToNext} signin={goToSignin} close={handleModal} />
+    <SignupOne
+      next={goToNext}
+      setUser={setUser}
+      signin={goToSignin}
+      close={handleModal}
+    />
   );
 };
 export default Signup;

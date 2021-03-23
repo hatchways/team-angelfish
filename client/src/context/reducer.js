@@ -3,6 +3,7 @@ export const initialState = {
   user: {},
   loading: true,
   cart: { flights: [], hotels: [], rentalCar: [] },
+  cities: [],
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -10,7 +11,7 @@ export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case "LOADING":
       return {
-        ...initialState,
+        ...state,
         loading: true,
       };
     case "AUTHENTICATED":
@@ -45,6 +46,11 @@ export const userReducer = (state = initialState, action) => {
           ...state.cart,
           [action.purchaseType]: [],
         },
+      };
+    case "GET_CITIES":
+      return {
+        ...state,
+        cities: action.payload,
       };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);

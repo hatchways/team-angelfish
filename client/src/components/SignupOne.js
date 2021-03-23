@@ -13,7 +13,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../styles/Signup_in";
 
-const SignupOne = ({ next, close, signin }) => {
+const SignupOne = ({ next, close, signin, setUser }) => {
   const classes = useStyles();
 
   const initialState = {
@@ -111,6 +111,7 @@ const SignupOne = ({ next, close, signin }) => {
         .then((results) => {
           if (results.status === "success") {
             next();
+            setUser(results.data.user);
           } else if (results.email === "Authentication Failed") {
             dispatch({ type: "error", error: "emailValidationError" });
           } else if (!checkUser()) {
