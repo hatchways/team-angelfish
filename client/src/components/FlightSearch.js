@@ -6,8 +6,8 @@ import { Grid, Paper, TextField, Button } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import DateFnsUtils from "@date-io/date-fns";
 import {
-	MuiPickersUtilsProvider,
-	KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
 } from "@material-ui/pickers";
 
 import useStyles from "../styles/FlightSearch";
@@ -21,8 +21,8 @@ const cities = [
 ];
 
 const FlightSearch = ({ submit }) => {
-	const classes = useStyles();
-
+  const classes = useStyles();
+  
 	const [from, setFrom] = useState("Vancouver");
 	const [to, setTo] = useState("Bangkok");
 	const [departureDate, setDepartureDate] = useState(new Date());
@@ -33,14 +33,14 @@ const FlightSearch = ({ submit }) => {
 	const [fromError, setFromError] = useState(false);
 	const [toError, setToError] = useState(false);
 
-	const formatDate = (date) => {
-		const year = date.getFullYear();
-		const month = date.getMonth();
-		const day = date.getDate();
-		const newDate = new Date(year, month, day);
-		return newDate.toISOString().split("T")[0];
-	};
-
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const newDate = new Date(year, month, day);
+    return newDate.toISOString().split("T")[0];
+  };
+  
 	const handleFromLocation = (event, value) => {
 		setFrom(value);
 		setFromError(false);
