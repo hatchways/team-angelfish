@@ -123,7 +123,6 @@ const FlightSearch = ({ submit }) => {
 		}
 	};
 
-	console.log(cities)
 	
 	const handleToLocation = (e, value) => {
 	try{
