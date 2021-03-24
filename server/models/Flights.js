@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const flightsSchema = new Schema({
   departureDate: { type: Date, required: true },
-  // In case its not a round-trip
+  // In case its not a round-trip required is set to false
   returnDate: { type: Date },
   departureLocation: { type: String, required: true },
   destinationLocation: { type: String, required: true },

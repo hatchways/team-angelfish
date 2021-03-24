@@ -8,7 +8,6 @@ const carSchema = new Schema({
   imageUrl: {type: String,},
   rentOutDate: {type: Date},
   returnRentalDate: {type: Date},
-  image: {type: String,},
 });
 
 const Car = mongoose.model("Car", carSchema);
