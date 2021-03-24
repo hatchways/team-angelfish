@@ -15,7 +15,7 @@ const Success = () => {
   return (
     <Grid
       container
-      style={{ height: "100%" }}
+      style={{ height: "100%", backgroundColor: "#ededed" }}
       justify="center"
       alignItems="center"
       direction="column"
