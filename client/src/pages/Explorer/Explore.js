@@ -102,7 +102,7 @@ const Explore = () => {
             city.favorite = favoriteList.indexOf(city.name) >= 0;
             return city;
           });
-          const updatedList = await getUpdatedList(cityList, favoriteList);
+          const updatedList = getUpdatedList(cityList, favoriteList);
           setPlaces(updatedList);
         }
       } catch (error) {
