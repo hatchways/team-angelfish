@@ -62,13 +62,13 @@ const FlightSearch = ({ submit }) => {
 		event.preventDefault();
 		const fromCity = cities.find((city) => from === city.title).title;
 		const toCity = cities.find((city) => to === city.title).title;
-		const arriveDate = formatDate(departureDate);
-		const leaveDate = formatDate(returnDate);
+		const formattedDepartureDate = formatDate(departureDate);
+		const formattedReturnDate = formatDate(returnDate);
 		
 		if (from && to && departureDate && returnDate) {
 			if (returnDate >= departureDate) {
 				const response = await fetch(
-					`api/flights/quotes/${fromCity}/${toCity}/${arriveDate}/?inboundDate=${leaveDate}`
+					`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`
 				);
 				const data = await response.json();
 				if (data.status === 200) {
@@ -91,7 +91,7 @@ const FlightSearch = ({ submit }) => {
 			// return date is optional
 		} else if (from && to && departureDate) {
 			const response = await fetch(
-				`api/flights/quotes/${fromCity}/${toCity}/${arriveDate}`
+				`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}`
 			);
 			const data = await response.json();
 			if (data.status === 200) {
