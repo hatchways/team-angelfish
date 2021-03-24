@@ -69,118 +69,71 @@ const indirectTime = () => {
 const mockData = ({ from, to, departure, returning }) => {
 	const carrierIds = [29, 173, 870, 450];
 	const randomCarrier = (num = carrierIds.length) => carrierIds[randomInt(num)];
-	const quotes = [
-		{
-			QuoteId: 1,
-			MinPrice: returning ? randomMinMax(225, 255) : randomMinMax(110, 145),
-			Direct: false,
-			OutboundLeg: {
-				CarrierId: randomCarrier(),
-				DepartureDate: formattedDate(departure),
-				...indirectTime(),
-			},
-			...(returning && {
-				InboundLeg: {
-					CarrierId: randomCarrier(),
-					ReturnDate: formattedDate(returning),
-					...indirectTime(),
-				},
-			}),
-		},
-		{
-			QuoteId: 2,
-			MinPrice: returning ? randomMinMax(255, 285) : randomMinMax(145, 210),
-			Direct: true,
-			OutboundLeg: {
-				CarrierId: randomCarrier(),
-				DepartureDate: formattedDate(departure),
-				...directTime(),
-			},
-			...(returning && {
-				InboundLeg: {
-					CarrierId: randomCarrier(),
-					ReturnDate: formattedDate(returning),
-					...directTime(),
-				},
-			}),
-		},
-		{
-			QuoteId: 3,
-			MinPrice: returning ? randomMinMax(255, 285) : randomMinMax(145, 210),
-			Direct: true,
-			OutboundLeg: {
-				CarrierId: randomCarrier(),
-				DepartureDate: formattedDate(departure),
-				...directTime(),
-			},
-			...(returning && {
-				InboundLeg: {
-					CarrierId: randomCarrier(),
-					ReturnDate: formattedDate(returning),
-					...directTime(),
-				},
-			}),
-		},
-		{
-			QuoteId: 4,
-			MinPrice: returning ? randomMinMax(225, 255) : randomMinMax(110, 145),
-			Direct: false,
-			OutboundLeg: {
-				CarrierId: randomCarrier(),
-				DepartureDate: formattedDate(departure),
-				...indirectTime(),
-			},
-			...(returning && {
-				InboundLeg: {
-					CarrierId: randomCarrier(),
-					ReturnDate: formattedDate(returning),
-					...indirectTime(),
-				},
-			}),
-		},
-		{
-			QuoteId: 5,
-			MinPrice: returning ? randomMinMax(255, 285) : randomMinMax(145, 210),
-			Direct: true,
-			OutboundLeg: {
-				CarrierId: randomCarrier(),
-				DepartureDate: formattedDate(departure),
-				...directTime(),
-			},
-			...(returning && {
-				InboundLeg: {
-					CarrierId: randomCarrier(),
-					ReturnDate: formattedDate(returning),
-					...directTime(),
-				},
-			}),
-		},
-	].sort((x, y) => x.MinPrice - y.MinPrice); // sort by price and shuffle
-
+	const quotes = [1, 2, 3, 4, 5, 6, 7, 8].map((id) => {
+		return id % 2 === 0
+			? {
+					QuoteId: id,
+					MinPrice: returning ? randomMinMax(225, 255) : randomMinMax(110, 145),
+					Direct: false,
+					OutboundLeg: {
+						CarrierId: randomCarrier(),
+						DepartureDate: formattedDate(departure),
+						...indirectTime(),
+					},
+					...(returning && {
+						InboundLeg: {
+							CarrierId: randomCarrier(),
+							ReturnDate: formattedDate(returning),
+							...indirectTime(),
+						},
+					}),
+			  }
+			: {
+					QuoteId: id,
+					MinPrice: returning ? randomMinMax(255, 285) : randomMinMax(145, 210),
+					Direct: true,
+					OutboundLeg: {
+						CarrierId: randomCarrier(),
+						DepartureDate: formattedDate(departure),
+						...directTime(),
+					},
+					...(returning && {
+						InboundLeg: {
+							CarrierId: randomCarrier(),
+							ReturnDate: formattedDate(returning),
+							...directTime(),
+						},
+					}),
+			  };
+	});
 	return {
 		From: from,
 		To: to,
-		Quotes: quotes.slice(randomInt(quotes.length)),
+		Quotes: [
+			quotes
+				.sort((x, y) => x.MinPrice - y.MinPrice)
+				.slice(randomInt(quotes.length)),
+		],
 		Carriers: [
 			{
 				CarrierId: 29,
 				Name: "American Airlines",
-				LogoUrl: "",
+				LogoUrl: "https://images.app.goo.gl/2cMU7XMepefeVCGG6",
 			},
 			{
 				CarrierId: 173,
-				Name: "United Airlines",
-				LogoUrl: "",
+				Name: "Air Canada",
+				LogoUrl: "https://images.app.goo.gl/LJGUpxRRPz6QYKz66",
 			},
 			{
 				CarrierId: 870,
 				Name: "JetBlue",
-				LogoUrl: "",
+				LogoUrl: "https://images.app.goo.gl/QrF9p4BQAsSQSNXN8",
 			},
 			{
 				CarrierId: 450,
 				Name: "Delta Air Lines",
-				LogoUrl: "",
+				LogoUrl: "https://images.app.goo.gl/KUpzJ63e9HTYA9em6",
 			},
 		],
 	};
