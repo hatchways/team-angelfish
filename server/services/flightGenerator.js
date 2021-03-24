@@ -109,11 +109,9 @@ const mockData = ({ from, to, departure, returning }) => {
 	return {
 		From: from,
 		To: to,
-		Quotes: [
-			quotes
-				.sort((x, y) => x.MinPrice - y.MinPrice)
-				.slice(randomInt(quotes.length)),
-		],
+		Quotes: quotes
+			.sort((x, y) => x.MinPrice - y.MinPrice)
+			.slice(randomInt(quotes.length)),
 		Carriers: [
 			{
 				CarrierId: 29,
