@@ -1,9 +1,7 @@
 /** @format */
 
-import React, { useState } from "react";
-
-import { NavLink } from "react-router-dom";
-
+import React, { useState, useEffect } from "react";
+import { NavLink, Link } from "react-router-dom";
 import {
   AppBar,
   Avatar,
@@ -22,15 +20,24 @@ import Signin from "../pages/Signin";
 import Signup from "../pages/Signup";
 import Cart from "./Cart/Cart";
 
+import { useStateContext } from "../context";
+
 function Header() {
   const classes = useStyles();
-
+  const { user, loading } = useStateContext();
   const [auth, setAuth] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false); //opens signin page
   const [signup, setSignup] = useState(false); // switches to signup page
-
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    if (loading) {
+      return null;
+    } else {
+      setAuth(user ? true : false);
+    }
+  }, [loading]);
 
   const handleMenu = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
@@ -121,7 +128,9 @@ function Header() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Link to="/profile">Profile</Link>
+                </MenuItem>
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
             </Grid>

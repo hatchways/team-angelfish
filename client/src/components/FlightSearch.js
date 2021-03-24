@@ -4,111 +4,45 @@ import { Grid, Paper, TextField, Button } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import DateFnsUtils from "@date-io/date-fns";
 import {
-	MuiPickersUtilsProvider,
-	KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { useDebounce } from 'use-debounce';
 import useStyles from "../styles/FlightSearch";
 
-
- 
-
-
-const mockData = {
-	Quotes: [
-		{
-			QuoteId: 1,
-			MinPrice: 381,
-			Direct: true,
-			OutboundLeg: {
-				CarrierIds: [29],
-				OriginId: 68033,
-				DestinationId: 42833,
-				DepartureDate: "2021-04-03",
-			},
-			InboundLeg: {
-				CarrierIds: [29],
-				OriginId: 42833,
-				DestinationId: 68033,
-				DepartureDate: "2021-04-03",
-			},
-			QuoteDateTime: "2021-03-19",
-		},
-		{
-			QuoteId: 2,
-			MinPrice: 398,
-			Direct: true,
-			OutboundLeg: {
-				CarrierIds: [173],
-				OriginId: 45108,
-				DestinationId: 52843,
-				DepartureDate: "2021-04-03",
-			},
-			InboundLeg: {
-				CarrierIds: [173],
-				OriginId: 52843,
-				DestinationId: 45108,
-				DepartureDate: "2021-04-03",
-			},
-			QuoteDateTime: "2021-03-19",
-		},
-		{
-			QuoteId: 3,
-			MinPrice: 187,
-			Direct: false,
-			OutboundLeg: {
-				CarrierIds: [173],
-				OriginId: 45108,
-				DestinationId: 52843,
-				DepartureDate: "2021-04-03",
-			},
-			InboundLeg: {
-				CarrierIds: [173],
-				OriginId: 52843,
-				DestinationId: 45108,
-				DepartureDate: "2021-04-03",
-			},
-			QuoteDateTime: "2021-03-19",
-		},
-	],
-	Carriers: [
-		{
-			CarrierId: 29,
-			Name: "Mombasa Air Safari",
-		},
-		{
-			CarrierId: 173,
-			Name: "Silver Airways",
-		},
-		{
-			CarrierId: 870,
-			Name: "jetBlue",
-		},
-	],
-};
+// Mock Data
+const cities = [
+	{ title: "Vancouver" },
+	{ title: "Calgary" },
+	{ title: "Toronto" },
+	{ title: "Bangkok" },
+];
 
 const FlightSearch = ({ submit }) => {
 	const classes = useStyles();
-
 	const [from, setFrom] = useState(null);
 	const [to, setTo] = useState(null);
-	const [arrivalDate, setArrivalDate] = useState(new Date());
-	const [departDate, setDepartDate] = useState(new Date());
+	const [departureDate, setDepartureDate] = useState(new Date());
+	const [returnDate, setReturnDate] = useState(new Date());
 	const [travellers, setTravellers] = useState(1);
-	const [dateError, setDateError] = useState(false);
+	const [departDateError, setDepartDateError] = useState(false);
+	const [returnDateError, setReturnDateError] = useState(false);
 	const [fromError, setFromError] = useState(false);
 	const [toError, setToError] = useState(false);
+
 	const [cities, setCities] = useState([])  
     
-	const formatDate = (date) => {
-		const year = date.getFullYear();
-		const month = date.getMonth();
-		const day = date.getDate();
-		const newDate = new Date(year, month, day);
-		return newDate.toISOString().split("T")[0];
-	};
-	
 
+
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const newDate = new Date(year, month, day);
+    return newDate.toISOString().split("T")[0];
+  };
+  
 	const handleFromLocation = (event, value) => {
 		try{
 			const getCity = async () =>{
@@ -139,46 +73,76 @@ const FlightSearch = ({ submit }) => {
 	}
 	
 	};
-
-
-	const handleArrivalDate = (date) => setArrivalDate(date);
-	const handleDepartDate = (date) => {
-		setDepartDate(date);
-		setDateError(false);
+	const handleDepartureDate = (date) => {
+		setDepartureDate(date);
+		setDepartDateError(false);
+	};
+	const handleReturnDate = (date) => {
+		setReturnDate(date);
+		setReturnDateError(false);
 	};
 	const handleTravellers = (event) => setTravellers(event.target.value);
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		if (from && to && departDate >= arrivalDate) {
-			// const fromCity = cities.find((city) => from === city.title).placeId;
-			// const toCity = cities.find((city) => to === city.title).placeId;
-			// const arriveDate = formatDate(arrivalDate);
-			// const leaveDate = formatDate(departDate);
-			// const response = await fetch(
-			// 	`api/flights/quotes/${fromCity}/${toCity}/${arriveDate}/?inboundDate=${leaveDate}`
-			// );
-			// const data = await response.json();
-			// submit({
-			// 	date: arrivalDate.toString(),
-			// 	quotes: data.Quotes,
-			// 	carriers: data.Carriers,
-			// });
-			submit({
-				date: arrivalDate.toString(),
-				quotes: mockData.Quotes,
-				carriers: mockData.Carriers,
-			});
+		const fromCity = cities.find((city) => from === city.title).title;
+		const toCity = cities.find((city) => to === city.title).title;
+		const formattedDepartureDate = formatDate(departureDate);
+		const formattedReturnDate = formatDate(returnDate);
+		
+		if (from && to && departureDate && returnDate) {
+			if (returnDate >= departureDate) {
+				const response = await fetch(
+					`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`
+				);
+				const data = await response.json();
+				if (data.status === 200) {
+					submit({
+						date: departureDate.toString(),
+						flights: data,
+					});
+				} else if ("from" in data) {
+					setFromError(true);
+				} else if ("to" in data) {
+					setToError(true);
+				} else if ("outboundDate" in data) {
+					setDepartDateError(true);
+				} else {
+					setReturnDateError(true);
+				}
+			} else {
+				setReturnDateError(true);
+			}
+			// return date is optional
+		} else if (from && to && departureDate) {
+			const response = await fetch(
+				`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}`
+			);
+			const data = await response.json();
+			if (data.status === 200) {
+				submit({
+					date: departureDate.toString(),
+					flights: data,
+				});
+			} else if ("from" in data) {
+				setFromError(true);
+			} else if ("to" in data) {
+				setToError(true);
+			} else if ("outboundDate" in data) {
+				setDepartDateError(true);
+			} else {
+				setReturnDateError(true);
+			}
 		} else if (!from) {
 			setFromError(true);
 		} else if (!to) {
 			setToError(true);
-		} else {
-			setDateError(true);
 		}
 	};
 
+
 	useDebounce(handleFromLocation, 600);
 	useDebounce(handleToLocation, 600);
+
 
 	return (
 		<div className={classes.root}>
@@ -250,15 +214,16 @@ const FlightSearch = ({ submit }) => {
 									variant="inline"
 									autoOk
 									format="MM/dd/yyyy"
-									id="arrivalDate"
-									label="Arrival"
-									value={arrivalDate}
-									onChange={handleArrivalDate}
+									id="departureDate"
+									label="Departure"
+									value={departureDate}
+									onChange={handleDepartureDate}
 									disablePast
 									KeyboardButtonProps={{ "aria-label": "change date" }}
 									InputProps={{
 										readOnly: true,
 										color: "secondary",
+										error: departDateError,
 									}}
 									InputLabelProps={{
 										classes: { root: classes.font },
@@ -277,20 +242,20 @@ const FlightSearch = ({ submit }) => {
 									variant="inline"
 									autoOk
 									format="MM/dd/yyyy"
-									id="departDate"
-									label="Departure"
-									value={departDate}
-									onChange={handleDepartDate}
+									id="returnDate"
+									label="Return"
+									value={returnDate}
+									onChange={handleReturnDate}
 									disablePast
 									KeyboardButtonProps={{ "aria-label": "change date" }}
 									InputProps={{
-										readOnly: true,
-										error: dateError,
 										color: "secondary",
+										error: returnDateError,
 									}}
 									InputLabelProps={{
 										classes: { root: classes.font },
 										color: "secondary",
+										shrink: true,
 									}}
 								/>
 							</Grid>

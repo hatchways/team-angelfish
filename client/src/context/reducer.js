@@ -1,23 +1,31 @@
 export const initialState = {
   authenticated: false,
   user: {},
+  loading: true,
   cart: { flights: [], hotels: [], rentalCar: [] },
 };
 
 export const userReducer = (state = initialState, action) => {
   console.log(action);
   switch (action.type) {
+    case "LOADING":
+      return {
+        ...initialState,
+        loading: true,
+      };
     case "AUTHENTICATED":
       return {
         ...state,
         authenticated: true,
         user: action.payload.user,
+        loading: false,
       };
     case "UNAUTHENTICATED":
       return {
         ...state,
         authenticated: false,
         user: null,
+        loading: false,
       };
     case "ADD_TO_CART":
       return {
