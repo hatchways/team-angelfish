@@ -1,98 +1,70 @@
 /** @format */
-
+import { add, format, intervalToDuration } from "date-fns";
 // random generators
-const randomPrice = (min, max) => {
+const randomMinMax = (min, max) => {
 	return Math.floor(Math.random() * (max - min) + min);
 };
 const randomInt = (num) => {
 	return Math.floor(Math.random() * num);
 };
-
+// format flight dates
+const formattedDate = (date) => {
+	const resetDate = new Date(`${date}T00:00`);
+	const pattern = (option) => format(resetDate, option);
+	return `${pattern("EEE")}, ${pattern("LLL")} ${pattern("d")}`;
+};
+// convert minutes for layovers
+const convertMinutes = (num) => {
+	const hours = Math.floor(num / 60);
+	const minutes = num % 60;
+	return `${hours} ${hours > 1 ? `hours` : `hour`} ${minutes} minutes`;
+};
+/* make the flight time between 2 hr 25 min to 2 hr 40 min */
 // times for direct flights
-const noStops = [
-	{
-		depart: "6:50AM",
-		arrive: "11:10AM",
-		duration: "4 hr 20 min",
-	},
-	{
-		depart: "11:25AM",
-		arrive: "4:55PM",
-		duration: "5 hr 30 min",
-	},
-	{
-		depart: "2:30PM",
-		arrive: "9:15PM",
-		duration: "6 hr 45 min",
-	},
-	{
-		depart: "4:15PM",
-		arrive: "8:25PM",
-		duration: "4 hr 10 min",
-	},
-];
 const directTime = () => {
-	const direct = noStops[randomInt(noStops.length)];
+	const randomTime = randomMinMax(100000000, 154000000);
+	const departTime = new Date(randomTime);
+	const arrivalTime = add(departTime, {
+		hours: 2,
+		minutes: randomMinMax(25, 41),
+	});
+	const totalDuration = intervalToDuration({
+		start: departTime,
+		end: arrivalTime,
+	});
 	return {
-		DepartureTime: direct.depart,
-		ArrivalTime: direct.arrive,
-		Duration: direct.duration,
+		DepartureTime: format(departTime, "p"),
+		ArrivalTime: format(arrivalTime, "p"),
+		Duration: `2 hours ${totalDuration.minutes} minutes`,
 	};
 };
+
 // times for indirect flights
-const withStops = [
-	{
-		depart: "6:50AM",
-		arrive: "11:10AM",
-		duration: "4 hr 20 min",
-		stopDuration: "1 hr 45 min",
-	},
-	{
-		depart: "11:25AM",
-		arrive: "4:55PM",
-		duration: "5 hr 30 min",
-		stopDuration: "3 hr 0 min",
-	},
-	{
-		depart: "2:30PM",
-		arrive: "9:15PM",
-		duration: "6 hr 45 min",
-		stopDuration: "4 hr 10 min",
-	},
-	{
-		depart: "4:15PM",
-		arrive: "8:25PM",
-		duration: "4 hr 10 min",
-		stopDuration: "1 hr 40 min",
-	},
-];
 const indirectTime = () => {
-	const indirect = withStops[randomInt(withStops.length)];
+	const randomTime = randomMinMax(100000000, 154000000);
+	const departTime = new Date(randomTime);
+	const arrivalTime = add(departTime, {
+		hours: randomMinMax(3, 7),
+		minutes: randomMinMax(0, 60),
+	});
+	const totalDuration = intervalToDuration({
+		start: departTime,
+		end: arrivalTime,
+	});
+	const totalMinutes = totalDuration.hours * 60 + totalDuration.minutes;
+	const stopDuration = convertMinutes(totalMinutes - randomMinMax(145, 161));
 	return {
-		DepartureTime: indirect.depart,
-		ArrivalTime: indirect.arrive,
-		Duration: indirect.duration,
+		DepartureTime: format(departTime, "p"),
+		ArrivalTime: format(arrivalTime, "p"),
+		Duration: `${totalDuration.hours} hours ${totalDuration.minutes} minutes`,
 		Stops: [
 			{
 				City: "Queens (JFK)", // layovers in New York
-				Duration: indirect.stopDuration,
+				Duration: stopDuration,
 			},
 		],
 	};
 };
-
-/* 
-Note: For roundtrips, departure dates (OutboundLeg) and return dates (InboundLeg) may 
-from time to time return the same flight time. To avoid this occurrence, we will 
-need to separate the times for departure dates from the return dates. 
-
-example: 
-
-const directFlightDepart = []
-const directFlightReturn = []
-const indirectFlightDepart = []
-const indirectFlightReturn = []
-*/
 
 const mockData = ({ from, to, departure, returning }) => {
 	const carrierIds = [29, 173, 870, 450];
@@ -100,85 +72,85 @@ const mockData = ({ from, to, departure, returning }) => {
 	const quotes = [
 		{
 			QuoteId: 1,
-			MinPrice: returning ? randomPrice(225, 255) : randomPrice(110, 145),
+			MinPrice: returning ? randomMinMax(225, 255) : randomMinMax(110, 145),
 			Direct: false,
 			OutboundLeg: {
 				CarrierId: randomCarrier(),
-				DepartureDate: departure,
+				DepartureDate: formattedDate(departure),
 				...indirectTime(),
 			},
 			...(returning && {
 				InboundLeg: {
 					CarrierId: randomCarrier(),
-					ReturnDate: returning,
+					ReturnDate: formattedDate(returning),
 					...indirectTime(),
 				},
 			}),
 		},
 		{
 			QuoteId: 2,
-			MinPrice: returning ? randomPrice(255, 285) : randomPrice(145, 210),
+			MinPrice: returning ? randomMinMax(255, 285) : randomMinMax(145, 210),
 			Direct: true,
 			OutboundLeg: {
 				CarrierId: randomCarrier(),
-				DepartureDate: departure,
+				DepartureDate: formattedDate(departure),
 				...directTime(),
 			},
 			...(returning && {
 				InboundLeg: {
 					CarrierId: randomCarrier(),
-					ReturnDate: returning,
+					ReturnDate: formattedDate(returning),
 					...directTime(),
 				},
 			}),
 		},
 		{
 			QuoteId: 3,
-			MinPrice: returning ? randomPrice(255, 285) : randomPrice(145, 210),
+			MinPrice: returning ? randomMinMax(255, 285) : randomMinMax(145, 210),
 			Direct: true,
 			OutboundLeg: {
 				CarrierId: randomCarrier(),
-				DepartureDate: departure,
+				DepartureDate: formattedDate(departure),
 				...directTime(),
 			},
 			...(returning && {
 				InboundLeg: {
 					CarrierId: randomCarrier(),
-					ReturnDate: returning,
+					ReturnDate: formattedDate(returning),
 					...directTime(),
 				},
 			}),
 		},
 		{
 			QuoteId: 4,
-			MinPrice: returning ? randomPrice(225, 255) : randomPrice(110, 145),
+			MinPrice: returning ? randomMinMax(225, 255) : randomMinMax(110, 145),
 			Direct: false,
 			OutboundLeg: {
 				CarrierId: randomCarrier(),
-				DepartureDate: departure,
+				DepartureDate: formattedDate(departure),
 				...indirectTime(),
 			},
 			...(returning && {
 				InboundLeg: {
 					CarrierId: randomCarrier(),
-					ReturnDate: returning,
+					ReturnDate: formattedDate(returning),
 					...indirectTime(),
 				},
 			}),
 		},
 		{
 			QuoteId: 5,
-			MinPrice: returning ? randomPrice(255, 285) : randomPrice(145, 210),
+			MinPrice: returning ? randomMinMax(255, 285) : randomMinMax(145, 210),
 			Direct: true,
 			OutboundLeg: {
 				CarrierId: randomCarrier(),
-				DepartureDate: departure,
+				DepartureDate: formattedDate(departure),
 				...directTime(),
 			},
 			...(returning && {
 				InboundLeg: {
 					CarrierId: randomCarrier(),
-					ReturnDate: returning,
+					ReturnDate: formattedDate(returning),
 					...directTime(),
 				},
 			}),
@@ -188,27 +160,27 @@ const mockData = ({ from, to, departure, returning }) => {
 	return {
 		From: from,
 		To: to,
-		Quotes: quotes.slice(randomInt(quotes.length)), // return random no. of results
+		Quotes: quotes.slice(randomInt(quotes.length)),
 		Carriers: [
 			{
 				CarrierId: 29,
 				Name: "American Airlines",
-				LogoUrl: "https://images.app.goo.gl/2cMU7XMepefeVCGG6",
+				LogoUrl: "",
 			},
 			{
 				CarrierId: 173,
-				Name: "Air Canada",
-				LogoUrl: "https://images.app.goo.gl/LJGUpxRRPz6QYKz66",
+				Name: "United Airlines",
+				LogoUrl: "",
 			},
 			{
 				CarrierId: 870,
 				Name: "JetBlue",
-				LogoUrl: "https://images.app.goo.gl/QrF9p4BQAsSQSNXN8",
+				LogoUrl: "",
 			},
 			{
 				CarrierId: 450,
 				Name: "Delta Air Lines",
-				LogoUrl: "https://images.app.goo.gl/KUpzJ63e9HTYA9em6",
+				LogoUrl: "",
 			},
 		],
 	};

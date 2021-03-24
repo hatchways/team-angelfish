@@ -2,11 +2,9 @@
 const validator = require("validator");
 
 const dateInPast = (date1, date2 = new Date()) => {
-	const splitDate1 = date1.split("-");
-	date1 = new Date(splitDate1[0], splitDate1[1] - 1, splitDate1[2]);
+	date1 = new Date(`${date1}T00:00`);
 	if (typeof date2 === "string") {
-		const splitDate2 = date2.split("-");
-		date2 = new Date(splitDate2[0], splitDate2[1] - 1, splitDate2[2]);
+		date2 = new Date(`${date2}T00:00`);
 	} else {
 		const year = date2.getFullYear();
 		const month = date2.getMonth();
@@ -21,11 +19,11 @@ const checkDepartDate = (date, err, key) => {
 	}
 	return date;
 };
-const checkReturnDate = (returnDate, departDate, err, key) => {
-	if (dateInPast(returnDate, departDate)) {
+const checkReturnDate = (date1, date2, err, key) => {
+	if (dateInPast(date1, date2)) {
 		return (err[key] = "This date is prior to the departure date.");
 	}
-	return returnDate;
+	return date1;
 };
 // check date format
 const validatorOptions = { format: "YYYY-MM-DD", strictMode: true };
