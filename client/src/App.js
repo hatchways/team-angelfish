@@ -5,8 +5,7 @@ import { MuiThemeProvider } from "@material-ui/core";
 import { SnackbarProvider } from "notistack";
 
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
-
-import ExplorerPage from "./pages/Explore";
+import Explore from "./pages/Explorer/Explore";
 import Flights from "./pages/Flights";
 import Hotels from "./pages/Hotels";
 import Rent from "./pages/Rent";
@@ -32,7 +31,7 @@ function App() {
             <Header />
             <Switch>
               <Redirect exact from="/" to="/explore" />
-              <Route path="/explore" component={ExplorerPage} />
+              <Route path="/explore" component={Explore} />
               <Route exact path="/flights" component={Flights} />
               <Route exact path="/hotel" component={Hotels} />
               <Route exact path="/rent" component={Rent} />
