@@ -16,13 +16,13 @@ export const shuffleFunction = (array) => {
   return array;
 };
 
-export const getUpdatedList = async (cityList, favoriteList) => {
+export const getUpdatedList = (cityList, favoriteList) => {
   const filteredFav = cityList.filter((place) =>
     favoriteList.includes(place.name),
   );
   const unLikesPlaceName = cityList.filter(
     (place) => !favoriteList.includes(place.name),
   );
-  const shuffledArray = await shuffleFunction(unLikesPlaceName);
+  const shuffledArray = shuffleFunction(unLikesPlaceName);
   return [...filteredFav, ...shuffledArray];
 };

@@ -115,7 +115,7 @@ const Explore = () => {
           if (pathName === "/profile/favoritedestinations") {
             renderProfileFavPage(cityList, favoriteList);
           } else {
-            const updatedList = await getUpdatedList(cityList, favoriteList);
+            const updatedList = getUpdatedList(cityList, favoriteList);
             setPlaces(updatedList);
           }
         }

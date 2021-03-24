@@ -10,8 +10,8 @@ const cors = require("cors");
 const flightRouter = require("./routes/flight");
 const userRoutes = require("./routes/users");
 const uploadRouter = require("./routes/file-upload");
+const sendEmail = require("./routes/email")
 const checkoutPayment = require("./routes/payment");
-
 const trim = require("./middleware/trim");
 
 //Added mongoose to help connect with our Mongodb database
@@ -32,13 +32,18 @@ app.use(express.static(join(__dirname, "public")));
 app.use("/api/users", userRoutes);
 app.use("/api/flights", flightRouter);
 app.use("/api/cities", cityRouter);
+app.use("/api/email", sendEmail)
 app.use("/api", uploadRouter);
 app.use("/api/checkout", checkoutPayment);
+
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
+
 
 // error handler
 app.use(function (err, req, res, next) {
