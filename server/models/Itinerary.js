@@ -6,7 +6,11 @@ const Hotels = require("./Hotel")
 const User = require("./User")
 
 const itinerarySchema = new Schema({
-  user:[User],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User,
+    required: true,
+  },
   car:[Cars],
   flight: [Flights],
   hotel: [Hotels]
