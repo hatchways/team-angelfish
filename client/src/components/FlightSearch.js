@@ -7,8 +7,11 @@ import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker,
 } from "@material-ui/pickers";
-
+import { useDebounce } from 'use-debounce';
 import useStyles from "../styles/FlightSearch";
+
+
+ 
 
 
 const mockData = {
@@ -88,16 +91,15 @@ const FlightSearch = ({ submit }) => {
 	const classes = useStyles();
 
 	const [from, setFrom] = useState(null);
-	const [to, setTo] = useState("Tokyo");
+	const [to, setTo] = useState(null);
 	const [arrivalDate, setArrivalDate] = useState(new Date());
 	const [departDate, setDepartDate] = useState(new Date());
 	const [travellers, setTravellers] = useState(1);
 	const [dateError, setDateError] = useState(false);
 	const [fromError, setFromError] = useState(false);
 	const [toError, setToError] = useState(false);
-	const [cities, setCities] = useState([])
-
-
+	const [cities, setCities] = useState([])  
+    
 	const formatDate = (date) => {
 		const year = date.getFullYear();
 		const month = date.getMonth();
@@ -176,6 +178,9 @@ const FlightSearch = ({ submit }) => {
 		}
 	};
 
+	useDebounce(handleFromLocation, 600);
+	useDebounce(handleToLocation, 600);
+
 	return (
 		<div className={classes.root}>
 			<form onSubmit={handleSubmit}>
@@ -190,6 +195,8 @@ const FlightSearch = ({ submit }) => {
 							onInputChange={(event, value) => {
 							handleFromLocation()
 							setFrom(value)
+							if(value.length === 0)
+							setFrom("")
 							}}
 							renderInput={(params) => (
 								<TextField
@@ -217,6 +224,8 @@ const FlightSearch = ({ submit }) => {
 							onInputChange={(event, value) => {
 								handleToLocation()
 								setTo(value)
+								if(value.length === 0)
+								setTo("")
 								}}
 							renderInput={(params) => (
 								<TextField
