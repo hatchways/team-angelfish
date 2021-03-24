@@ -85,21 +85,10 @@ router.get("/quotes/:from/:to/:outboundDate", (req, res, next) => {
 	}
 });
 
-<<<<<<< Updated upstream
 router.get("/places/:regionId", (req, res, next) => {
 	const { regionId } = req.params;
 	const error = {};
 	const region = validateLocation(regionId, error, 'region');
-||||||| constructed merge base
-router.get("/places/:regionId", (req, res, next) => {
-	const { regionId } = req.params;
-	const error = {};
-	const region = validateLocation(regionId, error, "region")
-=======
-router.get("/places", (req, res, next) => {
-	const { region } = req.params;
-	
->>>>>>> Stashed changes
 	if (Object.keys(error).length === 0) {
 		const request = unirest(
 			"GET",
