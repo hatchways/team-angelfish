@@ -87,7 +87,7 @@ const mockData = {
 const FlightSearch = ({ submit }) => {
 	const classes = useStyles();
 
-	const [from, setFrom] = useState("Paris");
+	const [from, setFrom] = useState(null);
 	const [to, setTo] = useState("Tokyo");
 	const [arrivalDate, setArrivalDate] = useState(new Date());
 	const [departDate, setDepartDate] = useState(new Date());
@@ -108,27 +108,29 @@ const FlightSearch = ({ submit }) => {
 	
 
 	const handleFromLocation = (event, value) => {
-		const getCity = async () =>{
+	  	const getCity = async () =>{
 			const response = await fetch(`/api/flights/places/${from}`)
 			const data = await response.json()
+			console.log(data)
 			setCities(data.Places)
 		}
-			getCity()
-			setFrom(value)
-		   setFromError(false);
+		getCity()
 	};
 
 	console.log(cities)
 	
-	const handleToLocation = (event, value) => {
-		const getCity = async () =>{
-			const response = await fetch(`/api/flights/places/${to}`)
-			const data = await response.json()
-			setCities(data.Places)
-			setTo(value);
-	    	setToError(false);
+	const handleToLocation = () => {
+		try{
+			const getCity = async () =>{
+				const response = await fetch(`/api/flights/places/${to}`)
+				const data = await response.json()
+				setCities(data.Places)
+			}
+			 getCity()	
+		} catch(err){
+			console.error()
 		}
- 		getCity()	
+	
 	};
 
 
@@ -174,12 +176,15 @@ const FlightSearch = ({ submit }) => {
 				<Paper className={classes.paperContainer} elevation={7}>
 					<Grid className={classes.input} lg={2} sm={3} xs={6} item>
 						<Autocomplete
-							freeSolo
+						    freeSolo
 							id="from"
-							name="from"
 							value={from}
 							options={cities.map((option) => option.PlaceName)}
 							onChange={handleFromLocation}
+							onInputChange={(event, value) => {
+								setFrom(value);
+								setFromError(false);
+							}}
 							renderInput={(params) => (
 								<TextField
 									{...params}
