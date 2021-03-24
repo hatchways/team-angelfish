@@ -108,28 +108,34 @@ const FlightSearch = ({ submit }) => {
 	
 
 	const handleFromLocation = (event, value) => {
-	  	const getCity = async () =>{
-			const response = await fetch(`/api/flights/places/${from}`)
-			const data = await response.json()
-			console.log(data)
-			setCities(data.Places)
+		try{
+			const getCity = async () =>{
+				const response = await fetch(`/api/flights/places/${from}`)
+				const data = await response.json()
+				setCities(data.Places)
+			}
+			getCity()
+			setFrom(value)
+		} catch(err){
+			console.error()
 		}
-		getCity()
 	};
 
 	console.log(cities)
 	
-	const handleToLocation = () => {
-		try{
-			const getCity = async () =>{
-				const response = await fetch(`/api/flights/places/${to}`)
-				const data = await response.json()
-				setCities(data.Places)
-			}
-			 getCity()	
-		} catch(err){
-			console.error()
+	const handleToLocation = (e, value) => {
+	try{
+		const getCity = async () =>{
+			const response = await fetch(`/api/flights/places/${to}`)
+			const data = await response.json()
+			setCities(data.Places)
 		}
+		 getCity()	
+		 setTo(value)
+		 setFromError(false)
+	} catch(err){
+		console.error()
+	}
 	
 	};
 
@@ -182,8 +188,8 @@ const FlightSearch = ({ submit }) => {
 							options={cities.map((option) => option.PlaceName)}
 							onChange={handleFromLocation}
 							onInputChange={(event, value) => {
-								setFrom(value);
-								setFromError(false);
+							handleFromLocation()
+							setFrom(value)
 							}}
 							renderInput={(params) => (
 								<TextField
@@ -208,6 +214,10 @@ const FlightSearch = ({ submit }) => {
 							value={to}
 							options={cities.map((option) => option.PlaceName)}
 							onChange={handleToLocation}
+							onInputChange={(event, value) => {
+								handleToLocation()
+								setTo(value)
+								}}
 							renderInput={(params) => (
 								<TextField
 									{...params}
