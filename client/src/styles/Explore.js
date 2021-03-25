@@ -74,4 +74,8 @@ export default makeStyles(() => ({
       color: "orange",
     },
   },
+  exploreLink: {
+    textDecoration: "none",
+    color: "#000000",
+  },
 }));

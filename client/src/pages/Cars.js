@@ -2,12 +2,12 @@
 
 import React from "react";
 
-function Rent() {
+function Cars() {
 	return (
 		<div>
-			<h1>This is rent page</h1>
+			<h1>This is the cars page</h1>
 		</div>
 	);
 }
 
-export default Rent;
+export default Cars;
