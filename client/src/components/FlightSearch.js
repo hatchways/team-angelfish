@@ -12,6 +12,12 @@ import useStyles from "../styles/FlightSearch";
 
 
 
+const cities = [
+  { title: "Vancouver" },
+  { title: "Calgary" },
+  { title: "Toronto" },
+  { title: "Bangkok" },
+];
 
 
 
@@ -76,15 +82,54 @@ const FlightSearch = ({ submit }) => {
   const handleTravellers = (event) => setTravellers(event.target.value);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    const fromCity = fromcities.find((city) => from === city.PlaceName).PlaceId;
-    const toCity = tocities.find((city) => to === city.PlaceName).PlaceId;
-    const dep = formatDate(departureDate);
-    const ret = formatDate(returnDate);
-    const response = await fetch(
-      `api/flights/quotes/${fromCity}/${toCity}/${dep}/?inboundDate=${ret}`
-    );
-  };
+		event.preventDefault();
+		const fromCity = cities.find((city) => from === city.title).title;
+		const toCity = cities.find((city) => to === city.title).title;
+		const formattedDepartureDate = formatDate(departureDate);
+
+		if (from && to && from !== to && departureDate && returnDate) {
+			const formattedReturnDate = formatDate(returnDate);
+			if (returnDate >= departureDate) {
+				const response = await fetch(
+					`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`
+				);
+				const data = await response.json();
+				if (response.status === 200) {
+					submit({ flights: data });
+					console.log(data);
+				} else if ("from" in data) {
+					setFromError(true);
+				} else if ("to" in data) {
+					setToError(true);
+				} else if ("outboundDate" in data) {
+					setDepartDateError(true);
+				} else if ("inboundDate" in data) {
+					setReturnDateError(true);
+				}
+			} else {
+				setReturnDateError(true);
+			}
+			// return date is optional
+		} else if (from && to && from !== to && departureDate) {
+			const response = await fetch(
+				`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}`
+			);
+			const data = await response.json();
+			if (response.status === 200) {
+				submit({ flights: data });
+			} else if ("from" in data) {
+				setFromError(true);
+			} else if ("to" in data) {
+				setToError(true);
+			} else if ("outboundDate" in data) {
+				setDepartDateError(true);
+			}
+		} else if (from === to || !to) {
+			setToError(true);
+		} else if (!from) {
+			setFromError(true);
+		}
+	};
 
   return (
     <div className={classes.root}>
