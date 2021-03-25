@@ -16,6 +16,7 @@ import useStyles from "../../styles/Explore";
 import { useStateContext } from "../../context";
 
 import { getUpdatedList } from "./utils";
+import { Link } from "react-router-dom";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -56,6 +57,13 @@ const Explore = () => {
   const handleShuffleButton = async () => {
     const returnedArray = await getUpdatedList(places, favorites);
     setPlaces(returnedArray);
+  };
+
+  const renderProfileFavPage = (cityList, favList) => {
+    const filteredFavList = cityList.filter((city) =>
+      favList.includes(city.name),
+    );
+    setPlaces(filteredFavList);
   };
 
   const closeSnack = () => {
@@ -102,8 +110,14 @@ const Explore = () => {
             city.favorite = favoriteList.indexOf(city.name) >= 0;
             return city;
           });
-          const updatedList = getUpdatedList(cityList, favoriteList);
-          setPlaces(updatedList);
+
+          const pathName = window.location.pathname;
+          if (pathName === "/profile/favoritedestinations") {
+            renderProfileFavPage(cityList, favoriteList);
+          } else {
+            const updatedList = getUpdatedList(cityList, favoriteList);
+            setPlaces(updatedList);
+          }
         }
       } catch (error) {
         console.log(error);
@@ -134,36 +148,58 @@ const Explore = () => {
     });
   }
 
+  const pathName = window.location.pathname;
+  const smSpacing = pathName === "/profile/favoritedestinations" ? 6 : 3;
+  const mdSpacing = pathName === "/profile/favoritedestinations" ? 4 : 3;
   return (
     <>
       <Container className={classes.pageContainer}>
-        <Typography variant="h4" className={classes.title}>
-          Explore destinations
-        </Typography>
-        <Typography
-          variant="subtitle2"
-          className={(classes.title, classes.subtitle2)}
-        >
-          World's top destinations to explore
-        </Typography>
+        {pathName === "/profile/favoritedestinations" ? (
+          <Grid container justify="space-between">
+            <Typography
+              variant="h4"
+              style={{ fontWeight: 600 }}
+              className={classes.title}
+            >
+              Favorite Destinations
+            </Typography>
+            <Button variant="outlined">
+              <Link className={classes.exploreLink} to="/explore">
+                Explore
+              </Link>
+            </Button>
+          </Grid>
+        ) : (
+          <>
+            <Typography variant="h4" className={classes.title}>
+              Explore destinations
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              className={(classes.title, classes.subtitle2)}
+            >
+              World's top destinations to explore
+            </Typography>
 
-        <Button
-          style={{ backgroundColor: "#fff" }}
-          className={classes.shuffle}
-          onClick={handleShuffleButton}
-        >
-          <Tooltip title="Shuffle Cities">
-            <ShuffleIcon />
-          </Tooltip>
-        </Button>
+            <Button
+              style={{ backgroundColor: "#fff" }}
+              className={classes.shuffle}
+              onClick={handleShuffleButton}
+            >
+              <Tooltip title="Shuffle Cities">
+                <ShuffleIcon />
+              </Tooltip>
+            </Button>
+          </>
+        )}
         <Grid
           container
           spacing={3}
           justify="center"
           className={classes.gridContainer}
         >
-          {places?.map((place, ind) => (
-            <Grid item key={place.name} xs={12} sm={3}>
+          {places.map((place) => (
+            <Grid item key={place.name} xs={12} sm={smSpacing} md={mdSpacing}>
               <div
                 className={classes.paperContainer}
                 style={{

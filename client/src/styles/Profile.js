@@ -1,9 +1,12 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    backgroundColor: "#ededed",
+    height: "100%",
+  },
   drawer: {
     flexShrink: 0,
-    marginTop: 40,
   },
   drawerPaper: {
     width: 350,
@@ -13,53 +16,53 @@ const useStyles = makeStyles((theme) => ({
   drawerContainer: {
     overflowY: "unset",
   },
-  avatar:{
+  avatar: {
     width: theme.spacing(10),
     height: theme.spacing(10),
     marginLeft: 130,
   },
-  profilePosition:{
+  profilePosition: {
     textAlign: "center",
     marginTop: 95,
   },
-  email:{
-    color: "#c5bec4", 
-    fontSize: 12, 
-    letterSpacing: 1 
+  email: {
+    color: "#c5bec4",
+    fontSize: 12,
+    letterSpacing: 1,
   },
-  profileLinks:{
+  profileLinks: {
     display: "block",
-   listStyle: "none",
-   textAlign: "center",
-   fontWeight: "bold",
-   textDecoration: "none",
-   fontSize: 14,
-   color: "#c5bec4",
-   marginRight: 30,
-   lineHeight: 2.2,
-   paddingTop: 2,
+    listStyle: "none",
+    textAlign: "center",
+    fontWeight: "bold",
+    textDecoration: "none",
+    fontSize: 14,
+    color: "#c5bec4",
+    marginRight: 30,
+    lineHeight: 2.2,
+    paddingTop: 2,
   },
-  editBtnContainer:{
+  editBtnContainer: {
     lineHeight: 8,
   },
-  editBtn:{
-   color: "#c5bec4", 
-   fontSize: 12,
+  editBtn: {
+    color: "#c5bec4",
+    fontSize: 12,
   },
-  logoutBtn:{
-    paddingTop: 100, 
+  logoutBtn: {
+    paddingTop: 100,
     textAlign: "center",
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.down("md")]: {
       paddingTop: 70,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       paddingTop: 50,
     },
   },
-  logoutMainBtn:{
-     color: "#c5bec4", 
-     fontSize: 12,
-  }
-  }));
+  logoutMainBtn: {
+    color: "#c5bec4",
+    fontSize: 12,
+  },
+}));
 
-export default useStyles
+export default useStyles;
