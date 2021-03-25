@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const Cars = require("./Cars")
-const Flights = require("./Flights")
-const Hotels = require("./Hotel")
+const Cars = require("./Cars").schema
+const Flights = require("./Flights").schema
+const Hotels = require("./Hotel").schema
 const User = require("./User")
 
 const itinerarySchema = new Schema({
