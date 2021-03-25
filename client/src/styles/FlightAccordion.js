@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
 	departTime: {
-		marginLeft: "-2.3em",
+		marginLeft: "-0.5em",
 	},
 	departHeader: {
 		fontSize: "15px",
@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: "15px",
 	},
 	departLogo: {
-		padding: ".846em 0 .846em 1.2em",
+		padding: ".846em 0 .846em .75em",
 	},
 	departure: {
 		borderRight: "1px solid #a6a6a6",
@@ -53,12 +53,14 @@ const useStyles = makeStyles((theme) => ({
 		"&:last-child": {
 			borderBottom: "none",
 		},
+		flexGrow: 1,
 	},
 	summary: {
-		padding: "0px 2.2em 0px 1em",
+		padding: "0.5em 2.2em 0.5em 1em",
 		minHeight: "48px",
 		"&$expanded": {
 			minHeight: "48px",
+			padding: "0.155em 2.2em 0.155em 1em",
 		},
 	},
 	content: {
@@ -106,9 +108,6 @@ const useStyles = makeStyles((theme) => ({
 	timelineLast: {
 		fontWeight: "bold",
 		color: "black",
-	},
-	timelineMargin: {
-		marginLeft: "-1.5em",
 	},
 	timelineDivider: {
 		margin: "1em 0",
