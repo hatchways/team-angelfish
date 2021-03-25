@@ -13,6 +13,14 @@ const formattedDate = (date) => {
 	const pattern = (option) => fns.format(resetDate, option);
 	return `${pattern("EEE")}, ${pattern("LLL")} ${pattern("d")}`;
 };
+// list of layovers
+const layovers = [
+	"Queens (JFK)",
+	"San Francisco (SFO)",
+	"Istanbul (IST)",
+	"Toronto (YYZ)",
+];
+
 /* make the flight time between 2 hr 25 min to 2 hr 40 min */
 // times for direct flights
 const directTime = () => {
@@ -68,7 +76,7 @@ const indirectTime = () => {
 		TravelTimeToStop: `${travelTimeFromDeparture.hours} hr ${travelTimeFromDeparture.minutes} min`,
 		Stops: [
 			{
-				City: "Queens (JFK)", // layovers in New York
+				City: layovers[randomInt(layovers.length)],
 				Duration: `${layoverDuration.hours} hr ${layoverDuration.minutes} min`,
 				ArrivalTime: fns.format(stopArrivalTime, "p"),
 				TravelTimeFromStop: `${travelTimeFromStop.hours} hr ${travelTimeFromStop.minutes} min`,
