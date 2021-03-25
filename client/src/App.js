@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import Explore from "./pages/Explorer/Explore";
 import Flights from "./pages/Flights";
 import Hotels from "./pages/Hotels";
-import Cars from "./pages/Cars";
+import Cars from "./pages/Rental/Rent";
 import Header from "./components/Header";
 import TestRoute from "./components/Cart/addToCartTestPage";
 import Profile from "./pages/User/Profile";
