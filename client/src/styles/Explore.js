@@ -50,21 +50,32 @@ export default makeStyles(() => ({
     color: "#c5bec4",
     fontSize: 12,
   },
-  favoriteDefaultIcon:{
-    color: "white"
+  favoriteDefaultIcon: {
+    color: "white",
   },
-  favoriteCheckedIcon:{
-    color: "orange"
+  favoriteCheckedIcon: {
+    color: "orange",
   },
   gridContainer: {
-    marginTop: 32, height: "75%"
+    marginTop: 32,
+    height: "75%",
   },
   legend1: {
     fontSize: 17,
-    color: "white"
+    color: "white",
   },
-  legend2:{
+  legend2: {
     fontSize: 11,
-    color: "rgb(175 175 175)"
-  }
+    color: "rgb(175 175 175)",
+  },
+  shuffle: {
+    marginTop: 20,
+    "&:hover": {
+      color: "orange",
+    },
+  },
+  exploreLink: {
+    textDecoration: "none",
+    color: "#000000",
+  },
 }));

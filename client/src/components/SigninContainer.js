@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 import {
 	Box,
 	Container,
@@ -12,89 +12,68 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../styles/Signup_in";
+import { useDispatchContext } from "../context";
 
 const SigninContainer = ({ dash, signup, close }) => {
-  const classes = useStyles();
+	const classes = useStyles();
 
-  const initialState = {
-    emailSignin: "",
-    pwdSignin: "",
-    emailError: false,
-    emailValidationError: false,
-    pwdError: false,
-    pwdValidationError: false,
-  };
+	const dispatch = useDispatchContext();
 
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case "textChange":
-        return {
-          ...state,
-          [action.name]: action.value,
-          emailError: false,
-          emailValidationError: false,
-          pwdError: false,
-          pwdValidationError: false,
-        };
-      case "error":
-        return { ...state, [action.error]: true };
-      case "update":
-        return state;
-      default:
-        throw new Error();
-    }
-  };
+	const [email, setEmail] = useState("");
+	const [pwd, setPwd] = useState("");
+	const [emailClientError, setEmailClientError] = useState(false);
+	const [emailServerError, setEmailServerError] = useState(false);
+	const [pwdClientError, setPwdClientError] = useState(false);
+	const [pwdServerError, setPwdServerError] = useState(false);
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+	const handleEmail = (event) => {
+		setEmail(event.target.value);
+		setEmailClientError(false);
+		setEmailServerError(false);
+	};
+	const handlePwd = (event) => {
+		setPwd(event.target.value);
+		setPwdClientError(false);
+		setPwdServerError(false);
+	};
 
-  useEffect(() => {
-    dispatch({ type: "update" });
-  }, [state]);
-
-  const handleInputChange = (event) => {
-    dispatch({
-      type: "textChange",
-      name: event.target.name,
-      value: event.target.value,
-    });
-  };
-
-  const checkEmail = () => {
-    const emailPattern = new RegExp(`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$`);
-    const emailTest = emailPattern.test(state.emailSignin);
-    return emailTest;
-  };
+	const checkEmail = () => {
+		const emailPattern = new RegExp(`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$`);
+		return emailPattern.test(email);
+	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const { emailSignin, pwdSignin } = state;
 		const userInfo = {
-			email: emailSignin.trim().toLowerCase(),
-			password: pwdSignin.trim(),
+			email: email.trim().toLowerCase(),
+			password: pwd.trim(),
 		};
-		if (checkEmail() && pwdSignin) {
-			const loginResponse = await (await fetch("/api/users/login", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(userInfo),
-			})).json();
-			if (loginResponse.status === "success") {
-				dash(); // redirect to user's dashboard
-			} else if ("email" in loginResponse) {
-				dispatch({ type: "error", error: "emailError" });
-			} else if ("password" in loginResponse) {
-				dispatch({ type: "error", error: "pwdError" });
-			} else if ("errors" in loginResponse) {
-				if ("email" in loginResponse.errors) {
-					dispatch({ type: "error", error: "emailValidationError" });
+		if (checkEmail() && pwd) {
+			try {
+				const loginResponse = await fetch("/api/users/login", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(userInfo),
+				});
+				const loginData = await loginResponse.json();
+				if (loginData.status === "success") {
+					// need to close modal
+					dispatch({ type: "AUTHENTICATED", payload: loginData.data });
+					dash(); // redirect to explore page
+				} else if ("password" in loginData) {
+					setPwdServerError(true);
+				} else if ("email" in loginData) {
+					setEmailServerError(true);
 				}
+			} catch (err) {
+				console.log(err);
 			}
 		} else if (!checkEmail()) {
-			dispatch({ type: "error", error: "emailValidationError" });
-		} else if (!pwdSignin) {
-			dispatch({ type: "error", error: "pwdValidationError" });
+			setEmailClientError(true);
+		} else if (!pwd) {
+			setPwdClientError(true);
 		}
 	};
 	return (
@@ -134,22 +113,20 @@ const SigninContainer = ({ dash, signup, close }) => {
 								required
 								fullWidth
 								label="Email Address"
-								value={state.emailSignin}
+								value={email}
 								id="emailSignin"
 								name="emailSignin"
 								type="email"
 								color="secondary"
-								error={
-									state.emailError || state.emailValidationError ? true : false
-								}
+								error={emailClientError || emailServerError}
 								helperText={
-									state.emailError || state.emailValidationError
-										? state.emailError
+									emailServerError || emailClientError
+										? emailServerError
 											? "This email does not exist in our records."
 											: "Please enter a valid email address."
 										: ""
 								}
-								onChange={handleInputChange}
+								onChange={handleEmail}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -158,22 +135,20 @@ const SigninContainer = ({ dash, signup, close }) => {
 								required
 								fullWidth
 								label="Password"
-								value={state.pwdSignin}
+								value={pwd}
 								id="pwdSignin"
 								name="pwdSignin"
 								type="password"
 								color="secondary"
-								error={
-									state.pwdError || state.pwdValidationError ? true : false
-								}
+								error={pwdClientError || pwdServerError}
 								helperText={
-									state.pwdError || state.pwdValidationError
-										? state.pwdError
+									pwdServerError || pwdClientError
+										? pwdServerError
 											? "You have entered an incorrect password."
 											: "Please enter a password."
 										: ""
 								}
-								onChange={handleInputChange}
+								onChange={handlePwd}
 							/>
 						</Grid>
 					</Grid>
