@@ -36,7 +36,7 @@ function App() {
               <Route exact path="/flights" component={Flights} />
               <Route exact path="/hotel" component={Hotels} />
               <Route exact path="/cars" component={Cars} />
-              <Route exact path="/profile" component={Profile} />
+              <Route path="/profile" component={Profile} />
               <Route exact path="/test" component={TestRoute} />
               <Route exact path="/checkout" component={Checkout} />
               <Route exact path="/payment-success" component={Success} />
