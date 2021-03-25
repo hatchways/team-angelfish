@@ -50,7 +50,7 @@ function HotelSearch() {
             <Grid className={classes.input} lg={2} sm={3} xs={6} item>
               <InputLabel className={classes.inputLabel}>Check-in</InputLabel>
               <TextField
-                id="checkinDate"
+                id="date"
                 type="date"
                 name="Check-In"
                 defaultValue={checkIn}
@@ -67,7 +67,7 @@ function HotelSearch() {
             <Grid className={classes.input} lg={2} sm={3} xs={6} item>
               <InputLabel className={classes.inputLabel}>Check-out</InputLabel>
               <TextField
-                id="checkoutDate"
+                id="date"
                 type="date"
                 name="Check-Out"
                 defaultValue={checkOut}

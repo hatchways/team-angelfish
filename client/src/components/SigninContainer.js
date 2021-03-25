@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useReducer, useEffect, useState } from "react";
+import React, { useReducer, useEffect } from "react";
 import {
 	Box,
 	Container,
@@ -12,68 +12,89 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../styles/Signup_in";
-import { useDispatchContext } from "../context";
 
 const SigninContainer = ({ dash, signup, close }) => {
-	const classes = useStyles();
+  const classes = useStyles();
 
-	const dispatch = useDispatchContext();
+  const initialState = {
+    emailSignin: "",
+    pwdSignin: "",
+    emailError: false,
+    emailValidationError: false,
+    pwdError: false,
+    pwdValidationError: false,
+  };
 
-	const [email, setEmail] = useState("");
-	const [pwd, setPwd] = useState("");
-	const [emailClientError, setEmailClientError] = useState(false);
-	const [emailServerError, setEmailServerError] = useState(false);
-	const [pwdClientError, setPwdClientError] = useState(false);
-	const [pwdServerError, setPwdServerError] = useState(false);
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "textChange":
+        return {
+          ...state,
+          [action.name]: action.value,
+          emailError: false,
+          emailValidationError: false,
+          pwdError: false,
+          pwdValidationError: false,
+        };
+      case "error":
+        return { ...state, [action.error]: true };
+      case "update":
+        return state;
+      default:
+        throw new Error();
+    }
+  };
 
-	const handleEmail = (event) => {
-		setEmail(event.target.value);
-		setEmailClientError(false);
-		setEmailServerError(false);
-	};
-	const handlePwd = (event) => {
-		setPwd(event.target.value);
-		setPwdClientError(false);
-		setPwdServerError(false);
-	};
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-	const checkEmail = () => {
-		const emailPattern = new RegExp(`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$`);
-		return emailPattern.test(email);
-	};
+  useEffect(() => {
+    dispatch({ type: "update" });
+  }, [state]);
+
+  const handleInputChange = (event) => {
+    dispatch({
+      type: "textChange",
+      name: event.target.name,
+      value: event.target.value,
+    });
+  };
+
+  const checkEmail = () => {
+    const emailPattern = new RegExp(`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$`);
+    const emailTest = emailPattern.test(state.emailSignin);
+    return emailTest;
+  };
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		const { emailSignin, pwdSignin } = state;
 		const userInfo = {
-			email: email.trim().toLowerCase(),
-			password: pwd.trim(),
+			email: emailSignin.trim().toLowerCase(),
+			password: pwdSignin.trim(),
 		};
-		if (checkEmail() && pwd) {
-			try {
-				const loginResponse = await fetch("/api/users/login", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(userInfo),
-				});
-				const loginData = await loginResponse.json();
-				if (loginData.status === "success") {
-					// need to close modal
-					dispatch({ type: "AUTHENTICATED", payload: loginData.data });
-					dash(); // redirect to explore page
-				} else if ("password" in loginData) {
-					setPwdServerError(true);
-				} else if ("email" in loginData) {
-					setEmailServerError(true);
+		if (checkEmail() && pwdSignin) {
+			const loginResponse = await (await fetch("/api/users/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(userInfo),
+			})).json();
+			if (loginResponse.status === "success") {
+				dash(); // redirect to user's dashboard
+			} else if ("email" in loginResponse) {
+				dispatch({ type: "error", error: "emailError" });
+			} else if ("password" in loginResponse) {
+				dispatch({ type: "error", error: "pwdError" });
+			} else if ("errors" in loginResponse) {
+				if ("email" in loginResponse.errors) {
+					dispatch({ type: "error", error: "emailValidationError" });
 				}
-			} catch (err) {
-				console.log(err);
 			}
 		} else if (!checkEmail()) {
-			setEmailClientError(true);
-		} else if (!pwd) {
-			setPwdClientError(true);
+			dispatch({ type: "error", error: "emailValidationError" });
+		} else if (!pwdSignin) {
+			dispatch({ type: "error", error: "pwdValidationError" });
 		}
 	};
 	return (
@@ -113,20 +134,22 @@ const SigninContainer = ({ dash, signup, close }) => {
 								required
 								fullWidth
 								label="Email Address"
-								value={email}
+								value={state.emailSignin}
 								id="emailSignin"
 								name="emailSignin"
 								type="email"
 								color="secondary"
-								error={emailClientError || emailServerError}
+								error={
+									state.emailError || state.emailValidationError ? true : false
+								}
 								helperText={
-									emailServerError || emailClientError
-										? emailServerError
+									state.emailError || state.emailValidationError
+										? state.emailError
 											? "This email does not exist in our records."
 											: "Please enter a valid email address."
 										: ""
 								}
-								onChange={handleEmail}
+								onChange={handleInputChange}
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -135,20 +158,22 @@ const SigninContainer = ({ dash, signup, close }) => {
 								required
 								fullWidth
 								label="Password"
-								value={pwd}
+								value={state.pwdSignin}
 								id="pwdSignin"
 								name="pwdSignin"
 								type="password"
 								color="secondary"
-								error={pwdClientError || pwdServerError}
+								error={
+									state.pwdError || state.pwdValidationError ? true : false
+								}
 								helperText={
-									pwdServerError || pwdClientError
-										? pwdServerError
+									state.pwdError || state.pwdValidationError
+										? state.pwdError
 											? "You have entered an incorrect password."
 											: "Please enter a password."
 										: ""
 								}
-								onChange={handlePwd}
+								onChange={handleInputChange}
 							/>
 						</Grid>
 					</Grid>
