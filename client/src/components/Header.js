@@ -1,9 +1,7 @@
 /** @format */
 
-import React, { useState } from "react";
-
-import { NavLink } from "react-router-dom";
-
+import React, { useState, useEffect } from "react";
+import { NavLink, Link } from "react-router-dom";
 import {
 	AppBar,
 	Avatar,
@@ -22,6 +20,8 @@ import Signin from "../pages/Signin";
 import Signup from "../pages/Signup";
 import Cart from "./Cart/Cart";
 import { useDispatchContext, useStateContext } from "../context";
+
+import { useStateContext } from "../context";
 
 function Header() {
 	const classes = useStyles();
