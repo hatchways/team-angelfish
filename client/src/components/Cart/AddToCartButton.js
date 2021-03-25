@@ -49,125 +49,81 @@ const AddToCartButton = ({
   const dispatch = useDispatchContext();
   const { cart } = useStateContext();
 
+  const changeTitle = (titleName) => {
+    if (titleName === "flights") return "flight";
+    if (titleName === "hotels") return "hotel";
+    if (titleName === "rentalCar") return "rental car";
+  };
+
   const addToCart = (purchaseType) => {
-    if (purchaseType === "flights") {
-      const { OutboundLeg, InboundLeg } = quote;
-      const { from, to } = cities;
-      const flightData = {
-        departure: {
-          id: nanoid(),
-          type: "Departure",
-          price: quote.MinPrice,
-          taxes: 1000,
-          date: OutboundLeg.DepartureDate,
-          departureTime: OutboundLeg.DepartureTime,
-          duration: OutboundLeg.Duration,
-          arrivalTime: OutboundLeg.ArrivalTime,
-          departurePlace: from,
-          numberOfStops: `${
-            OutboundLeg.Stops && OutboundLeg.Stops.length > 0
-              ? OutboundLeg.Stops.length
-              : "Non"
-          }-stop`,
-          arrivalPlace: to,
+    const { OutboundLeg, InboundLeg } = quote;
+    const { from, to } = cities;
+
+    const flightData = {
+      departure: {
+        id: nanoid(),
+        type: "Outbound",
+        price: quote.MinPrice,
+        taxes: 1000,
+        date: OutboundLeg.DepartureDate,
+        departureTime: OutboundLeg.DepartureTime,
+        duration: OutboundLeg.Duration,
+        arrivalTime: OutboundLeg.ArrivalTime,
+        departurePlace: from,
+        numberOfStops: `${
+          OutboundLeg.Stops && OutboundLeg.Stops.length > 0
+            ? OutboundLeg.Stops.length
+            : "Non"
+        }-stop`,
+        arrivalPlace: to,
+      },
+      arrival: {
+        id: nanoid(),
+        type: "Inbound",
+        price: quote.MinPrice,
+        taxes: 1000,
+        date: InboundLeg.DepartureDate,
+        departureTime: InboundLeg.DepartureTime,
+        duration: InboundLeg.Duration,
+        arrivalTime: InboundLeg.ArrivalTime,
+        departurePlace: to,
+        numberOfStops: `${
+          InboundLeg.Stops && InboundLeg.Stops.length > 0
+            ? InboundLeg.Stops.length
+            : "Non"
+        }-stop`,
+        arrivalPlace: from,
+      },
+    };
+
+    if (cart[purchaseType].length > 0) {
+      enqueueSnackbar(`Limited to 1 ${changeTitle(purchaseType)}`, {
+        variant: "error",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
         },
-        arrival: {
-          id: nanoid(),
-          type: "Arrival",
-          price: quote.MinPrice,
-          taxes: 1000,
-          date: InboundLeg.DepartureDate,
-          departureTime: InboundLeg.DepartureTime,
-          duration: InboundLeg.Duration,
-          arrivalTime: InboundLeg.ArrivalTime,
-          departurePlace: from,
-          numberOfStops: `${
-            InboundLeg.Stops && InboundLeg.Stops.length > 0
-              ? InboundLeg.Stops.length
-              : "Non"
-          }-stop`,
-          arrivalPlace: to,
+        autoHideDuration: 2000,
+      });
+    } else {
+      dispatch({
+        type: "ADD_TO_CART",
+        item:
+          purchaseType === "flights"
+            ? flightData
+            : purchaseType === "hotels"
+            ? hotelData
+            : rentalCarData,
+        purhcaseType: purchaseType,
+      });
+      enqueueSnackbar("Added to cart", {
+        variant: "success",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
         },
-      };
-
-      if (cart.flights.length > 0) {
-        enqueueSnackbar("Limited to 1 flight", {
-          variant: "error",
-          anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "center",
-          },
-          autoHideDuration: 2000,
-        });
-      } else {
-        dispatch({
-          type: "ADD_TO_CART",
-          item: flightData,
-          purhcaseType: purchaseType,
-        });
-        enqueueSnackbar("Added to cart", {
-          variant: "success",
-          anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "center",
-          },
-          autoHideDuration: 2000,
-        });
-      }
-    }
-
-    if (purchaseType === "hotels") {
-      if (cart.hotels.length > 0) {
-        enqueueSnackbar("Limited to 1 hotel", {
-          variant: "error",
-          anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "center",
-          },
-          autoHideDuration: 2000,
-        });
-      } else {
-        dispatch({
-          type: "ADD_TO_CART",
-          item: hotelData,
-          purhcaseType: purchaseType,
-        });
-        enqueueSnackbar("Added to cart", {
-          variant: "success",
-          anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "center",
-          },
-          autoHideDuration: 2000,
-        });
-      }
-    }
-
-    if (purchaseType === "rentalCar") {
-      if (cart.rentalCar.length > 0) {
-        enqueueSnackbar("Limited to 1 rentalCar", {
-          variant: "error",
-          anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "center",
-          },
-          autoHideDuration: 2000,
-        });
-      } else {
-        dispatch({
-          type: "ADD_TO_CART",
-          item: rentalCarData,
-          purhcaseType: purchaseType,
-        });
-        enqueueSnackbar("Added to cart", {
-          variant: "success",
-          anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "center",
-          },
-          autoHideDuration: 2000,
-        });
-      }
+        autoHideDuration: 2000,
+      });
     }
   };
 

@@ -10,8 +10,9 @@ const Success = () => {
   useEffect(() => {
     setTimeout(() => {
       history.push("/");
-    }, 2000);
+    }, 3500);
   }, []);
+
   return (
     <Grid
       container

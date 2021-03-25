@@ -128,7 +128,7 @@ const FlightAccordion = ({ quote, cities }) => {
                   cities={cities}
                   purchaseType="flights"
                 />
-                {/* <AddToCartButton
+                <AddToCartButton
                   title="Select Hotel"
                   quote={quote}
                   cities={cities}
@@ -139,7 +139,7 @@ const FlightAccordion = ({ quote, cities }) => {
                   quote={quote}
                   cities={cities}
                   purchaseType="rentalCar"
-                /> */}
+                />
               </Grid>
               <Grid item sm={3}>
                 <Typography

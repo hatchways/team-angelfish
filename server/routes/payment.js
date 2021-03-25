@@ -5,8 +5,34 @@ const stripe = require("stripe")(process.env.STRIPE_SK);
 
 const makePayment = async (req, res) => {
   const customer = req.body.stripeId;
-  const { currency, amount, details, stripeId } = req.body;
+  const { currency, stripeId, flights, hotels, rentalCars } = req.body;
   let session;
+
+  const lineItems = [
+    {
+      currency: currency,
+      amount: flights.totalPrice * 100,
+      name: flights.departure
+        ? `${flights.departure} - ${flights.arrival}`
+        : "No flights selected",
+      quantity: 1,
+    },
+    {
+      currency: currency,
+      amount: hotels.totalPrice * 100,
+      name: hotels.details ? `${hotels.details}` : "No hotels selected",
+      quantity: 1,
+    },
+    {
+      currency: currency,
+      amount: rentalCars.totalPrice * 100,
+      name: rentalCars.details
+        ? `${rentalCars.details}`
+        : "No rental cars selected",
+      quantity: 1,
+    },
+  ];
+
   if (customer) {
     session = await stripe.checkout.sessions.create({
       payment_intent_data: {
@@ -16,17 +42,9 @@ const makePayment = async (req, res) => {
       /* Note: Customer can change email in form if using key 'customer'. No fix that I could find
       'customer_email' creates a new customer everytime but doesn't allow customer to change email in form*/
 
-      // customer_email: req.body.email,
-      customer: stripeId,
+      ustomer: stripeId,
       payment_method_types: ["card"],
-      line_items: [
-        {
-          currency: currency,
-          amount: amount,
-          name: details,
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       mode: "payment",
       success_url: "http://localhost:3000/payment-success",
       cancel_url: "http://localhost:3000/payment-error",
@@ -36,14 +54,7 @@ const makePayment = async (req, res) => {
   } else {
     session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
-      line_items: [
-        {
-          currency: currency,
-          amount: amount,
-          name: details,
-          quantity: 1,
-        },
-      ],
+      line_items: lineItems,
       mode: "payment",
       success_url: "http://localhost:3000/payment-success",
       cancel_url: "http://localhost:3000/payment-error",
