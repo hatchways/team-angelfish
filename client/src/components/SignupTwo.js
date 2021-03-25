@@ -150,47 +150,41 @@ const SignupTwo = ({ dash, close, user }) => {
         </Grid>
         <Box textAlign="center" mt={3} mb={2}>
           {open ? (
-            <>
-              <Autocomplete
-                freeSolo
-                id="add-destination"
-                name="add-destination"
-                value={destination}
-                options={cities?.map((option) => option.name)}
-                onChange={handleTextChange}
-                classes={{ inputRoot: classes.inputRoot }}
-                renderInput={(params) => {
-                  params.InputProps.startAdornment = (
-                    <>
-                      <InputAdornment position="start">
-                        <HighlightOffIcon
-                          style={{ cursor: "pointer" }}
-                          onClick={openAdd}
-                        />
-                      </InputAdornment>
-                    </>
-                  );
-                  params.InputProps.endAdornment = (
-                    <>
-                      <InputAdornment position="end">
-                        <AddIcon
-                          onClick={handleAdd}
-                          style={{ cursor: "pointer" }}
-                        />
-                      </InputAdornment>
-                    </>
-                  );
-                  return (
-                    <TextField
-                      {...params}
-                      color="secondary"
-                      helperText={selectCityError ? "Please enter city" : ""}
-                      error={selectCityError}
+            <Autocomplete
+              freeSolo
+              id="add-destination"
+              name="add-destination"
+              value={destination}
+              options={cities?.map((option) => option.name)}
+              onChange={handleTextChange}
+              classes={{ inputRoot: classes.inputRoot }}
+              renderInput={(params) => {
+                params.InputProps.startAdornment = (
+                  <InputAdornment position="start">
+                    <HighlightOffIcon
+                      style={{ cursor: "pointer" }}
+                      onClick={openAdd}
                     />
-                  );
-                }}
-              />
-            </>
+                  </InputAdornment>
+                );
+                params.InputProps.endAdornment = (
+                  <InputAdornment position="end">
+                    <AddIcon
+                      onClick={handleAdd}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </InputAdornment>
+                );
+                return (
+                  <TextField
+                    {...params}
+                    color="secondary"
+                    helperText={selectCityError ? "Please enter city" : ""}
+                    error={selectCityError}
+                  />
+                );
+              }}
+            />
           ) : (
             <Button
               disabled={travelList.length === 3 ? true : false}
