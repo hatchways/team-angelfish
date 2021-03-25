@@ -11,7 +11,7 @@ import Hotels from "./pages/Hotels";
 import Cars from "./pages/Cars";
 import Header from "./components/Header";
 import TestRoute from "./components/Cart/addToCartTestPage";
-import Profile from "./pages/Profile";
+import Profile from "./pages/User/Profile";
 import Checkout from "./components/Stripe/Checkout";
 import Success from "./components/Stripe/Success";
 import Error from "./components/Stripe/Error";
