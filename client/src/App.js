@@ -9,7 +9,7 @@ import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 import ExplorerPage from "./pages/Explore";
 import Flights from "./pages/Flights";
 import Hotels from "./pages/Hotels";
-import Rent from "./pages/Rent";
+import Cars from "./pages/Cars";
 import Header from "./components/Header";
 import TestRoute from "./components/Cart/addToCartTestPage";
 import Profile from "./pages/Profile";
@@ -35,7 +35,7 @@ function App() {
               <Route path="/explore" component={ExplorerPage} />
               <Route exact path="/flights" component={Flights} />
               <Route exact path="/hotel" component={Hotels} />
-              <Route exact path="/rent" component={Rent} />
+              <Route exact path="/cars" component={Cars} />
               <Route exact path="/profile" component={Profile} />
               <Route exact path="/test" component={TestRoute} />
               <Route exact path="/checkout" component={Checkout} />

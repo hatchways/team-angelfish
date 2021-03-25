@@ -79,8 +79,8 @@ function Header() {
 						<NavLink className={classes.navlinks} to="/hotel">
 							Hotels
 						</NavLink>
-						<NavLink className={classes.navlinks} to="/rent">
-							Rent
+						<NavLink className={classes.navlinks} to="/cars">
+							Cars
 						</NavLink>
 					</Grid>
 					{authenticated ? (
