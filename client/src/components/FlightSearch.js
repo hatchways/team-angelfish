@@ -79,61 +79,6 @@ const FlightSearch = ({ submit }) => {
     const response = await fetch(
       `api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`
     );
-    const data = await response.json();
-	console.log(data)
-
-    // if (from && to && departureDate && returnDate) {
-    // 	if (returnDate >= departureDate) {
-    // 		const response = await fetch(
-    // 			`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`
-    // 		);
-    // 		const data = await response.json();
-    // 		if (data.status === 200) {
-    // 			submit({
-    // 				date: departureDate.toString(),
-    // 				flights: data,
-    // 			});
-
-    // 			  console.log(response)
-    // 		} else if ("from" in data) {
-    // 			setFromError(true);
-    // 		} else if ("to" in data) {
-    // 			setToError(true);
-    // 		} else if ("outboundDate" in data) {
-    // 			setDepartDateError(true);
-    // 		} else {
-    // 			setReturnDateError(true);
-    // 		}
-    // 	} else {
-    // 		setReturnDateError(true);
-    // 	}
-    // 	// return date is optional
-    // } else if (from && to && departureDate) {
-    // 	const response = await fetch(
-    // 		`api/flights/quotes/${from}/${to}/${formattedDepartureDate}`
-    // 	);
-    // 	const data = await response.json();
-    // 	if (data.status === 200) {
-    // 		submit({
-    // 			date: departureDate.toString(),
-    // 			flights: data,
-    // 		});
-
-    // 		  console.log(data)
-    // 	} else if ("from" in data) {
-    // 		setFromError(true);
-    // 	} else if ("to" in data) {
-    // 		setToError(true);
-    // 	} else if ("outboundDate" in data) {
-    // 		setDepartDateError(true);
-    // 	} else {
-    // 		setReturnDateError(true);
-    // 	}
-    // } else if (!from) {
-    // 	setFromError(true);
-    // } else if (!to) {
-    // 	setToError(true);
-    // }
   };
 
   return (
