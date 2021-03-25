@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { useState } from "react";
 
 import { Grid, Paper, TextField, Button } from "@material-ui/core";
@@ -9,18 +7,10 @@ import {
 	MuiPickersUtilsProvider,
 	KeyboardDatePicker,
 } from "@material-ui/pickers";
-
 import useStyles from "../styles/FlightSearch";
 
-// Mock Data
-const cities = [
-	{ title: "Vancouver" },
-	{ title: "Calgary" },
-	{ title: "Toronto" },
-	{ title: "Bangkok" },
-];
-
 const FlightSearch = ({ submit }) => {
+
 	const classes = useStyles();
 
 	const [from, setFrom] = useState("Vancouver");
@@ -246,6 +236,7 @@ const FlightSearch = ({ submit }) => {
 			</form>
 		</div>
 	);
+
 };
 
 export default FlightSearch;
