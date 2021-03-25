@@ -16,9 +16,7 @@ import FlightAccordion from "./FlightAccordion";
 const prices = {
 	default: "Price",
 	options: [
-		{ min: 50, max: 150, range: "$50 - $150" },
-		{ min: 150, max: 250, range: "$150 - $250" },
-		{ min: 250, max: 350, range: "$250 - $350" },
+		{ min: 50, max: 350, range: "$50 - $350" },
 		{ min: 350, max: 650, range: "$350 - $650" },
 		{ min: 650, max: 1000, range: "$650 - $1,000" },
 		{ min: 1000, range: "$1,000 +" },
@@ -30,8 +28,6 @@ const FlightResults = ({ data }) => {
 
 	const [price, setPrice] = useState("");
 	const [filter, setFilter] = useState("");
-
-	const cities = { from: data.flights.From, to: data.flights.To };
 
 	const handlePriceChange = (event) => {
 		const range = event.target.value;
@@ -83,21 +79,25 @@ const FlightResults = ({ data }) => {
 					classes={{ root: classes.departFlightsContainer }}
 				>
 					{filter
-						? data.flights.Quotes.filter(
-								(quote) =>
-									quote.MinPrice >= filter.min && quote.MinPrice <= filter.max
-						  ).map((quote) => (
+						? data.quotes
+								.filter(
+									(quote) =>
+										quote.MinPrice >= filter.min && quote.MinPrice <= filter.max
+								)
+								.map((quote) => (
+									<FlightAccordion
+										key={quote.QuoteId}
+										quote={quote}
+										carrier={data.carriers}
+										date={data.date}
+									/>
+								))
+						: data.quotes.map((quote) => (
 								<FlightAccordion
 									key={quote.QuoteId}
 									quote={quote}
-									cities={cities}
-								/>
-						  ))
-						: data.flights.Quotes.map((quote) => (
-								<FlightAccordion
-									key={quote.QuoteId}
-									quote={quote}
-									cities={cities}
+									carrier={data.carriers}
+									date={data.date}
 								/>
 						  ))}
 				</Grid>

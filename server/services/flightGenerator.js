@@ -1,5 +1,5 @@
 /** @format */
-const fns = require("date-fns");
+import { add, format, intervalToDuration } from "date-fns";
 // random generators
 const randomMinMax = (min, max) => {
 	return Math.floor(Math.random() * (max - min) + min);
@@ -10,34 +10,32 @@ const randomInt = (num) => {
 // format flight dates
 const formattedDate = (date) => {
 	const resetDate = new Date(`${date}T00:00`);
-	const pattern = (option) => fns.format(resetDate, option);
+	const pattern = (option) => format(resetDate, option);
 	return `${pattern("EEE")}, ${pattern("LLL")} ${pattern("d")}`;
 };
-// list of layovers
-const layovers = [
-	"Queens (JFK)",
-	"San Francisco (SFO)",
-	"Istanbul (IST)",
-	"Toronto (YYZ)",
-];
-
+// convert minutes for layovers
+const convertMinutes = (num) => {
+	const hours = Math.floor(num / 60);
+	const minutes = num % 60;
+	return `${hours} ${hours > 1 ? `hours` : `hour`} ${minutes} minutes`;
+};
 /* make the flight time between 2 hr 25 min to 2 hr 40 min */
 // times for direct flights
 const directTime = () => {
 	const randomTime = randomMinMax(100000000, 154000000);
 	const departTime = new Date(randomTime);
-	const arrivalTime = fns.add(departTime, {
+	const arrivalTime = add(departTime, {
 		hours: 2,
 		minutes: randomMinMax(25, 41),
 	});
-	const totalDuration = fns.intervalToDuration({
+	const totalDuration = intervalToDuration({
 		start: departTime,
 		end: arrivalTime,
 	});
 	return {
-		DepartureTime: fns.format(departTime, "p"),
-		ArrivalTime: fns.format(arrivalTime, "p"),
-		Duration: `2 hr ${totalDuration.minutes} min`,
+		DepartureTime: format(departTime, "p"),
+		ArrivalTime: format(arrivalTime, "p"),
+		Duration: `2 hours ${totalDuration.minutes} minutes`,
 	};
 };
 
@@ -45,41 +43,24 @@ const directTime = () => {
 const indirectTime = () => {
 	const randomTime = randomMinMax(100000000, 154000000);
 	const departTime = new Date(randomTime);
-	const stopArrivalTime = fns.add(departTime, {
-		hours: randomMinMax(1, 3),
-		minutes: randomMinMax(15, 38),
+	const arrivalTime = add(departTime, {
+		hours: randomMinMax(3, 7),
+		minutes: randomMinMax(0, 60),
 	});
-	const travelTimeFromDeparture = fns.intervalToDuration({
+	const totalDuration = intervalToDuration({
 		start: departTime,
-		end: stopArrivalTime,
+		end: arrivalTime,
 	});
-	const layoverDuration = {
-		hours: randomMinMax(0, 3),
-		minutes: randomMinMax(40, 60),
-	};
-	const destinationArrivalTime = fns.add(stopArrivalTime, {
-		hours: randomMinMax(layoverDuration.hours + 1, layoverDuration.hours + 3),
-		minutes: randomMinMax(35, 60),
-	});
-	const travelTimeFromStop = fns.intervalToDuration({
-		start: stopArrivalTime,
-		end: destinationArrivalTime,
-	});
-	const totalDuration = fns.intervalToDuration({
-		start: departTime,
-		end: destinationArrivalTime,
-	});
+	const totalMinutes = totalDuration.hours * 60 + totalDuration.minutes;
+	const stopDuration = convertMinutes(totalMinutes - randomMinMax(145, 161));
 	return {
-		DepartureTime: fns.format(departTime, "p"),
-		ArrivalTime: fns.format(destinationArrivalTime, "p"),
-		Duration: `${totalDuration.hours} hr ${totalDuration.minutes} min`,
-		TravelTimeToStop: `${travelTimeFromDeparture.hours} hr ${travelTimeFromDeparture.minutes} min`,
+		DepartureTime: format(departTime, "p"),
+		ArrivalTime: format(arrivalTime, "p"),
+		Duration: `${totalDuration.hours} hours ${totalDuration.minutes} minutes`,
 		Stops: [
 			{
-				City: layovers[randomInt(layovers.length)],
-				Duration: `${layoverDuration.hours} hr ${layoverDuration.minutes} min`,
-				ArrivalTime: fns.format(stopArrivalTime, "p"),
-				TravelTimeFromStop: `${travelTimeFromStop.hours} hr ${travelTimeFromStop.minutes} min`,
+				City: "Queens (JFK)", // layovers in New York
+				Duration: stopDuration,
 			},
 		],
 	};
@@ -131,6 +112,28 @@ const mockData = ({ from, to, departure, returning }) => {
 		Quotes: quotes
 			.sort((x, y) => x.MinPrice - y.MinPrice)
 			.slice(randomInt(quotes.length)),
+		Carriers: [
+			{
+				CarrierId: 29,
+				Name: "American Airlines",
+				LogoUrl: "https://images.app.goo.gl/2cMU7XMepefeVCGG6",
+			},
+			{
+				CarrierId: 173,
+				Name: "Air Canada",
+				LogoUrl: "https://images.app.goo.gl/LJGUpxRRPz6QYKz66",
+			},
+			{
+				CarrierId: 870,
+				Name: "JetBlue",
+				LogoUrl: "https://images.app.goo.gl/QrF9p4BQAsSQSNXN8",
+			},
+			{
+				CarrierId: 450,
+				Name: "Delta Air Lines",
+				LogoUrl: "https://images.app.goo.gl/KUpzJ63e9HTYA9em6",
+			},
+		],
 	};
 };
 
