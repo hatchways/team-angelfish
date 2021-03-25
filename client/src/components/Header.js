@@ -19,35 +19,33 @@ import useStyles from "../styles/Header";
 import Signin from "../pages/Signin";
 import Signup from "../pages/Signup";
 import Cart from "./Cart/Cart";
-
-import { useStateContext } from "../context";
+import { useDispatchContext, useStateContext } from "../context";
 
 function Header() {
   const classes = useStyles();
-  const { user, loading } = useStateContext();
-  const [auth, setAuth] = useState(false);
+
+  const dispatch = useDispatchContext();
+  const { authenticated } = useStateContext();
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false); //opens signin page
   const [signup, setSignup] = useState(false); // switches to signup page
-  const open = Boolean(anchorEl);
 
-  useEffect(() => {
-    if (loading) {
-      return null;
-    } else {
-      setAuth(user ? true : false);
-    }
-  }, [loading]);
+  const open = Boolean(anchorEl);
 
   const handleMenu = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
-  const openModal = () => setModal(!modal);
+  const openModal = () => setModal(true);
   const closeModal = () => {
-    setModal(!modal);
-    setSignup(!signup);
+    setModal(false);
+    setSignup(false);
   };
-  const handleSignup = () => setSignup(!signup);
-  const handleSignin = () => setSignup(!signup);
+  const handleSignup = () => setSignup(true);
+  const handleSignin = () => setSignup(false);
+  const handleLogout = async () => {
+    await fetch(`api/users/logout`);
+    dispatch({ type: "LOG_OUT" });
+  };
 
   const WrappedSignin = React.forwardRef((props, ref) => (
     <Signin {...props} forwardedRef={ref} />
@@ -65,41 +63,25 @@ function Header() {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
-          ></IconButton>
+          />
           <Typography variant="h6" className={classes.title}>
             Travel Booking
           </Typography>
           <Grid className={classes.pages}>
-            <NavLink
-              className={classes.navlinks}
-              to="/explore"
-              activeStyle={{ color: "#FFA000" }}
-            >
+            <NavLink className={classes.navlinks} to="/explore">
               Explore
             </NavLink>
-            <NavLink
-              className={classes.navlinks}
-              to="/flights"
-              activeStyle={{ color: "#FFA000" }}
-            >
+            <NavLink className={classes.navlinks} to="/flights">
               Flights
             </NavLink>
-            <NavLink
-              className={classes.navlinks}
-              to="/hotel"
-              activeStyle={{ color: "#FFA000" }}
-            >
+            <NavLink className={classes.navlinks} to="/hotel">
               Hotels
             </NavLink>
-            <NavLink
-              className={classes.navlinks}
-              to="/rent"
-              activeStyle={{ color: "#FFA000" }}
-            >
-              Rent
+            <NavLink className={classes.navlinks} to="/cars">
+              Cars
             </NavLink>
           </Grid>
-          {auth ? (
+          {authenticated ? (
             <Grid>
               <IconButton
                 aria-label="account of current user"
@@ -128,15 +110,8 @@ function Header() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>
-                  <Link
-                    className={classes.ProfileLink}
-                    to="/profile/favoritedestinations"
-                  >
-                    Profile
-                  </Link>
-                </MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
+                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </Grid>
           ) : (

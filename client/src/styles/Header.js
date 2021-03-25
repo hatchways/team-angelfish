@@ -1,3 +1,5 @@
+/** @format */
+
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
     width: "45%",
   },
   navlinks: {
+    "&.active": {
+      color: "#FFA000",
+    },
     color: "#373737",
     textDecoration: "none",
   },
@@ -38,11 +43,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-  },
-
-  ProfileLink: {
-    textDecoration: "none",
-    color: "#000000",
   },
 }));
 

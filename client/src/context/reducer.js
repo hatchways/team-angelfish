@@ -1,3 +1,5 @@
+/** @format */
+
 export const initialState = {
   authenticated: false,
   user: {},
@@ -51,6 +53,8 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         cities: action.payload,
       };
+    case "LOG_OUT":
+      return initialState;
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
