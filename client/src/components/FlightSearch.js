@@ -84,8 +84,6 @@ const FlightSearch = ({ submit }) => {
     const response = await fetch(
       `api/flights/quotes/${fromCity}/${toCity}/${dep}/?inboundDate=${ret}`
     );
-    const data = await response.json();
-    console.log(data);
   };
 
   return (
