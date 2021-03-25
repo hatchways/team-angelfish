@@ -6,7 +6,7 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     marginTop: 20,
     paddingTop: 0,
-    paddingLeft: 20,
+    paddingLeft: 20
   },
   paperContainer: {
     height: 300,
