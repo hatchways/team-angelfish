@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useState } from "react";
 
 import { Grid, Paper, TextField, Button } from "@material-ui/core";
@@ -10,8 +12,14 @@ import {
 import useStyles from "../styles/FlightSearch";
 
 const FlightSearch = ({ submit }) => {
-
 	const classes = useStyles();
+
+	const cities = [
+		{ title: "Vancouver" },
+		{ title: "Calgary" },
+		{ title: "Toronto" },
+		{ title: "Bangkok" },
+	];
 
 	const [from, setFrom] = useState("Vancouver");
 	const [to, setTo] = useState("Bangkok");
@@ -236,7 +244,6 @@ const FlightSearch = ({ submit }) => {
 			</form>
 		</div>
 	);
-
 };
 
 export default FlightSearch;

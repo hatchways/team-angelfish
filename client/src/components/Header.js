@@ -21,8 +21,6 @@ import Signup from "../pages/Signup";
 import Cart from "./Cart/Cart";
 import { useDispatchContext, useStateContext } from "../context";
 
-import { useStateContext } from "../context";
-
 function Header() {
 	const classes = useStyles();
 
