@@ -7,13 +7,24 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import debounce from "lodash/debounce"
 import useStyles from "../styles/FlightSearch";
+
+
+
+const cities = [
+  { title: "Vancouver" },
+  { title: "Calgary" },
+  { title: "Toronto" },
+  { title: "Bangkok" },
+];
+
+
 
 const FlightSearch = ({ submit }) => {
   const classes = useStyles();
-
-  const [from, setFrom] = useState("Vancouver");
-  const [to, setTo] = useState("Bangkok");
+  const [from, setFrom] = useState(null);
+  const [to, setTo] = useState(null);
   const [departureDate, setDepartureDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
   const [travellers, setTravellers] = useState(1);
@@ -21,8 +32,8 @@ const FlightSearch = ({ submit }) => {
   const [returnDateError, setReturnDateError] = useState(false);
   const [fromError, setFromError] = useState(false);
   const [toError, setToError] = useState(false);
-  const [fromCities, setFromCities] = useState([]);
-  const [toCities, setToCities] = useState([]);
+  const [fromcities, setFromCities] = useState([]);
+  const [tocities, setToCities] = useState([]);
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -32,34 +43,34 @@ const FlightSearch = ({ submit }) => {
     return newDate.toISOString().split("T")[0];
   };
 
-  const handleFromLocation = async (event, value) => {
-    if (value === "") {
-      return;
-    }
-    try {
-      const response = await fetch(`/api/flights/places/${value}`);
-      const data = await response.json();
-      console.log(data);
-      setFromCities(data.Places);
-    } catch (err) {
-      console.error();
+   
+
+  const handleFromLocation = async (event, value, reason) => {
+    if (reason === "input") {
+      try {
+        const response = await fetch(`/api/flights/places/${value}`);
+        const data = await response.json();
+        setFromCities(data.Places);
+      } catch (err) {
+        console.error();
+      }
     }
     setFromError(false);
   };
 
-  const handleToLocation = async (event, value) => {
-    if (value === "") {
-      return;
-    }
-    try {
-      const response = await fetch(`/api/flights/places/${value}`);
-      const data = await response.json();
-      setToCities(data.Places);
-    } catch (err) {
-      console.error();
+  const handleToLocation = async (event, value, reason) => {
+    if (reason === "input") {
+      try {
+        const response = await fetch(`/api/flights/places/${value}`);
+        const data = await response.json();
+        setToCities(data.Places);
+      } catch (error) {
+        console.error();
+      }
     }
     setToError(false);
   };
+
   const handleDepartureDate = (date) => {
     setDepartureDate(date);
     setDepartDateError(false);
@@ -122,16 +133,18 @@ const FlightSearch = ({ submit }) => {
 
   return (
     <div className={classes.root}>
-      <form onSubmit={handleSubmit}>
+      <form>
         <Paper className={classes.paperContainer} elevation={7}>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
             <Autocomplete
               freeSolo
               id="from"
               value={from}
+              options={fromcities.map((option) => option.PlaceName)}
               onChange={(_, value) => setFrom(value)}
-              options={fromCities.map((option) => option.PlaceName)}
-              onInputChange={handleFromLocation}
+              onInputChange={debounce((event, value, reason) => 
+                handleFromLocation(event, value, reason), 500)
+              }
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -153,9 +166,11 @@ const FlightSearch = ({ submit }) => {
               id="to"
               name="to"
               value={to}
-              options={toCities.map((option) => option.PlaceName)}
+              options={tocities.map((option) => option.PlaceName)}
               onChange={(_, value) => setTo(value)}
-              onInputChange={handleToLocation}
+              onInputChange={debounce((event, value, reason) => 
+                handleToLocation(event, value, reason), 500)
+              }
               renderInput={(params) => (
                 <TextField
                   {...params}
