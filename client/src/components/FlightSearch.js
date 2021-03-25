@@ -72,10 +72,7 @@ const FlightSearch = ({ submit }) => {
 				);
 				const data = await response.json();
 				if (response.status === 200) {
-					submit({
-						date: departureDate.toString(),
-						flights: data,
-					});
+					submit({ flights: data });
 					console.log(data);
 				} else if ("from" in data) {
 					setFromError(true);
@@ -96,10 +93,7 @@ const FlightSearch = ({ submit }) => {
 			);
 			const data = await response.json();
 			if (response.status === 200) {
-				submit({
-					date: departureDate.toString(),
-					flights: data,
-				});
+				submit({ flights: data });
 			} else if ("from" in data) {
 				setFromError(true);
 			} else if ("to" in data) {
