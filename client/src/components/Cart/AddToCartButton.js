@@ -1,76 +1,95 @@
 import React from "react";
 
 import { nanoid } from "nanoid";
-
-import { useDispatchContext, useStateContext } from "../../context";
-
 import { useSnackbar } from "notistack";
 
-const AddToCartTestPage = () => {
+import { Button } from "@material-ui/core";
+
+import { useDispatchContext, useStateContext } from "../../context";
+import useStyles from "../../styles/FlightAccordion";
+
+// MOCK Data
+const hotelData = {
+  id: nanoid(),
+  arrival: "03/20/21",
+  departure: "03/20/21",
+  numberOfNights: 3,
+  numberOfGuests: 2,
+  place: "LA cottage",
+  city: "LA, USA",
+  taxes: 100,
+  price: 1000,
+  rating: 4,
+};
+
+const rentalCarData = {
+  id: nanoid(),
+  arrival: "03/20/21",
+  departure: "03/20/21",
+  numberOfNights: 3,
+  typeOfCar: "Dodge Caravan",
+  placeOfRental: "LA Car Service",
+  city: "LA, USA",
+  taxes: 100,
+  price: 1000,
+  rating: 3,
+};
+
+const AddToCartButton = ({
+  title,
+  quote,
+  cities,
+  purchaseType,
+  variant,
+  color,
+  size,
+}) => {
   const { enqueueSnackbar } = useSnackbar();
+  const classes = useStyles();
   const dispatch = useDispatchContext();
   const { cart } = useStateContext();
 
   const addToCart = (purchaseType) => {
-    // MOCK Data
-    const flightData = {
-      departure: {
-        id: nanoid(),
-        type: "Departure",
-        name: "FLIGHT001",
-        price: 10000,
-        taxes: 1000,
-        date: "03/20/21",
-        departureTime: "2:45pm",
-        duration: "0h 30m",
-        arrivalTime: "4:45pm",
-        departurePlace: "YVR",
-        numberOfStops: "Non-stop",
-        arrivalPlace: "LAX",
-      },
-      arrival: {
-        id: nanoid(),
-        type: "Arrival",
-        name: "FLIGHT001",
-        price: 10000,
-        taxes: 1000,
-        date: "03/20/21",
-        departureTime: "2:45pm",
-        duration: "0h 30m",
-        arrivalTime: "4:45pm",
-        departurePlace: "LAX",
-        numberOfStops: "Non-stop",
-        arrivalPlace: "YVR",
-      },
-    };
-
-    const hotelData = {
-      id: nanoid(),
-      arrival: "03/20/21",
-      departure: "03/20/21",
-      numberOfNights: 3,
-      numberOfGuests: 2,
-      place: "LA cottage",
-      city: "LA, USA",
-      taxes: 100,
-      price: 1000,
-      rating: 4,
-    };
-
-    const rentalCarData = {
-      id: nanoid(),
-      arrival: "03/20/21",
-      departure: "03/20/21",
-      numberOfNights: 3,
-      typeOfCar: "Dodge Caravan",
-      placeOfRental: "LA Car Service",
-      city: "LA, USA",
-      taxes: 100,
-      price: 1000,
-      rating: 3,
-    };
-
     if (purchaseType === "flights") {
+      const { OutboundLeg, InboundLeg } = quote;
+      const { from, to } = cities;
+      const flightData = {
+        departure: {
+          id: nanoid(),
+          type: "Departure",
+          price: quote.MinPrice,
+          taxes: 1000,
+          date: OutboundLeg.DepartureDate,
+          departureTime: OutboundLeg.DepartureTime,
+          duration: OutboundLeg.Duration,
+          arrivalTime: OutboundLeg.ArrivalTime,
+          departurePlace: from,
+          numberOfStops: `${
+            OutboundLeg.Stops && OutboundLeg.Stops.length > 0
+              ? OutboundLeg.Stops.length
+              : "Non"
+          }-stop`,
+          arrivalPlace: to,
+        },
+        arrival: {
+          id: nanoid(),
+          type: "Arrival",
+          price: quote.MinPrice,
+          taxes: 1000,
+          date: InboundLeg.DepartureDate,
+          departureTime: InboundLeg.DepartureTime,
+          duration: InboundLeg.Duration,
+          arrivalTime: InboundLeg.ArrivalTime,
+          departurePlace: from,
+          numberOfStops: `${
+            InboundLeg.Stops && InboundLeg.Stops.length > 0
+              ? InboundLeg.Stops.length
+              : "Non"
+          }-stop`,
+          arrivalPlace: to,
+        },
+      };
+
       if (cart.flights.length > 0) {
         enqueueSnackbar("Limited to 1 flight", {
           variant: "error",
@@ -96,6 +115,7 @@ const AddToCartTestPage = () => {
         });
       }
     }
+
     if (purchaseType === "hotels") {
       if (cart.hotels.length > 0) {
         enqueueSnackbar("Limited to 1 hotel", {
@@ -152,12 +172,18 @@ const AddToCartTestPage = () => {
   };
 
   return (
-    <div>
-      <button onClick={() => addToCart("flights")}>Add flight</button>
-      <button onClick={() => addToCart("hotels")}>Add hotels</button>
-      <button onClick={() => addToCart("rentalCar")}>Add car</button>
-    </div>
+    <>
+      <Button
+        variant={variant}
+        color={color}
+        size={size}
+        classes={{ root: classes.button }}
+        onClick={() => addToCart(purchaseType)}
+      >
+        {title}
+      </Button>
+    </>
   );
 };
 
-export default AddToCartTestPage;
+export default AddToCartButton;
