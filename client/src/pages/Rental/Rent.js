@@ -1,5 +1,6 @@
 import React, { useState} from "react";
 import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import useStyles from "./RentStyle";
 import TextField from "@material-ui/core/TextField";
@@ -11,7 +12,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-var classNames = require("classnames");
+import classNames from 'classnames';
 
 //Mock Data
 
@@ -83,8 +84,8 @@ const Rent = () => {
   return (
     <Container className={classes.pageContainer}>
       <Grid container className={classes.filterContainer}>
-        <div className={classes.filterContainer}>
-          <div className={classes.textFieldContainer0}>
+        <Box className={classes.filterContainer}>
+          <Box className={classes.textFieldContainer0}>
             <TextField
               id="standard-read-only-input"
               label="Pick-up"
@@ -97,8 +98,8 @@ const Rent = () => {
                 },
               }}
             />
-          </div>
-          <div className={classes.textFieldContainer1}>
+          </Box>
+          <Box className={classes.textFieldContainer1}>
             <TextField
               id="standard-read-only-input"
               label="Return"
@@ -111,10 +112,10 @@ const Rent = () => {
                 },
               }}
             />
-          </div>
-        </div>
-        <div className={classes.filterContainer}>
-          <div className={classes.textFieldContainer0}>
+          </Box>
+        </Box>
+        <Box className={classes.filterContainer}>
+          <Box className={classes.textFieldContainer0}>
             <TextField
               id="standard-read-only-input"
               label="Pick-up Date"
@@ -127,8 +128,8 @@ const Rent = () => {
                 },
               }}
             />
-          </div>
-          <div className={classes.textFieldContainer1}>
+          </Box>
+          <Box className={classes.textFieldContainer1}>
             <TextField
               id="standard-read-only-input"
               label="Return Date"
@@ -141,8 +142,8 @@ const Rent = () => {
                 },
               }}
             />
-          </div>
-        </div>
+          </Box>
+        </Box>
       </Grid>
       <Grid
         container
@@ -181,12 +182,12 @@ const Rent = () => {
                 label="vehicleType"
                 className={classes.select}
               >
-                <MenuItem value="">
+                <MenuItem value={0}>
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>Hatchback</MenuItem>
-                <MenuItem value={20}>Convertible</MenuItem>
-                <MenuItem value={30}>Sports</MenuItem>
+                <MenuItem value={1}>Hatchback</MenuItem>
+                <MenuItem value={2}>Convertible</MenuItem>
+                <MenuItem value={3}>Sports</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -199,12 +200,12 @@ const Rent = () => {
                 label="Age"
                 className={classes.select}
               >
-                <MenuItem value="">
+                <MenuItem value={0}>
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>Driver 25+</MenuItem>
-                <MenuItem value={20}>Driver 30+</MenuItem>
-                <MenuItem value={30}>Driver 50+</MenuItem>
+                <MenuItem value={1}>Driver 25+</MenuItem>
+                <MenuItem value={2}>Driver 30+</MenuItem>
+                <MenuItem value={3}>Driver 50+</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -222,10 +223,10 @@ const Rent = () => {
                 label="Age"
                 className={classes.select}
               >
-                <MenuItem value="">
+                <MenuItem value={0}>
                   <em>None</em>
                 </MenuItem>
-                <MenuItem value={10}>Lower Price First</MenuItem>
+                <MenuItem value={1}>Lower Price First</MenuItem>
               </Select>
             </FormControl>
           </Grid>
@@ -240,8 +241,8 @@ const Rent = () => {
         {CarList.map((car) => (
           <Grid item key={car.name} xs={12} sm={3}>
             <Paper elevation={3} className={classes.paperContainer}>
-              <div className={classes.headerInformation}>
-                <div className={classes.bottomInformationContainer}>
+              <Box className={classes.headerInformation}>
+                <Box className={classes.bottomInformationContainer}>
                   <span className={classes.legend1}>{car.name}</span>
                   <span
                     className={classNames(
@@ -251,18 +252,18 @@ const Rent = () => {
                   >
                     {car.comment}
                   </span>
-                </div>
-              </div>
-              <div className={classes.imageContainer}>
+                </Box>
+              </Box>
+              <Box className={classes.imageContainer}>
                 <img className={classes.image} src={car.url} alt="carImage" />
-              </div>
-              <div className={classes.bottomInformationContainer}>
-                <span className={classes.legend1}>
+              </Box>
+              <Box className={classes.bottomInformationContainer}>
+                <Box component="span" className={classes.legend1}>
                   ${car.price}
-                  <span className={classes.subLegend1}>/per day</span>
-                </span>
-                <span className={classes.legend2}>${car.total} Total</span>
-              </div>
+                  <Box component="span" className={classes.subLegend1}>/per day</Box>
+                </Box>
+                <Box component="span" className={classes.legend2}>${car.total} Total</Box>
+              </Box>
             </Paper>
           </Grid>
         ))}
