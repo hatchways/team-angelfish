@@ -7,7 +7,13 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import debounce from "lodash/debounce"
 import useStyles from "../styles/FlightSearch";
+
+
+
+
+
 
 const FlightSearch = ({ submit }) => {
   const classes = useStyles();
@@ -30,6 +36,8 @@ const FlightSearch = ({ submit }) => {
     const newDate = new Date(year, month, day);
     return newDate.toISOString().split("T")[0];
   };
+
+   
 
   const handleFromLocation = async (event, value, reason) => {
     if (reason === "input") {
@@ -91,9 +99,9 @@ const FlightSearch = ({ submit }) => {
               value={from}
               options={fromcities.map((option) => option.PlaceName)}
               onChange={(_, value) => setFrom(value)}
-              onInputChange={(event, value, reason) => {
-                handleFromLocation(event, value, reason);
-              }}
+              onInputChange={debounce((event, value, reason) => 
+                handleFromLocation(event, value, reason), 500)
+              }
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -117,9 +125,9 @@ const FlightSearch = ({ submit }) => {
               value={to}
               options={tocities.map((option) => option.PlaceName)}
               onChange={(_, value) => setTo(value)}
-              onInputChange={(event, value, reason) => {
-                handleToLocation(event, value, reason);
-              }}
+              onInputChange={debounce((event, value, reason) => 
+                handleToLocation(event, value, reason), 500)
+              }
               renderInput={(params) => (
                 <TextField
                   {...params}
