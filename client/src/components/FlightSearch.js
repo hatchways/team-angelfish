@@ -6,8 +6,8 @@ import { Grid, Paper, TextField, Button } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import DateFnsUtils from "@date-io/date-fns";
 import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
+	MuiPickersUtilsProvider,
+	KeyboardDatePicker,
 } from "@material-ui/pickers";
 
 import useStyles from "../styles/FlightSearch";
@@ -21,8 +21,8 @@ const cities = [
 ];
 
 const FlightSearch = ({ submit }) => {
-  const classes = useStyles();
-  
+	const classes = useStyles();
+
 	const [from, setFrom] = useState("Vancouver");
 	const [to, setTo] = useState("Bangkok");
 	const [departureDate, setDepartureDate] = useState(new Date());
@@ -33,14 +33,14 @@ const FlightSearch = ({ submit }) => {
 	const [fromError, setFromError] = useState(false);
 	const [toError, setToError] = useState(false);
 
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-    const newDate = new Date(year, month, day);
-    return newDate.toISOString().split("T")[0];
-  };
-  
+	const formatDate = (date) => {
+		const year = date.getFullYear();
+		const month = date.getMonth();
+		const day = date.getDate();
+		const newDate = new Date(year, month, day);
+		return newDate.toISOString().split("T")[0];
+	};
+
 	const handleFromLocation = (event, value) => {
 		setFrom(value);
 		setFromError(false);
@@ -63,26 +63,27 @@ const FlightSearch = ({ submit }) => {
 		const fromCity = cities.find((city) => from === city.title).title;
 		const toCity = cities.find((city) => to === city.title).title;
 		const formattedDepartureDate = formatDate(departureDate);
-		const formattedReturnDate = formatDate(returnDate);
-		
+
 		if (from && to && departureDate && returnDate) {
+			const formattedReturnDate = formatDate(returnDate);
 			if (returnDate >= departureDate) {
 				const response = await fetch(
 					`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`
 				);
 				const data = await response.json();
-				if (data.status === 200) {
+				if (response.status === 200) {
 					submit({
 						date: departureDate.toString(),
 						flights: data,
 					});
+					console.log(data);
 				} else if ("from" in data) {
 					setFromError(true);
 				} else if ("to" in data) {
 					setToError(true);
 				} else if ("outboundDate" in data) {
 					setDepartDateError(true);
-				} else {
+				} else if ("inboundDate" in data) {
 					setReturnDateError(true);
 				}
 			} else {
@@ -94,7 +95,7 @@ const FlightSearch = ({ submit }) => {
 				`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}`
 			);
 			const data = await response.json();
-			if (data.status === 200) {
+			if (response.status === 200) {
 				submit({
 					date: departureDate.toString(),
 					flights: data,
@@ -105,8 +106,6 @@ const FlightSearch = ({ submit }) => {
 				setToError(true);
 			} else if ("outboundDate" in data) {
 				setDepartDateError(true);
-			} else {
-				setReturnDateError(true);
 			}
 		} else if (!from) {
 			setFromError(true);
@@ -188,6 +187,7 @@ const FlightSearch = ({ submit }) => {
 									InputLabelProps={{
 										classes: { root: classes.font },
 										color: "secondary",
+										shrink: true,
 									}}
 								/>
 							</Grid>

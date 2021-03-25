@@ -18,15 +18,56 @@ import TimelineContent from "@material-ui/lab/TimelineContent";
 import TimelineDot from "@material-ui/lab/TimelineDot";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DepartLogo from "../assets/images/depart.png";
-import TurkLogo from "../assets/images/turk-logo.png";
+import AmericanAirlinesLogo from "../assets/images/american-airlines-logo.jpeg";
+import AirCanadaLogo from "../assets/images/air-canada-logo.jpeg";
+import DeltaLogo from "../assets/images/delta-logo.png";
+import JetBlueLogo from "../assets/images/jetBlue-logo.jpeg";
 import useStyles from "../styles/FlightAccordion";
 
-const FlightAccordion = ({ quote, carrier, date }) => {
+const FlightAccordion = ({ quote, cities }) => {
 	const classes = useStyles();
 	const [expand, setExpand] = useState(false);
 
+	const carriers = [
+		{
+			CarrierId: 29,
+			Name: "American Airlines",
+			LogoUrl: AmericanAirlinesLogo,
+		},
+		{
+			CarrierId: 173,
+			Name: "Air Canada",
+			LogoUrl: AirCanadaLogo,
+		},
+		{
+			CarrierId: 870,
+			Name: "JetBlue",
+			LogoUrl: JetBlueLogo,
+		},
+		{
+			CarrierId: 450,
+			Name: "Delta Air Lines",
+			LogoUrl: DeltaLogo,
+		},
+	];
+
+	const findDepartingCarrier = carriers.find(
+		(carrier) => carrier.CarrierId === quote.OutboundLeg.CarrierId
+	);
+	const departingCarrierLogo = findDepartingCarrier.LogoUrl;
+	const departingCarrierName = findDepartingCarrier.Name;
+	const findReturningCarrier = () => {
+		if (quote.InboundLeg) {
+			return carriers.find(
+				(carrier) => carrier.CarrierId === quote.InboundLeg.CarrierId
+			);
+		}
+	};
+	const returningCarrierLogo = findReturningCarrier.LogoUrl;
+	const returningCarrierName = findReturningCarrier.Name;
+
 	const showDetails = (event, expanded) => {
-		setExpand(expanded)
+		setExpand(expanded);
 	};
 
 	return (
@@ -52,10 +93,17 @@ const FlightAccordion = ({ quote, carrier, date }) => {
 						<Grid item container xs={12} alignItems="center">
 							<Grid item container xs={12} sm={7} alignItems="center">
 								<Grid item xs={2}>
-									<img
+									{/* <img
 										src={DepartLogo}
 										alt="departure logo"
 										width="50%"
+										className={classes.departLogo}
+									/> */}
+									<img
+										src={DepartLogo}
+										alt="departure logo"
+										width="75%"
+										height="44px"
 										className={classes.departLogo}
 									/>
 								</Grid>
@@ -72,7 +120,7 @@ const FlightAccordion = ({ quote, carrier, date }) => {
 										variant="subtitle2"
 										className={`${classes.departHeader} ${classes.departureDate}`}
 									>
-										{date.slice(0, 10)}
+										{quote.OutboundLeg.DepartureDate}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -101,10 +149,10 @@ const FlightAccordion = ({ quote, carrier, date }) => {
 										className={classes.departHeader}
 										align="right"
 									>
-										{quote.MinPrice}
+										{`$${quote.MinPrice}`}
 									</Typography>
 									<Typography className={classes.departSubtitle} align="right">
-										round trip
+										{quote.InboundLeg ? "round trip" : "one way"}
 									</Typography>
 								</Grid>
 							</Grid>
@@ -113,41 +161,49 @@ const FlightAccordion = ({ quote, carrier, date }) => {
 						<Grid item container xs={12} alignItems="center">
 							<Grid item container xs={12} sm={4} alignItems="center">
 								<Grid item xs={4}>
-									<img src={TurkLogo} alt="turkish logo" width="75%" />
+									<img
+										src={departingCarrierLogo}
+										alt={`${departingCarrierName} logo`}
+										width="75%"
+										height="60px"
+									/>
 								</Grid>
 								<Grid item xs={8} className={classes.departTime}>
 									<Typography
 										variant="subtitle2"
 										className={classes.departHeader}
 									>
-										10:30 PM - 7:35 AM
+										{`${quote.OutboundLeg.DepartureTime} - ${quote.OutboundLeg.ArrivalTime}`}
 									</Typography>
 									<Typography className={classes.departSubtitle}>
-										{carrier.Name}
+										{departingCarrierName}
 									</Typography>
 								</Grid>
 							</Grid>
-							<Grid item xs={12} sm={2} className={classes.departDuration}>
+							<Grid item xs={12} sm={3} className={classes.departDuration}>
 								<Typography
 									variant="subtitle2"
 									className={classes.departHeader}
 								>
-									32hr 5 min
+									{quote.OutboundLeg.Duration}
 								</Typography>
-								<Typography className={classes.departSubtitle}>
-									YYZ-DPS
-								</Typography>
+								<Typography
+									className={classes.departSubtitle}
+								>{`${cities.from} - ${cities.to}`}</Typography>
 							</Grid>
-							<Grid item xs={12} sm={4} className={classes.departStop}>
+							<Grid item xs={12} sm={3} className={classes.departStop}>
 								<Typography
 									variant="subtitle2"
 									className={classes.departHeader}
 								>
-									1 stop
+									{quote.Direct === false ? "1 stop" : "Nonstop"}
 								</Typography>
-								<Typography className={classes.departSubtitle}>
-									10hr 15 min IST
-								</Typography>
+
+								{quote.Direct === false && (
+									<Typography className={classes.departSubtitle}>
+										{quote.OutboundLeg.Stops[0].Duration}
+									</Typography>
+								)}
 							</Grid>
 							<Grid item xs={12} sm={2}>
 								<Typography
@@ -155,10 +211,12 @@ const FlightAccordion = ({ quote, carrier, date }) => {
 									className={classes.departPriceBold}
 									align="right"
 								>
-									{quote.MinPrice}
+									{`$${quote.MinPrice}`}
 								</Typography>
 								<Typography className={classes.departSubtitle} align="right">
-									round trip
+									{quote.InboundLeg
+										? "round trip per traveler"
+										: "one way per traveler"}
 								</Typography>
 							</Grid>
 						</Grid>
@@ -168,9 +226,14 @@ const FlightAccordion = ({ quote, carrier, date }) => {
 				<AccordionDetails>
 					<Grid item container xs={12}>
 						<Grid item xs={1} className={classes.summaryLogo}>
-							<img src={TurkLogo} alt="turkish logo" width="95%" />
+							<img
+								src={departingCarrierLogo}
+								alt={`${departingCarrierName} logo`}
+								width="100%"
+								height="60px"
+							/>
 						</Grid>
-						<Grid item xs={11} className={classes.timelineMargin}>
+						<Grid item xs={11}>
 							<Timeline className={classes.timeline}>
 								<TimelineItem
 									classes={{
@@ -188,15 +251,48 @@ const FlightAccordion = ({ quote, carrier, date }) => {
 										/>
 									</TimelineSeparator>
 									<TimelineContent classes={{ root: classes.timelineContent }}>
-										8:40AM Toronto Pearson International Airport (YYZ)
+										{`${quote.OutboundLeg.DepartureTime} ${cities.from} Airport`}
 										<Typography
 											color="secondary"
 											className={classes.timelineInsert}
 										>
-											Travel Time: 1hr 41min
+											{`Travel Time: ${
+												quote.Direct === false
+													? quote.OutboundLeg.TravelTimeToStop
+													: quote.OutboundLeg.Duration
+											}`}
 										</Typography>
 									</TimelineContent>
 								</TimelineItem>
+								{quote.Direct === false && (
+									<TimelineItem
+										classes={{
+											root: classes.itemRoot,
+											missingOppositeContent: classes.timelineItem,
+										}}
+									>
+										<TimelineSeparator classes={{ root: classes.separator }}>
+											<TimelineDot
+												variant="outlined"
+												classes={{ root: classes.timelineDot }}
+											/>
+											<TimelineConnector
+												classes={{ root: classes.timelineConnector }}
+											/>
+										</TimelineSeparator>
+										<TimelineContent
+											classes={{ root: classes.timelineContent }}
+										>
+											{`${quote.OutboundLeg.Stops[0].ArrivalTime} ${quote.OutboundLeg.Stops[0].City}`}
+											<Typography
+												color="secondary"
+												className={classes.timelineInsert}
+											>
+												{`Travel Time: ${quote.OutboundLeg.Stops[0].TravelTimeFromStop}`}
+											</Typography>
+										</TimelineContent>
+									</TimelineItem>
+								)}
 								<TimelineItem
 									classes={{ missingOppositeContent: classes.timelineItem }}
 								>
@@ -207,28 +303,29 @@ const FlightAccordion = ({ quote, carrier, date }) => {
 										/>
 									</TimelineSeparator>
 									<TimelineContent classes={{ root: classes.timelineContent }}>
-										9:21AM O'HareInternational Airport (ORD)
+										{`${quote.OutboundLeg.ArrivalTime} ${cities.to} Airport`}
 										<Typography
 											color="secondary"
 											className={classes.timelineAfter}
 										>
-											Air CanadaEconomyEmbraer RJ-175AC 7701
+											{departingCarrierName}
 										</Typography>
 										<Typography
 											color="secondary"
 											className={classes.timelineAfter}
 											display="inline"
 										>
-											Plane and crew by Air Canada Express - Sky Regional Ticket
-											also sold by United
+											{`Plane and crew by ${departingCarrierName}`}
 										</Typography>
 										<Divider light className={classes.timelineDivider} />
-										<Typography
-											color="secondary"
-											className={classes.timelineLast}
-										>
-											1 hr 19 min layover Chicago (ORD)
-										</Typography>
+										{quote.Direct === false && (
+											<Typography
+												color="secondary"
+												className={classes.timelineLast}
+											>
+												{`${quote.OutboundLeg.Stops[0].Duration} layover ${quote.OutboundLeg.Stops[0].City}`}
+											</Typography>
+										)}
 									</TimelineContent>
 								</TimelineItem>
 							</Timeline>
