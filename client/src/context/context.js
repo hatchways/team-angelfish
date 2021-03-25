@@ -26,18 +26,16 @@ export const Provider = ({ children }) => {
     }
   };
 
-  const loadUser = () => {
+  const loadUser = async () => {
     dispatch({ type: "LOADING" });
     try {
-      fetch("/api/users/auth")
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.user) {
-            dispatch({ type: "AUTHENTICATED", payload: data });
-          } else {
-            dispatch({ type: "UNAUTHENTICATED" });
-          }
-        });
+      const userRes = fetch("/api/users/auth");
+      const userData = await (await userRes).json();
+      if (userData.user) {
+        dispatch({ type: "AUTHENTICATED", payload: userData });
+      } else {
+        dispatch({ type: "UNAUTHENTICATED" });
+      }
     } catch (err) {
       console.log(err);
     }

@@ -114,7 +114,7 @@ const updateFavoriteCities = (req, res) => {
   user
     .save()
     .then((updatedUser) => {
-      res.json({ message: "Updated" });
+      res.json({ message: "Updated", data: { user: updatedUser } });
     })
     .catch((err) => {
       throw err;

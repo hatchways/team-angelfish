@@ -11,9 +11,9 @@ import {
 } from "@material-ui/core";
 import { useStyles } from "../styles/Signup_in";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-import { useStateContext } from "../context";
+import { useStateContext, useDispatchContext } from "../context";
 
 import InputAdornment from "@material-ui/core/InputAdornment";
 import IconButton from "@material-ui/core/IconButton";
@@ -27,6 +27,8 @@ import { Autocomplete } from "@material-ui/lab";
 const SignupTwo = ({ dash, close, user }) => {
   const classes = useStyles();
   const { cities } = useStateContext();
+  const dispatch = useDispatchContext();
+  const history = useHistory();
   const [travelList, setTravelList] = useState([]);
   const [destination, setDestination] = useState("");
   const [selectCityError, setSelectCityError] = useState(false);
@@ -79,7 +81,9 @@ const SignupTwo = ({ dash, close, user }) => {
       });
       const resData = await res.json();
       if (resData.message === "Updated") {
-        window.location.href = "/explore";
+        dispatch({ type: "AUTHENTICATED", payload: resData.data });
+        history.push("/");
+        close();
       } else {
         dash();
       }

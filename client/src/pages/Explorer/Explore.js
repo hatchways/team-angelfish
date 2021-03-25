@@ -198,7 +198,7 @@ const Explore = () => {
           justify="center"
           className={classes.gridContainer}
         >
-          {places?.map((place, _) => (
+          {places.map((place) => (
             <Grid item key={place.name} xs={12} sm={smSpacing} md={mdSpacing}>
               <div
                 className={classes.paperContainer}
