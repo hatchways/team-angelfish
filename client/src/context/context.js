@@ -10,6 +10,7 @@ export const Provider = ({ children }) => {
 
   useEffect(() => {
     const loadUser = () => {
+      dispatch({ type: "LOADING" });
       try {
         fetch("/api/users/auth")
           .then((res) => res.json())
