@@ -91,7 +91,7 @@ const createItinerary = async (req, res) => {
       });
       newItinerary.save().then((createdItin) => {
         if (createdItin) {
-          res.status(200).json({ status: "Success", data: createItinerary });
+          res.status(200).json({ status: "Success", data: createdItin });
         } else {
           res.status(400).json({ message: "Something went wrong" });
         }
