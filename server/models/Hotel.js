@@ -16,7 +16,7 @@ const hotelSchema = new Schema({
       price: {type: String},
   });
   
-  const Hotel = mongoose.model('Hotel', citySchema);
+  const Hotel = mongoose.model('Hotel', hotelSchema);
   
   module.exports = Hotel;
   
