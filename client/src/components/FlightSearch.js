@@ -46,6 +46,7 @@ const FlightSearch = ({ submit }) => {
    
 
   const handleFromLocation = async (event, value, reason) => {
+    if (value === "") return;
     if (reason === "input") {
       try {
         const response = await fetch(`/api/flights/places/${value}`);
@@ -59,6 +60,7 @@ const FlightSearch = ({ submit }) => {
   };
 
   const handleToLocation = async (event, value, reason) => {
+    if (value === "") return;
     if (reason === "input") {
       try {
         const response = await fetch(`/api/flights/places/${value}`);

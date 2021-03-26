@@ -6,7 +6,6 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cityRouter = require("./routes/city");
 const cors = require("cors");
-
 const flightRouter = require("./routes/flight");
 const userRoutes = require("./routes/users");
 const uploadRouter = require("./routes/file-upload");

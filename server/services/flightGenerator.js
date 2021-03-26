@@ -1,5 +1,8 @@
 /** @format */
-import { add, format, intervalToDuration } from "date-fns";
+const add = require("date-fns")
+const format = require("date-fns")
+const intervalToDuration = require("date-fns")
+
 // random generators
 const randomMinMax = (min, max) => {
 	return Math.floor(Math.random() * (max - min) + min);
