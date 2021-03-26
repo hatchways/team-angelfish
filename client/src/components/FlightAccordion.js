@@ -128,18 +128,6 @@ const FlightAccordion = ({ quote, cities }) => {
                   cities={cities}
                   purchaseType="flights"
                 />
-                <AddToCartButton
-                  title="Select Hotel"
-                  quote={quote}
-                  cities={cities}
-                  purchaseType="hotels"
-                />
-                <AddToCartButton
-                  title="Select Car Rental"
-                  quote={quote}
-                  cities={cities}
-                  purchaseType="rentalCar"
-                />
               </Grid>
               <Grid item sm={3}>
                 <Typography

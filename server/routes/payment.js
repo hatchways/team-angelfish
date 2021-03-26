@@ -6,6 +6,12 @@ const stripe = require("stripe")(process.env.STRIPE_SK);
 const Itinerary = require("../models/Itinerary");
 const User = require("../models/User");
 
+const {
+  getFlightObj,
+  getHotelObj,
+  getCarObject,
+} = require("../services/itinerary");
+
 const makePayment = async (req, res) => {
   const customer = req.body.stripeId;
   const { currency, stripeId, flights, hotels, rentalCars } = req.body;
@@ -71,56 +77,17 @@ const createItinerary = async (req, res) => {
   const { flights, hotels, rentalCar } = req.body.itiData;
   const { userData } = req.body;
 
-  const flightsTotal = flights.reduce((total, item) => {
-    return (
-      total +
-      item.departure.price +
-      item.departure.taxes +
-      item.arrival.price +
-      item.arrival.taxes
-    );
-  }, 0);
-
-  const hotelTotal = hotels.reduce((total, item) => {
-    return total + item.price + item.taxes;
-  }, 0);
-  const carTotal = hotels.reduce((total, item) => {
-    return total + item.price + item.taxes;
-  }, 0);
-
-  const flightsObj = {
-    departureDate: flights.length === 0 ? "" : flights[0].departure.date,
-    returnDate: flights.length === 0 ? "" : flights[0].arrival.date,
-    departureLocation:
-      flights.length === 0 ? "" : flights[0].departure.departurePlace,
-    destinationLocation:
-      flights.length === 0 ? "" : flights[0].departure.arrivalPlace,
-    carrier: flights.length === 0 ? "" : flights[0].departure.id,
-    price: flightsTotal,
-  };
-  const hotelObj = {
-    name: hotels.length === 0 ? "" : hotels[0].place,
-    numberOfOccupants: hotels.length === 0 ? "" : hotels[0].numberOfGuests,
-    checkInDate: hotels.length === 0 ? "" : hotels[0].arrival,
-    checkOutDate: hotels.length === 0 ? "" : hotels[0].departure,
-    rating: hotels.length === 0 ? "" : hotels[0].rating,
-    location: hotels.length === 0 ? "" : hotels[0].city,
-    price: hotels.length === 0 ? "" : hotelTotal,
-  };
-  const carObj = {
-    name: rentalCar.length === 0 ? "" : rentalCar[0].placeOfRental,
-    returnRentalDate: rentalCar.length === 0 ? "" : rentalCar[0].arrival,
-    rentOutDate: rentalCar.length === 0 ? "" : rentalCar[0].departure,
-    total: carTotal,
-  };
+  const flightsObj = getFlightObj(flights);
+  const hotelObj = getHotelObj(hotels);
+  const carObj = getCarObject(rentalCar);
 
   User.findOne({ email: userData.email }).then((user) => {
     if (user) {
       const newItinerary = new Itinerary({
         user,
-        car: carObj,
-        flight: flightsObj,
-        hotel: hotelObj,
+        car: rentalCar.length > 0 ? carObj : {},
+        flight: flights.length > 0 ? flightsObj : {},
+        hotel: hotels.length > 0 ? hotelObj : {},
       });
       newItinerary.save().then((createdItin) => {
         if (createdItin) {

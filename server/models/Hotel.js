@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const hotelSchema = new Schema({
-  name: { type: String, required: true },
-  numberOfOccupants: { type: Number, required: true },
+  name: { type: String },
+  numberOfOccupants: { type: Number },
   roomNumber: { type: String },
   checkInDate: { type: Date },
   checkOutDate: { type: Date },
