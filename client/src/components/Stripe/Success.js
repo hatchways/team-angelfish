@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import "@lottiefiles/lottie-player";
 import { Grid, Typography } from "@material-ui/core";
 import { useHistory } from "react-router";
+
+import { getReciept } from "./Receipt";
 
 const Success = () => {
   const history = useHistory();
@@ -10,6 +12,8 @@ const Success = () => {
   const createItinerary = async () => {
     const itiData = JSON.parse(localStorage.getItem("Itinerary"));
     const userData = JSON.parse(localStorage.getItem("User"));
+    const receiptData = JSON.parse(localStorage.getItem("Receipt"));
+    const receiptObj = getReciept(receiptData, userData.email);
     const itineraryObj = {
       itiData,
       userData,
@@ -21,12 +25,23 @@ const Success = () => {
       },
       body: JSON.stringify(itineraryObj),
     });
+
+    await fetch("/api/email/sendemail", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(receiptObj),
+    });
+
     const resData = await res.json();
+
     if (resData.status === "Success") {
       setTimeout(() => {
         history.push("/");
         localStorage.removeItem("Itinerary");
         localStorage.removeItem("User");
+        localStorage.removeItem("Receipt");
       }, 3500);
     }
   };

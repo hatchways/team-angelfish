@@ -46,6 +46,7 @@ const Checkout = ({ isCartEmpty, activeStep, steps }) => {
     e.preventDefault();
     localStorage.setItem("Itinerary", JSON.stringify(cart));
     localStorage.setItem("User", JSON.stringify(user));
+    localStorage.setItem("Receipt", JSON.stringify(paymentDetails));
     const stripe = await stripePromise;
     const response = await fetch("/api/checkout/checkout-session", {
       method: "POST",
