@@ -138,7 +138,6 @@ const AddToCartButton = ({
 
     if (purchaseType === "rentalCar") {
       const { name, price, url } = car;
-      console.log(car);
       const rentalCarData = {
         id: nanoid(),
         arrival: "03/20/21",

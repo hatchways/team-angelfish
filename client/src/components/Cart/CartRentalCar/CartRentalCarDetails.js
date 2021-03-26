@@ -20,7 +20,6 @@ const CartRentalCarDetails = ({
   rating,
   img,
 }) => {
-  console.log(img);
   const classes = carDetailsStyle();
   return (
     <>
