@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import "@lottiefiles/lottie-player";
 import { Grid, Typography } from "@material-ui/core";
@@ -7,12 +7,33 @@ import { useHistory } from "react-router";
 const Success = () => {
   const history = useHistory();
 
-  useEffect(() => {
-    setTimeout(() => {
-      history.push("/");
-    }, 3500);
-  }, []);
+  const createItinerary = async () => {
+    const itiData = JSON.parse(localStorage.getItem("Itinerary"));
+    const userData = JSON.parse(localStorage.getItem("User"));
+    const itineraryObj = {
+      itiData,
+      userData,
+    };
+    const res = await fetch("/api/checkout/create-itinerary", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(itineraryObj),
+    });
+    const resData = await res.json();
+    if (resData.status === "Success") {
+      setTimeout(() => {
+        history.push("/");
+        localStorage.removeItem("Itinerary");
+        localStorage.removeItem("User");
+      }, 3500);
+    }
+  };
 
+  useEffect(() => {
+    createItinerary();
+  }, []);
   return (
     <Grid
       container

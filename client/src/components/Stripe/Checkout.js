@@ -38,12 +38,14 @@ const Checkout = ({ isCartEmpty, activeStep, steps }) => {
       details: rentalCar.length === 0 ? "" : rentalCar[0].placeOfRental,
     },
     currency: "usd",
-    stripeId: user && user.customer.stripeId,
+    stripeId: user && user.customer?.stripeId,
     id: user && user._id,
   };
 
   const goToPayment = async (e) => {
     e.preventDefault();
+    localStorage.setItem("Itinerary", JSON.stringify(cart));
+    localStorage.setItem("User", JSON.stringify(user));
     const stripe = await stripePromise;
     const response = await fetch("/api/checkout/checkout-session", {
       method: "POST",

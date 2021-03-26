@@ -61,7 +61,7 @@ const AddToCartButton = ({
 
     const flightData = {
       departure: {
-        id: nanoid(),
+        id: OutboundLeg.CarrierId,
         type: "Outbound",
         price: quote.MinPrice,
         taxes: 1000,
@@ -78,11 +78,11 @@ const AddToCartButton = ({
         arrivalPlace: to,
       },
       arrival: {
-        id: nanoid(),
+        id: InboundLeg.CarrierId,
         type: "Inbound",
         price: quote.MinPrice,
         taxes: 1000,
-        date: InboundLeg.DepartureDate,
+        date: InboundLeg.ReturnDate,
         departureTime: InboundLeg.DepartureTime,
         duration: InboundLeg.Duration,
         arrivalTime: InboundLeg.ArrivalTime,
