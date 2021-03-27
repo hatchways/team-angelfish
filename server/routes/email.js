@@ -3,7 +3,6 @@ const express = require("express");
 const router = express.Router();
 const sendGridApiKey = process.env.SENDGRID_API_KEY;
 const sgMail = require("@sendgrid/mail");
-const auth = require("../middleware/auth");
 
 sgMail.setApiKey(sendGridApiKey);
 
@@ -13,11 +12,11 @@ const sendEmail = async (req, res) => {
 
   const msg = {
     //  Chnage this to your own email to get mail sent to your inbox
-    to: to,
+    to: "gbudjeakp@gmail.com",
     //Do not change verified (The from email) Sender as SendGrid will only send from this email.
-    from: from,
-    subject: subject,
-    html: content,
+    from: "sebdwebdev@gmail.com",
+    subject: "Testing Jest",
+    html: "Hope this works",
   };
   try {
     await sgMail.send(msg);
