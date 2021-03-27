@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import {
   AppBar,
   Avatar,
@@ -23,10 +23,9 @@ import { useDispatchContext, useStateContext } from "../context";
 
 function Header() {
   const classes = useStyles();
-
+  const location = useLocation();
   const dispatch = useDispatchContext();
   const { authenticated } = useStateContext();
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false); //opens signin page
   const [signup, setSignup] = useState(false); // switches to signup page
@@ -55,6 +54,7 @@ function Header() {
   ));
 
   return (
+    location.pathname !== "/" ? 
     <Grid container className={classes.root}>
       <AppBar position="fixed" className={classes.appbar}>
         <Toolbar>
@@ -144,7 +144,7 @@ function Header() {
         </Toolbar>
       </AppBar>
       <Toolbar />
-    </Grid>
+    </Grid> : <></>
   );
 }
 
