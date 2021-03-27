@@ -53,7 +53,7 @@ const Checkout = ({ isCartEmpty, activeStep, steps }) => {
     }
   };
   const openSnack = () => {
-    enqueueSnackbar("Please signing or signup to proceed with payment", {
+    enqueueSnackbar("Please sign in or signup to proceed with payment", {
       variant: "info",
       anchorOrigin: {
         vertical: "bottom",

@@ -69,7 +69,7 @@ const Explore = () => {
   };
 
   const openSnack = () => {
-    enqueueSnackbar("Please signing or signup to create your favorite city list", {
+    enqueueSnackbar("Please sign in or signup to create your favorite city list", {
       variant: "info",
       anchorOrigin: {
         vertical: "bottom",
