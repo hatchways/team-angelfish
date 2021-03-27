@@ -9,16 +9,20 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+
 import useStyles from "../styles/FlightSearch";
+
 import { useHistory } from "react-router";
+
+import { useStateContext } from "../context";
 
 const FlightSearch = ({ submit }) => {
   const history = useHistory();
   const selectedToCity = history.location.state?.title;
   const classes = useStyles();
-
+  const { user, loading } = useStateContext();
   const [from, setFrom] = useState("");
-  const [to, setTo] = useState(selectedToCity ? selectedToCity : "");
+  const [to, setTo] = useState("");
   const [cities, setCities] = useState([
     { title: "Vancouver" },
     { title: "Calgary" },
@@ -36,12 +40,24 @@ const FlightSearch = ({ submit }) => {
   const [toError, setToError] = useState(false);
 
   useEffect(() => {
-    if (selectedToCity) {
-      const newCity = history.location.state;
-      const newCityArr = [...cities, newCity];
-      setCities(newCityArr);
+    if (loading) {
+      return;
+    } else {
+      if (selectedToCity) {
+        const newCity = history.location.state;
+        const newCityArr = [...cities, newCity];
+        setTo(selectedToCity);
+        setCities(newCityArr);
+      }
     }
-  }, []);
+    const homeTownCity = user?.homeTown;
+    if (homeTownCity) {
+      const homeTownObj = { title: user.homeTown[0] };
+      const updatedCities = [...cities, homeTownObj];
+      setFrom(homeTownCity[0]);
+      setCities(updatedCities);
+    }
+  }, [loading]);
 
   const formatDate = (date) => {
     const year = date.getFullYear();
