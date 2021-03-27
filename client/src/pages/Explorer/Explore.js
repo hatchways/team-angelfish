@@ -54,7 +54,6 @@ const Explore = () => {
   const [favorites, setFavorites] = useState([]);
   const [places, setPlaces] = useState([]);
   const [snack, setSnack] = useState({ type: "", message: "", open: false });
-
   const handleShuffleButton = async () => {
     const returnedArray = await getUpdatedList(places, favorites);
     setPlaces(returnedArray);
@@ -219,20 +218,20 @@ const Explore = () => {
                   backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
                 }}
               >
-                <div className={classes.bottomInformationContainer}>
+                <span className={classes.bottomInformationContainer}>
                   <span className={classes.bottomInformationSubContainer1}>
                     <span className={classes.legend1}>{place.name},</span>
                     <span className={classes.legend2}>{place.country}</span>
                   </span>
-                  <span className={classes.bottomInformationSubContainer2}>
-                    <FavoriteCheckBox
-                      place={place}
-                      userId={userId}
-                      handleFavoriteChange={handleFavoriteChange}
-                      openSnack={openSnack}
-                    />
-                  </span>
-                </div>
+                </span>
+              </div>
+              <div className={classes.bottomInformationSubContainer2}>
+                <FavoriteCheckBox
+                  place={place}
+                  userId={userId}
+                  handleFavoriteChange={handleFavoriteChange}
+                  openSnack={openSnack}
+                />
               </div>
             </Grid>
           ))}

@@ -17,14 +17,16 @@ const FlightSearch = ({ submit }) => {
   const selectedToCity = history.location.state?.title;
   const classes = useStyles();
 
-  const [from, setFrom] = useState("Vancouver");
-  const [to, setTo] = useState(selectedToCity ? selectedToCity : "Bangkok");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState(selectedToCity ? selectedToCity : "");
   const [cities, setCities] = useState([
     { title: "Vancouver" },
     { title: "Calgary" },
     { title: "Toronto" },
     { title: "Bangkok" },
   ]);
+  const [fromCities, setFromCities] = useState([]);
+  const [toCities, setToCities] = useState([]);
   const [departureDate, setDepartureDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
   const [travellers, setTravellers] = useState(1);
@@ -49,33 +51,52 @@ const FlightSearch = ({ submit }) => {
     return newDate.toISOString().split("T")[0];
   };
 
-  const handleFromLocation = (event, value) => {
-    setFrom(value);
-    setFromError(false);
+  const handleFromLocation = async (event, value, reason) => {
+    if (value === "") return;
+    if (reason === "input") {
+      try {
+        const response = await fetch(`/api/flights/places/${value}`);
+        const data = await response.json();
+        setFromCities(data.Places);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
-  const handleToLocation = (event, value) => {
-    setTo(value);
-    setToError(false);
+
+  const handleToLocation = async (event, value, reason) => {
+    if (value === "") return;
+    if (reason === "input") {
+      try {
+        const response = await fetch(`/api/flights/places/${value}`);
+        const data = await response.json();
+        setToCities(data.Places);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
+
   const handleDepartureDate = (date) => {
     setDepartureDate(date);
     setDepartDateError(false);
   };
+
   const handleReturnDate = (date) => {
     setReturnDate(date);
     setReturnDateError(false);
   };
+
   const handleTravellers = (event) => setTravellers(event.target.value);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const fromCity = cities.find((city) => from === city.title).title;
-    const toCity = cities.find((city) => to === city.title).title;
     const formattedDepartureDate = formatDate(departureDate);
     if (from && to && from !== to && departureDate && returnDate) {
       const formattedReturnDate = formatDate(returnDate);
       if (returnDate >= departureDate) {
         const response = await fetch(
-          `api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`,
+          `api/flights/quotes/${from}/${to}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`,
         );
         const data = await response.json();
         if (response.status === 200) {
@@ -95,7 +116,7 @@ const FlightSearch = ({ submit }) => {
       // return date is optional
     } else if (from && to && from !== to && departureDate) {
       const response = await fetch(
-        `api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}`,
+        `api/flights/quotes/${from}/${to}/${formattedDepartureDate}`,
       );
       const data = await response.json();
       if (response.status === 200) {
@@ -124,7 +145,7 @@ const FlightSearch = ({ submit }) => {
               id="from"
               name="from"
               value={from}
-              options={cities.map((city) => city.title)}
+              options={fromCities?.map((city) => city.PlaceName)}
               onInputChange={(event, value, reason) => {
                 handleFromLocation(event, value, reason);
               }}
@@ -150,7 +171,7 @@ const FlightSearch = ({ submit }) => {
               id="to"
               name="to"
               value={to}
-              options={cities?.map((city) => city.title)}
+              options={toCities?.map((city) => city.PlaceName)}
               onInputChange={(event, value, reason) => {
                 handleToLocation(event, value, reason);
               }}
