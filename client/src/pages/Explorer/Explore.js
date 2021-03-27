@@ -16,7 +16,7 @@ import useStyles from "../../styles/Explore";
 import { useStateContext } from "../../context";
 
 import { getUpdatedList } from "./utils";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -48,6 +48,7 @@ function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack }) {
 
 const Explore = () => {
   const { user, loading } = useStateContext();
+  const history = useHistory();
   const userId = user?._id;
   const classes = useStyles();
   const [favorites, setFavorites] = useState([]);
@@ -148,6 +149,10 @@ const Explore = () => {
     });
   }
 
+  const handleToSearchPage = (city) => {
+    history.push("/flights", { title: city });
+  };
+
   const pathName = window.location.pathname;
   const smSpacing = pathName === "/profile/favoritedestinations" ? 6 : 3;
   const mdSpacing = pathName === "/profile/favoritedestinations" ? 4 : 3;
@@ -199,9 +204,17 @@ const Explore = () => {
           className={classes.gridContainer}
         >
           {places.map((place) => (
-            <Grid item key={place.name} xs={12} sm={smSpacing} md={mdSpacing}>
+            <Grid
+              item
+              key={place.name}
+              xs={12}
+              sm={smSpacing}
+              md={mdSpacing}
+              style={{ cursor: "pointer" }}
+            >
               <div
                 className={classes.paperContainer}
+                onClick={() => handleToSearchPage(place.name)}
                 style={{
                   backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
                 }}
