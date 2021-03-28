@@ -38,7 +38,7 @@ function createCities() {
     10,
     (element, callback) => {
       const { name, country, cityId } = element;
-      const city = new City({
+      const city = new City({ 
         name,
         country,
         cityId,

@@ -1,11 +1,12 @@
-const app = require("../app"); // Link to your server file
+const app = require("../app"); 
 const supertest = require("supertest");
+const mongoose = require('mongoose')
 const request = supertest(app);
 
+it("return specified city from the skyscanner api", async (done) => {
+  const response = await request.get("/api/flights/places/:regionId");
+  expect(response.status).toBe(200);
+  done();
+});
 
-it("return cities from the skyscanner api", async done =>{
-    const response = await request.get("/api/flights/places/:regionId")
-    console.log(response)
-    expect(response.status).toBe(200);
-    done();
-})
+

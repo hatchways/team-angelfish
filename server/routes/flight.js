@@ -52,7 +52,7 @@ router.get("/places/:regionId", (req, res, next) => {
 		);
 
 		request.query({
-			query: "paris",
+			query: "Paris",
 		});
 
 		request.headers({
