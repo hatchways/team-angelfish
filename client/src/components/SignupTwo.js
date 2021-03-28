@@ -129,14 +129,18 @@ const SignupTwo = ({ dash, close, user }) => {
         },
         body: JSON.stringify({ cities: travelList }),
       });
-      fetch(`/api/users/${userId}/add-hometown`, {
+      const homeRes = await fetch(`/api/users/${userId}/add-hometown`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ homeTown: homeTownList }),
       });
+      const homeResData = await homeRes.json();
+      const homeTownToAdd = homeResData.data.user.homeTown;
       const resData = await res.json();
+      resData.data.user.homeTown = homeTownToAdd;
+
       if (resData.message === "Updated") {
         dispatch({ type: "AUTHENTICATED", payload: resData.data });
         history.push("/");
@@ -145,7 +149,7 @@ const SignupTwo = ({ dash, close, user }) => {
         dash();
       }
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
   return (
