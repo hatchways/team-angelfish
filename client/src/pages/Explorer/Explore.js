@@ -25,6 +25,13 @@ function Alert(props) {
 function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack }) {
   const classes = useStyles();
   const [checked, setChecked] = useState(place.favorite);
+
+  useEffect(() => {
+    if (place.favorite === true) {
+      setChecked(true);
+    }
+  }, [place.favorite]);
+
   return (
     <>
       <CustomSmallerCheckBox
@@ -34,7 +41,6 @@ function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack }) {
             setChecked(e.target.checked);
             handleFavoriteChange(e.target.checked, place.name);
           } else {
-            //@TODO: display login form
             openSnack();
           }
         }}
@@ -87,7 +93,6 @@ const Explore = () => {
           return null;
         } else {
           let favoriteList = [];
-          //Assuming that the explore page can be accessed by both authenticated and unAuthenticated user.
           if (userId) {
             favoriteList = await (
               await fetch(`/api/users/${userId}/favorite-cities`, {
@@ -120,19 +125,17 @@ const Explore = () => {
           }
         }
       } catch (error) {
-        console.log(error);
+        throw error;
       }
     }
     getData();
-  }, [loading]);
+  }, [loading, user]);
 
   function handleFavoriteChange(checked, name) {
     const userFavoritePlaces = [...favorites];
     if (checked) {
-      //add
       userFavoritePlaces.push(name);
     } else {
-      //remove
       const placeIndex = userFavoritePlaces.indexOf(name);
       if (placeIndex >= 0) {
         userFavoritePlaces.splice(placeIndex, 1);
