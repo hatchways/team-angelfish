@@ -38,7 +38,7 @@ const Success = () => {
 
     if (resData.status === "Success") {
       setTimeout(() => {
-        history.push("/");
+        history.push("/explore");
         localStorage.removeItem("Itinerary");
         localStorage.removeItem("User");
         localStorage.removeItem("Receipt");
