@@ -23,6 +23,7 @@ import AirCanadaLogo from "../assets/images/air-canada-logo.jpeg";
 import DeltaLogo from "../assets/images/delta-logo.png";
 import JetBlueLogo from "../assets/images/jetBlue-logo.jpeg";
 import useStyles from "../styles/FlightAccordion";
+import { format } from "date-fns";
 
 const carriers = [
 	{
@@ -65,6 +66,12 @@ const FlightAccordion = ({ quote, cities }) => {
 	};
 	const returningCarrierLogo = findReturningCarrier.LogoUrl;
 	const returningCarrierName = findReturningCarrier.Name;
+	// format flight dates
+	const formattedDate = (date) => {
+		const resetDate = new Date(`${date}T00:00`);
+		const pattern = (option) => format(resetDate, option);
+		return `${pattern("EEE")}, ${pattern("LLL")} ${pattern("d")}`;
+	};
 
 	const showDetails = (event, expanded) => setExpand(expanded);
 
@@ -93,8 +100,7 @@ const FlightAccordion = ({ quote, cities }) => {
 								<img
 									src={DepartLogo}
 									alt="departure logo"
-									width="75%"
-									height="44px"
+									width="55%"
 									className={classes.departLogo}
 								/>
 							</Grid>
@@ -111,7 +117,7 @@ const FlightAccordion = ({ quote, cities }) => {
 									variant="subtitle2"
 									className={`${classes.departHeader} ${classes.departureDate}`}
 								>
-									{quote.OutboundLeg.DepartureDate}
+									{formattedDate(quote.OutboundLeg.DepartureDate)}
 								</Typography>
 							</Grid>
 						</Grid>
@@ -148,8 +154,7 @@ const FlightAccordion = ({ quote, cities }) => {
 								<img
 									src={departingCarrierLogo}
 									alt={`${departingCarrierName} logo`}
-									width="75%"
-									height="60px"
+									width="65%"
 								/>
 							</Grid>
 							<Grid item xs={8} className={classes.departTime}>
@@ -207,8 +212,7 @@ const FlightAccordion = ({ quote, cities }) => {
 						<img
 							src={departingCarrierLogo}
 							alt={`${departingCarrierName} logo`}
-							width="100%"
-							height="60px"
+							width="75%"
 						/>
 					</Grid>
 					<Grid item xs={11}>

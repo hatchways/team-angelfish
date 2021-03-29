@@ -56,56 +56,46 @@ const FlightSearch = ({ submit }) => {
 		setReturnDateError(false);
 	};
 	const handleTravellers = (event) => setTravellers(event.target.value);
-	const handleSubmit = async (event) => {
-		event.preventDefault();
+	const handleFetch = async () => {
 		const fromCity = cities.find((city) => from === city.title).title;
 		const toCity = cities.find((city) => to === city.title).title;
 		const formattedDepartureDate = formatDate(departureDate);
-
+		const formattedReturnDate = returnDate ? formatDate(returnDate) : null;
+		const response = await fetch(
+			`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}${
+				returnDate ? `/?inboundDate=${formattedReturnDate}` : ""
+			}`
+		);
+		const data = await response.json();
+		if (response.status === 200) {
+			submit({ flights: data });
+		} else if ("from" in data) {
+			setFromError(true);
+		} else if ("to" in data) {
+			setToError(true);
+		} else if ("outboundDate" in data) {
+			setDepartDateError(true);
+		} else if ("inboundDate" in data) {
+			setReturnDateError(true);
+		}
+	};
+	const handleSubmit = (event) => {
+		event.preventDefault();
 		if (from && to && from !== to && departureDate && returnDate) {
-			const formattedReturnDate = formatDate(returnDate);
 			if (returnDate >= departureDate) {
-				const response = await fetch(
-					`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`
-				);
-				const data = await response.json();
-				if (response.status === 200) {
-					submit({ flights: data });
-					console.log(data);
-				} else if ("from" in data) {
-					setFromError(true);
-				} else if ("to" in data) {
-					setToError(true);
-				} else if ("outboundDate" in data) {
-					setDepartDateError(true);
-				} else if ("inboundDate" in data) {
-					setReturnDateError(true);
-				}
+				handleFetch();
 			} else {
 				setReturnDateError(true);
 			}
 			// return date is optional
 		} else if (from && to && from !== to && departureDate) {
-			const response = await fetch(
-				`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}`
-			);
-			const data = await response.json();
-			if (response.status === 200) {
-				submit({ flights: data });
-			} else if ("from" in data) {
-				setFromError(true);
-			} else if ("to" in data) {
-				setToError(true);
-			} else if ("outboundDate" in data) {
-				setDepartDateError(true);
-			}
+			handleFetch();
 		} else if (from === to || !to) {
 			setToError(true);
 		} else if (!from) {
 			setFromError(true);
 		}
 	};
-
 	return (
 		<div className={classes.root}>
 			<form onSubmit={handleSubmit}>
