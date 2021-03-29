@@ -6,6 +6,7 @@ import TripAccordion from "../components/Itinerary/TripAccordion";
 import useStyles from "../styles/Itinerary/Itinerary";
 import { useStateContext } from "../context/context";
 import { useHistory } from "react-router-dom";
+import clsx from "clsx";
 
 // for testing
 const mockData = [
@@ -216,9 +217,10 @@ const Itinerary = () => {
 				variant="contained"
 				color="primary"
 				onClick={handleUpcomingFilter}
-				classes={{
-					root: upcomingFilter ? classes.activeBtn : classes.inactiveBtn,
-				}}
+				className={clsx({
+					[classes.inactiveBtn]: pastFilter,
+					[classes.activeBtn]: upcomingFilter,
+				})}
 			>
 				Upcoming
 			</Button>
@@ -226,7 +228,10 @@ const Itinerary = () => {
 				variant="contained"
 				color="primary"
 				onClick={handlePastFilter}
-				classes={{ root: pastFilter ? classes.activeBtn : classes.inactiveBtn }}
+				className={clsx({
+					[classes.inactiveBtn]: upcomingFilter,
+					[classes.activeBtn]: pastFilter,
+				})}
 			>
 				Past and Cancelled
 			</Button>
