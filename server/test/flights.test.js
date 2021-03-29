@@ -1,6 +1,5 @@
 const app = require("../app"); 
 const supertest = require("supertest");
-const mongoose = require('mongoose')
 const request = supertest(app);
 
 it("return specified city from the skyscanner api", async (done) => {

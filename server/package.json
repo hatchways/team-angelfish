@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon ./bin/www",
     "debug": "nodemon  --inspect ./bin/www",
-    "test": "jest --runInBand --watch",
+    "test": "jest --watch  --detectOpenHandles",
     "start": "nodemon app.js"
   },
   "jest": {
