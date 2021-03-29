@@ -10,6 +10,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Tooltip from "@material-ui/core/Tooltip";
 import MuiAlert from "@material-ui/lab/Alert";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
+import Zoom from "@material-ui/core/Zoom";
 
 import useStyles from "../../styles/Explore";
 
@@ -25,6 +26,7 @@ function Alert(props) {
 function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack }) {
   const classes = useStyles();
   const [checked, setChecked] = useState(place.favorite);
+
   return (
     <>
       <CustomSmallerCheckBox
@@ -39,7 +41,11 @@ function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack }) {
           }
         }}
         icon={<Favorite className={classes.favoriteDefaultIcon} />}
-        checkedIcon={<Favorite className={classes.favoriteCheckedIcon} />}
+        checkedIcon={
+          <Zoom in={checked}>
+            <Favorite className={classes.favoriteCheckedIcon} />
+          </Zoom>
+        }
         classes={{ root: classes.customCheckBoxRoot }}
       />
     </>
