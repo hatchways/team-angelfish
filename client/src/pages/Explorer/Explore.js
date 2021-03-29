@@ -25,6 +25,14 @@ function Alert(props) {
 function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack }) {
   const classes = useStyles();
   const [checked, setChecked] = useState(place.favorite);
+
+  useEffect(() => {
+    if (place.favorite === true) {
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
+  }, [place.favorite]);
   return (
     <>
       <CustomSmallerCheckBox
@@ -124,7 +132,7 @@ const Explore = () => {
       }
     }
     getData();
-  }, [loading]);
+  }, [loading, user]);
 
   function handleFavoriteChange(checked, name) {
     const userFavoritePlaces = [...favorites];
