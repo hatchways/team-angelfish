@@ -1,10 +1,12 @@
+/** @format */
+
 import React, { useState } from "react";
 
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Typography, Slide } from "@material-ui/core";
 
 import backgroundImg from "../assets/images/birdseye-beach.jpeg";
 import FlightSearchComponent from "../components/FlightSearch";
-
+import clsx from "clsx";
 import useStyles from "../styles/Flights";
 import FlightResults from "../components/FlightResults";
 
@@ -21,29 +23,30 @@ function Flights() {
 	return (
 		<>
 			<div
-				className={
-					showResults ? classes.rootWithResults : classes.rootWithoutResults
-				}
+				className={clsx({
+					[classes.rootWithoutResults]: !showResults,
+					[classes.rootWithResults]: showResults,
+				})}
 			>
 				<Grid
-					classes={{
-						container: showResults
-							? classes.containerWithResults
-							: classes.containerWithoutResults,
-					}}
+					className={clsx({
+						[classes.containerWithoutResults]: !showResults,
+						[classes.containerWithResults]: showResults,
+					})}
 					container
 				>
-					<Grid className={classes.titleContainer} item xs={5}>
+					<Grid item xs={5}>
 						<Typography className={classes.header}>
 							Find the flights and
 							<br /> start the holiday.
 						</Typography>
 					</Grid>
-					<Grid className={classes.heroContainer} item xs={7}>
+					<Grid item xs={7}>
 						<img
 							className={classes.heroImg}
 							src={backgroundImg}
 							alt="birds eye beach view"
+							width="100%"
 						/>
 					</Grid>
 				</Grid>
@@ -51,9 +54,42 @@ function Flights() {
 					<FlightSearchComponent submit={handleResults} />
 				</div>
 			</div>
-			{showResults ? <FlightResults data={data} /> : null}
+			{showResults && <FlightResults data={data} />}
 		</>
 	);
 }
 
 export default Flights;
+
+// <div
+// 	className={clsx({
+// 		[classes.rootWithoutResults]: !showResults,
+// 		[classes.rootWithResults]: showResults,
+// 	})}
+// >
+// 	<Grid
+// 		className={clsx({
+// 			[classes.containerWithoutResults]: !showResults,
+// 			[classes.containerWithResults]: showResults,
+// 		})}
+// 		container
+// 	>
+// 		<Grid
+// 			className={clsx({
+// 				[classes.titleContainerReduced]: !animation,
+// 				[classes.titleContainerExtended]: animation,
+// 			})}
+// 			item
+// 		>
+// 			<Typography className={classes.header}>
+// 				Find the flights and
+// 				<br /> start the holiday.
+// 			</Typography>
+// 		</Grid>
+// 		<Grid
+// 			className={clsx({
+// 				[classes.heroContainerReduced]: !animation,
+// 				[classes.heroContainerExtended]: animation,
+// 			})}
+// 			item
+// 		></Grid>
