@@ -7,10 +7,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import debounce from "lodash/debounce"
+import debounce from "lodash/debounce";
 import useStyles from "../styles/FlightSearch";
-
-
 
 const cities = [
   { title: "Vancouver" },
@@ -19,12 +17,10 @@ const cities = [
   { title: "Bangkok" },
 ];
 
-
-
 const FlightSearch = ({ submit }) => {
   const classes = useStyles();
-  const [from, setFrom] = useState(null);
-  const [to, setTo] = useState(null);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [departureDate, setDepartureDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
   const [travellers, setTravellers] = useState(1);
@@ -42,8 +38,6 @@ const FlightSearch = ({ submit }) => {
     const newDate = new Date(year, month, day);
     return newDate.toISOString().split("T")[0];
   };
-
-   
 
   const handleFromLocation = async (event, value, reason) => {
     if (value === "") return;
@@ -81,7 +75,6 @@ const FlightSearch = ({ submit }) => {
     setReturnDate(date);
     setReturnDateError(false);
   };
-  const handleTravellers = (event) => setTravellers(event.target.value);
 
   const handleFetch = async () => {
     const fromCity = cities.find((city) => from === city.title).title;
@@ -134,9 +127,11 @@ const FlightSearch = ({ submit }) => {
               value={from}
               options={fromcities.map((option) => option.PlaceName)}
               onChange={(_, value) => setFrom(value)}
-              onInputChange={debounce((event, value, reason) => 
-                handleFromLocation(event, value, reason), 500)
-              }
+              onInputChange={debounce(
+                (event, value, reason) =>
+                  handleFromLocation(event, value, reason),
+                500
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -160,9 +155,11 @@ const FlightSearch = ({ submit }) => {
               value={to}
               options={tocities.map((option) => option.PlaceName)}
               onChange={(_, value) => setTo(value)}
-              onInputChange={debounce((event, value, reason) => 
-                handleToLocation(event, value, reason), 500)
-              }
+              onInputChange={debounce(
+                (event, value, reason) =>
+                  handleToLocation(event, value, reason),
+                500
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -248,7 +245,7 @@ const FlightSearch = ({ submit }) => {
                 id="travellers"
                 value={travellers}
                 color="secondary"
-                onChange={handleTravellers}
+                onChange={(event)=> setTravellers(event.target.value)}
                 InputLabelProps={{
                   shrink: true,
                   classes: { root: classes.font },
