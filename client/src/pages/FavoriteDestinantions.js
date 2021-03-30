@@ -8,12 +8,7 @@ function FavoriteDestinantions() {
   const classes = useStyles();
   return (
     <Grid className={classes.root}>
-      <Button variant="outlined" style={{ float: "right", marginRight: 25 }}>
-        Explore
-      </Button>
-      <Typography className={classes.title} variant="h5">
-        Favorite Destinations
-      </Typography>
+      <ExplorePage />
     </Grid>
   );
 }

@@ -11,8 +11,7 @@ import ShuffleIcon from "@material-ui/icons/Shuffle";
 import { useSnackbar } from "notistack";
 import useStyles from "../../styles/Explore";
 
-import { useStateContext } from "../../context";
-import { useDispatchContext } from "../../context/context";
+import { useStateContext, useDispatchContext } from "../../context";
 import { getUpdatedList } from "./utils";
 import { Link, useHistory } from "react-router-dom";
 import { Box } from "@material-ui/core";
@@ -26,6 +25,13 @@ function FavoriteCheckBox({
 }) {
   const classes = useStyles();
   const [checked, setChecked] = useState(place.favorite);
+
+  useEffect(() => {
+    if (place.favorite === true) {
+      setChecked(true);
+    }
+  }, [place.favorite]);
+
   return (
     <>
       <CustomSmallerCheckBox
@@ -97,7 +103,6 @@ const Explore = () => {
           return null;
         } else {
           let favoriteList = [];
-          //Assuming that the explore page can be accessed by both authenticated and unAuthenticated user.
           if (userId) {
             favoriteList = await (
               await fetch(`/api/users/${userId}/favorite-cities`, {
@@ -130,19 +135,17 @@ const Explore = () => {
           }
         }
       } catch (error) {
-        console.log(error);
+        throw error;
       }
     }
     getData();
-  }, [loading]);
+  }, [loading, user]);
 
   function handleFavoriteChange(checked, name) {
     const userFavoritePlaces = [...favorites];
     if (checked) {
-      //add
       userFavoritePlaces.push(name);
     } else {
-      //remove
       const placeIndex = userFavoritePlaces.indexOf(name);
       if (placeIndex >= 0) {
         userFavoritePlaces.splice(placeIndex, 1);
@@ -241,6 +244,7 @@ const Explore = () => {
                   userId={userId}
                   handleFavoriteChange={handleFavoriteChange}
                   openSnack={openSnack}
+                  dispatch={dispatch}
                 />
               </div>
             </Grid>
