@@ -12,7 +12,6 @@ const useStyles = makeStyles({
   dialogContainer: {
     display: "flex",
     justifyContent: "center",
-    justifyContent: "center",
   },
   button: {
     backgroundColor: "#FFA000",
@@ -86,7 +85,7 @@ const FileUploaderDialog = (props) => {
         </DialogContent>
         {props.file ? (
           <div className={classes.thumbsContainer}>
-            <img className={classes.imagePreview} src={props.file.preview} />
+            <img className={classes.imagePreview} src={props.file.preview} alt="Icon for upload action"/>
           </div>
         ) : (
           <></>
