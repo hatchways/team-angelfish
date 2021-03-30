@@ -143,7 +143,6 @@ const SignupTwo = ({ dash, close, user }) => {
 
       if (resData.message === "Updated") {
         dispatch({ type: "AUTHENTICATED", payload: resData.data });
-        history.push("/");
         close();
       } else {
         dash();
