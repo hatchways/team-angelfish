@@ -6,7 +6,7 @@ function Notifications() {
   const departureDate = new Date("March 30, 2021");
   const currentDate = new Date();
   const hotel = "Scrumptious"
-  const  Destination ="Toronto"
+  const destination ="Toronto"
 
 
   const notification = Math.round(
@@ -14,9 +14,9 @@ function Notifications() {
   );
 
   const mockNotificationData = {
-    reminder: `Your Trip to ${Destination} is in ${notification} day`,
+    reminder: `Your Trip to ${destination} is in ${notification} day`,
     carReminder: "Your Car rental in Toronto has been booked",
-    hotelReminder: `Your Hotel rental has been booked in the Toraz Hotel in ${Destination}`,
+    hotelReminder: `Your Hotel rental has been booked in the ${hotel} hotel in ${destination}`,
   }
 
   return (
