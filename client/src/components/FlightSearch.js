@@ -1,4 +1,6 @@
-import React, {useState} from "react";
+/** @format */
+
+import React, { useEffect, useState } from "react";
 
 import { Grid, Paper, TextField, Button } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
@@ -7,20 +9,30 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+
 import debounce from "lodash/debounce";
+
 import useStyles from "../styles/FlightSearch";
 
-const cities = [
-  { title: "Vancouver" },
-  { title: "Calgary" },
-  { title: "Toronto" },
-  { title: "Bangkok" },
-];
+import { useHistory } from "react-router";
+
+import { useStateContext } from "../context";
 
 const FlightSearch = ({ submit }) => {
+  const history = useHistory();
+  const selectedToCity = history.location.state?.title;
   const classes = useStyles();
+  const { user, loading } = useStateContext();
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [cities, setCities] = useState([
+    { title: "Vancouver" },
+    { title: "Calgary" },
+    { title: "Toronto" },
+    { title: "Bangkok" },
+  ]);
+  const [fromCities, setFromCities] = useState([]);
+  const [toCities, setToCities] = useState([]);
   const [departureDate, setDepartureDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
   const [travellers, setTravellers] = useState(1);
@@ -28,8 +40,26 @@ const FlightSearch = ({ submit }) => {
   const [returnDateError, setReturnDateError] = useState(false);
   const [fromError, setFromError] = useState(false);
   const [toError, setToError] = useState(false);
-  const [fromcities, setFromCities] = useState([]);
-  const [tocities, setToCities] = useState([]);
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    } else {
+      if (selectedToCity) {
+        const newCity = history.location.state;
+        const newCityArr = [...cities, newCity];
+        setTo(selectedToCity);
+        setCities(newCityArr);
+      }
+    }
+    const homeTownCity = user?.homeTown;
+    if (homeTownCity) {
+      const homeTownObj = { title: user.homeTown[0] };
+      const updatedCities = [...cities, homeTownObj];
+      setFrom(homeTownCity[0]);
+      setCities(updatedCities);
+    }
+  }, [loading]);
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -71,46 +101,53 @@ const FlightSearch = ({ submit }) => {
     setDepartureDate(date);
     setDepartDateError(false);
   };
+
   const handleReturnDate = (date) => {
     setReturnDate(date);
     setReturnDateError(false);
   };
 
   const handleTravellers = (event) => setTravellers(event.target.value);
-  const handleFetch = async () => {
-    const fromCity = cities.find((city) => from === city.title).title;
-    const toCity = cities.find((city) => to === city.title).title;
-    const formattedDepartureDate = formatDate(departureDate);
-    const formattedReturnDate = returnDate ? formatDate(returnDate) : null;
-    const response = await fetch(
-      `api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}${
-        returnDate ? `/?inboundDate=${formattedReturnDate}` : ""
-      }`
-    );
-    const data = await response.json();
-    if (response.status === 200) {
-      submit({ flights: data });
-    } else if ("from" in data) {
-      setFromError(true);
-    } else if ("to" in data) {
-      setToError(true);
-    } else if ("outboundDate" in data) {
-      setDepartDateError(true);
-    } else if ("inboundDate" in data) {
-      setReturnDateError(true);
-    }
-  };
-  const handleSubmit = (event) => {
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    const formattedDepartureDate = formatDate(departureDate);
     if (from && to && from !== to && departureDate && returnDate) {
+      const formattedReturnDate = formatDate(returnDate);
       if (returnDate >= departureDate) {
-        handleFetch();
+        const response = await fetch(
+          `api/flights/quotes/${from}/${to}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`,
+        );
+        const data = await response.json();
+        if (response.status === 200) {
+          submit({ flights: data });
+        } else if ("from" in data) {
+          setFromError(true);
+        } else if ("to" in data) {
+          setToError(true);
+        } else if ("outboundDate" in data) {
+          setDepartDateError(true);
+        } else if ("inboundDate" in data) {
+          setReturnDateError(true);
+        }
       } else {
         setReturnDateError(true);
       }
       // return date is optional
     } else if (from && to && from !== to && departureDate) {
-      handleFetch();
+      const response = await fetch(
+        `api/flights/quotes/${from}/${to}/${formattedDepartureDate}`,
+      );
+      const data = await response.json();
+      if (response.status === 200) {
+        submit({ flights: data });
+      } else if ("from" in data) {
+        setFromError(true);
+      } else if ("to" in data) {
+        setToError(true);
+      } else if ("outboundDate" in data) {
+        setDepartDateError(true);
+      }
     } else if (from === to || !to) {
       setToError(true);
     } else if (!from) {
@@ -120,19 +157,20 @@ const FlightSearch = ({ submit }) => {
 
   return (
     <div className={classes.root}>
-      <form>
+      <form onSubmit={handleSubmit}>
         <Paper className={classes.paperContainer} elevation={7}>
           <Grid className={classes.input} lg={2} sm={3} xs={6} item>
             <Autocomplete
               freeSolo
               id="from"
+              name="from"
               value={from}
-              options={fromcities.map((option) => option.PlaceName)}
+              options={fromCities.map((option) => option.PlaceName)}
               onChange={(_, value) => setFrom(value)}
               onInputChange={debounce(
                 (event, value, reason) =>
                   handleFromLocation(event, value, reason),
-                500
+                500,
               )}
               renderInput={(params) => (
                 <TextField
@@ -155,12 +193,12 @@ const FlightSearch = ({ submit }) => {
               id="to"
               name="to"
               value={to}
-              options={tocities.map((option) => option.PlaceName)}
+              options={toCities.map((option) => option.PlaceName)}
               onChange={(_, value) => setTo(value)}
               onInputChange={debounce(
                 (event, value, reason) =>
                   handleToLocation(event, value, reason),
-                500
+                500,
               )}
               renderInput={(params) => (
                 <TextField
@@ -200,6 +238,7 @@ const FlightSearch = ({ submit }) => {
                   InputLabelProps={{
                     classes: { root: classes.font },
                     color: "secondary",
+                    shrink: true,
                   }}
                 />
               </Grid>

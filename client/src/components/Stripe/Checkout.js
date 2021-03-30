@@ -4,38 +4,56 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useHistory } from "react-router";
 
 import { Button } from "@material-ui/core";
-import { useDispatchContext } from "../../context/context";
+import { useDispatchContext, useStateContext } from "../../context/context";
 import { useStyles } from "../Cart/styles";
-import { useStateContext } from "../../context";
 import { useSnackbar } from "notistack";
+
+import {
+  getCartFlightsTotal,
+  getCartHotelTotal,
+  getCartCarTotal,
+} from "../../utils/utils";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
-// Mock data based on if USER is logged and Authenticated
-const paymentDetails = {
-  details: "Flight00",
-  amount: 1000,
-  departure: "11/21/21",
-  arrival: "11/21/21",
-  currency: "usd",
-  // email: "1@gmail.com",
-  stripeId: "cus_J7JVnU1cvKjMkM",
-  id: "604b41b8d7cad7730161bb16",
-};
-
 const Checkout = ({ isCartEmpty, activeStep, steps }) => {
-  const history = useHistory();
-  const classes = useStyles();
-  const { user } = useStateContext();
+  const { user, cart } = useStateContext();
   const dispatch = useDispatchContext();
   const { enqueueSnackbar } = useSnackbar();
+  const { flights, hotels, rentalCar } = cart;
+  const history = useHistory();
+  const classes = useStyles();
+
+  const paymentDetails = {
+    flights: {
+      totalPrice: getCartFlightsTotal(cart),
+      departure:
+        flights.length === 0 ? "" : flights[0].departure.departurePlace,
+      arrival: flights.length === 0 ? "" : flights[0].departure.arrivalPlace,
+    },
+    hotels: {
+      totalPrice: getCartHotelTotal(cart),
+      details: hotels.length === 0 ? "" : hotels[0].place,
+    },
+    rentalCars: {
+      totalPrice: getCartCarTotal(cart),
+      details: rentalCar.length === 0 ? "" : rentalCar[0].placeOfRental,
+    },
+    currency: "usd",
+    stripeId: user && user.customer?.stripeId,
+    id: user && user._id,
+  };
+
   const goToPayment = async (e) => {
     e.preventDefault();
-    if(!user?._id){
-      dispatch({type: "LOGIN_REQUEST"});
+    if (!user?._id) {
+      dispatch({ type: "LOGIN_REQUEST" });
       openSnack();
       return;
     }
+    localStorage.setItem("Itinerary", JSON.stringify(cart));
+    localStorage.setItem("User", JSON.stringify(user));
+    localStorage.setItem("Receipt", JSON.stringify(paymentDetails));
     const stripe = await stripePromise;
     const response = await fetch("/api/checkout/checkout-session", {
       method: "POST",
