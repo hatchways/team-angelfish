@@ -4,8 +4,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useHistory } from "react-router";
 
 import { Button } from "@material-ui/core";
-
+import { useDispatchContext } from "../../context/context";
 import { useStyles } from "../Cart/styles";
+import { useStateContext } from "../../context";
+import { useSnackbar } from "notistack";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
@@ -24,8 +26,16 @@ const paymentDetails = {
 const Checkout = ({ isCartEmpty, activeStep, steps }) => {
   const history = useHistory();
   const classes = useStyles();
+  const { user } = useStateContext();
+  const dispatch = useDispatchContext();
+  const { enqueueSnackbar } = useSnackbar();
   const goToPayment = async (e) => {
     e.preventDefault();
+    if(!user?._id){
+      dispatch({type: "LOGIN_REQUEST"});
+      openSnack();
+      return;
+    }
     const stripe = await stripePromise;
     const response = await fetch("/api/checkout/checkout-session", {
       method: "POST",
@@ -41,6 +51,16 @@ const Checkout = ({ isCartEmpty, activeStep, steps }) => {
     if (result.error) {
       history.push("/error");
     }
+  };
+  const openSnack = () => {
+    enqueueSnackbar("Please sign in or signup to proceed with payment", {
+      variant: "info",
+      anchorOrigin: {
+        vertical: "bottom",
+        horizontal: "center",
+      },
+      autoHideDuration: 3000,
+    });
   };
 
   return (

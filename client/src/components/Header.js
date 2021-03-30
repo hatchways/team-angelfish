@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import {
   AppBar,
   Avatar,
@@ -23,10 +23,9 @@ import { useDispatchContext, useStateContext } from "../context";
 
 function Header() {
   const classes = useStyles();
-
+  const location = useLocation();
   const dispatch = useDispatchContext();
-  const { authenticated } = useStateContext();
-
+  const { authenticated, loginRequest} = useStateContext();
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false); //opens signin page
   const [signup, setSignup] = useState(false); // switches to signup page
@@ -37,6 +36,7 @@ function Header() {
   const handleClose = () => setAnchorEl(null);
   const openModal = () => setModal(true);
   const closeModal = () => {
+    dispatch({type: "LOGIN_REQUEST"});
     setModal(false);
     setSignup(false);
   };
@@ -55,6 +55,7 @@ function Header() {
   ));
 
   return (
+    location.pathname !== "/" ? 
     <Grid container className={classes.root}>
       <AppBar position="fixed" className={classes.appbar}>
         <Toolbar>
@@ -129,7 +130,7 @@ function Header() {
               <Modal
                 aria-labelledby="modal-title"
                 className={classes.modal}
-                open={modal}
+                open={modal || loginRequest}
                 onClose={closeModal}
               >
                 {signup ? (
@@ -144,7 +145,7 @@ function Header() {
         </Toolbar>
       </AppBar>
       <Toolbar />
-    </Grid>
+    </Grid> : <></>
   );
 }
 

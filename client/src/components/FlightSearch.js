@@ -10,6 +10,8 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
+import debounce from "lodash/debounce";
+
 import useStyles from "../styles/FlightSearch";
 
 import { useHistory } from "react-router";
@@ -74,10 +76,11 @@ const FlightSearch = ({ submit }) => {
         const response = await fetch(`/api/flights/places/${value}`);
         const data = await response.json();
         setFromCities(data.Places);
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        console.error();
       }
     }
+    setFromError(false);
   };
 
   const handleToLocation = async (event, value, reason) => {
@@ -88,9 +91,10 @@ const FlightSearch = ({ submit }) => {
         const data = await response.json();
         setToCities(data.Places);
       } catch (error) {
-        console.log(error);
+        console.error();
       }
     }
+    setToError(false);
   };
 
   const handleDepartureDate = (date) => {
@@ -161,11 +165,13 @@ const FlightSearch = ({ submit }) => {
               id="from"
               name="from"
               value={from}
-              options={fromCities?.map((city) => city.PlaceName)}
-              onInputChange={(event, value, reason) => {
-                handleFromLocation(event, value, reason);
-              }}
+              options={fromCities.map((option) => option.PlaceName)}
               onChange={(_, value) => setFrom(value)}
+              onInputChange={debounce(
+                (event, value, reason) =>
+                  handleFromLocation(event, value, reason),
+                500,
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -187,11 +193,13 @@ const FlightSearch = ({ submit }) => {
               id="to"
               name="to"
               value={to}
-              options={toCities?.map((city) => city.PlaceName)}
-              onInputChange={(event, value, reason) => {
-                handleToLocation(event, value, reason);
-              }}
+              options={toCities.map((option) => option.PlaceName)}
               onChange={(_, value) => setTo(value)}
+              onInputChange={debounce(
+                (event, value, reason) =>
+                  handleToLocation(event, value, reason),
+                500,
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}

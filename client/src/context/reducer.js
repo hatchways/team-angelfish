@@ -4,12 +4,18 @@ export const initialState = {
   authenticated: false,
   user: {},
   loading: true,
+  loginRequest: false,
   cart: { flights: [], hotels: [], rentalCar: [] },
   cities: [],
 };
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case "LOGIN_REQUEST":
+      return {
+        ...state,
+        loginRequest: !state.loginRequest,
+      };
     case "LOADING":
       return {
         ...state,
