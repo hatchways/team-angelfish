@@ -19,7 +19,12 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: theme.spacing(10),
     height: theme.spacing(10),
-    marginLeft: 130,
+    marginLeft: 10,
+  },
+  badgeIcon: {
+    width: 22,
+    height: 22,
+    border: `2px solid ${theme.palette.background.paper}`,
   },
   profilePosition: {
     textAlign: "center",
