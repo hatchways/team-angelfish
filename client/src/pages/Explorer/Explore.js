@@ -14,10 +14,16 @@ import useStyles from "../../styles/Explore";
 import { useStateContext } from "../../context";
 import { useDispatchContext } from "../../context/context";
 import { getUpdatedList } from "./utils";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { Box } from "@material-ui/core";
 
-function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack, dispatch }) {
+function FavoriteCheckBox({
+  place,
+  userId,
+  handleFavoriteChange,
+  openSnack,
+  dispatch,
+}) {
   const classes = useStyles();
   const [checked, setChecked] = useState(place.favorite);
   return (
@@ -29,7 +35,7 @@ function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack, disp
             setChecked(e.target.checked);
             handleFavoriteChange(e.target.checked, place.name);
           } else {
-            dispatch({type: "LOGIN_REQUEST"});
+            dispatch({ type: "LOGIN_REQUEST" });
             openSnack();
           }
         }}
@@ -43,13 +49,15 @@ function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack, disp
 
 const Explore = () => {
   const { user, loading } = useStateContext();
+  const history = useHistory();
   const userId = user?._id;
   const classes = useStyles();
   const [favorites, setFavorites] = useState([]);
   const [places, setPlaces] = useState([]);
   const [snack, setSnack] = useState({ type: "", message: "", open: false });
   const { enqueueSnackbar } = useSnackbar();
-	const dispatch = useDispatchContext();
+  const dispatch = useDispatchContext();
+
   const handleShuffleButton = async () => {
     const returnedArray = await getUpdatedList(places, favorites);
     setPlaces(returnedArray);
@@ -69,14 +77,17 @@ const Explore = () => {
   };
 
   const openSnack = () => {
-    enqueueSnackbar("Please sign in or signup to create your favorite city list", {
-      variant: "info",
-      anchorOrigin: {
-        vertical: "bottom",
-        horizontal: "center",
+    enqueueSnackbar(
+      "Please sign in or signup to create your favorite city list",
+      {
+        variant: "info",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "center",
+        },
+        autoHideDuration: 3000,
       },
-      autoHideDuration: 3000,
-    });
+    );
   };
 
   useEffect(() => {
@@ -147,6 +158,10 @@ const Explore = () => {
     });
   }
 
+  const handleToSearchPage = (city) => {
+    history.push("/flights", { title: city });
+  };
+
   const pathName = window.location.pathname;
   const smSpacing = pathName === "/profile/favoritedestinations" ? 6 : 3;
   const mdSpacing = pathName === "/profile/favoritedestinations" ? 4 : 3;
@@ -198,29 +213,36 @@ const Explore = () => {
           className={classes.gridContainer}
         >
           {places.map((place) => (
-            <Grid item key={place.name} xs={12} sm={smSpacing} md={mdSpacing}>
-              <Box
+            <Grid
+              item
+              key={place.name}
+              xs={12}
+              sm={smSpacing}
+              md={mdSpacing}
+              style={{ cursor: "pointer" }}
+            >
+              <div
                 className={classes.paperContainer}
+                onClick={() => handleToSearchPage(place.name)}
                 style={{
                   backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
                 }}
               >
-                <Box className={classes.bottomInformationContainer}>
-                  <Box component="span" className={classes.bottomInformationSubContainer1}>
-                    <Box component="span" className={classes.legend1}>{place.name},</Box>
-                    <Box component="span" className={classes.legend2}>{place.country}</Box>
-                  </Box>
-                  <Box component="span" className={classes.bottomInformationSubContainer2}>
-                    <FavoriteCheckBox
-                      place={place}
-                      userId={userId}
-                      handleFavoriteChange={handleFavoriteChange}
-                      openSnack={openSnack}
-                      dispatch={dispatch}
-                    />
-                  </Box>
-                </Box>
-              </Box>
+                <span className={classes.bottomInformationContainer}>
+                  <span className={classes.bottomInformationSubContainer1}>
+                    <span className={classes.legend1}>{place.name},</span>
+                    <span className={classes.legend2}>{place.country}</span>
+                  </span>
+                </span>
+              </div>
+              <div className={classes.bottomInformationSubContainer2}>
+                <FavoriteCheckBox
+                  place={place}
+                  userId={userId}
+                  handleFavoriteChange={handleFavoriteChange}
+                  openSnack={openSnack}
+                />
+              </div>
             </Grid>
           ))}
         </Grid>
