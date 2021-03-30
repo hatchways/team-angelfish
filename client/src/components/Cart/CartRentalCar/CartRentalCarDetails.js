@@ -18,12 +18,13 @@ const CartRentalCarDetails = ({
   city,
   price,
   rating,
+  img,
 }) => {
   const classes = carDetailsStyle();
   return (
     <>
       <Grid className={classes.div} container justify="space-between">
-        <img alt="rentalCar" className={classes.image} src={backgroundImage} />
+        <img alt="rentalCar" className={classes.image} src={img} />
         <Grid item>
           <Typography className={classes.title}>{placeOfRental}</Typography>
           <Typography className={classes.details}>{city}</Typography>
