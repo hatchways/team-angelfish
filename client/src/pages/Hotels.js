@@ -19,7 +19,7 @@ function Hotels() {
 			<img
 			  className={classes.heroImg}
 			  src={HotelRoom}
-			  alt="birds eye beach view"
+			  alt="Hotel Room"
 			/>
 		  </Grid>
 		</Grid>
