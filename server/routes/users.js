@@ -1,3 +1,5 @@
+/** @format */
+
 require("dotenv").config();
 const express = require("express");
 const router = express.Router();
@@ -7,7 +9,7 @@ const bcrypt = require("bcrypt");
 
 const auth = require("../middleware/auth");
 
-const { createStripeCustomer } = require("../utils/stripe");
+const { createStripeCustomer } = require("../services/stripe");
 const User = require("../models/User");
 
 const validateRegisterInput = require("../validation/register");
@@ -104,6 +106,16 @@ const login = (req, res) => {
   });
 };
 
+const logout = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "strict",
+    path: "/",
+  });
+  res.status(200).redirect("/");
+};
+
 const authorized = (req, res) => {
   return res.json({ user: res.locals.user });
 };
@@ -114,7 +126,7 @@ const updateFavoriteCities = (req, res) => {
   user
     .save()
     .then((updatedUser) => {
-      res.json({ message: "Updated" });
+      res.json({ message: "Updated", data: { user: updatedUser } });
     })
     .catch((err) => {
       throw err;
@@ -133,5 +145,6 @@ router.post("/login", login);
 router.get("/auth", auth, authorized);
 router.post("/:userId/favorite-cities", auth, updateFavoriteCities);
 router.get("/:userId/favorite-cities", auth, favoriteCities);
+router.get("/logout", logout);
 
 module.exports = router;

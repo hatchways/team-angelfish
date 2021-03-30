@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
 import { Grid, Paper, TextField, Button } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
@@ -7,10 +7,8 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import debounce from "lodash/debounce"
+import debounce from "lodash/debounce";
 import useStyles from "../styles/FlightSearch";
-
-
 
 const cities = [
   { title: "Vancouver" },
@@ -19,12 +17,10 @@ const cities = [
   { title: "Bangkok" },
 ];
 
-
-
 const FlightSearch = ({ submit }) => {
   const classes = useStyles();
-  const [from, setFrom] = useState(null);
-  const [to, setTo] = useState(null);
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [departureDate, setDepartureDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
   const [travellers, setTravellers] = useState(1);
@@ -42,8 +38,6 @@ const FlightSearch = ({ submit }) => {
     const newDate = new Date(year, month, day);
     return newDate.toISOString().split("T")[0];
   };
-
-   
 
   const handleFromLocation = async (event, value, reason) => {
     if (value === "") return;
@@ -66,7 +60,7 @@ const FlightSearch = ({ submit }) => {
         const response = await fetch(`/api/flights/places/${value}`);
         const data = await response.json();
         setToCities(data.Places);
-      } catch (error) 
+      } catch (error) {
         console.error();
       }
     }
@@ -81,57 +75,48 @@ const FlightSearch = ({ submit }) => {
     setReturnDate(date);
     setReturnDateError(false);
   };
+
   const handleTravellers = (event) => setTravellers(event.target.value);
-
-  const handleSubmit = async (event) => {
-		event.preventDefault();
-		const fromCity = cities.find((city) => from === city.title).title;
-		const toCity = cities.find((city) => to === city.title).title;
-		const formattedDepartureDate = formatDate(departureDate);
-
-		if (from && to && from !== to && departureDate && returnDate) {
-			const formattedReturnDate = formatDate(returnDate);
-			if (returnDate >= departureDate) {
-				const response = await fetch(
-					`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`
-				);
-				const data = await response.json();
-				if (response.status === 200) {
-					submit({ flights: data });
-					console.log(data);
-				} else if ("from" in data) {
-					setFromError(true);
-				} else if ("to" in data) {
-					setToError(true);
-				} else if ("outboundDate" in data) {
-					setDepartDateError(true);
-				} else if ("inboundDate" in data) {
-					setReturnDateError(true);
-				}
-			} else {
-				setReturnDateError(true);
-			}
-			// return date is optional
-		} else if (from && to && from !== to && departureDate) {
-			const response = await fetch(
-				`api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}`
-			);
-			const data = await response.json();
-			if (response.status === 200) {
-				submit({ flights: data });
-			} else if ("from" in data) {
-				setFromError(true);
-			} else if ("to" in data) {
-				setToError(true);
-			} else if ("outboundDate" in data) {
-				setDepartDateError(true);
-			}
-		} else if (from === to || !to) {
-			setToError(true);
-		} else if (!from) {
-			setFromError(true);
-		}
-	};
+  const handleFetch = async () => {
+    const fromCity = cities.find((city) => from === city.title).title;
+    const toCity = cities.find((city) => to === city.title).title;
+    const formattedDepartureDate = formatDate(departureDate);
+    const formattedReturnDate = returnDate ? formatDate(returnDate) : null;
+    const response = await fetch(
+      `api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}${
+        returnDate ? `/?inboundDate=${formattedReturnDate}` : ""
+      }`
+    );
+    const data = await response.json();
+    if (response.status === 200) {
+      submit({ flights: data });
+    } else if ("from" in data) {
+      setFromError(true);
+    } else if ("to" in data) {
+      setToError(true);
+    } else if ("outboundDate" in data) {
+      setDepartDateError(true);
+    } else if ("inboundDate" in data) {
+      setReturnDateError(true);
+    }
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (from && to && from !== to && departureDate && returnDate) {
+      if (returnDate >= departureDate) {
+        handleFetch();
+      } else {
+        setReturnDateError(true);
+      }
+      // return date is optional
+    } else if (from && to && from !== to && departureDate) {
+      handleFetch();
+    } else if (from === to || !to) {
+      setToError(true);
+    } else if (!from) {
+      setFromError(true);
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -144,9 +129,11 @@ const FlightSearch = ({ submit }) => {
               value={from}
               options={fromcities.map((option) => option.PlaceName)}
               onChange={(_, value) => setFrom(value)}
-              onInputChange={debounce((event, value, reason) => 
-                handleFromLocation(event, value, reason), 500)
-              }
+              onInputChange={debounce(
+                (event, value, reason) =>
+                  handleFromLocation(event, value, reason),
+                500
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -170,9 +157,11 @@ const FlightSearch = ({ submit }) => {
               value={to}
               options={tocities.map((option) => option.PlaceName)}
               onChange={(_, value) => setTo(value)}
-              onInputChange={debounce((event, value, reason) => 
-                handleToLocation(event, value, reason), 500)
-              }
+              onInputChange={debounce(
+                (event, value, reason) =>
+                  handleToLocation(event, value, reason),
+                500
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}
