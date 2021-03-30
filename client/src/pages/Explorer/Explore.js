@@ -29,9 +29,10 @@ function FavoriteCheckBox({
   useEffect(() => {
     if (place.favorite === true) {
       setChecked(true);
+    } else {
+      setChecked(false);
     }
   }, [place.favorite]);
-
   return (
     <>
       <CustomSmallerCheckBox

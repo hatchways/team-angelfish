@@ -60,7 +60,12 @@ export const userReducer = (state = initialState, action) => {
         cities: action.payload,
       };
     case "LOG_OUT":
-      return initialState;
+      return {
+        user: {},
+        loading: false,
+        cart: { flights: [], hotels: [], rentalCar: [] },
+        cities: [],
+      };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
