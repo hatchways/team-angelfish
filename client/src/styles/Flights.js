@@ -62,23 +62,9 @@ export default makeStyles((theme) => ({
 			paddingTop: "100px",
 		},
 	},
-	heroContainer: {
-		// height: "100%",
-		// flexBasis: "58.33%",
-	},
-	// heroImg: {
-	// 	height: "100%",
-	// 	objectFit: "cover",
-	// 	width: "100%",
-	// },
 	searchDiv: {
-		// display: "flex",
-		// justifyContent: "center",
 		width: "100%",
 		position: "absolute",
 		bottom: "20%",
-		// "@media (max-width:900px)": {
-		// 	position: "initial",
-		// },
 	},
 }));

@@ -60,36 +60,3 @@ function Flights() {
 }
 
 export default Flights;
-
-// <div
-// 	className={clsx({
-// 		[classes.rootWithoutResults]: !showResults,
-// 		[classes.rootWithResults]: showResults,
-// 	})}
-// >
-// 	<Grid
-// 		className={clsx({
-// 			[classes.containerWithoutResults]: !showResults,
-// 			[classes.containerWithResults]: showResults,
-// 		})}
-// 		container
-// 	>
-// 		<Grid
-// 			className={clsx({
-// 				[classes.titleContainerReduced]: !animation,
-// 				[classes.titleContainerExtended]: animation,
-// 			})}
-// 			item
-// 		>
-// 			<Typography className={classes.header}>
-// 				Find the flights and
-// 				<br /> start the holiday.
-// 			</Typography>
-// 		</Grid>
-// 		<Grid
-// 			className={clsx({
-// 				[classes.heroContainerReduced]: !animation,
-// 				[classes.heroContainerExtended]: animation,
-// 			})}
-// 			item
-// 		></Grid>
