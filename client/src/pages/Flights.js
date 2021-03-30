@@ -53,8 +53,8 @@ function Flights() {
 				<div className={classes.searchDiv}>
 					<FlightSearchComponent submit={handleResults} />
 				</div>
+				{showResults ? <FlightResults data={data} /> : null}
 			</div>
-			{showResults ? <FlightResults data={data} /> : null}
 		</>
 	);
 }

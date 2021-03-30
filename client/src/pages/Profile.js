@@ -7,7 +7,7 @@ import Notifications from "./Notifications";
 import FavoriteDestination from "./FavoriteDestinantions";
 import AccountSettings from "./AccountSettings";
 import { Avatar, Drawer, Typography, Button, Grid } from "@material-ui/core";
-import { useDispatchContext } from "../context";
+import { useDispatchContext } from "../context/context";
 import Itinerary from "./Itinerary";
 
 function Profile() {
@@ -37,7 +37,7 @@ function Profile() {
 
 	return (
 		<Grid container className={classes.root}>
-			<Grid item container sm={4} lg={3} className={classes.profileContainer}>
+			<Grid item container xs={false} sm={4} lg={3} className={classes.profileContainer}>
 				<Drawer
 					variant="permanent"
 					classes={{
@@ -79,7 +79,7 @@ function Profile() {
 					</Grid>
 				</Drawer>
 			</Grid>
-			<Grid item sm={8} lg={9} className={classes.tripContainer}>
+			<Grid item xs={12} sm={8} lg={9} className={classes.tripContainer}>
 				<Switch>
 					<Route
 						path={`${path}/favoritedestinations`}

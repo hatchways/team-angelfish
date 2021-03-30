@@ -1,12 +1,20 @@
+/** @format */
+
 import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
 	rootWithoutResults: {
 		height: "92%",
-		backgroundColor: '#ededed',
+		backgroundColor: "#ededed",
+		[theme.breakpoints.down("xs")]: {
+			paddingLeft: "4em",
+		},
 	},
 	rootWithResults: {
 		height: "80%",
+		[theme.breakpoints.down("xs")]: {
+			paddingLeft: "4em",
+		},
 	},
 	containerWithoutResults: {
 		height: "74%",
@@ -21,20 +29,18 @@ export default makeStyles((theme) => ({
 		justifyContent: "center",
 		textAlign: "center",
 		paddingTop: "100px",
-		"@media (max-width:1100px)": {
-			paddingTop: "100px",
-		},
 	},
 	header: {
-		padding: "10px",
-		fontSize: "3.5rem",
-		"@media (max-width:1100px)": {
-			fontSize: "2.8rem",
-			paddingTop: "100px",
+		padding: "0.65em",
+		fontSize: "1.75rem",
+		[theme.breakpoints.up("sm")]: {
+			fontSize: "2.5rem",
 		},
-		"@media (max-width:600px)": {
-			fontSize: "2rem",
-			paddingTop: "100px",
+		[theme.breakpoints.up("md")]: {
+			fontSize: "3rem",
+		},
+		[theme.breakpoints.up("lg")]: {
+			fontSize: "3.5rem",
 		},
 	},
 	heroContainer: {
@@ -46,13 +52,22 @@ export default makeStyles((theme) => ({
 		width: "100%",
 	},
 	searchDiv: {
-		display: "flex",
-		justifyContent: "center",
-		width: "100%",
 		position: "absolute",
-		bottom: "10em",
-		"@media (max-width:900px)": {
-			position: "initial",
+		[theme.breakpoints.up("xs")]: {
+			width: "91%",
+			top: "60%",
+		},
+		[theme.breakpoints.up("sm")]: {
+			width: "90%",
+			top: "64%",
+			left: "50%",
+			transform: "translateX(-50%)",
+		},
+		[theme.breakpoints.up("md")]: {
+			top: "68.5%",
+		},
+		[theme.breakpoints.up("lg")]: {
+			width: "85%",
 		},
 	},
 }));

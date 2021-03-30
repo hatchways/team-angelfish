@@ -97,10 +97,10 @@ const FlightSearch = ({ submit }) => {
 		}
 	};
 	return (
-		<div className={classes.root}>
-			<form onSubmit={handleSubmit}>
-				<Paper className={classes.paperContainer} elevation={7}>
-					<Grid className={classes.input} lg={2} sm={3} xs={6} item>
+		<form onSubmit={handleSubmit}>
+			<Paper className={classes.paperContainer} elevation={7}>
+				<Grid container spacing={4}>
+					<Grid className={classes.input} xs={6} md={2} item>
 						<Autocomplete
 							freeSolo
 							id="from"
@@ -123,7 +123,7 @@ const FlightSearch = ({ submit }) => {
 							)}
 						/>
 					</Grid>
-					<Grid className={classes.input} lg={2} sm={3} xs={6} item>
+					<Grid className={classes.input} xs={6} md={2} item>
 						<Autocomplete
 							freeSolo
 							id="to"
@@ -146,7 +146,7 @@ const FlightSearch = ({ submit }) => {
 							)}
 						/>
 					</Grid>
-					<Grid className={classes.input} lg={2} sm={3} xs={6} item>
+					<Grid className={classes.input} xs={6} sm={3} lg={2} item>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 							<Grid container>
 								<KeyboardDatePicker
@@ -175,7 +175,7 @@ const FlightSearch = ({ submit }) => {
 							</Grid>
 						</MuiPickersUtilsProvider>
 					</Grid>
-					<Grid className={classes.input} lg={2} sm={3} xs={6} item>
+					<Grid className={classes.input} xs={6} sm={3} lg={2} item>
 						<MuiPickersUtilsProvider utils={DateFnsUtils}>
 							<Grid container>
 								<KeyboardDatePicker
@@ -203,36 +203,31 @@ const FlightSearch = ({ submit }) => {
 							</Grid>
 						</MuiPickersUtilsProvider>
 					</Grid>
-					<Grid
-						className={`${classes.travelDiv} ${classes.width}`}
-						lg={3}
-						sm={12}
-						xs={12}
-						item
-					>
-						<Grid item lg={8} sm={3} xs={6}>
-							<TextField
-								label="Travellers"
-								name="travellers"
-								id="travellers"
-								value={travellers}
-								color="secondary"
-								onChange={handleTravellers}
-								InputLabelProps={{
-									shrink: true,
-									classes: { root: classes.font },
-								}}
-							/>
-						</Grid>
-						<Grid item lg={4} sm={9} xs={6}>
-							<Button onClick={handleSubmit} className={classes.searchBtn}>
-								Search
-							</Button>
-						</Grid>
+					<Grid item xs={6} md={1} lg={2} className={classes.input}>
+						<TextField
+							name="travellers"
+							id="travellers"
+							value={travellers}
+							color="secondary"
+							label="Travellers"
+							type="number"
+							onChange={handleTravellers}
+							className={`${classes.width} ${classes.traveller}`}
+							InputProps={{ inputProps: { min: 1 } }}
+							InputLabelProps={{
+								shrink: true,
+								classes: { root: classes.font },
+							}}
+						/>
 					</Grid>
-				</Paper>
-			</form>
-		</div>
+					<Grid item xs={6} md={1} lg={2} className={classes.btnContainer}>
+						<Button onClick={handleSubmit} className={classes.searchBtn}>
+							Search
+						</Button>
+					</Grid>
+				</Grid>
+			</Paper>
+		</form>
 	);
 };
 

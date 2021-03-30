@@ -6,14 +6,13 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: "#f2f2f2",
 		height: "92%",
-		// will be added for responsiveness
-		// [theme.breakpoints.down("xs")]: {
-		// 	display: "none",
-		// },
 	},
 	profileContainer: {
 		textAlign: "center",
 		height: "100%",
+		[theme.breakpoints.down("xs")]: {
+			display: "none",
+		},
 	},
 	tripContainer: {
 		height: "100%",

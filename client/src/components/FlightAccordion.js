@@ -95,8 +95,13 @@ const FlightAccordion = ({ quote, cities }) => {
 			>
 				{expand ? (
 					<Grid item container xs={12} alignItems="center">
-						<Grid item container xs={12} sm={7} alignItems="center">
-							<Grid item xs={2}>
+						<Grid item container xs={6} sm={7} alignItems="center">
+							<Grid
+								item
+								xs={false}
+								sm={2}
+								className={classes.departLogoContain}
+							>
 								<img
 									src={DepartLogo}
 									alt="departure logo"
@@ -104,7 +109,7 @@ const FlightAccordion = ({ quote, cities }) => {
 									className={classes.departLogo}
 								/>
 							</Grid>
-							<Grid item xs={10} className={classes.departTime}>
+							<Grid item xs={12} sm={10} className={classes.departTime}>
 								<Typography
 									variant="subtitle2"
 									className={`${classes.departHeader} ${classes.departure}`}
@@ -121,8 +126,8 @@ const FlightAccordion = ({ quote, cities }) => {
 								</Typography>
 							</Grid>
 						</Grid>
-						<Grid item container xs={12} sm={5} justify="flex-end" spacing={0}>
-							<Grid item sm={9} className={classes.buttonBox}>
+						<Grid item container xs={6} sm={5} justify="flex-end" spacing={0}>
+							<Grid item xs={7} sm={8} md={9} className={classes.buttonBox}>
 								<Button
 									type="submit"
 									variant="contained"
@@ -133,7 +138,7 @@ const FlightAccordion = ({ quote, cities }) => {
 									Select flight
 								</Button>
 							</Grid>
-							<Grid item sm={3}>
+							<Grid item xs={5} sm={4} md={3}>
 								<Typography
 									variant="subtitle2"
 									className={classes.departHeader}
@@ -149,7 +154,7 @@ const FlightAccordion = ({ quote, cities }) => {
 					</Grid>
 				) : (
 					<Grid item container xs={12} alignItems="center">
-						<Grid item container xs={12} sm={4} alignItems="center">
+						<Grid item container xs={5} md={4} alignItems="center">
 							<Grid item xs={4}>
 								<img
 									src={departingCarrierLogo}
@@ -169,7 +174,7 @@ const FlightAccordion = ({ quote, cities }) => {
 								</Typography>
 							</Grid>
 						</Grid>
-						<Grid item xs={12} sm={3} className={classes.departDuration}>
+						<Grid item xs={3} md={3} className={classes.departDuration}>
 							<Typography variant="subtitle2" className={classes.departHeader}>
 								{quote.OutboundLeg.Duration}
 							</Typography>
@@ -177,7 +182,7 @@ const FlightAccordion = ({ quote, cities }) => {
 								className={classes.departSubtitle}
 							>{`${cities.from} - ${cities.to}`}</Typography>
 						</Grid>
-						<Grid item xs={12} sm={3} className={classes.departStop}>
+						<Grid item xs={false} md={3} className={classes.departStop}>
 							<Typography variant="subtitle2" className={classes.departHeader}>
 								{quote.Direct === false ? "1 stop" : "Nonstop"}
 							</Typography>
@@ -188,7 +193,7 @@ const FlightAccordion = ({ quote, cities }) => {
 								</Typography>
 							)}
 						</Grid>
-						<Grid item xs={12} sm={2}>
+						<Grid item xs={4} md={2}>
 							<Typography
 								variant="subtitle2"
 								className={classes.departPriceBold}

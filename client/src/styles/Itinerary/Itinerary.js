@@ -8,6 +8,9 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		height: "100%",
 		overflow: "scroll",
+		[theme.breakpoints.down("xs")]: {
+			paddingLeft: "6em"
+		}
 	},
 	activeBtn: {
 		padding: "0.75em 1em",

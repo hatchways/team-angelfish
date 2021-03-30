@@ -7,17 +7,27 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: "-0.5em",
 	},
 	departHeader: {
-		fontSize: "15px",
+		fontSize: "1.1em",
+		[theme.breakpoints.up("md")]: {
+			fontSize: "1.3em",
+		},
 	},
 	departSubtitle: {
 		color: "#b3b3b3",
 		fontWeight: "bolder",
+		fontSize: "1em",
+		[theme.breakpoints.up("md")]: {
+			fontSize: "1.3em",
+		},
 	},
 	departDuration: {
 		paddingLeft: "2em",
 	},
 	departStop: {
 		paddingLeft: "4em",
+		[theme.breakpoints.down("sm")]: {
+			display: "none",
+		},
 	},
 	departPriceBold: {
 		color: "#8080ff",
@@ -26,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
 	departLogo: {
 		padding: ".846em 0 .846em .75em",
 	},
+	departLogoContain: {[theme.breakpoints.down("xs")]:{
+		display: "none"
+	}},
 	departure: {
 		borderRight: "1px solid #a6a6a6",
 		padding: "0 1em 0 1.2em",
@@ -37,11 +50,28 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: "end",
 	},
 	button: {
-		padding: "0.55rem 2em",
-		fontSize: "0.875em",
+		fontSize: "0.95em",
 		backgroundColor: "orange",
 		"&:hover": {
 			backgroundColor: "orange",
+		},
+		[theme.breakpoints.up("xs")]: {
+			"& span": {
+				fontSize: ".75em",
+			},
+			padding: "0.65rem 1em",
+		},
+		[theme.breakpoints.up("sm")]: {
+			"& span": {
+				fontSize: "1em",
+			},
+			padding: "0.65rem 2em",
+		},
+		[theme.breakpoints.up("md")]: {
+			"& span": {
+				fontSize: "1.2em",
+			},
+			padding: "0.75rem 2em",
 		},
 	},
 	accordion: {
@@ -63,6 +93,8 @@ const useStyles = makeStyles((theme) => ({
 			padding: "0.155em 2.2em 0.155em 1em",
 		},
 	},
+	summaryLogo:{
+		paddingTop: "1em"},
 	content: {
 		margin: "12px 0",
 		"&$expanded": {
