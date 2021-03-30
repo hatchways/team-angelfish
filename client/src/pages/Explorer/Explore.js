@@ -225,21 +225,31 @@ const Explore = () => {
               md={mdSpacing}
               style={{ cursor: "pointer" }}
             >
-              <div
+              <Box
                 className={classes.paperContainer}
                 onClick={() => handleToSearchPage(place.name)}
                 style={{
                   backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
                 }}
               >
-                <span className={classes.bottomInformationContainer}>
-                  <span className={classes.bottomInformationSubContainer1}>
-                    <span className={classes.legend1}>{place.name},</span>
-                    <span className={classes.legend2}>{place.country}</span>
-                  </span>
-                </span>
-              </div>
-              <div className={classes.bottomInformationSubContainer2}>
+                <Box
+                  component="span"
+                  className={classes.bottomInformationContainer}
+                >
+                  <Box
+                    component="span"
+                    className={classes.bottomInformationSubContainer1}
+                  >
+                    <Box component="span" className={classes.legend1}>
+                      {place.name},
+                    </Box>
+                    <Box component="span" className={classes.legend2}>
+                      {place.country}
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+              <Box className={classes.bottomInformationSubContainer2}>
                 <FavoriteCheckBox
                   place={place}
                   userId={userId}
@@ -247,7 +257,7 @@ const Explore = () => {
                   openSnack={openSnack}
                   dispatch={dispatch}
                 />
-              </div>
+              </Box>
             </Grid>
           ))}
         </Grid>
