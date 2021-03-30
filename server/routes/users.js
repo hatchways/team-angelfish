@@ -133,18 +133,31 @@ const updateFavoriteCities = (req, res) => {
     });
 };
 
+const addHomeTown = async (req, res) => {
+  const user = res.locals.user;
+  user.homeTown = req.body.homeTown;
+  try {
+    const updatedUser = await user.save();
+    if (updatedUser) {
+      return res
+        .status(200)
+        .json({ status: "Success", data: { user: updatedUser } });
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
 const favoriteCities = (req, res) => {
   res.json(res.locals.user.favoriteCities);
 };
-
-// TODO
-// 1.Logout route
 
 router.post("/register", register);
 router.post("/login", login);
 router.get("/auth", auth, authorized);
 router.post("/:userId/favorite-cities", auth, updateFavoriteCities);
 router.get("/:userId/favorite-cities", auth, favoriteCities);
+router.post("/:userId/add-hometown", auth, addHomeTown);
 router.get("/logout", logout);
 
 module.exports = router;

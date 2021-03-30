@@ -17,6 +17,7 @@ const userSchema = new Schema({
     type: customerSchema,
     default: null,
   },
+  homeTown: { type: Array },
   favoriteCities: { type: Array },
   pictureUrl: { type: String },
 });
