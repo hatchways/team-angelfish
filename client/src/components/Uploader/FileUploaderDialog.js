@@ -1,3 +1,5 @@
+/** @format */
+
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -9,39 +11,38 @@ import Button from "@material-ui/core/Button";
 import uploadIcon from "../../assets/images/upload.png";
 
 const useStyles = makeStyles({
-  dialogContainer: {
-    display: "flex",
-    justifyContent: "center",
-    justifyContent: "center",
-  },
-  button: {
-    backgroundColor: "#FFA000",
-    color: "white",
-  },
-  dialogContentContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    border: "2px dashed #ccc",
-    margin: 25,
-  },
-  uploadImageContainer: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  imageUpload: {
-    width: "35%",
-  },
-  imagePreview: {
-    borderRadius: 10,
-    width: 100,
-    height: 100,
-  },
-  thumbsContainer: {
-    display: "flex",
-    marginTop: 10,
-    marginLeft: 25,
-  },
+	dialogContainer: {
+		display: "flex",
+		justifyContent: "center",
+	},
+	button: {
+		backgroundColor: "#FFA000",
+		color: "white",
+	},
+	dialogContentContainer: {
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		border: "2px dashed #ccc",
+		margin: 25,
+	},
+	uploadImageContainer: {
+		display: "flex",
+		justifyContent: "center",
+	},
+	imageUpload: {
+		width: "35%",
+	},
+	imagePreview: {
+		borderRadius: 10,
+		width: 100,
+		height: 100,
+	},
+	thumbsContainer: {
+		display: "flex",
+		marginTop: 10,
+		marginLeft: 25,
+	},
 });
 
 const FileUploaderDialog = (props) => {
@@ -86,7 +87,7 @@ const FileUploaderDialog = (props) => {
         </DialogContent>
         {props.file ? (
           <div className={classes.thumbsContainer}>
-            <img className={classes.imagePreview} src={props.file.preview} />
+            <img className={classes.imagePreview} src={props.file.preview} alt="a upload preview"/>
           </div>
         ) : (
           <></>
