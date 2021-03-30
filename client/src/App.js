@@ -5,7 +5,7 @@ import { MuiThemeProvider } from "@material-ui/core";
 import LandingPage from "./pages/LandingPage/LadingPage";
 import { theme } from "./themes/theme";
 import { SnackbarProvider } from "notistack";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Explore from "./pages/Explorer/Explore";
 import Flights from "./pages/Flights";
 import Hotels from "./pages/Hotels";

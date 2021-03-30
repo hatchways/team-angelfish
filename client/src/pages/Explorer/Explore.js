@@ -124,7 +124,7 @@ const Explore = () => {
       }
     }
     getData();
-  }, [loading]);
+  }, [loading, userId]);
 
   function handleFavoriteChange(checked, name) {
     const userFavoritePlaces = [...favorites];
