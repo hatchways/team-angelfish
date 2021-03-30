@@ -4,12 +4,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useHistory } from "react-router";
 
 import { Button } from "@material-ui/core";
-import { useDispatchContext } from "../../context/context";
+import { useDispatchContext, useStateContext } from "../../context/context";
 import { useStyles } from "../Cart/styles";
-import { useStateContext } from "../../context";
 import { useSnackbar } from "notistack";
 
-import { useStateContext } from "../../context";
 import {
   getCartFlightsTotal,
   getCartHotelTotal,
