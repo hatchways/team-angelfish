@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { useState } from "react";
 
 import { Grid, Paper, TextField, Button } from "@material-ui/core";
@@ -9,20 +7,20 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import debounce from "lodash/debounce";
 import useStyles from "../styles/FlightSearch";
+
+const cities = [
+  { title: "Vancouver" },
+  { title: "Calgary" },
+  { title: "Toronto" },
+  { title: "Bangkok" },
+];
 
 const FlightSearch = ({ submit }) => {
   const classes = useStyles();
-
-  const cities = [
-    { title: "Vancouver" },
-    { title: "Calgary" },
-    { title: "Toronto" },
-    { title: "Bangkok" },
-  ];
-
-  const [from, setFrom] = useState("Vancouver");
-  const [to, setTo] = useState("Bangkok");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
   const [departureDate, setDepartureDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
   const [travellers, setTravellers] = useState(1);
@@ -30,6 +28,8 @@ const FlightSearch = ({ submit }) => {
   const [returnDateError, setReturnDateError] = useState(false);
   const [fromError, setFromError] = useState(false);
   const [toError, setToError] = useState(false);
+  const [fromcities, setFromCities] = useState([]);
+  const [tocities, setToCities] = useState([]);
 
   const formatDate = (date) => {
     const year = date.getFullYear();
@@ -39,14 +39,34 @@ const FlightSearch = ({ submit }) => {
     return newDate.toISOString().split("T")[0];
   };
 
-  const handleFromLocation = (event, value) => {
-    setFrom(value);
+  const handleFromLocation = async (event, value, reason) => {
+    if (value === "") return;
+    if (reason === "input") {
+      try {
+        const response = await fetch(`/api/flights/places/${value}`);
+        const data = await response.json();
+        setFromCities(data.Places);
+      } catch (err) {
+        console.error();
+      }
+    }
     setFromError(false);
   };
-  const handleToLocation = (event, value) => {
-    setTo(value);
+
+  const handleToLocation = async (event, value, reason) => {
+    if (value === "") return;
+    if (reason === "input") {
+      try {
+        const response = await fetch(`/api/flights/places/${value}`);
+        const data = await response.json();
+        setToCities(data.Places);
+      } catch (error) {
+        console.error();
+      }
+    }
     setToError(false);
   };
+
   const handleDepartureDate = (date) => {
     setDepartureDate(date);
     setDepartDateError(false);
@@ -55,49 +75,42 @@ const FlightSearch = ({ submit }) => {
     setReturnDate(date);
     setReturnDateError(false);
   };
+
   const handleTravellers = (event) => setTravellers(event.target.value);
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleFetch = async () => {
     const fromCity = cities.find((city) => from === city.title).title;
     const toCity = cities.find((city) => to === city.title).title;
     const formattedDepartureDate = formatDate(departureDate);
-
+    const formattedReturnDate = returnDate ? formatDate(returnDate) : null;
+    const response = await fetch(
+      `api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}${
+        returnDate ? `/?inboundDate=${formattedReturnDate}` : ""
+      }`,
+    );
+    const data = await response.json();
+    if (response.status === 200) {
+      submit({ flights: data });
+    } else if ("from" in data) {
+      setFromError(true);
+    } else if ("to" in data) {
+      setToError(true);
+    } else if ("outboundDate" in data) {
+      setDepartDateError(true);
+    } else if ("inboundDate" in data) {
+      setReturnDateError(true);
+    }
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
     if (from && to && from !== to && departureDate && returnDate) {
-      const formattedReturnDate = formatDate(returnDate);
       if (returnDate >= departureDate) {
-        const response = await fetch(
-          `api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}/?inboundDate=${formattedReturnDate}`,
-        );
-        const data = await response.json();
-        if (response.status === 200) {
-          submit({ flights: data });
-        } else if ("from" in data) {
-          setFromError(true);
-        } else if ("to" in data) {
-          setToError(true);
-        } else if ("outboundDate" in data) {
-          setDepartDateError(true);
-        } else if ("inboundDate" in data) {
-          setReturnDateError(true);
-        }
+        handleFetch();
       } else {
         setReturnDateError(true);
       }
       // return date is optional
     } else if (from && to && from !== to && departureDate) {
-      const response = await fetch(
-        `api/flights/quotes/${fromCity}/${toCity}/${formattedDepartureDate}`,
-      );
-      const data = await response.json();
-      if (response.status === 200) {
-        submit({ flights: data });
-      } else if ("from" in data) {
-        setFromError(true);
-      } else if ("to" in data) {
-        setToError(true);
-      } else if ("outboundDate" in data) {
-        setDepartDateError(true);
-      }
+      handleFetch();
     } else if (from === to || !to) {
       setToError(true);
     } else if (!from) {
@@ -113,10 +126,14 @@ const FlightSearch = ({ submit }) => {
             <Autocomplete
               freeSolo
               id="from"
-              name="from"
               value={from}
-              options={cities.map((option) => option.title)}
-              onChange={handleFromLocation}
+              options={fromcities.map((option) => option.PlaceName)}
+              onChange={(_, value) => setFrom(value)}
+              onInputChange={debounce(
+                (event, value, reason) =>
+                  handleFromLocation(event, value, reason),
+                500,
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -138,8 +155,13 @@ const FlightSearch = ({ submit }) => {
               id="to"
               name="to"
               value={to}
-              options={cities.map((option) => option.title)}
-              onChange={handleToLocation}
+              options={tocities.map((option) => option.PlaceName)}
+              onChange={(_, value) => setTo(value)}
+              onInputChange={debounce(
+                (event, value, reason) =>
+                  handleToLocation(event, value, reason),
+                500,
+              )}
               renderInput={(params) => (
                 <TextField
                   {...params}

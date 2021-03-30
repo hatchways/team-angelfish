@@ -6,23 +6,18 @@ import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import Favorite from "@material-ui/icons/Favorite";
 import { CustomSmallerCheckBox } from "../../themes/theme";
-import Snackbar from "@material-ui/core/Snackbar";
 import Tooltip from "@material-ui/core/Tooltip";
-import MuiAlert from "@material-ui/lab/Alert";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
-
+import { useSnackbar } from "notistack";
 import useStyles from "../../styles/Explore";
 
 import { useStateContext } from "../../context";
-
+import { useDispatchContext } from "../../context/context";
 import { getUpdatedList } from "./utils";
 import { Link } from "react-router-dom";
+import { Box } from "@material-ui/core";
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
-function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack }) {
+function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack, dispatch }) {
   const classes = useStyles();
   const [checked, setChecked] = useState(place.favorite);
   return (
@@ -34,7 +29,7 @@ function FavoriteCheckBox({ place, userId, handleFavoriteChange, openSnack }) {
             setChecked(e.target.checked);
             handleFavoriteChange(e.target.checked, place.name);
           } else {
-            //@TODO: display login form
+            dispatch({type: "LOGIN_REQUEST"});
             openSnack();
           }
         }}
@@ -53,7 +48,8 @@ const Explore = () => {
   const [favorites, setFavorites] = useState([]);
   const [places, setPlaces] = useState([]);
   const [snack, setSnack] = useState({ type: "", message: "", open: false });
-
+  const { enqueueSnackbar } = useSnackbar();
+	const dispatch = useDispatchContext();
   const handleShuffleButton = async () => {
     const returnedArray = await getUpdatedList(places, favorites);
     setPlaces(returnedArray);
@@ -72,11 +68,14 @@ const Explore = () => {
     });
   };
 
-  const openSnack = (errorMessage) => {
-    setSnack({
-      type: "info",
-      message: "Please signing or signup first!",
-      open: true,
+  const openSnack = () => {
+    enqueueSnackbar("Please sign in or signup to create your favorite city list", {
+      variant: "info",
+      anchorOrigin: {
+        vertical: "bottom",
+        horizontal: "center",
+      },
+      autoHideDuration: 3000,
     });
   };
 
@@ -200,37 +199,31 @@ const Explore = () => {
         >
           {places.map((place) => (
             <Grid item key={place.name} xs={12} sm={smSpacing} md={mdSpacing}>
-              <div
+              <Box
                 className={classes.paperContainer}
                 style={{
                   backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
                 }}
               >
-                <div className={classes.bottomInformationContainer}>
-                  <span className={classes.bottomInformationSubContainer1}>
-                    <span className={classes.legend1}>{place.name},</span>
-                    <span className={classes.legend2}>{place.country}</span>
-                  </span>
-                  <span className={classes.bottomInformationSubContainer2}>
+                <Box className={classes.bottomInformationContainer}>
+                  <Box component="span" className={classes.bottomInformationSubContainer1}>
+                    <Box component="span" className={classes.legend1}>{place.name},</Box>
+                    <Box component="span" className={classes.legend2}>{place.country}</Box>
+                  </Box>
+                  <Box component="span" className={classes.bottomInformationSubContainer2}>
                     <FavoriteCheckBox
                       place={place}
                       userId={userId}
                       handleFavoriteChange={handleFavoriteChange}
                       openSnack={openSnack}
+                      dispatch={dispatch}
                     />
-                  </span>
-                </div>
-              </div>
+                  </Box>
+                </Box>
+              </Box>
             </Grid>
           ))}
         </Grid>
-        <Snackbar
-          open={snack.open}
-          autoHideDuration={3000}
-          onClose={closeSnack}
-        >
-          <Alert severity={snack.type}>{snack.message}</Alert>
-        </Snackbar>
       </Container>
     </>
   );

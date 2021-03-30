@@ -48,7 +48,7 @@ router.get("/places/:regionId", (req, res, next) => {
 	if (!Object.keys(error).length) {
 		const request = unirest(
 			"GET",
-			"https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/US/USD/en-US/"
+			`https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/autosuggest/v1.0/UK\/USD/en-US/`
 		);
 
 		request.query({

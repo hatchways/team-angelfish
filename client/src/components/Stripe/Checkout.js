@@ -4,8 +4,10 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useHistory } from "react-router";
 
 import { Button } from "@material-ui/core";
-
+import { useDispatchContext } from "../../context/context";
 import { useStyles } from "../Cart/styles";
+import { useStateContext } from "../../context";
+import { useSnackbar } from "notistack";
 
 import { useStateContext } from "../../context";
 import {
@@ -18,6 +20,8 @@ const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 const Checkout = ({ isCartEmpty, activeStep, steps }) => {
   const { user, cart } = useStateContext();
+  const dispatch = useDispatchContext();
+  const { enqueueSnackbar } = useSnackbar();
   const { flights, hotels, rentalCar } = cart;
   const history = useHistory();
   const classes = useStyles();
@@ -44,6 +48,11 @@ const Checkout = ({ isCartEmpty, activeStep, steps }) => {
 
   const goToPayment = async (e) => {
     e.preventDefault();
+    if (!user?._id) {
+      dispatch({ type: "LOGIN_REQUEST" });
+      openSnack();
+      return;
+    }
     localStorage.setItem("Itinerary", JSON.stringify(cart));
     localStorage.setItem("User", JSON.stringify(user));
     localStorage.setItem("Receipt", JSON.stringify(paymentDetails));
@@ -62,6 +71,16 @@ const Checkout = ({ isCartEmpty, activeStep, steps }) => {
     if (result.error) {
       history.push("/error");
     }
+  };
+  const openSnack = () => {
+    enqueueSnackbar("Please sign in or signup to proceed with payment", {
+      variant: "info",
+      anchorOrigin: {
+        vertical: "bottom",
+        horizontal: "center",
+      },
+      autoHideDuration: 3000,
+    });
   };
 
   return (
