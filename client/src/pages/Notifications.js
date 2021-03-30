@@ -6,7 +6,7 @@ function Notifications() {
   const departureDate = new Date("March 30, 2021");
   const currentDate = new Date();
   const hotel = "Scrumptious"
-  const  Destination ="Toronto"
+  const destination ="Toronto"
 
 
   const notification = Math.round(
