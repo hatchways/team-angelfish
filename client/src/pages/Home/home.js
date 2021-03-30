@@ -8,7 +8,6 @@ import Explore from "../Explorer/Explore";
 import Flights from "../Flights";
 import Hotels from "../Hotels";
 import Header from "../../components/Header";
-import TestRoute from "../../components/Cart/addToCartTestPage";
 import Profile from "../User/Profile";
 import Checkout from "../../components/Stripe/Checkout";
 import Success from "../../components/Stripe/Success";
@@ -32,7 +31,6 @@ function App() {
             <Route exact path="/hotel" component={Hotels} />
             <Route exact path="/cars" component={Rent} />
             <Route path="/profile" component={Profile} />
-            <Route exact path="/test" component={TestRoute} />
             <Route exact path="/checkout" component={Checkout} />
             <Route exact path="/payment-success" component={Success} />
             <Route exact path="/payment-error" component={Error} />

@@ -46,82 +46,78 @@ const useStyles = makeStyles({
 });
 
 const FileUploaderDialog = (props) => {
-	const classes = useStyles();
-	return (
-		<div className={classes.dialogContainer}>
-			<Dialog
-				fullWidth="true"
-				open={props.open}
-				onClose={props.close}
-				aria-labelledby="max-width-dialog-title"
-				className={classes.dialogContainer}
-				PaperProps={{
-					style: {
-						height: 500,
-						width: 500,
-						backgroundColor: "white",
-						borderRadius: 10,
-					},
-				}}
-			>
-				<DialogTitle id="max-width-dialog-title">
-					Upload your file here
-				</DialogTitle>
-				<DialogContent className={classes.dialogContentContainer}>
-					<Dropzone onDrop={props.handleDrop}>
-						{({ getRootProps, getInputProps }) => (
-							<section>
-								<div {...getRootProps()}>
-									<input {...getInputProps()} />
-									<div className={classes.uploadImageContainer}>
-										<img
-											className={classes.imageUpload}
-											src={uploadIcon}
-											alt="Upload-Icon"
-										/>
-									</div>
-								</div>
-							</section>
-						)}
-					</Dropzone>
-				</DialogContent>
-				{props.file ? (
-					<div className={classes.thumbsContainer}>
-						<img
-							className={classes.imagePreview}
-							src={props.file.preview}
-							alt="a upload preview"
-						/>
-					</div>
-				) : (
-					<></>
-				)}
-				<DialogActions className={classes.dialogActionContainer}>
-					<Button
-						variant="contained"
-						disabled={props.loading}
-						onClick={props.close}
-						color="primary"
-						size="large"
-						className={classes.button}
-					>
-						Cancel
-					</Button>
-					<Button
-						variant="contained"
-						disabled={props.loading || !props.file}
-						onClick={props.submit}
-						color="primary"
-						size="large"
-						className={classes.button}
-					>
-						Save
-					</Button>
-				</DialogActions>
-				{props.loading && <LinearProgress color="secondary" />}
-			</Dialog>
-		</div>
-	);
+  const classes = useStyles();
+  return (
+    <div className={classes.dialogContainer}>
+      <Dialog
+        fullWidth
+        open={props.open}
+        onClose={props.close}
+        aria-labelledby="max-width-dialog-title"
+        className={classes.dialogContainer}
+        PaperProps={{
+          style: {
+            height: 500,
+            width: 500,
+            backgroundColor: "white",
+            borderRadius: 10,
+          },
+        }}
+      >
+        <DialogTitle id="max-width-dialog-title">
+          Upload your file here
+        </DialogTitle>
+        <DialogContent className={classes.dialogContentContainer}>
+          <Dropzone onDrop={props.handleDrop}>
+            {({ getRootProps, getInputProps }) => (
+              <section>
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <div className={classes.uploadImageContainer}>
+                    <img
+                      className={classes.imageUpload}
+                      src={uploadIcon}
+                      alt="Upload-Icon"
+                    />
+                  </div>
+                </div>
+              </section>
+            )}
+          </Dropzone>
+        </DialogContent>
+        {props.file ? (
+          <div className={classes.thumbsContainer}>
+            <img className={classes.imagePreview} src={props.file.preview} alt="a upload preview"/>
+          </div>
+        ) : (
+          <></>
+        )}
+        <DialogActions className={classes.dialogActionContainer}>
+          <Button
+            variant="contained"
+            disabled={props.loading}
+            onClick={props.close}
+            color="primary"
+            size="large"
+            className={classes.button}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            disabled={props.loading || !props.file}
+            onClick={props.submit}
+            color="primary"
+            size="large"
+            className={classes.button}
+          >
+            Save
+          </Button>
+        </DialogActions>
+        {props.loading && <LinearProgress color="secondary" />}
+      </Dialog>
+    </div>
+  );
 };
 
 export default FileUploaderDialog;

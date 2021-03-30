@@ -13,7 +13,7 @@ export default function LadingPage({handleDiscoverClick}) {
       </Typography>
       <Box className={classes.buttonContainer}>
         <Button color="primary" variant="contained" className={classes.button}>
-          <NavLink to="/home" className={classes.navLink}>Discover more</NavLink>
+          <NavLink to="/explore" className={classes.navLink}>Discover more</NavLink>
         </Button>
       </Box>
     </Grid>
