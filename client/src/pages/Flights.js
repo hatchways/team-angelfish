@@ -9,6 +9,7 @@ import FlightSearchComponent from "../components/FlightSearch";
 import clsx from "clsx";
 import useStyles from "../styles/Flights";
 import FlightResults from "../components/FlightResults";
+import Scroll from "../components/Scroll";
 
 function Flights() {
   const classes = useStyles();
@@ -22,26 +23,27 @@ function Flights() {
 
   return (
     <>
+      <Scroll />
       <div
         className={clsx({
-          [classes.rootWithoutResults]: !showResults,
           [classes.rootWithResults]: showResults,
+          [classes.rootWithoutResults]: !showResults,
         })}
       >
         <Grid
           className={clsx({
-            [classes.containerWithoutResults]: !showResults,
             [classes.containerWithResults]: showResults,
+            [classes.containerWithoutResults]: !showResults,
           })}
           container
         >
-          <Grid item xs={5}>
+          <Grid className={classes.titleContainer} item xs={5}>
             <Typography className={classes.header}>
               Find the flights and
               <br /> start the holiday.
             </Typography>
           </Grid>
-          <Grid item xs={7}>
+          <Grid className={classes.heroContainer} item xs={7}>
             <img
               className={classes.heroImg}
               src={backgroundImg}
@@ -53,8 +55,8 @@ function Flights() {
         <div className={classes.searchDiv}>
           <FlightSearchComponent submit={handleResults} />
         </div>
+        {showResults && <FlightResults data={data} />}
       </div>
-      {showResults && <FlightResults data={data} />}
     </>
   );
 }
