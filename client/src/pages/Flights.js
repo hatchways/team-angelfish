@@ -9,6 +9,7 @@ import FlightSearchComponent from "../components/FlightSearch";
 
 import useStyles from "../styles/Flights";
 import FlightResults from "../components/FlightResults";
+import Scroll from "../components/Scroll"
 import clsx from "clsx";
 
 function Flights() {
@@ -23,6 +24,7 @@ function Flights() {
 
 	return (
 		<>
+			<Scroll/>
 			<div
 				className={clsx({
 					[classes.rootWithResults]: showResults,

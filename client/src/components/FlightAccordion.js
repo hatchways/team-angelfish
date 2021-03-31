@@ -95,17 +95,12 @@ const FlightAccordion = ({ quote, cities }) => {
 			>
 				{expand ? (
 					<Grid item container xs={12} alignItems="center">
-						<Grid item container xs={6} sm={7} alignItems="center">
-							<Grid
-								item
-								xs={false}
-								sm={2}
-								className={classes.departLogoContain}
-							>
+						<Grid item container xs={8} sm={7} alignItems="center">
+							<Grid item xs={false} sm={2} className={classes.hide}>
 								<img
 									src={DepartLogo}
 									alt="departure logo"
-									width="55%"
+									width="85%"
 									className={classes.departLogo}
 								/>
 							</Grid>
@@ -126,8 +121,8 @@ const FlightAccordion = ({ quote, cities }) => {
 								</Typography>
 							</Grid>
 						</Grid>
-						<Grid item container xs={6} sm={5} justify="flex-end" spacing={0}>
-							<Grid item xs={7} sm={8} md={9} className={classes.buttonBox}>
+						<Grid item container xs={4} sm={5} justify="flex-end" spacing={0}>
+							<Grid item xs={false} sm={8} md={9} className={classes.buttonBox}>
 								<Button
 									type="submit"
 									variant="contained"
@@ -138,7 +133,7 @@ const FlightAccordion = ({ quote, cities }) => {
 									Select flight
 								</Button>
 							</Grid>
-							<Grid item xs={5} sm={4} md={3}>
+							<Grid item xs={12} sm={4} md={3}>
 								<Typography
 									variant="subtitle2"
 									className={classes.departHeader}
@@ -154,58 +149,113 @@ const FlightAccordion = ({ quote, cities }) => {
 					</Grid>
 				) : (
 					<Grid item container xs={12} alignItems="center">
-						<Grid item container xs={5} md={4} alignItems="center">
-							<Grid item xs={4}>
-								<img
-									src={departingCarrierLogo}
-									alt={`${departingCarrierName} logo`}
-									width="65%"
-								/>
-							</Grid>
-							<Grid item xs={8} className={classes.departTime}>
+						<Grid
+							item
+							xs={false}
+							sm={2}
+							className={`${classes.hide} ${classes.airlineLogo}`}
+						>
+							<img
+								src={departingCarrierLogo}
+								alt={`${departingCarrierName} logo`}
+								width="68%"
+							/>
+						</Grid>
+						<Grid
+							item
+							container
+							xs={12}
+							sm={10}
+							className={classes.summaryInfo}
+						>
+							<Grid item xs={6} sm={5} md={3} className={classes.departTime}>
 								<Typography
 									variant="subtitle2"
 									className={classes.departHeader}
 								>
 									{`${quote.OutboundLeg.DepartureTime} - ${quote.OutboundLeg.ArrivalTime}`}
 								</Typography>
+							</Grid>
+							<Grid
+								item
+								xs={12}
+								sm={4}
+								md={false}
+								className={classes.timeWithStop}
+							>
+								<Typography
+									variant="subtitle2"
+									className={classes.departHeader}
+								>
+									{`${quote.OutboundLeg.Duration} (${
+										quote.Direct === false ? "1 stop" : "Nonstop"
+									})`}
+								</Typography>
+							</Grid>
+							<Grid
+								item
+								xs={false}
+								md={3}
+								className={`${classes.center} ${classes.timeWithoutStop}`}
+							>
+								<Typography
+									variant="subtitle2"
+									className={classes.departHeader}
+								>
+									{quote.OutboundLeg.Duration}
+								</Typography>
+							</Grid>
+							<Grid
+								item
+								xs={false}
+								md={3}
+								className={`${classes.hide} ${classes.timeWithoutStop}`}
+							>
+								<Typography
+									variant="subtitle2"
+									className={classes.departHeader}
+								>
+									{quote.Direct === false ? "1 stop" : "Nonstop"}
+								</Typography>
+							</Grid>
+							<Grid item xs={6} sm={3}>
+								<Typography
+									variant="subtitle2"
+									className={classes.departPriceBold}
+									align="right"
+								>
+									{`$${quote.MinPrice}`}
+								</Typography>
+							</Grid>
+							<Grid item xs={12} md={3} className={classes.timeWithoutStop}>
 								<Typography className={classes.departSubtitle}>
 									{departingCarrierName}
 								</Typography>
 							</Grid>
-						</Grid>
-						<Grid item xs={3} md={3} className={classes.departDuration}>
-							<Typography variant="subtitle2" className={classes.departHeader}>
-								{quote.OutboundLeg.Duration}
-							</Typography>
-							<Typography
-								className={classes.departSubtitle}
-							>{`${cities.from} - ${cities.to}`}</Typography>
-						</Grid>
-						<Grid item xs={false} md={3} className={classes.departStop}>
-							<Typography variant="subtitle2" className={classes.departHeader}>
-								{quote.Direct === false ? "1 stop" : "Nonstop"}
-							</Typography>
-
-							{quote.Direct === false && (
-								<Typography className={classes.departSubtitle}>
-									{quote.OutboundLeg.Stops[0].Duration}
+							<Grid item xs={6} sm={5} md={3}>
+								<Typography
+									className={classes.departSubtitle}
+								>{`${cities.from} - ${cities.to}`}</Typography>
+							</Grid>
+							<Grid item xs={4} md={3} className={classes.center}>
+								{quote.Direct === false && (
+									<Typography className={classes.departSubtitle}>
+										{quote.OutboundLeg.Stops[0].Duration}
+									</Typography>
+								)}
+							</Grid>
+							<Grid item xs={6} sm={3}>
+								<Typography className={classes.departSubtitle} align="right">
+									{quote.InboundLeg
+										? "round trip per traveler"
+										: "one way per traveler"}
 								</Typography>
-							)}
-						</Grid>
-						<Grid item xs={4} md={2}>
-							<Typography
-								variant="subtitle2"
-								className={classes.departPriceBold}
-								align="right"
-							>
-								{`$${quote.MinPrice}`}
-							</Typography>
-							<Typography className={classes.departSubtitle} align="right">
-								{quote.InboundLeg
-									? "round trip per traveler"
-									: "one way per traveler"}
-							</Typography>
+							</Grid>
+							<Grid item xs={12} md={3} className={classes.timeWithStop}>
+								<Typography className={classes.departSubtitle}>
+									{departingCarrierName}
+								</Typography>
+							</Grid>
 						</Grid>
 					</Grid>
 				)}
@@ -213,14 +263,14 @@ const FlightAccordion = ({ quote, cities }) => {
 			<Divider />
 			<AccordionDetails>
 				<Grid item container xs={12}>
-					<Grid item xs={1} className={classes.summaryLogo}>
+					<Grid item xs={false} sm={1} className={classes.summaryLogo}>
 						<img
 							src={departingCarrierLogo}
 							alt={`${departingCarrierName} logo`}
 							width="75%"
 						/>
 					</Grid>
-					<Grid item xs={11}>
+					<Grid item xs={12} sm={11}>
 						<Timeline className={classes.timeline}>
 							<TimelineItem
 								classes={{
@@ -314,6 +364,11 @@ const FlightAccordion = ({ quote, cities }) => {
 								</TimelineContent>
 							</TimelineItem>
 						</Timeline>
+						<div className={classes.btnMobile}>
+							<Button type="submit" variant="contained" color="primary">
+								Select flight
+							</Button>
+						</div>
 					</Grid>
 				</Grid>
 			</AccordionDetails>
