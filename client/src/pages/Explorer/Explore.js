@@ -8,6 +8,8 @@ import Favorite from "@material-ui/icons/Favorite";
 import { CustomSmallerCheckBox } from "../../themes/theme";
 import Tooltip from "@material-ui/core/Tooltip";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
+import Zoom from "@material-ui/core/Zoom";
+
 import { useSnackbar } from "notistack";
 import useStyles from "../../styles/Explore";
 
@@ -47,7 +49,11 @@ function FavoriteCheckBox({
           }
         }}
         icon={<Favorite className={classes.favoriteDefaultIcon} />}
-        checkedIcon={<Favorite className={classes.favoriteCheckedIcon} />}
+        checkedIcon={
+          <Zoom in={checked}>
+            <Favorite className={classes.favoriteCheckedIcon} />
+          </Zoom>
+        }
         classes={{ root: classes.customCheckBoxRoot }}
       />
     </>

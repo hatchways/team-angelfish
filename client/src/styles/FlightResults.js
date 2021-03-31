@@ -28,8 +28,20 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: "2em",
 	},
 	flightInfoContainer: {
-		padding: "1em 3.2em 2em 2.8em",
-		width: "100%",
+		[theme.breakpoints.down("xs")]: {
+			marginTop: "15em",
+		},
+		[theme.breakpoints.up("sm")]: {
+			marginTop: "9em",
+			padding: "1em 3.2em 2em 4em",
+		},
+		[theme.breakpoints.up("md")]: {
+			marginTop: "8em",
+			padding: "1em 3.2em 2em 5.2em",
+		},
+		[theme.breakpoints.up("lg")]: {
+			padding: "1em 3.2em 2em 2.8em",
+		},
 	},
 	margin: {
 		marginTop: "3em",

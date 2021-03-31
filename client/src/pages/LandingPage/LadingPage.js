@@ -2,7 +2,7 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import React from "react";
 import useStyles from "./LandingPageStyle";
 import { Button } from "@material-ui/core";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 
 export default function LadingPage({handleDiscoverClick}) {
   const classes = useStyles();

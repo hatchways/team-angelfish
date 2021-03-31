@@ -1,11 +1,8 @@
 import React from "react";
 
 import { Typography, Grid } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
-
-import backgroundImage from "../../../assets/images/car.jpeg";
 
 import { carDetailsStyle } from "./styles";
 
