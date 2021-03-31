@@ -1,6 +1,8 @@
+/** @format */
+
 import { makeStyles } from "@material-ui/core/styles";
 
-export default makeStyles(() => ({
+export default makeStyles((theme) => ({
   pageContainer: {
     display: "flex",
     flexDirection: "column",
@@ -8,6 +10,9 @@ export default makeStyles(() => ({
     marginTop: 20,
     paddingTop: 0,
     paddingLeft: 20,
+    [theme.breakpoints.down("xs")]: {
+      paddingLeft: "6.4em",
+    },
   },
   paperContainer: {
     height: 300,
@@ -46,7 +51,7 @@ export default makeStyles(() => ({
     justifyContent: "center",
     alignItems: "flex-end",
     position: "relative",
-    bottom: 35,
+    bottom: 25,
     height: 1,
     right: 10,
   },
