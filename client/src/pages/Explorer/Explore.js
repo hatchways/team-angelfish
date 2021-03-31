@@ -10,6 +10,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Tooltip from "@material-ui/core/Tooltip";
 import MuiAlert from "@material-ui/lab/Alert";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
+import Scroll from '../../components/Scroll'
 
 import useStyles from "../../styles/Explore";
 
@@ -152,7 +153,8 @@ const Explore = () => {
   const smSpacing = pathName === "/profile/favoritedestinations" ? 6 : 3;
   const mdSpacing = pathName === "/profile/favoritedestinations" ? 4 : 3;
   return (
-    <>
+    <div>
+      <Scroll/>
       <Container className={classes.pageContainer}>
         {pathName === "/profile/favoritedestinations" ? (
           <Grid container justify="space-between">
@@ -232,7 +234,7 @@ const Explore = () => {
           <Alert severity={snack.type}>{snack.message}</Alert>
         </Snackbar>
       </Container>
-    </>
+    </div>
   );
 };
 

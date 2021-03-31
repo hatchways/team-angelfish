@@ -6,6 +6,7 @@ import TripAccordion from "../components/Itinerary/TripAccordion";
 import useStyles from "../styles/Itinerary/Itinerary";
 import { useStateContext } from "../context/context";
 import { useHistory } from "react-router-dom";
+import Scroll from '../components/Scroll'
 import clsx from "clsx";
 
 // for testing
@@ -212,53 +213,56 @@ const Itinerary = () => {
 		getTrips();
 	}, []);
 	return (
-		<Container className={classes.tripHistoryContainer}>
-			<Button
-				variant="contained"
-				color="primary"
-				onClick={handleUpcomingFilter}
-				className={clsx({
-					[classes.inactiveBtn]: pastFilter,
-					[classes.activeBtn]: upcomingFilter,
-				})}
-			>
-				Upcoming
-			</Button>
-			<Button
-				variant="contained"
-				color="primary"
-				onClick={handlePastFilter}
-				className={clsx({
-					[classes.inactiveBtn]: upcomingFilter,
-					[classes.activeBtn]: pastFilter,
-				})}
-			>
-				Past and Cancelled
-			</Button>
-			{upcomingFilter &&
-				upcoming.map((trip) => (
-					<TripAccordion key={trip.flight.QuoteId} trip={trip} />
-				))}
-			{pastFilter &&
-				past.map((trip) => (
-					<TripAccordion key={trip.flight.QuoteId} trip={trip} />
-				))}
-			{upcomingFilter && !upcoming.length && (
-				<div className={classes.noTrips}>
-					<Typography variant="h4">
-						You currently have no booked trips.
-					</Typography>
-					<Button
-						variant="contained"
-						color="primary"
-						classes={{ root: classes.activeBtn }}
-						onClick={handleRedirect}
-					>
-						Book a trip
-					</Button>
-				</div>
-			)}
-		</Container>
+		<div>
+			<Scroll />
+			<Container className={classes.tripHistoryContainer}>
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={handleUpcomingFilter}
+					className={clsx({
+						[classes.inactiveBtn]: pastFilter,
+						[classes.activeBtn]: upcomingFilter,
+					})}
+				>
+					Upcoming
+				</Button>
+				<Button
+					variant="contained"
+					color="primary"
+					onClick={handlePastFilter}
+					className={clsx({
+						[classes.inactiveBtn]: upcomingFilter,
+						[classes.activeBtn]: pastFilter,
+					})}
+				>
+					Past and Cancelled
+				</Button>
+				{upcomingFilter &&
+					upcoming.map((trip) => (
+						<TripAccordion key={trip.flight.QuoteId} trip={trip} />
+					))}
+				{pastFilter &&
+					past.map((trip) => (
+						<TripAccordion key={trip.flight.QuoteId} trip={trip} />
+					))}
+				{upcomingFilter && !upcoming.length && (
+					<div className={classes.noTrips}>
+						<Typography variant="h4">
+							You currently have no booked trips.
+						</Typography>
+						<Button
+							variant="contained"
+							color="primary"
+							classes={{ root: classes.activeBtn }}
+							onClick={handleRedirect}
+						>
+							Book a trip
+						</Button>
+					</div>
+				)}
+			</Container>
+		</div>
 	);
 };
 export default Itinerary;
