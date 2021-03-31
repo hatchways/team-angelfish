@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 
 import "@lottiefiles/lottie-player";
 import { Grid, Typography } from "@material-ui/core";
-import { useHistory } from "react-router";
+import { useHistory, Redirect } from "react-router";
 
 import { getReciept } from "./Receipt";
 
 const Success = () => {
   const history = useHistory();
+  const itiData = JSON.parse(localStorage.getItem("Itinerary"));
 
   const createItinerary = async () => {
-    const itiData = JSON.parse(localStorage.getItem("Itinerary"));
     const userData = JSON.parse(localStorage.getItem("User"));
     const receiptData = JSON.parse(localStorage.getItem("Receipt"));
     const receiptObj = getReciept(receiptData, userData.email);
@@ -47,8 +47,15 @@ const Success = () => {
   };
 
   useEffect(() => {
-    createItinerary();
+    if (itiData) {
+      createItinerary();
+    }
   }, []);
+
+  if (!itiData) {
+    return <Redirect to="/explore" />;
+  }
+
   return (
     <Grid
       container
