@@ -14,7 +14,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../styles/Signup_in";
 import { useDispatchContext } from "../context";
 
-const SigninContainer = ({ dash, signup, close }) => {
+const SigninContainer = ({ signup, close }) => {
 	const classes = useStyles();
 
 	const dispatch = useDispatchContext();
@@ -59,9 +59,7 @@ const SigninContainer = ({ dash, signup, close }) => {
 				});
 				const loginData = await loginResponse.json();
 				if (loginData.status === "success") {
-					// need to close modal
 					dispatch({ type: "AUTHENTICATED", payload: loginData.data });
-					dash(); // redirect to explore page
 				} else if ("password" in loginData) {
 					setPwdServerError(true);
 				} else if ("email" in loginData) {

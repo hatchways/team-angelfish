@@ -35,6 +35,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import SettingsIcon from "@material-ui/icons/Settings";
 import CardTravelIcon from "@material-ui/icons/CardTravel";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import useStyles from "../styles/Header";
 import Signin from "../pages/Signin";
@@ -76,9 +77,9 @@ function Header() {
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [modal, setModal] = useState(false); //opens signin page
 	const [signup, setSignup] = useState(false); // switches to signup page
-	const [openDrawer, setOpenDrawer] = React.useState(false);
+	const [openDrawer, setOpenDrawer] = useState(false);
 	const theme = useTheme();
-	const matches = useMediaQuery(theme.breakpoints.up("sm"));
+	const mobileView = useMediaQuery(theme.breakpoints.down("xs"));
 
 	const open = Boolean(anchorEl);
 
@@ -92,6 +93,8 @@ function Header() {
 	const handleSignup = () => setSignup(true);
 	const handleSignin = () => setSignup(false);
 	const handleLogout = async () => {
+		handleClose();
+		closeModal();
 		await fetch(`api/users/logout`);
 		dispatch({ type: "LOG_OUT" });
 	};
@@ -150,6 +153,7 @@ function Header() {
 								aria-controls="menu-appbar"
 								aria-haspopup="true"
 								onClick={handleMenu}
+								disabled={mobileView}
 								color="inherit"
 							>
 								<Avatar
@@ -245,23 +249,33 @@ function Header() {
 						</NavLink>
 					))}
 				</List>
-				<Divider />
-				<List>
-					{profileMenu.map((item) => (
-						<NavLink
-							key={item.name}
-							className={classes.navlinks}
-							to={item.link}
-						>
-							<ListItem button key={item.name}>
+				{authenticated && (
+					<>
+						<Divider />
+						<List>
+							{profileMenu.map((item) => (
+								<NavLink
+									key={item.name}
+									className={classes.navlinks}
+									to={item.link}
+								>
+									<ListItem button key={item.name}>
+										<ListItemIcon classes={{ root: classes.listIcon }}>
+											{item.icon}
+										</ListItemIcon>
+										<ListItemText primary={item.name} />
+									</ListItem>
+								</NavLink>
+							))}
+							<ListItem button onClick={handleLogout}>
 								<ListItemIcon classes={{ root: classes.listIcon }}>
-									{item.icon}
+									<ExitToAppIcon />
 								</ListItemIcon>
-								<ListItemText primary={item.name} />
+								<ListItemText primary="Logout" />
 							</ListItem>
-						</NavLink>
-					))}
-				</List>
+						</List>
+					</>
+				)}
 			</Drawer>
 			<Toolbar />
 		</Grid>
