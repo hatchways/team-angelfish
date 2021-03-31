@@ -11,7 +11,6 @@ const useStyles = makeStyles(() => ({
   root: {
     padding: 40,
     paddingTop: 60,
-    paddingLeft: 400,
     display: "flex",
     alignItems: "center",
   },
