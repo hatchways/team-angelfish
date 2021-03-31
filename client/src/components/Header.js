@@ -46,7 +46,7 @@ function Header() {
   const handleLogout = async () => {
     await fetch(`api/users/logout`);
     dispatch({ type: "LOG_OUT" });
-    history.push("/explore")
+    history.push("/explore");
   };
 
   const WrappedSignin = React.forwardRef((props, ref) => (
