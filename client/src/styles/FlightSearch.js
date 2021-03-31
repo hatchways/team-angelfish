@@ -1,55 +1,105 @@
-import { makeStyles } from '@material-ui/core/styles';
+/** @format */
+
+import { makeStyles } from "@material-ui/core/styles";
 
 export default makeStyles((theme) => ({
-	root: {
-		"& > *": {
-			width: "1200px",
-		},
-		width: "100%",
-		display: "flex",
-		justifyContent: "center",
-	},
 	paperContainer: {
-		padding: "20px",
-		display: "flex",
-		justifyContent: "space-around",
-		flexWrap: "wrap",
-		alignItems: "center",
-		height: "100%",
-		borderRadius: "20px",
-	},
-	travelDiv: {
-		display: "flex",
-		justifyContent: "space-between",
-		"@media (max-width:1280px)": {
-			justifyContent: "flex-start",
-			alignItems: "center",
+		[theme.breakpoints.up("xs")]: {
+			padding: "3em",
+			borderRadius: 0,
+		},
+		[theme.breakpoints.up("sm")]: {
+			padding: "3em 4em",
+			borderRadius: "20px",
 		},
 	},
 	searchBtn: {
 		backgroundColor: "#ffb347",
+		marginLeft: "",
 		color: "#fff",
-		height: "40px",
-		width: "100px",
+		padding: ".85em 0",
+		width: "100%",
 		"&:hover": {
 			backgroundColor: "orange",
 		},
+		[theme.breakpoints.down("lg")]: {},
+	},
+	btnContainer: {
+		[theme.breakpoints.up("sm")]: {
+			flexBasis: "19%",
+			maxWidth: "19%",
+		},
+		[theme.breakpoints.up("md")]: {
+			flexBasis: "11%",
+			maxWidth: "11%",
+		},
+		[theme.breakpoints.up("lg")]: {
+			flexBasis: "12%",
+			maxWidth: "12%",
+		},
 	},
 	input: {
-		"@media (min-width:1280px)": {
-			borderRight: "1px solid lightgray",
-			height: "100%",
-			display: "flex",
-			flexDirection: "column",
-			justifyContent: "center",
-			alignItems: "start",
+		[theme.breakpoints.up("sm")]: {
+			"&:nth-child(5)": {
+				flexBasis: "31%",
+				maxWidth: "31%",
+			},
+		},
+		[theme.breakpoints.up("md")]: {
+			"&:nth-child(3)": {
+				flexBasis: "20%",
+			},
+			"&:nth-child(4)": {
+				flexBasis: "20%",
+			},
+			"&:nth-child(5)": {
+				flexBasis: "15%",
+				maxWidth: "15%",
+			},
+		},
+		[theme.breakpoints.up("lg")]: {
+			"&:nth-child(1)": {
+				flexBasis: "17.6%",
+				maxWidth: "17.6%",
+			},
+			"&:nth-child(2)": {
+				flexBasis: "17.6%",
+				maxWidth: "17.6%",
+			},
+			"&:nth-child(3)": {
+				flexBasis: "17.6%",
+				maxWidth: "17.6%",
+			},
+			"&:nth-child(4)": {
+				flexBasis: "17.6%",
+				maxWidth: "17.6%",
+			},
+			"&:nth-child(5)": {
+				flexBasis: "17.6%",
+				maxWidth: "17.6%",
+			},
+		},
+		[theme.breakpoints.down("md")]: {
+			"& *": {
+				fontSize: "1em",
+			},
 		},
 	},
 	width: {
-		width: "9.7em",
+		[theme.breakpoints.up("md")]: {
+			paddingRight: "1.5em",
+			borderRight: "1px solid lightgray",
+		},
+		width: "100%",
+	},
+	traveller: {
+		borderRight: "none",
 	},
 	font: {
-		fontSize: "1.1em",
-		fontWeight: "bold"
+		fontWeight: "bold",
+		fontSize: "1.5em",
+		[theme.breakpoints.down("lg")]: {
+			fontSize: "1.4em",
+		},
 	},
 }));
