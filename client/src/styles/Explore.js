@@ -45,6 +45,10 @@ export default makeStyles(() => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "flex-end",
+    position: "relative",
+    bottom: 35,
+    height: 1,
+    right: 10,
   },
   subtitle2: {
     color: "#c5bec4",

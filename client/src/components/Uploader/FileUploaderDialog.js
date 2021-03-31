@@ -48,7 +48,7 @@ const FileUploaderDialog = (props) => {
   return (
     <div className={classes.dialogContainer}>
       <Dialog
-        fullWidth="true"
+        fullWidth
         open={props.open}
         onClose={props.close}
         aria-labelledby="max-width-dialog-title"

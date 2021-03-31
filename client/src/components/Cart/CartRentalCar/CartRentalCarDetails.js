@@ -3,9 +3,6 @@ import React from "react";
 import { Typography, Grid } from "@material-ui/core";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import Rating from "@material-ui/lab/Rating";
-
-import backgroundImage from "../../../assets/images/car.jpeg";
-
 import { carDetailsStyle } from "./styles";
 
 const CartRentalCarDetails = ({
@@ -17,12 +14,13 @@ const CartRentalCarDetails = ({
   city,
   price,
   rating,
+  img,
 }) => {
   const classes = carDetailsStyle();
   return (
     <>
       <Grid className={classes.div} container justify="space-between">
-        <img alt="rentalCar" className={classes.image} src={backgroundImage} />
+        <img alt="rentalCar" className={classes.image} src={img} />
         <Grid item>
           <Typography className={classes.title}>{placeOfRental}</Typography>
           <Typography className={classes.details}>{city}</Typography>

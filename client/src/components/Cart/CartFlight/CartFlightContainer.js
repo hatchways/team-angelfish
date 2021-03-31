@@ -18,7 +18,6 @@ const CartFlightContainer = () => {
   const removeFromCart = () => {
     dispatch({ type: "REMOVE_FROM_CART", purchaseType: "flights" });
   };
-
   return (
     <Grid className={classes.root}>
       <Grid className={classes.div}>

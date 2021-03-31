@@ -18,7 +18,7 @@ export const flightDetailsStyle = makeStyles({
   },
   cityCont: {
     position: "relative",
-    bottom: 10,
+    marginBottom: 10,
   },
   lineAirCont: {
     paddingRight: 50,
