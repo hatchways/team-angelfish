@@ -51,7 +51,12 @@ const CartFlightDetails = ({
           />
         </Grid>
 
-        <Grid className={classes.cityCont} justify="space-between" container>
+        <Grid
+          className={classes.cityCont}
+          direction="column"
+          alignItems="center"
+          container
+        >
           <Typography className={classes.place}>{departurePlace}</Typography>
           <Typography className={classes.details}>{numberOfStops}</Typography>
           <Typography className={classes.place}>{arrivalPlace}</Typography>

@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import {
   AppBar,
   Avatar,
@@ -23,26 +23,25 @@ import { useDispatchContext, useStateContext } from "../context";
 
 function Header() {
   const classes = useStyles();
-
+  const location = useLocation();
   const dispatch = useDispatchContext();
-  const { authenticated } = useStateContext();
-
+  const { authenticated, loginRequest } = useStateContext();
   const [anchorEl, setAnchorEl] = useState(null);
   const [modal, setModal] = useState(false); //opens signin page
   const [signup, setSignup] = useState(false); // switches to signup page
-
-  const open = Boolean(anchorEl);
 
   const handleMenu = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
   const openModal = () => setModal(true);
   const closeModal = () => {
+    dispatch({ type: "LOGIN_REQUEST" });
     setModal(false);
     setSignup(false);
   };
   const handleSignup = () => setSignup(true);
   const handleSignin = () => setSignup(false);
   const handleLogout = async () => {
+    handleClose();
     await fetch(`api/users/logout`);
     dispatch({ type: "LOG_OUT" });
   };
@@ -54,7 +53,7 @@ function Header() {
     <Signup {...props} forwardedRef={ref} />
   ));
 
-  return (
+  return location.pathname !== "/" ? (
     <Grid container className={classes.root}>
       <AppBar position="fixed" className={classes.appbar}>
         <Toolbar>
@@ -107,7 +106,7 @@ function Header() {
                   vertical: "top",
                   horizontal: "right",
                 }}
-                open={open}
+                open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>
@@ -129,7 +128,7 @@ function Header() {
               <Modal
                 aria-labelledby="modal-title"
                 className={classes.modal}
-                open={modal}
+                open={modal || loginRequest}
                 onClose={closeModal}
               >
                 {signup ? (
@@ -145,6 +144,8 @@ function Header() {
       </AppBar>
       <Toolbar />
     </Grid>
+  ) : (
+    <></>
   );
 }
 
