@@ -2,7 +2,7 @@
 
 import { makeStyles } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
 	root: {
 		backgroundColor: "#f2f2f2",
 		height: "92%",
@@ -59,6 +59,11 @@ const useStyles = makeStyles((theme) => ({
 			"& li": { fontSize: "1em" },
 		},
 	},
+	  email: {
+    color: "#c5bec4",
+    fontSize: 12,
+    letterSpacing: 1,
+  },
 	profileLinks: {
 		display: "block",
 		listStyle: "none",
@@ -84,6 +89,12 @@ const useStyles = makeStyles((theme) => ({
 	logoutBtn: {
 		color: "#c5bec4",
 		fontSize: "0.8em",
+		//     [theme.breakpoints.down("md")]: {
+    //   paddingTop: 70,
+    // },
+    // [theme.breakpoints.down("sm")]: {
+    //   paddingTop: 50,
+    // },
 	},
 	toolbarIcon: {
 		display: "none",
@@ -97,7 +108,29 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up("md")]: {
 			display: "none",
 		},
-	},
-}));
+	}}))
 
-export default useStyles;
+	export const accountStyles = makeStyles(() => ({
+  title: {
+    fontWeight: 600,
+    textAlign: "left",
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  paper: {
+    padding: 40,
+    height: 700,
+    borderRadius: 20,
+  },
+  button: {
+    backgroundColor: "#ffb347 !important",
+    width: 150,
+    height: 40,
+  },
+  label: {
+    fontWeight: 600,
+    color: "#000000",
+    padding: 5,
+  },
+  line: { borderBottom: "1px solid lightgrey", marginBottom: 30 },
+}));

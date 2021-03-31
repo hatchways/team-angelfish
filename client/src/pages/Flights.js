@@ -6,11 +6,10 @@ import { Grid, Typography } from "@material-ui/core";
 
 import backgroundImg from "../assets/images/birdseye-beach.jpeg";
 import FlightSearchComponent from "../components/FlightSearch";
-
+import clsx from "clsx";
 import useStyles from "../styles/Flights";
 import FlightResults from "../components/FlightResults";
 import Scroll from "../components/Scroll"
-import clsx from "clsx";
 
 function Flights() {
 	const classes = useStyles();
@@ -24,7 +23,7 @@ function Flights() {
 
 	return (
 		<>
-			<Scroll/>
+			<Scroll />
 			<div
 				className={clsx({
 					[classes.rootWithResults]: showResults,
@@ -49,13 +48,14 @@ function Flights() {
 							className={classes.heroImg}
 							src={backgroundImg}
 							alt="birds eye beach view"
+							width="100%"
 						/>
 					</Grid>
 				</Grid>
 				<div className={classes.searchDiv}>
 					<FlightSearchComponent submit={handleResults} />
 				</div>
-				{showResults ? <FlightResults data={data} /> : null}
+				{showResults && <FlightResults data={data} />}
 			</div>
 		</>
 	);

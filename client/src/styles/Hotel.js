@@ -45,7 +45,7 @@ export default makeStyles((theme) => ({
 	searchDiv: {
 		position: "absolute",
 		[theme.breakpoints.down("xs")]: {
-			width: "88.1%",
+			width: "88.3%",
 			top: "60%",
 		},
 		[theme.breakpoints.up("sm")]: {

@@ -18,17 +18,41 @@ export default makeStyles((theme) => ({
 	},
 	containerWithoutResults: {
 		height: "74%",
+		"& div:first-child": {
+			height: "100%",
+			backgroundColor: "#fff",
+			flexBasis: "41.67%",
+			paddingTop: "10%",
+			textAlign: "center",
+		},
+		"& div:last-child": {
+			height: "100%",
+			flexBasis: "58.33%",
+			width: "58.33%",
+			transition: "flex-basis 7s, max-width 5s",
+		},
+		"& div:last-child > img": {
+			height: "100%",
+		},
 	},
 	containerWithResults: {
 		height: "85%",
+		"& div:first-child": {
+			display: "none",
+		},
+		"& div:last-child": {
+			flexBasis: "100%",
+			maxWidth: "100%",
+			height: "100%",
+			transition: "max-width 600ms",
+		},
+		"& div:last-child > img": {
+			height: "100%",
+		}
 	},
 	titleContainer: {
 		height: "100%",
 		backgroundColor: "#fff",
-		display: "flex",
-		justifyContent: "center",
-		textAlign: "center",
-		paddingTop: "50px",
 		[theme.breakpoints.up("sm")]: {
 			paddingTop: "100px",
 		},
@@ -57,7 +81,7 @@ export default makeStyles((theme) => ({
 	searchDiv: {
 		position: "absolute",
 		[theme.breakpoints.up("xs")]: {
-			width: "88.1%",
+			width: "88.3%",
 			top: "60%",
 		},
 		[theme.breakpoints.up("sm")]: {

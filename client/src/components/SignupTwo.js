@@ -30,42 +30,92 @@ const SignupTwo = ({ dash, close, user }) => {
   const dispatch = useDispatchContext();
   const history = useHistory();
   const [travelList, setTravelList] = useState([]);
+  const [homeTownList, setHomeTownlist] = useState([]);
   const [destination, setDestination] = useState("");
   const [selectCityError, setSelectCityError] = useState(false);
   const [open, setOpen] = useState(false);
+  const [typeInput, setTypeInput] = useState("");
+  const [homeTown, setHomeTown] = useState("");
+  const [citiesApi, setCitiesApi] = useState([]);
 
   const handleTextChange = (_, value) => {
-    setDestination(value);
+    if (typeInput === "city") {
+      setDestination(value);
+    }
+    if (typeInput === "hometown") {
+      setHomeTown(value);
+    }
   };
-  const openAdd = () => {
+
+  const handleInputFetch = async (event, value, reason) => {
+    if (value === "") return;
+    if (reason === "input") {
+      try {
+        const response = await fetch(`/api/flights/places/${value}`);
+        const data = await response.json();
+        setCitiesApi(data.Places);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const openAdd = (type) => {
+    setTypeInput(type);
     setSelectCityError(false);
     setOpen(!open);
     setDestination("");
   };
 
   const handleAdd = () => {
-    const newAdd = destination.trim();
-    const isInList = travelList.includes(newAdd);
+    if (typeInput === "city") {
+      const newAdd = destination.trim();
+      const isInList = travelList.includes(newAdd);
 
-    if (destination.length === 0) {
-      setSelectCityError(true);
-    } else {
-      if (isInList) {
-        setDestination("");
-        setOpen(!open);
+      if (destination.length === 0) {
+        setSelectCityError(true);
       } else {
-        setTravelList((prevState) => [...prevState, newAdd]);
-        setDestination("");
-        setOpen(!open);
+        if (isInList) {
+          setDestination("");
+          setOpen(!open);
+        } else {
+          setTravelList((prevState) => [...prevState, newAdd]);
+          setDestination("");
+          setOpen(!open);
+        }
+      }
+    }
+    if (typeInput === "hometown") {
+      const newAdd = homeTown.trim();
+      const isInList = homeTownList.includes(newAdd);
+      if (homeTown.length === 0) {
+        setSelectCityError(true);
+      } else {
+        if (isInList) {
+          setHomeTown("");
+          setOpen(!open);
+        } else {
+          setHomeTownlist((prevState) => [...prevState, newAdd]);
+          setHomeTown("");
+          setOpen(!open);
+        }
       }
     }
   };
 
   const handleDelete = (place) => {
-    const newList = travelList.filter(
-      (t) => t.toLowerCase() !== place.toLowerCase(),
-    );
-    setTravelList(newList);
+    if (typeInput === "city") {
+      const newList = travelList.filter(
+        (t) => t.toLowerCase() !== place.toLowerCase(),
+      );
+      setTravelList(newList);
+    }
+    if (typeInput === "hometown") {
+      const newList = homeTownList.filter(
+        (t) => t.toLowerCase() !== place.toLowerCase(),
+      );
+      setHomeTownlist(newList);
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -79,7 +129,18 @@ const SignupTwo = ({ dash, close, user }) => {
         },
         body: JSON.stringify({ cities: travelList }),
       });
+      const homeRes = await fetch(`/api/users/${userId}/add-hometown`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ homeTown: homeTownList }),
+      });
+      const homeResData = await homeRes.json();
+      const homeTownToAdd = homeResData.data.user.homeTown;
       const resData = await res.json();
+      resData.data.user.homeTown = homeTownToAdd;
+
       if (resData.message === "Updated") {
         dispatch({ type: "AUTHENTICATED", payload: resData.data });
         history.push("/");
@@ -88,7 +149,7 @@ const SignupTwo = ({ dash, close, user }) => {
         dash();
       }
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
   return (
@@ -121,7 +182,53 @@ const SignupTwo = ({ dash, close, user }) => {
           Please select your favorite travel destinations
         </Typography>
         <Grid container spacing={1}>
+          {travelList.length > 0 && (
+            <Grid container justify="center" style={{ margin: 10 }}>
+              <Typography style={{ color: "#9966ff", fontWeight: 600 }}>
+                Destination
+              </Typography>
+            </Grid>
+          )}
           {travelList.map((place) => (
+            <Grid key={place} item xs={12}>
+              <InputBase
+                name={place}
+                id={place}
+                value={place}
+                readOnly
+                fullWidth
+                classes={{ root: classes.inputBase, input: classes.input }}
+                startAdornment={
+                  <InputAdornment position="start">
+                    <LocationOnOutlinedIcon
+                      classes={{ root: classes.locationIcon }}
+                    />
+                  </InputAdornment>
+                }
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label={`remove ${place}`}
+                      onClick={() => handleDelete(place)}
+                      size="small"
+                    >
+                      <CloseIcon classes={{ root: classes.closeIcon }} />
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </Grid>
+          ))}
+        </Grid>
+        <Grid container spacing={1}>
+          {homeTownList.length > 0 && (
+            <Grid container justify="center" style={{ margin: 10 }}>
+              <Typography style={{ color: "#9966ff", fontWeight: 600 }}>
+                Hometown
+              </Typography>
+            </Grid>
+          )}
+          {homeTownList.map((place) => (
             <Grid key={place} item xs={12}>
               <InputBase
                 name={place}
@@ -158,9 +265,16 @@ const SignupTwo = ({ dash, close, user }) => {
               freeSolo
               id="add-destination"
               name="add-destination"
-              value={destination}
-              options={cities?.map((option) => option.name)}
+              value={typeInput === "city" ? destination : homeTown}
+              options={
+                typeInput === "city"
+                  ? cities?.map((option) => option.name)
+                  : citiesApi?.map((option) => option.PlaceName)
+              }
               onChange={handleTextChange}
+              onInputChange={(event, value, reason) => {
+                handleInputFetch(event, value, reason);
+              }}
               classes={{ inputRoot: classes.inputRoot }}
               renderInput={(params) => {
                 params.InputProps.startAdornment = (
@@ -183,20 +297,33 @@ const SignupTwo = ({ dash, close, user }) => {
                   <TextField
                     {...params}
                     color="secondary"
-                    helperText={selectCityError ? "Please enter city" : ""}
+                    helperText={selectCityError ? "Please enter place" : ""}
                     error={selectCityError}
                   />
                 );
               }}
             />
           ) : (
-            <Button
-              disabled={travelList.length === 3 ? true : false}
-              className={classes.link}
-              onClick={openAdd}
-            >
-              Add more
-            </Button>
+            <>
+              <Grid>
+                <Button
+                  disabled={travelList.length === 3 ? true : false}
+                  className={classes.link}
+                  onClick={() => openAdd("city")}
+                >
+                  Add favorite city
+                </Button>
+              </Grid>
+              <Grid style={{ marginTop: 10 }}>
+                <Button
+                  disabled={homeTownList.length === 1 ? true : false}
+                  className={classes.link}
+                  onClick={() => openAdd("hometown")}
+                >
+                  Add hometown
+                </Button>
+              </Grid>
+            </>
           )}
         </Box>
         <Box textAlign="center">

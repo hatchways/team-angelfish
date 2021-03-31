@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import {
 	AppBar,
 	Avatar,
@@ -72,21 +72,21 @@ function Header() {
 	const classes = useStyles();
 
 	const dispatch = useDispatchContext();
-	const { authenticated } = useStateContext();
-
+	const { authenticated, loginRequest } = useStateContext();
+	const location = useLocation();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [modal, setModal] = useState(false); //opens signin page
 	const [signup, setSignup] = useState(false); // switches to signup page
 	const [openDrawer, setOpenDrawer] = useState(false);
 	const theme = useTheme();
 	const mobileView = useMediaQuery(theme.breakpoints.down("xs"));
-
 	const open = Boolean(anchorEl);
 
 	const handleMenu = (event) => setAnchorEl(event.currentTarget);
 	const handleClose = () => setAnchorEl(null);
 	const openModal = () => setModal(true);
 	const closeModal = () => {
+		dispatch({ type: "LOGIN_REQUEST" });
 		setModal(false);
 		setSignup(false);
 	};
@@ -108,7 +108,7 @@ function Header() {
 		<Signup {...props} forwardedRef={ref} />
 	));
 
-	return (
+	return location.pathname !== "/" ? (
 		<Grid container className={classes.root}>
 			<CssBaseline />
 			<AppBar
@@ -173,7 +173,7 @@ function Header() {
 									vertical: "top",
 									horizontal: "right",
 								}}
-								open={open}
+								open={Boolean(anchorEl)}
 								onClose={handleClose}
 								className={classes.profileMenu}
 							>
@@ -196,7 +196,7 @@ function Header() {
 							<Modal
 								aria-labelledby="modal-title"
 								className={classes.modal}
-								open={modal}
+								open={modal || loginRequest}
 								onClose={closeModal}
 							>
 								{signup ? (
@@ -279,6 +279,8 @@ function Header() {
 			</Drawer>
 			<Toolbar />
 		</Grid>
+	) : (
+		<></>
 	);
 }
 

@@ -8,7 +8,6 @@ import {
 	Grid,
 	Typography,
 	Divider,
-	Button,
 } from "@material-ui/core";
 import Timeline from "@material-ui/lab/Timeline";
 import TimelineItem from "@material-ui/lab/TimelineItem";
@@ -24,6 +23,8 @@ import DeltaLogo from "../assets/images/delta-logo.png";
 import JetBlueLogo from "../assets/images/jetBlue-logo.jpeg";
 import useStyles from "../styles/FlightAccordion";
 import { format } from "date-fns";
+
+import AddToCartButton from "./Cart/AddToCartButton";
 
 const carriers = [
 	{
@@ -57,15 +58,6 @@ const FlightAccordion = ({ quote, cities }) => {
 	);
 	const departingCarrierLogo = findDepartingCarrier.LogoUrl;
 	const departingCarrierName = findDepartingCarrier.Name;
-	const findReturningCarrier = () => {
-		if (quote.InboundLeg) {
-			return carriers.find(
-				(carrier) => carrier.CarrierId === quote.InboundLeg.CarrierId
-			);
-		}
-	};
-	const returningCarrierLogo = findReturningCarrier.LogoUrl;
-	const returningCarrierName = findReturningCarrier.Name;
 	// format flight dates
 	const formattedDate = (date) => {
 		const resetDate = new Date(`${date}T00:00`);
@@ -123,15 +115,15 @@ const FlightAccordion = ({ quote, cities }) => {
 						</Grid>
 						<Grid item container xs={4} sm={5} justify="flex-end" spacing={0}>
 							<Grid item xs={false} sm={8} md={9} className={classes.buttonBox}>
-								<Button
-									type="submit"
+								<AddToCartButton
 									variant="contained"
 									color="primary"
 									size="large"
-									classes={{ root: classes.button }}
-								>
-									Select flight
-								</Button>
+									title="Select Flight"
+									quote={quote}
+									cities={cities}
+									purchaseType="flights"
+								/>
 							</Grid>
 							<Grid item xs={12} sm={4} md={3}>
 								<Typography
@@ -168,7 +160,7 @@ const FlightAccordion = ({ quote, cities }) => {
 							sm={10}
 							className={classes.summaryInfo}
 						>
-							<Grid item xs={6} sm={5} md={3} className={classes.departTime}>
+							<Grid item xs={6} sm={5} md={3} lg={4} className={classes.departTime}>
 								<Typography
 									variant="subtitle2"
 									className={classes.departHeader}
@@ -195,7 +187,8 @@ const FlightAccordion = ({ quote, cities }) => {
 							<Grid
 								item
 								xs={false}
-								md={3}
+								md={4}
+								lg={3}
 								className={`${classes.center} ${classes.timeWithoutStop}`}
 							>
 								<Typography
@@ -218,7 +211,7 @@ const FlightAccordion = ({ quote, cities }) => {
 									{quote.Direct === false ? "1 stop" : "Nonstop"}
 								</Typography>
 							</Grid>
-							<Grid item xs={6} sm={3}>
+							<Grid item xs={6} sm={3} md={2}>
 								<Typography
 									variant="subtitle2"
 									className={classes.departPriceBold}
@@ -227,12 +220,12 @@ const FlightAccordion = ({ quote, cities }) => {
 									{`$${quote.MinPrice}`}
 								</Typography>
 							</Grid>
-							<Grid item xs={12} md={3} className={classes.timeWithoutStop}>
+							<Grid item xs={12} md={3} lg={4} className={classes.timeWithoutStop}>
 								<Typography className={classes.departSubtitle}>
 									{departingCarrierName}
 								</Typography>
 							</Grid>
-							<Grid item xs={6} sm={5} md={3}>
+							<Grid item xs={6} sm={5} md={4} lg={3}>
 								<Typography
 									className={classes.departSubtitle}
 								>{`${cities.from} - ${cities.to}`}</Typography>
@@ -244,7 +237,7 @@ const FlightAccordion = ({ quote, cities }) => {
 									</Typography>
 								)}
 							</Grid>
-							<Grid item xs={6} sm={3}>
+							<Grid item xs={6} sm={3} md={2}>
 								<Typography className={classes.departSubtitle} align="right">
 									{quote.InboundLeg
 										? "round trip per traveler"
@@ -267,7 +260,7 @@ const FlightAccordion = ({ quote, cities }) => {
 						<img
 							src={departingCarrierLogo}
 							alt={`${departingCarrierName} logo`}
-							width="75%"
+							width="95%"
 						/>
 					</Grid>
 					<Grid item xs={12} sm={11}>
@@ -365,9 +358,15 @@ const FlightAccordion = ({ quote, cities }) => {
 							</TimelineItem>
 						</Timeline>
 						<div className={classes.btnMobile}>
-							<Button type="submit" variant="contained" color="primary">
-								Select flight
-							</Button>
+							<AddToCartButton
+								variant="contained"
+								color="primary"
+								size="medium"
+								title="Select Flight"
+								quote={quote}
+								cities={cities}
+								purchaseType="flights"
+							/>
 						</div>
 					</Grid>
 				</Grid>
