@@ -16,7 +16,10 @@ export default makeStyles((theme) => ({
 		backgroundColor: "#fff",
 		justifyContent: "center",
 		textAlign: "center",
-		paddingTop: "100px",
+		paddingTop: "50px",
+		[theme.breakpoints.up("sm")]: {
+			paddingTop: "100px",
+		},
 	},
 	header: {
 		padding: "0.65em",
@@ -42,7 +45,7 @@ export default makeStyles((theme) => ({
 	searchDiv: {
 		position: "absolute",
 		[theme.breakpoints.down("xs")]: {
-			width: "91%",
+			width: "88.1%",
 			top: "60%",
 		},
 		[theme.breakpoints.up("sm")]: {
@@ -52,7 +55,6 @@ export default makeStyles((theme) => ({
 			transform: "translateX(-50%)",
 		},
 		[theme.breakpoints.up("md")]: {
-
 			width: "90%",
 		},
 		[theme.breakpoints.up("lg")]: {

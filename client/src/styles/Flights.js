@@ -28,7 +28,10 @@ export default makeStyles((theme) => ({
 		display: "flex",
 		justifyContent: "center",
 		textAlign: "center",
-		paddingTop: "100px",
+		paddingTop: "50px",
+		[theme.breakpoints.up("sm")]: {
+			paddingTop: "100px",
+		},
 	},
 	header: {
 		padding: "0.65em",
@@ -54,7 +57,7 @@ export default makeStyles((theme) => ({
 	searchDiv: {
 		position: "absolute",
 		[theme.breakpoints.up("xs")]: {
-			width: "91%",
+			width: "88.1%",
 			top: "60%",
 		},
 		[theme.breakpoints.up("sm")]: {
