@@ -59,6 +59,7 @@ const FlightSearch = ({ submit }) => {
       setFrom(homeTownCity[0]);
       setCities(updatedCities);
     }
+    // eslint-disable-next-line
   }, [loading]);
 
   const formatDate = (date) => {

@@ -61,7 +61,6 @@ const Explore = () => {
   const classes = useStyles();
   const [favorites, setFavorites] = useState([]);
   const [places, setPlaces] = useState([]);
-  const [snack, setSnack] = useState({ type: "", message: "", open: false });
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatchContext();
 
@@ -75,12 +74,6 @@ const Explore = () => {
       favList.includes(city.name),
     );
     setPlaces(filteredFavList);
-  };
-
-  const closeSnack = () => {
-    setSnack((prevState) => {
-      return { ...prevState, open: false };
-    });
   };
 
   const openSnack = () => {
@@ -140,7 +133,7 @@ const Explore = () => {
       }
     }
     getData();
-  }, [loading, user]);
+  }, [loading, user, userId]);
 
   function handleFavoriteChange(checked, name) {
     const userFavoritePlaces = [...favorites];

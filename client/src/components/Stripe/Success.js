@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 import "@lottiefiles/lottie-player";
+
 import { Grid, Typography } from "@material-ui/core";
 import { useHistory } from "react-router";
 
@@ -48,6 +49,7 @@ const Success = () => {
 
   useEffect(() => {
     createItinerary();
+    // eslint-disable-next-line
   }, []);
   return (
     <Grid
@@ -65,6 +67,7 @@ const Success = () => {
         background="transparent"
         speed="1"
         style={{ width: 400, height: 400 }}
+        mode="normal"
         loop
         autoplay
       ></lottie-player>

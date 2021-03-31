@@ -8,7 +8,6 @@ import {
   Grid,
   Typography,
   Divider,
-  Button,
 } from "@material-ui/core";
 import Timeline from "@material-ui/lab/Timeline";
 import TimelineItem from "@material-ui/lab/TimelineItem";
@@ -58,15 +57,6 @@ const FlightAccordion = ({ quote, cities }) => {
   );
   const departingCarrierLogo = findDepartingCarrier.LogoUrl;
   const departingCarrierName = findDepartingCarrier.Name;
-  const findReturningCarrier = () => {
-    if (quote.InboundLeg) {
-      return carriers.find(
-        (carrier) => carrier.CarrierId === quote.InboundLeg.CarrierId,
-      );
-    }
-  };
-  const returningCarrierLogo = findReturningCarrier.LogoUrl;
-  const returningCarrierName = findReturningCarrier.Name;
 
   const showDetails = (event, expanded) => setExpand(expanded);
 
