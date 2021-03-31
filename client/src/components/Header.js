@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState } from "react";
-import { NavLink, Link, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation, useHistory } from "react-router-dom";
 import {
   AppBar,
   Avatar,
@@ -31,7 +31,7 @@ function Header() {
   const [signup, setSignup] = useState(false); // switches to signup page
 
   const open = Boolean(anchorEl);
-
+  const history = useHistory()
   const handleMenu = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
   const openModal = () => setModal(true);
@@ -41,9 +41,11 @@ function Header() {
   };
   const handleSignup = () => setSignup(true);
   const handleSignin = () => setSignup(false);
+  
   const handleLogout = async () => {
     await fetch(`api/users/logout`);
     dispatch({ type: "LOG_OUT" });
+    history.push("/explore")
   };
 
   const WrappedSignin = React.forwardRef((props, ref) => (
