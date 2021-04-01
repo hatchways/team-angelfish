@@ -144,7 +144,7 @@ function Profile() {
 						<Typography variant="h6" className={classes.avatarInfo}>
 							{mockUser.name}
 						</Typography>
-						<Typography className={`${classes.avatarInfo} ${classes.email}`}>
+						<Typography className={classes.avatarInfo}>
 							{mockUser.email}
 						</Typography>
 					</Grid>
