@@ -54,6 +54,7 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     borderRadius: "10px",
     boxShadow: theme.shadows[3],
+    overflow: "hidden"
   },
   closeIcon: {
     color: "#cccccc",

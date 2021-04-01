@@ -8,6 +8,7 @@ import {
   Typography,
   Button,
   InputBase,
+  LinearProgress
 } from "@material-ui/core";
 import { useStyles } from "../styles/Signup_in";
 
@@ -37,6 +38,7 @@ const SignupTwo = ({ dash, close, user }) => {
   const [typeInput, setTypeInput] = useState("");
   const [homeTown, setHomeTown] = useState("");
   const [citiesApi, setCitiesApi] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleTextChange = (_, value) => {
     if (typeInput === "city") {
@@ -122,6 +124,7 @@ const SignupTwo = ({ dash, close, user }) => {
     const userId = user?._id;
     event.preventDefault();
     try {
+      setLoading(true);
       const res = await fetch(`/api/users/${userId}/favorite-cities`, {
         method: "POST",
         headers: {
@@ -140,7 +143,7 @@ const SignupTwo = ({ dash, close, user }) => {
       const homeTownToAdd = homeResData.data.user.homeTown;
       const resData = await res.json();
       resData.data.user.homeTown = homeTownToAdd;
-
+      setLoading(false);
       if (resData.message === "Updated") {
         dispatch({ type: "AUTHENTICATED", payload: resData.data });
         close();
@@ -148,6 +151,7 @@ const SignupTwo = ({ dash, close, user }) => {
         dash();
       }
     } catch (error) {
+      setLoading(false);
       throw error;
     }
   };
@@ -308,6 +312,7 @@ const SignupTwo = ({ dash, close, user }) => {
                 <Button
                   disabled={travelList.length === 3 ? true : false}
                   className={classes.link}
+                  disabled={loading}
                   onClick={() => openAdd("city")}
                 >
                   Add favorite city
@@ -317,6 +322,7 @@ const SignupTwo = ({ dash, close, user }) => {
                 <Button
                   disabled={homeTownList.length === 1 ? true : false}
                   className={classes.link}
+                  disabled={loading}
                   onClick={() => openAdd("hometown")}
                 >
                   Add hometown
@@ -330,6 +336,7 @@ const SignupTwo = ({ dash, close, user }) => {
             type="submit"
             variant="contained"
             color="primary"
+            disabled={loading}
             size="large"
             classes={{ root: classes.modalSubmit }}
             onClick={handleSubmit}
@@ -352,6 +359,7 @@ const SignupTwo = ({ dash, close, user }) => {
           </Link>
         </Typography>
       </div>
+      {loading &&  <LinearProgress color="secondary" />}
     </Container>
   );
 };
