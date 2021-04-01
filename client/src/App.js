@@ -14,7 +14,7 @@ import Profile from "./pages/User/Profile";
 import Checkout from "./components/Stripe/Checkout";
 import Success from "./components/Stripe/Success";
 import Error from "./components/Stripe/Error";
-import Rent from "./pages/Rental/Rent";
+import Cars from "./pages/Rental/Cars";
 
 import { Provider } from "./context/context";
 
@@ -31,7 +31,7 @@ function App() {
               <Route path="/explore" component={Explore} />
               <Route exact path="/flights" component={Flights} />
               <Route exact path="/hotel" component={Hotels} />
-              <Route exact path="/cars" component={Rent} />
+              <Route exact path="/cars" component={Cars} />
               <Route path="/profile" component={Profile} />
               <Route exact path="/checkout" component={Checkout} />
               <Route exact path="/payment-success" component={Success} />

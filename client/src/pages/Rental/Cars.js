@@ -81,7 +81,7 @@ const CarList = [
 	},
 ];
 
-const Rent = () => {
+const Cars = () => {
 	const classes = useStyles();
 	const [checkState, setCheckState] = useState(false);
 	const handleChange = (event) => {
@@ -325,4 +325,4 @@ const Rent = () => {
 	);
 };
 
-export default Rent;
+export default Cars;
