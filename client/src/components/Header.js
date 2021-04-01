@@ -1,7 +1,7 @@
 /** @format */
 
-import React, { useState } from "react";
-import { NavLink, Link, useLocation, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { NavLink, Link, useLocation, useHistory} from "react-router-dom";
 import {
 	AppBar,
 	Avatar,
@@ -72,7 +72,7 @@ function Header() {
 	const classes = useStyles();
 
 	const dispatch = useDispatchContext();
-	const { authenticated, loginRequest } = useStateContext();
+	const { authenticated, loginRequest, user } = useStateContext();
 	const location = useLocation();
 	const history = useHistory();
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -109,6 +109,10 @@ function Header() {
 	const WrappedSignup = React.forwardRef((props, ref) => (
 		<Signup {...props} forwardedRef={ref} />
 	));
+
+	useEffect(() => {
+		
+	  }, [user.pictureUrl]);
 
 	return location.pathname !== "/" ? (
 		<Grid container className={classes.root}>
@@ -159,7 +163,7 @@ function Header() {
 							>
 								<Avatar
 									className={classes.avatar}
-									src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdX7wWCMOvGYD6_4-MthVKf-DjjgLF_GqQzg&usqp=CAU"
+									src={user.pictureUrl}
 								/>
 							</IconButton>
 							<Menu

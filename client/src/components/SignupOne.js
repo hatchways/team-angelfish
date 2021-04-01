@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState} from "react";
 import {
   Box,
   Container,
@@ -9,13 +9,14 @@ import {
   TextField,
   Button,
   IconButton,
+  LinearProgress
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../styles/Signup_in";
 
 const SignupOne = ({ next, close, signin, setUser }) => {
   const classes = useStyles();
-
+  const [loading, setLoading] = useState(false);
   const initialState = {
     name: "",
     emailSignup: "",
@@ -100,6 +101,7 @@ const SignupOne = ({ next, close, signin, setUser }) => {
       checkPwd() &&
       pwdSignup === confirmPwdSignup
     ) {
+      setLoading(true);
       fetch("/api/users/register", {
         method: "POST",
         headers: {
@@ -109,6 +111,7 @@ const SignupOne = ({ next, close, signin, setUser }) => {
       })
         .then((res) => res.json())
         .then((results) => {
+          setLoading(false);
           if (results.status === "success") {
             next();
             setUser(results.data.user);
@@ -124,7 +127,10 @@ const SignupOne = ({ next, close, signin, setUser }) => {
             dispatch({ type: "error", error: "confirmPwdValidationError" });
           }
         })
-        .catch((err) => console.error(err));
+        .catch((err) => {
+          setLoading(false);
+          console.error(err);
+        });
     }
   };
 
@@ -164,6 +170,7 @@ const SignupOne = ({ next, close, signin, setUser }) => {
                 variant="outlined"
                 required
                 fullWidth
+                disabled={loading}
                 label="Name"
                 value={state.name}
                 id="name"
@@ -183,6 +190,7 @@ const SignupOne = ({ next, close, signin, setUser }) => {
                 variant="outlined"
                 required
                 fullWidth
+                disabled={loading}
                 label="Email Address"
                 value={state.emailSignup}
                 id="emailSignup"
@@ -206,6 +214,7 @@ const SignupOne = ({ next, close, signin, setUser }) => {
               <TextField
                 variant="outlined"
                 required
+                disabled={loading}
                 fullWidth
                 label="Password"
                 value={state.pwdSignup}
@@ -227,6 +236,7 @@ const SignupOne = ({ next, close, signin, setUser }) => {
                 variant="outlined"
                 required
                 fullWidth
+                disabled={loading}
                 label="Confirm Password"
                 value={state.confirmPwdSignup}
                 id="confirmPwdSignup"
@@ -248,6 +258,7 @@ const SignupOne = ({ next, close, signin, setUser }) => {
           <Button
             type="submit"
             variant="contained"
+            disabled={loading}
             color="primary"
             size="large"
             classes={{ root: classes.modalSubmit }}
@@ -270,6 +281,7 @@ const SignupOne = ({ next, close, signin, setUser }) => {
           </span>
         </Typography>
       </div>
+      {loading &&  <LinearProgress color="secondary" />}
     </Container>
   );
 };

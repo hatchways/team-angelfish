@@ -9,6 +9,7 @@ import {
   TextField,
   Button,
   IconButton,
+  LinearProgress,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../styles/Signup_in";
@@ -25,6 +26,7 @@ const SigninContainer = ({ signup, close }) => {
   const [emailServerError, setEmailServerError] = useState(false);
   const [pwdClientError, setPwdClientError] = useState(false);
   const [pwdServerError, setPwdServerError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleEmail = (event) => {
     setEmail(event.target.value);
@@ -49,6 +51,7 @@ const SigninContainer = ({ signup, close }) => {
 			password: pwd.trim(),
 		};
 		if (checkEmail() && pwd) {
+			setLoading(true);
 			try {
 				const loginResponse = await fetch("/api/users/login", {
 					method: "POST",
@@ -65,9 +68,11 @@ const SigninContainer = ({ signup, close }) => {
 				} else if ("email" in loginData) {
 					setEmailServerError(true);
 				}
+				setLoading(false);
 			} catch (err) {
 				console.log(err);
-			}
+				setLoading(false);
+			}	
 		} else if (!checkEmail()) {
 			setEmailClientError(true);
 		} else if (!pwd) {
@@ -115,6 +120,7 @@ const SigninContainer = ({ signup, close }) => {
 								id="emailSignin"
 								name="emailSignin"
 								type="email"
+								disabled={loading}
 								color="secondary"
 								error={emailClientError || emailServerError}
 								helperText={
@@ -133,6 +139,7 @@ const SigninContainer = ({ signup, close }) => {
 								required
 								fullWidth
 								label="Password"
+								disabled={loading}
 								value={pwd}
 								id="pwdSignin"
 								name="pwdSignin"
@@ -159,6 +166,7 @@ const SigninContainer = ({ signup, close }) => {
 						size="large"
 						classes={{ root: classes.modalSubmit }}
 						onClick={handleSubmit}
+						disabled={loading}
 					>
 						Sign In
 					</Button>
@@ -177,6 +185,7 @@ const SigninContainer = ({ signup, close }) => {
 					</span>
 				</Typography>
 			</div>
+			{loading && <LinearProgress color="secondary" />}
 		</Container>
 	);
 };
