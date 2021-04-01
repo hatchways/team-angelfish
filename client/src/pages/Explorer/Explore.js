@@ -17,6 +17,7 @@ import { useStateContext, useDispatchContext } from "../../context";
 import { getUpdatedList } from "./utils";
 import { Link, useHistory } from "react-router-dom";
 import { Box } from "@material-ui/core";
+import Scroll from "../../components/Scroll";
 
 function FavoriteCheckBox({
   place,
@@ -176,100 +177,101 @@ const Explore = () => {
   const smSpacing = pathName === "/profile/favoritedestinations" ? 6 : 3;
   const mdSpacing = pathName === "/profile/favoritedestinations" ? 4 : 3;
   return (
-    <>
-      <Container className={classes.pageContainer}>
-        {pathName === "/profile/favoritedestinations" ? (
-          <Grid container justify="space-between">
-            <Typography
-              variant="h4"
-              style={{ fontWeight: 600 }}
-              className={classes.title}
-            >
-              Favorite Destinations
-            </Typography>
-            <Button variant="outlined">
-              <Link className={classes.exploreLink} to="/explore">
-                Explore
-              </Link>
-            </Button>
-          </Grid>
-        ) : (
-          <>
-            <Typography variant="h4" className={classes.title}>
-              Explore destinations
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              className={(classes.title, classes.subtitle2)}
-            >
-              World's top destinations to explore
-            </Typography>
+		<div>
+			<Scroll />
+			<Container className={classes.pageContainer}>
+				{pathName === "/profile/favoritedestinations" ? (
+					<Grid container justify="space-between">
+						<Typography
+							variant="h4"
+							style={{ fontWeight: 600 }}
+							className={classes.title}
+						>
+							Favorite Destinations
+						</Typography>
+						<Button variant="outlined">
+							<Link className={classes.exploreLink} to="/explore">
+								Explore
+							</Link>
+						</Button>
+					</Grid>
+				) : (
+					<>
+						<Typography variant="h4" className={classes.title}>
+							Explore destinations
+						</Typography>
+						<Typography
+							variant="subtitle2"
+							className={(classes.title, classes.subtitle2)}
+						>
+							World's top destinations to explore
+						</Typography>
 
-            <Button
-              style={{ backgroundColor: "#fff" }}
-              className={classes.shuffle}
-              onClick={handleShuffleButton}
-            >
-              <Tooltip title="Shuffle Cities">
-                <ShuffleIcon />
-              </Tooltip>
-            </Button>
-          </>
-        )}
-        <Grid
-          container
-          spacing={3}
-          justify="center"
-          className={classes.gridContainer}
-        >
-          {places.map((place) => (
-            <Grid
-              item
-              key={place.name}
-              xs={12}
-              sm={smSpacing}
-              md={mdSpacing}
-              style={{ cursor: "pointer" }}
-            >
-              <Box
-                className={classes.paperContainer}
-                onClick={() => handleToSearchPage(place.name)}
-                style={{
-                  backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
-                }}
-              >
-                <Box
-                  component="span"
-                  className={classes.bottomInformationContainer}
-                >
-                  <Box
-                    component="span"
-                    className={classes.bottomInformationSubContainer1}
-                  >
-                    <Box component="span" className={classes.legend1}>
-                      {place.name},
-                    </Box>
-                    <Box component="span" className={classes.legend2}>
-                      {place.country}
-                    </Box>
-                  </Box>
-                </Box>
-              </Box>
-              <Box className={classes.bottomInformationSubContainer2}>
-                <FavoriteCheckBox
-                  place={place}
-                  userId={userId}
-                  handleFavoriteChange={handleFavoriteChange}
-                  openSnack={openSnack}
-                  dispatch={dispatch}
-                />
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
-    </>
-  );
+						<Button
+							style={{ backgroundColor: "#fff" }}
+							className={classes.shuffle}
+							onClick={handleShuffleButton}
+						>
+							<Tooltip title="Shuffle Cities">
+								<ShuffleIcon />
+							</Tooltip>
+						</Button>
+					</>
+				)}
+				<Grid
+					container
+					spacing={3}
+					justify="center"
+					className={classes.gridContainer}
+				>
+					{places.map((place) => (
+						<Grid
+							item
+							key={place.name}
+							xs={12}
+							sm={smSpacing}
+							md={mdSpacing}
+							style={{ cursor: "pointer" }}
+						>
+							<Box
+								className={classes.paperContainer}
+								onClick={() => handleToSearchPage(place.name)}
+								style={{
+									backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
+								}}
+							>
+								<Box
+									component="span"
+									className={classes.bottomInformationContainer}
+								>
+									<Box
+										component="span"
+										className={classes.bottomInformationSubContainer1}
+									>
+										<Box component="span" className={classes.legend1}>
+											{place.name},
+										</Box>
+										<Box component="span" className={classes.legend2}>
+											{place.country}
+										</Box>
+									</Box>
+								</Box>
+							</Box>
+							<Box className={classes.bottomInformationSubContainer2}>
+								<FavoriteCheckBox
+									place={place}
+									userId={userId}
+									handleFavoriteChange={handleFavoriteChange}
+									openSnack={openSnack}
+									dispatch={dispatch}
+								/>
+							</Box>
+						</Grid>
+					))}
+				</Grid>
+			</Container>
+		</div>
+	);
 };
 
 export default Explore;
