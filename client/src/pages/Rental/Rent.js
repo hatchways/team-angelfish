@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
@@ -12,8 +12,9 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import classNames from 'classnames';
+import classNames from "classnames";
 
+import AddCartButton from "../../components/Cart/AddToCartButton";
 //Mock Data
 
 const CarList = [
@@ -149,7 +150,7 @@ const Rent = () => {
         container
         className={classNames(
           classes.filterContainer,
-          classes.filterContainer1
+          classes.filterContainer1,
         )}
       >
         <Grid item>
@@ -163,7 +164,12 @@ const Rent = () => {
           <Grid item className={classNames(classes.filter0, classes.filter01)}>
             <FormControlLabel
               control={
-                <Switch onChange={handleChange} color="primary" checked={checkState} name="checkedA" />
+                <Switch
+                  onChange={handleChange}
+                  color="primary"
+                  checked={checkState}
+                  name="checkedA"
+                />
               }
               label={
                 <Typography className={classes.switchFilterText}>
@@ -245,10 +251,7 @@ const Rent = () => {
                 <Box className={classes.bottomInformationContainer}>
                   <span className={classes.legend1}>{car.name}</span>
                   <span
-                    className={classNames(
-                      classes.subLegend1,
-                      classes.comment
-                    )}
+                    className={classNames(classes.subLegend1, classes.comment)}
                   >
                     {car.comment}
                   </span>
@@ -260,10 +263,22 @@ const Rent = () => {
               <Box className={classes.bottomInformationContainer}>
                 <Box component="span" className={classes.legend1}>
                   ${car.price}
-                  <Box component="span" className={classes.subLegend1}>/per day</Box>
+                  <Box component="span" className={classes.subLegend1}>
+                    /per day
+                  </Box>
                 </Box>
-                <Box component="span" className={classes.legend2}>${car.total} Total</Box>
+                <Box component="span" className={classes.legend2}>
+                  ${car.total} Total
+                </Box>
               </Box>
+              <AddCartButton
+                title="Select Car"
+                variant="contained"
+                color="primary"
+                size="large"
+                purchaseType="rentalCar"
+                car={car}
+              />
             </Paper>
           </Grid>
         ))}

@@ -1,5 +1,4 @@
 /** @format */
-
 import React, { useState } from "react";
 import useStyles from "./ProfileStyle";
 import { NavLink, useRouteMatch, Switch, Route } from "react-router-dom";

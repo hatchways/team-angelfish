@@ -3,13 +3,13 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const flightsSchema = new Schema({
-  departureDate: { type: Date, required: true },
+  departureDate: { type: Date },
   // In case its not a round-trip required is set to false
   returnDate: { type: Date },
-  departureLocation: { type: String, required: true },
-  destinationLocation: { type: String, required: true },
-  carrier: { type: String, require: true },
-  price: { type: Number, required: true },
+  departureLocation: { type: String },
+  destinationLocation: { type: String },
+  carrier: { type: String },
+  price: { type: Number },
 });
 
 const Flights = mongoose.model("Flights", flightsSchema);

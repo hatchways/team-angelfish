@@ -34,6 +34,7 @@ const CartRentalCarContainer = () => {
             price,
             taxes,
             rating,
+            img,
           } = car;
           return (
             <CartRentalCarDetails
@@ -47,6 +48,7 @@ const CartRentalCarContainer = () => {
               price={price}
               taxes={taxes}
               rating={rating}
+              img={img}
             />
           );
         })}
