@@ -82,7 +82,7 @@ const CartRentalCarContainer = () => {
           className={classes.removBtn}
           onClick={removeFromCart}
         >
-          Remove Hotel
+          Remove Car
         </Button>
       </Grid>
     </Grid>
