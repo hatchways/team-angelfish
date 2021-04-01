@@ -18,6 +18,7 @@ import PageLoading from "../AuthWrapper";
 import { useStateContext, useDispatchContext } from "../../context";
 import { getUpdatedList } from "./utils";
 import { Link, useHistory } from "react-router-dom";
+import Scroll from "../../components/Scroll";
 
 function FavoriteCheckBox({
   place,
@@ -180,7 +181,8 @@ const Explore = () => {
   }
 
   return (
-    <>
+    <div>
+      <Scroll />
       <Container className={classes.pageContainer}>
         {pathName === "/profile/favoritedestinations" ? (
           <Grid container justify="space-between">
@@ -272,7 +274,7 @@ const Explore = () => {
           ))}
         </Grid>
       </Container>
-    </>
+    </div>
   );
 };
 

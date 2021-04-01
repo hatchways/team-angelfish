@@ -1,5 +1,5 @@
 /** @format */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useStyles } from "./ProfileStyle";
 import {
   NavLink,
@@ -20,34 +20,30 @@ import {
   Badge,
   Grid,
   ButtonBase,
+  Divider,
 } from "@material-ui/core";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import { useDispatchContext } from "../../context/context";
+import { useDispatchContext, useStateContext } from "../../context/context";
 import { useSnackbar } from "notistack";
 import FileUploaderDialog from "../../components/Uploader/FileUploaderDialog";
 
 function Profile() {
   const { path } = useRouteMatch();
   const history = useHistory();
+  const { user, loading } = useStateContext();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatchContext();
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
   const classes = useStyles();
-  const mockUser = {
-    avatar:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdX7wWCMOvGYD6_4-MthVKf-DjjgLF_GqQzg&usqp=CAU",
-    name: "Devin Jones",
-    email: "DevinJones@gmail.com",
-  };
   const menuItems = [
     { name: "Favorite Destinations", link: "favoritedestinations" },
     { name: "Notifications", link: "notifications" },
     { name: "Account Settings", link: "accountsettings" },
     { name: "My Trips", link: "trips" },
   ];
-  const [avatarImage, setAvatarImage] = useState(mockUser.avatar);
+  const [avatarImage, setAvatarImage] = useState();
   const handleLogout = async () => {
     try {
       await fetch(`api/users/logout`);
@@ -59,7 +55,7 @@ function Profile() {
   };
   const handleClickOpen = () => {
     setSelectedFile(null);
-    setLoading(false);
+    setUploadLoading(false);
     setOpen(true);
   };
   const openSnack = (errorMessage) => {
@@ -73,11 +69,11 @@ function Profile() {
     });
   };
   const handleSubmission = async () => {
-    setLoading(true);
     const formData = new FormData();
     formData.append("file", selectedFile);
 
     try {
+      setUploadLoading(true);
       const uploadResponse = await (
         await fetch("/api/file-upload", {
           method: "POST",
@@ -87,12 +83,16 @@ function Profile() {
       openSnack(!uploadResponse.imageUrl ? "Upload failed!" : null);
       if (uploadResponse.imageUrl) {
         setAvatarImage(uploadResponse.imageUrl);
+        dispatch({
+          type: "USER_INFORMATION_UPDATED",
+          payload: { user: { ...user, pictureUrl: uploadResponse.imageUrl } },
+        });
         setOpen(false);
       }
-      setLoading(false);
+      setUploadLoading(false);
       setSelectedFile(null);
     } catch (error) {
-      setLoading(false);
+      setUploadLoading(false);
       openSnack(error.message);
     }
   };
@@ -103,12 +103,19 @@ function Profile() {
     files[0].preview = URL.createObjectURL(files[0]);
     setSelectedFile(files[0]);
   };
+
+  useEffect(() => {
+    if (!loading) {
+      setAvatarImage(user.pictureUrl);
+    }
+  }, [loading]);
+
   return (
     <Grid container className={classes.root}>
       <FileUploaderDialog
         file={selectedFile}
         open={open}
-        loading={loading}
+        loading={uploadLoading}
         close={handleClose}
         submit={handleSubmission}
         handleDrop={handleDrop}
@@ -147,17 +154,11 @@ function Profile() {
               />
             </Badge>
             <Typography variant="h6" className={classes.avatarInfo}>
-              {mockUser.name}
+              {user.name}
             </Typography>
-            <Typography className={classes.avatarInfo}>
-              {mockUser.email}
-            </Typography>
+            <Typography className={classes.avatarInfo}>{user.email}</Typography>
           </Grid>
-          <Grid item>
-            <Button className={classes.editBtn} variant="outlined">
-              Edit
-            </Button>
-          </Grid>
+          <Divider light={true} />
           <Grid item>
             <ul className={classes.linksContainer}>
               {menuItems.map((item) => (
@@ -172,7 +173,11 @@ function Profile() {
             </ul>
           </Grid>
           <Grid item>
-            <Button className={classes.logoutBtn} onClick={handleLogout}>
+            <Button
+              className={classes.logoutBtn}
+              onClick={handleLogout}
+              variant="outlined"
+            >
               Log out
             </Button>
           </Grid>
