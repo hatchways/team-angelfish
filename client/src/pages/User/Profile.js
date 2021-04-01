@@ -4,7 +4,7 @@ import useStyles from "./ProfileStyle";
 import { NavLink, useRouteMatch, Switch, Route } from "react-router-dom";
 import Notifications from "../Notifications";
 import FavoriteDestination from "../FavoriteDestinantions";
-import AccountSettings from "../AccountSettings";
+import AccountSettings from "./AccountSettings";
 import {
   Avatar,
   Drawer,
