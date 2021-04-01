@@ -1,46 +1,46 @@
 /** @format */
 
-import React, { useReducer, useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
-	Box,
-	Container,
-	Grid,
-	Typography,
-	TextField,
-	Button,
-	IconButton,
+  Box,
+  Container,
+  Grid,
+  Typography,
+  TextField,
+  Button,
+  IconButton,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import { useStyles } from "../styles/Signup_in";
 import { useDispatchContext } from "../context";
 
-const SigninContainer = ({ dash, signup, close }) => {
+const SigninContainer = ({ signup, close }) => {
 	const classes = useStyles();
 
-	const dispatch = useDispatchContext();
+  const dispatch = useDispatchContext();
 
-	const [email, setEmail] = useState("");
-	const [pwd, setPwd] = useState("");
-	const [emailClientError, setEmailClientError] = useState(false);
-	const [emailServerError, setEmailServerError] = useState(false);
-	const [pwdClientError, setPwdClientError] = useState(false);
-	const [pwdServerError, setPwdServerError] = useState(false);
+  const [email, setEmail] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [emailClientError, setEmailClientError] = useState(false);
+  const [emailServerError, setEmailServerError] = useState(false);
+  const [pwdClientError, setPwdClientError] = useState(false);
+  const [pwdServerError, setPwdServerError] = useState(false);
 
-	const handleEmail = (event) => {
-		setEmail(event.target.value);
-		setEmailClientError(false);
-		setEmailServerError(false);
-	};
-	const handlePwd = (event) => {
-		setPwd(event.target.value);
-		setPwdClientError(false);
-		setPwdServerError(false);
-	};
+  const handleEmail = (event) => {
+    setEmail(event.target.value);
+    setEmailClientError(false);
+    setEmailServerError(false);
+  };
+  const handlePwd = (event) => {
+    setPwd(event.target.value);
+    setPwdClientError(false);
+    setPwdServerError(false);
+  };
 
-	const checkEmail = () => {
-		const emailPattern = new RegExp(`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$`);
-		return emailPattern.test(email);
-	};
+  const checkEmail = () => {
+    const emailPattern = new RegExp(`[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$`);
+    return emailPattern.test(email);
+  };
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -59,9 +59,7 @@ const SigninContainer = ({ dash, signup, close }) => {
 				});
 				const loginData = await loginResponse.json();
 				if (loginData.status === "success") {
-					// need to close modal
 					dispatch({ type: "AUTHENTICATED", payload: loginData.data });
-					dash(); // redirect to explore page
 				} else if ("password" in loginData) {
 					setPwdServerError(true);
 				} else if ("email" in loginData) {

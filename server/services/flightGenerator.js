@@ -7,12 +7,6 @@ const randomMinMax = (min, max) => {
 const randomInt = (num) => {
 	return Math.floor(Math.random() * num);
 };
-// format flight dates
-const formattedDate = (date) => {
-	const resetDate = new Date(`${date}T00:00`);
-	const pattern = (option) => fns.format(resetDate, option);
-	return `${pattern("EEE")}, ${pattern("LLL")} ${pattern("d")}`;
-};
 // list of layovers
 const layovers = [
 	"Queens (JFK)",
@@ -57,12 +51,16 @@ const indirectTime = () => {
 		hours: randomMinMax(0, 3),
 		minutes: randomMinMax(40, 60),
 	};
+	const departureTimeFromStop = fns.add(stopArrivalTime, {
+		hours: layoverDuration.hours,
+		minutes: layoverDuration.minutes,
+	});
 	const destinationArrivalTime = fns.add(stopArrivalTime, {
 		hours: randomMinMax(layoverDuration.hours + 1, layoverDuration.hours + 3),
 		minutes: randomMinMax(35, 60),
 	});
 	const travelTimeFromStop = fns.intervalToDuration({
-		start: stopArrivalTime,
+		start: departureTimeFromStop,
 		end: destinationArrivalTime,
 	});
 	const totalDuration = fns.intervalToDuration({
@@ -79,6 +77,7 @@ const indirectTime = () => {
 				City: layovers[randomInt(layovers.length)],
 				Duration: `${layoverDuration.hours} hr ${layoverDuration.minutes} min`,
 				ArrivalTime: fns.format(stopArrivalTime, "p"),
+				DepartureTime: fns.format(departureTimeFromStop, "p"),
 				TravelTimeFromStop: `${travelTimeFromStop.hours} hr ${travelTimeFromStop.minutes} min`,
 			},
 		],
@@ -96,13 +95,13 @@ const mockData = ({ from, to, departure, returning }) => {
 					Direct: false,
 					OutboundLeg: {
 						CarrierId: randomCarrier(),
-						DepartureDate: formattedDate(departure),
+						DepartureDate: departure,
 						...indirectTime(),
 					},
 					...(returning && {
 						InboundLeg: {
 							CarrierId: randomCarrier(),
-							ReturnDate: formattedDate(returning),
+							ReturnDate: returning,
 							...indirectTime(),
 						},
 					}),
@@ -113,13 +112,13 @@ const mockData = ({ from, to, departure, returning }) => {
 					Direct: true,
 					OutboundLeg: {
 						CarrierId: randomCarrier(),
-						DepartureDate: formattedDate(departure),
+						DepartureDate: departure,
 						...directTime(),
 					},
 					...(returning && {
 						InboundLeg: {
 							CarrierId: randomCarrier(),
-							ReturnDate: formattedDate(returning),
+							ReturnDate: returning,
 							...directTime(),
 						},
 					}),

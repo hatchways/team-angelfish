@@ -6,7 +6,7 @@ export default makeStyles((theme) => ({
     flexDirection: "column",
     marginTop: 20,
     paddingTop: 0,
-    paddingLeft: 20
+    paddingLeft: 20,
   },
   paperContainer: {
     height: 300,
@@ -71,16 +71,20 @@ export default makeStyles((theme) => ({
   legend1: {
     fontSize: 15,
     color: "black",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   legend2: {
     fontSize: 11,
     color: "black",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   filterContainer: {
     display: "flex",
     justifyContent: "space-between",
+    [theme.breakpoints.down("xs")]: {
+      flexWrap: "wrap",
+      justifyContent: "center",
+    },
   },
   filterContainer1: {
     marginTop: 30,
@@ -92,6 +96,9 @@ export default makeStyles((theme) => ({
     padding: "10px 0px 10px 10px",
     width: 200,
     height: 35,
+    [theme.breakpoints.down("xs")]: {
+      borderRadius: "7px 7px 7px 7px",
+    },
   },
   textFieldContainer1: {
     border: "1px solid #cdcaca",
@@ -100,6 +107,10 @@ export default makeStyles((theme) => ({
     borderLeft: "none",
     width: 200,
     height: 35,
+    [theme.breakpoints.down("xs")]: {
+      border: "1px solid #cdcaca",
+      borderRadius: "7px 7px 7px 7px",
+    },
   },
   disabled: {
     color: "black",
@@ -126,17 +137,17 @@ export default makeStyles((theme) => ({
   },
   countResult: {
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
-  switchFilterText:{
-    color: "#4d4d4d"
+  switchFilterText: {
+    color: "#4d4d4d",
   },
-  subLegend1:{
+  subLegend1: {
     color: "grey",
     fontSize: 10,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
-  comment:{
-    fontSize: 11
-  }
+  comment: {
+    fontSize: 11,
+  },
 }));
