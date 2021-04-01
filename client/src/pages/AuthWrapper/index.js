@@ -17,23 +17,12 @@ const useStyles = makeStyles({
 const AuthWrapper = ({ children }) => {
   const classes = useStyles();
   const { loading } = useStateContext();
-  const dispatch = useDispatchContext();
 
-  useEffect(() => {
-    if (loading) {
-      setTimeout(() => {
-        dispatch({ type: "FINISH_LOADING" });
-      }, 2000);
-    }
-  }, [loading]);
-
-  if (loading) {
-    return (
-      <Grid className={classes.container}>
-        <img src={loadingGif} alt="spinner" />
-      </Grid>
-    );
-  }
+  return (
+    <Grid className={classes.container}>
+      <img src={loadingGif} alt="spinner" />
+    </Grid>
+  );
   return <>{children}</>;
 };
 export default AuthWrapper;

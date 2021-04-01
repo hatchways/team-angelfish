@@ -11,15 +11,26 @@ import useStyles from "../styles/Flights";
 import FlightResults from "../components/FlightResults";
 import Scroll from "../components/Scroll";
 
+import PageLoading from "../pages/AuthWrapper";
+
 function Flights() {
   const classes = useStyles();
+  const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [data, setData] = useState();
 
   const handleResults = (childData) => {
-    setData(childData);
-    setShowResults(true);
+    setLoading(true);
+    setTimeout(() => {
+      setData(childData);
+      setShowResults(true);
+      setLoading(false);
+    }, 2000);
   };
+
+  if (loading) {
+    return <PageLoading />;
+  }
 
   return (
     <>

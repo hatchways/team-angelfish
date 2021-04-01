@@ -9,14 +9,15 @@ import { CustomSmallerCheckBox } from "../../themes/theme";
 import Tooltip from "@material-ui/core/Tooltip";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
 import Zoom from "@material-ui/core/Zoom";
+import { Box } from "@material-ui/core";
 
 import { useSnackbar } from "notistack";
 import useStyles from "../../styles/Explore";
+import PageLoading from "../AuthWrapper";
 
 import { useStateContext, useDispatchContext } from "../../context";
 import { getUpdatedList } from "./utils";
 import { Link, useHistory } from "react-router-dom";
-import { Box } from "@material-ui/core";
 
 function FavoriteCheckBox({
   place,
@@ -69,6 +70,7 @@ const Explore = () => {
   const [places, setPlaces] = useState([]);
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatchContext();
+  const [loadingScreen, setLoading] = useState(false);
 
   const handleShuffleButton = async () => {
     const returnedArray = await getUpdatedList(places, favorites);
@@ -97,10 +99,14 @@ const Explore = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     async function getData() {
       try {
         if (loading) {
-          return null;
+          return;
         } else {
           let favoriteList = [];
           if (userId) {
@@ -168,6 +174,11 @@ const Explore = () => {
   const pathName = window.location.pathname;
   const smSpacing = pathName === "/profile/favoritedestinations" ? 6 : 3;
   const mdSpacing = pathName === "/profile/favoritedestinations" ? 4 : 3;
+
+  if (loadingScreen) {
+    return <PageLoading />;
+  }
+
   return (
     <>
       <Container className={classes.pageContainer}>
