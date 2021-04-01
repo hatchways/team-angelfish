@@ -69,7 +69,7 @@ const AddToCartButton = ({
         arrival: {
           id: InboundLeg.CarrierId,
           type: "Inbound",
-          price: quote.MinPrice,
+          // price: quote.MinPrice,
           taxes: 1000,
           date: InboundLeg.ReturnDate,
           departureTime: InboundLeg.DepartureTime,
@@ -141,6 +141,7 @@ const AddToCartButton = ({
 
     if (purchaseType === "rentalCar") {
       const { name, price, url } = car;
+      console.log(price);
       const rentalCarData = {
         id: nanoid(),
         arrival: "03/20/21",

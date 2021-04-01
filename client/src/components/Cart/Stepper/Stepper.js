@@ -51,7 +51,7 @@ const StepperComponent = ({ closeCart, activeStep, setActiveStep, steps }) => {
           <>
             <Typography>
               Would you like to choose a{" "}
-              <Link className={classes.route} onClick={closeCart} to="/hotels">
+              <Link className={classes.route} onClick={closeCart} to="/hotel">
                 hotel
               </Link>
               ?
@@ -65,7 +65,7 @@ const StepperComponent = ({ closeCart, activeStep, setActiveStep, steps }) => {
           <>
             <Typography>
               Would you like to choose a{" "}
-              <Link className={classes.route} onClick={closeCart} to="/rent">
+              <Link className={classes.route} onClick={closeCart} to="/cars">
                 rental car
               </Link>
               ?

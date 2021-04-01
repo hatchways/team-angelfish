@@ -5,7 +5,7 @@ const getFlightObj = (flights) => {
       total +
       item.departure.price +
       item.departure.taxes +
-      item.arrival.price +
+      // item.arrival.price +
       item.arrival.taxes
     );
   }, 0);
