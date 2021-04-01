@@ -1,5 +1,4 @@
 /** @format */
-
 import React, { useState } from "react";
 import { useStyles } from "./ProfileStyle";
 import { NavLink, useRouteMatch, Switch, Route } from "react-router-dom";
@@ -8,13 +7,15 @@ import FavoriteDestination from "../FavoriteDestinantions";
 import AccountSettings from "./AccountSettings";
 import Itinerary from "../Itinerary";
 import {
-	Avatar,
-	Drawer,
-	Typography,
-	Button,
-	Grid,
-	ButtonBase,
+  Avatar,
+  Drawer,
+  Typography,
+  Button,
+  Badge,
+  Grid,
+  ButtonBase,
 } from "@material-ui/core";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useDispatchContext } from "../../context/context";
 import { useSnackbar } from "notistack";
 import FileUploaderDialog from "../../components/Uploader/FileUploaderDialog";
@@ -45,7 +46,7 @@ function Profile() {
 			await fetch(`api/users/logout`);
 			dispatch({ type: "LOG_OUT" });
 		} catch (err) {
-			console.log(err);
+			console.error();
 		}
 	};
 	const handleClickOpen = () => {
@@ -120,12 +121,24 @@ function Profile() {
 					}}
 				>
 					<Grid item className={classes.profilePosition}>
-						<Avatar
-							component={ButtonBase}
-							src={avatarImage}
-							className={classes.avatar}
-							onClick={handleClickOpen}
-						/>
+          <Badge
+			style={{  color: "#FFA000"}}
+              component={ButtonBase}
+              onClick={handleClickOpen}
+              overlap="circle"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              badgeContent={<AddCircleIcon />}
+            >
+              <Avatar
+                component={ButtonBase}
+                src={avatarImage}
+                className={classes.avatar}
+                onClick={handleClickOpen}
+              />
+            </Badge>
 						<Typography variant="h6" className={classes.avatarInfo}>
 							{mockUser.name}
 						</Typography>
