@@ -6,16 +6,18 @@ export default makeStyles((theme) => ({
 	rootWithoutResults: {
 		height: "92%",
 		backgroundColor: "#ededed",
-		flexGrow: 1,
+		[theme.breakpoints.down("xs")]: {
+			paddingLeft: "4em",
+		},
 	},
 	rootWithResults: {
-		height: "69%",
-		backgroundColor: "#ededed",
-		flexGrow: 1,
-		marginBottom: "6em",
+		height: "80%",
+		[theme.breakpoints.down("xs")]: {
+			paddingLeft: "4em",
+		},
 	},
 	containerWithoutResults: {
-		height: "75%",
+		height: "74%",
 		"& div:first-child": {
 			height: "100%",
 			backgroundColor: "#fff",
@@ -23,7 +25,6 @@ export default makeStyles((theme) => ({
 			paddingTop: "10%",
 			textAlign: "center",
 		},
-		"& div:first-child p": {},
 		"& div:last-child": {
 			height: "100%",
 			flexBasis: "58.33%",
@@ -35,11 +36,10 @@ export default makeStyles((theme) => ({
 		},
 	},
 	containerWithResults: {
-		height: "100%",
+		height: "85%",
 		"& div:first-child": {
 			display: "none",
 		},
-		"& div:first-child p": {},
 		"& div:last-child": {
 			flexBasis: "100%",
 			maxWidth: "100%",
@@ -48,23 +48,53 @@ export default makeStyles((theme) => ({
 		},
 		"& div:last-child > img": {
 			height: "100%",
+		}
+	},
+	titleContainer: {
+		height: "100%",
+		backgroundColor: "#fff",
+		[theme.breakpoints.up("sm")]: {
+			paddingTop: "100px",
 		},
 	},
 	header: {
-		padding: "10px",
-		fontSize: "3.5rem",
-		"@media (max-width:1100px)": {
-			fontSize: "2.8rem",
-			paddingTop: "100px",
+		padding: "0.65em",
+		fontSize: "1.75rem",
+		[theme.breakpoints.up("sm")]: {
+			fontSize: "2.5rem",
 		},
-		"@media (max-width:600px)": {
-			fontSize: "2rem",
-			paddingTop: "100px",
+		[theme.breakpoints.up("md")]: {
+			fontSize: "3rem",
+		},
+		[theme.breakpoints.up("lg")]: {
+			fontSize: "3.5rem",
 		},
 	},
-	searchDiv: {
+	heroContainer: {
+		height: "100%",
+	},
+	heroImg: {
+		height: "100%",
+		objectFit: "cover",
 		width: "100%",
+	},
+	searchDiv: {
 		position: "absolute",
-		bottom: "20%",
+		[theme.breakpoints.up("xs")]: {
+			width: "88.3%",
+			top: "60%",
+		},
+		[theme.breakpoints.up("sm")]: {
+			width: "90%",
+			top: "64%",
+			left: "50%",
+			transform: "translateX(-50%)",
+		},
+		[theme.breakpoints.up("md")]: {
+			top: "68.5%",
+		},
+		[theme.breakpoints.up("lg")]: {
+			width: "85%",
+		},
 	},
 }));

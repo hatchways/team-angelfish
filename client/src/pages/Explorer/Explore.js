@@ -8,6 +8,8 @@ import Favorite from "@material-ui/icons/Favorite";
 import { CustomSmallerCheckBox } from "../../themes/theme";
 import Tooltip from "@material-ui/core/Tooltip";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
+import Zoom from "@material-ui/core/Zoom";
+
 import { useSnackbar } from "notistack";
 import useStyles from "../../styles/Explore";
 
@@ -47,7 +49,11 @@ function FavoriteCheckBox({
           }
         }}
         icon={<Favorite className={classes.favoriteDefaultIcon} />}
-        checkedIcon={<Favorite className={classes.favoriteCheckedIcon} />}
+        checkedIcon={
+          <Zoom in={checked}>
+            <Favorite className={classes.favoriteCheckedIcon} />
+          </Zoom>
+        }
         classes={{ root: classes.customCheckBoxRoot }}
       />
     </>
@@ -61,7 +67,6 @@ const Explore = () => {
   const classes = useStyles();
   const [favorites, setFavorites] = useState([]);
   const [places, setPlaces] = useState([]);
-  const [snack, setSnack] = useState({ type: "", message: "", open: false });
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatchContext();
 
@@ -75,12 +80,6 @@ const Explore = () => {
       favList.includes(city.name),
     );
     setPlaces(filteredFavList);
-  };
-
-  const closeSnack = () => {
-    setSnack((prevState) => {
-      return { ...prevState, open: false };
-    });
   };
 
   const openSnack = () => {
@@ -140,7 +139,7 @@ const Explore = () => {
       }
     }
     getData();
-  }, [loading, user]);
+  }, [loading, user, userId]);
 
   function handleFavoriteChange(checked, name) {
     const userFavoritePlaces = [...favorites];

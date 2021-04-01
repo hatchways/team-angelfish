@@ -1,25 +1,34 @@
 /** @format */
-
 import React, { useState } from "react";
 import { useStyles } from "./ProfileStyle";
-import { NavLink, useRouteMatch, Switch, Route } from "react-router-dom";
+import {
+  NavLink,
+  useRouteMatch,
+  Switch,
+  Route,
+  useHistory,
+} from "react-router-dom";
 import Notifications from "../Notifications";
 import FavoriteDestination from "../FavoriteDestinantions";
 import AccountSettings from "./AccountSettings";
+import Itinerary from "../Itinerary";
 import {
   Avatar,
   Drawer,
   Typography,
   Button,
+  Badge,
   Grid,
   ButtonBase,
 } from "@material-ui/core";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useDispatchContext } from "../../context/context";
 import { useSnackbar } from "notistack";
 import FileUploaderDialog from "../../components/Uploader/FileUploaderDialog";
 
 function Profile() {
   const { path } = useRouteMatch();
+  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatchContext();
   const [open, setOpen] = useState(false);
@@ -32,13 +41,20 @@ function Profile() {
     name: "Devin Jones",
     email: "DevinJones@gmail.com",
   };
+  const menuItems = [
+    { name: "Favorite Destinations", link: "favoritedestinations" },
+    { name: "Notifications", link: "notifications" },
+    { name: "Account Settings", link: "accountsettings" },
+    { name: "My Trips", link: "trips" },
+  ];
   const [avatarImage, setAvatarImage] = useState(mockUser.avatar);
   const handleLogout = async () => {
     try {
       await fetch(`api/users/logout`);
       dispatch({ type: "LOG_OUT" });
+      history.push("/");
     } catch (err) {
-      console.log(err);
+      console.error();
     }
   };
   const handleClickOpen = () => {
@@ -88,7 +104,7 @@ function Profile() {
     setSelectedFile(files[0]);
   };
   return (
-    <Grid className={classes.root}>
+    <Grid container className={classes.root}>
       <FileUploaderDialog
         file={selectedFile}
         open={open}
@@ -97,61 +113,72 @@ function Profile() {
         submit={handleSubmission}
         handleDrop={handleDrop}
       />
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}
+      <Grid
+        item
+        container
+        xs={false}
+        sm={4}
+        lg={3}
+        className={classes.profileContainer}
       >
-        <Grid className={classes.profilePosition}>
-          <Avatar
-            component={ButtonBase}
-            src={avatarImage}
-            className={classes.avatar}
-            onClick={handleClickOpen}
-          />
-          <Typography variant="h6">{mockUser.name}</Typography>
-          <Typography className={classes.email}>{mockUser.email}</Typography>
-
-          <Grid className={classes.editBtnContainer}>
+        <Drawer
+          variant="permanent"
+          classes={{
+            root: classes.drawerRoot,
+            paper: classes.drawerPaper,
+          }}
+        >
+          <Grid item className={classes.profilePosition}>
+            <Badge
+              style={{ color: "#FFA000" }}
+              component={ButtonBase}
+              onClick={handleClickOpen}
+              overlap="circle"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              badgeContent={<AddCircleIcon />}
+            >
+              <Avatar
+                src={avatarImage}
+                className={classes.avatar}
+                onClick={handleClickOpen}
+              />
+            </Badge>
+            <Typography variant="h6" className={classes.avatarInfo}>
+              {mockUser.name}
+            </Typography>
+            <Typography className={`${classes.avatarInfo} ${classes.email}`}>
+              {mockUser.email}
+            </Typography>
+          </Grid>
+          <Grid item>
             <Button className={classes.editBtn} variant="outlined">
               Edit
             </Button>
           </Grid>
-        </Grid>
-        <Grid className={classes.drawerContainer}>
-          <ul>
-            <NavLink
-              activeStyle={{ color: "black", borderLeft: "3px solid #FFA000" }}
-              className={classes.profileLinks}
-              to="/profile/favoritedestinations"
-            >
-              <li>Favorite Destinations</li>
-            </NavLink>
-            <NavLink
-              activeStyle={{ color: "black", borderLeft: "3px solid #FFA000" }}
-              className={classes.profileLinks}
-              to="/profile/notifications"
-            >
-              <li>Notifications</li>
-            </NavLink>
-            <NavLink
-              activeStyle={{ color: "black", borderLeft: "3px solid #FFA000" }}
-              className={classes.profileLinks}
-              to="/profile/accountsettings"
-            >
-              <li>Account Settings</li>
-            </NavLink>
-          </ul>
-        </Grid>
-        <Grid className={classes.logoutBtn}>
-          <Button className={classes.logoutMainBtn} onClick={handleLogout}>
-            Logout
-          </Button>
-        </Grid>
-      </Drawer>
-      <Grid className={classes.content}>
+          <Grid item>
+            <ul className={classes.linksContainer}>
+              {menuItems.map((item) => (
+                <NavLink
+                  key={item.name}
+                  className={classes.profileLinks}
+                  to={`/profile/${item.link}`}
+                >
+                  <li>{item.name}</li>
+                </NavLink>
+              ))}
+            </ul>
+          </Grid>
+          <Grid item>
+            <Button className={classes.logoutBtn} onClick={handleLogout}>
+              Log out
+            </Button>
+          </Grid>
+        </Drawer>
+      </Grid>
+      <Grid item xs={12} sm={8} lg={9} className={classes.tripContainer}>
         <Switch>
           <Route
             path={`${path}/favoritedestinations`}
@@ -159,6 +186,7 @@ function Profile() {
           />
           <Route path={`${path}/notifications`} component={Notifications} />
           <Route path={`${path}/accountsettings`} component={AccountSettings} />
+          <Route path={`${path}/trips`} component={Itinerary} />
         </Switch>
       </Grid>
     </Grid>

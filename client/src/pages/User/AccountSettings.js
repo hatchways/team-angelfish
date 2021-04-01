@@ -11,7 +11,6 @@ const useStyles = makeStyles(() => ({
   root: {
     padding: 40,
     paddingTop: 60,
-    paddingLeft: 400,
     display: "flex",
     alignItems: "center",
   },
@@ -41,7 +40,7 @@ function AccountSettings() {
         setUpdated(false);
       }, 3000);
     }
-  }, [loading, updated]);
+  }, [loading, updated, user]);
 
   const handleHometown = async (_, value, reason) => {
     if (value === "") return;

@@ -88,7 +88,6 @@ const Rent = () => {
         <Box className={classes.filterContainer}>
           <Box className={classes.textFieldContainer0}>
             <TextField
-              id="standard-read-only-input"
               label="Pick-up"
               defaultValue="Paris CDG Airport"
               disabled
@@ -102,7 +101,6 @@ const Rent = () => {
           </Box>
           <Box className={classes.textFieldContainer1}>
             <TextField
-              id="standard-read-only-input"
               label="Return"
               defaultValue="Paris City Center"
               disabled
@@ -118,7 +116,6 @@ const Rent = () => {
         <Box className={classes.filterContainer}>
           <Box className={classes.textFieldContainer0}>
             <TextField
-              id="standard-read-only-input"
               label="Pick-up Date"
               defaultValue="Thu, Jan 1 10:00AM"
               disabled
@@ -132,7 +129,6 @@ const Rent = () => {
           </Box>
           <Box className={classes.textFieldContainer1}>
             <TextField
-              id="standard-read-only-input"
               label="Return Date"
               defaultValue="Thu, Jan 3 10:00 PM"
               disabled
@@ -187,6 +183,7 @@ const Rent = () => {
                 id="vehicleTypeSelect"
                 label="vehicleType"
                 className={classes.select}
+                defaultValue=""
               >
                 <MenuItem value={0}>
                   <em>None</em>
@@ -200,12 +197,7 @@ const Rent = () => {
           <Grid item className={classes.filter0}>
             <FormControl variant="outlined" className={classes.formControl}>
               <InputLabel id="driverFilter">Driver</InputLabel>
-              <Select
-                labelId="demo-simple-select-outlined-label"
-                id="demo-simple-select-outlined"
-                label="Age"
-                className={classes.select}
-              >
+              <Select label="Age" className={classes.select} defaultValue="">
                 <MenuItem value={0}>
                   <em>None</em>
                 </MenuItem>
@@ -220,14 +212,12 @@ const Rent = () => {
             className={classNames(classes.filter0, classes.filter0Last)}
           >
             <FormControl variant="outlined" className={classes.formControl}>
-              <InputLabel id="demo-simple-select-outlined-label">
-                Price
-              </InputLabel>
+              <InputLabel>Price</InputLabel>
               <Select
                 labelId="price"
-                id="demo-simple-select-outlined"
                 label="Age"
                 className={classes.select}
+                defaultValue=""
               >
                 <MenuItem value={0}>
                   <em>None</em>

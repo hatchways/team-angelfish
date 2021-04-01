@@ -5,6 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 export const useStyles = makeStyles((theme) => ({
   contain: {
     padding: 0,
+    [theme.breakpoints.down("xs")]:{
+      width: "75%"
+    }
   },
   modalBody: {
     width: "70%",
