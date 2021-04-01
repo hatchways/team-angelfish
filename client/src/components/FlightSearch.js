@@ -153,7 +153,6 @@ const FlightSearch = ({ submit }) => {
 							freeSolo
 							id="from"
 							name="from"
-							value={from}
 							options={fromCities.map((option) => option.PlaceName)}
 							onChange={(_, value) => setFrom(value)}
 							onInputChange={debounce(
@@ -181,7 +180,6 @@ const FlightSearch = ({ submit }) => {
 							freeSolo
 							id="to"
 							name="to"
-							value={to}
 							options={toCities.map((option) => option.PlaceName)}
 							onChange={(_, value) => setTo(value)}
 							onInputChange={debounce(
