@@ -84,7 +84,7 @@ const Rent = () => {
   };
   return (
     <Container className={classes.pageContainer}>
-      <Grid container className={classes.filterContainer}>
+      <Grid className={classes.filterContainer}>
         <Box className={classes.filterContainer}>
           <Box className={classes.textFieldContainer0}>
             <TextField
@@ -245,7 +245,7 @@ const Rent = () => {
         className={classes.gridContainer}
       >
         {CarList.map((car) => (
-          <Grid item key={car.name} xs={12} sm={3}>
+          <Grid item key={car.name} xs={12} sm={3} md={3}>
             <Paper elevation={3} className={classes.paperContainer}>
               <Box className={classes.headerInformation}>
                 <Box className={classes.bottomInformationContainer}>
