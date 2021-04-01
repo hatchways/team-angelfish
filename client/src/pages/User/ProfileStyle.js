@@ -37,11 +37,11 @@ export const useStyles = makeStyles((theme) => ({
 	},
 	avatarInfo: {
 		marginTop: "0.8em",
-		fontSize: "1.2em",
+		fontSize: "1.3em",
 		fontWeight: "bolder",
 		"&:last-child": {
 			color: "#c5bec4",
-			fontSize: "0.8em",
+			fontSize: "0.95em",
 			letterSpacing: ".03em",
 			margin: "0 0 2.3em",
 		},
@@ -49,21 +49,20 @@ export const useStyles = makeStyles((theme) => ({
 	linksContainer: {
 		padding: "0 5.3em 0 5em",
 		[theme.breakpoints.up("xs")]: {
-			"& li": { fontSize: "1em" },
+			"& li": {
+				fontSize: "1em",
+			},
 		},
 		[theme.breakpoints.up("sm")]: {
-			"& li": { fontSize: ".85em" },
+			"& li": {
+				fontSize: "1.1em",
+			},
 			padding: "0 3.3em 0 3em",
 		},
 		[theme.breakpoints.up("md")]: {
-			"& li": { fontSize: "1em" },
+			"& li": { fontSize: "1.3em" },
 		},
 	},
-	  email: {
-    color: "#c5bec4",
-    fontSize: 12,
-    letterSpacing: 1,
-  },
 	profileLinks: {
 		display: "block",
 		listStyle: "none",
@@ -83,18 +82,12 @@ export const useStyles = makeStyles((theme) => ({
 	},
 	editBtn: {
 		color: "#c5bec4",
-		fontSize: ".70em",
+		fontSize: ".90em",
 		marginBottom: "5.5em",
 	},
 	logoutBtn: {
 		color: "#c5bec4",
-		fontSize: "0.8em",
-		//     [theme.breakpoints.down("md")]: {
-    //   paddingTop: 70,
-    // },
-    // [theme.breakpoints.down("sm")]: {
-    //   paddingTop: 50,
-    // },
+		fontSize: "1.1em",
 	},
 	toolbarIcon: {
 		display: "none",
@@ -108,29 +101,30 @@ export const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up("md")]: {
 			display: "none",
 		},
-	}}))
+	},
+}));
 
-	export const accountStyles = makeStyles(() => ({
-  title: {
-    fontWeight: 600,
-    textAlign: "left",
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  paper: {
-    padding: 40,
-    height: 700,
-    borderRadius: 20,
-  },
-  button: {
-    backgroundColor: "#ffb347 !important",
-    width: 150,
-    height: 40,
-  },
-  label: {
-    fontWeight: 600,
-    color: "#000000",
-    padding: 5,
-  },
-  line: { borderBottom: "1px solid lightgrey", marginBottom: 30 },
+export const accountStyles = makeStyles(() => ({
+	title: {
+		fontWeight: 600,
+		textAlign: "left",
+		marginTop: 20,
+		marginBottom: 20,
+	},
+	paper: {
+		padding: 40,
+		height: 700,
+		borderRadius: 20,
+	},
+	button: {
+		backgroundColor: "#ffb347 !important",
+		width: 150,
+		height: 40,
+	},
+	label: {
+		fontWeight: 600,
+		color: "#000000",
+		padding: 5,
+	},
+	line: { borderBottom: "1px solid lightgrey", marginBottom: 30 },
 }));
