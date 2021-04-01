@@ -46,7 +46,7 @@ function Profile() {
 		try {
 			await fetch(`api/users/logout`);
 			dispatch({ type: "LOG_OUT" });
-      history.push("/")
+      history.push("/explore")
 		} catch (err) {
 			console.error();
 		}
@@ -70,7 +70,6 @@ function Profile() {
 		setLoading(true);
 		const formData = new FormData();
 		formData.append("file", selectedFile);
-
 		try {
 			const uploadResponse = await (
 				await fetch("/api/file-upload", {

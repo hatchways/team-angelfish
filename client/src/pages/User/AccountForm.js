@@ -91,7 +91,6 @@ const AccountForm = ({
                 variant="outlined"
                 name="hometown"
                 type="text"
-                value={homeTown}
                 options={homeTownCities?.map((city) => city.PlaceName)}
                 onInputChange={(event, value, reason) => {
                   handleHometown(event, value, reason);
