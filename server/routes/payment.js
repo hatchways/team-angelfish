@@ -77,6 +77,7 @@ const createItinerary = async (req, res) => {
   const { flights, hotels, rentalCar } = req.body.itiData;
   const { userData } = req.body;
 
+  const { departureDate } = getFlightObj(flights);
   const flightsObj = getFlightObj(flights);
   const hotelObj = getHotelObj(hotels);
   const carObj = getCarObject(rentalCar);
@@ -85,6 +86,7 @@ const createItinerary = async (req, res) => {
     if (user) {
       const newItinerary = new Itinerary({
         user,
+        date: departureDate,
         car: rentalCar.length > 0 ? carObj : {},
         flight: flights.length > 0 ? flightsObj : {},
         hotel: hotels.length > 0 ? hotelObj : {},

@@ -19,20 +19,20 @@ export const getReciept = (data, email) => {
         ? `${flights.departure} to ${flights.arrival}`
         : "No flight selected",
     image: flightImage,
-    price: flights ? `$${flights.totalPrice.toString()}` : "",
+    price: flights ? `$${flights.totalPrice}` : "",
   };
 
   const hotelObj = {
     text: hotels.totalPrice > 0 ? hotels.details : "No hotel selected",
     image: hotelImage,
-    price: hotels ? `$${hotels.totalPrice.toString()}` : "",
+    price: hotels ? `$${hotels.totalPrice}` : "",
   };
 
   const carObj = {
     text:
       rentalCars.totalPrice > 0 ? rentalCars.details : "No rental car selected",
     image: carImage,
-    price: rentalCars ? `$${rentalCars.totalPrice.toString()}` : "",
+    price: rentalCars ? `$${rentalCars.totalPrice}` : "",
   };
 
   return {

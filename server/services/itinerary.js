@@ -8,6 +8,7 @@ const getFlightObj = (flights) => {
       item.arrival.taxes
     );
   }, 0);
+
   return {
     departureDate: flights.length === 0 ? "" : flights[0].departure.date,
     returnDate: flights.length === 0 ? "" : flights[0].arrival.date,
@@ -15,7 +16,8 @@ const getFlightObj = (flights) => {
       flights.length === 0 ? "" : flights[0].departure.departurePlace,
     destinationLocation:
       flights.length === 0 ? "" : flights[0].departure.arrivalPlace,
-    carrier: flights.length === 0 ? "" : flights[0].departure.id,
+    carrierDeparture: flights.length === 0 ? "" : flights[0].departure.id,
+    carrierArrival: flights.length === 0 ? "" : flights[0].arrival.id,
     price: flightsTotal,
   };
 };
@@ -39,11 +41,13 @@ const getCarObject = (rentalCar) => {
   const carTotal = rentalCar.reduce((total, item) => {
     return total + item.price + item.taxes;
   }, 0);
+  console.log(rentalCar);
   return {
     name: rentalCar.length === 0 ? "" : rentalCar[0].placeOfRental,
     returnRentalDate: rentalCar.length === 0 ? "" : rentalCar[0].arrival,
     rentOutDate: rentalCar.length === 0 ? "" : rentalCar[0].departure,
     total: carTotal,
+    rating: rentalCar.length === 0 ? "" : rentalCar[0].rating,
   };
 };
 
