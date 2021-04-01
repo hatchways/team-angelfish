@@ -1,4 +1,5 @@
 const getFlightObj = (flights) => {
+  console.log(flights);
   const flightsTotal = flights.reduce((total, item) => {
     return (
       total +
@@ -19,6 +20,8 @@ const getFlightObj = (flights) => {
     carrierDeparture: flights.length === 0 ? "" : flights[0].departure.id,
     carrierArrival: flights.length === 0 ? "" : flights[0].arrival.id,
     price: flightsTotal,
+    departureObj: flights.length === 0 ? "" : flights[0].departure,
+    arrivalObj: flights.length === 0 ? "" : flights[0].arrival,
   };
 };
 

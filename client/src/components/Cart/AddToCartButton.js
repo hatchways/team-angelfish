@@ -42,6 +42,7 @@ const AddToCartButton = ({
     if (titleName === "rentalCar") return "rental car";
   };
 
+  console.log(quote);
   const addToCart = (purchaseType) => {
     if (purchaseType === "flights") {
       const { OutboundLeg, InboundLeg } = quote;
@@ -63,6 +64,7 @@ const AddToCartButton = ({
               : "Non"
           }-stop`,
           arrivalPlace: to,
+          stops: OutboundLeg.Stops?.length > 0 ? OutboundLeg.Stops : "",
         },
         arrival: {
           id: InboundLeg.CarrierId,
@@ -80,6 +82,7 @@ const AddToCartButton = ({
               : "Non"
           }-stop`,
           arrivalPlace: from,
+          stops: InboundLeg.Stops?.length > 0 ? InboundLeg.Stops : "",
         },
       };
 

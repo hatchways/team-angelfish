@@ -72,6 +72,12 @@ const TripAccordion = ({ trip }) => {
     returning: { name: returningCarrierName, logo: returningCarrierLogo },
   };
 
+  const formateDate = (date) => {
+    const convertDate = new Date(date);
+    const stringDate = convertDate.toDateString();
+    return stringDate;
+  };
+
   return (
     <Accordion
       classes={{
@@ -96,7 +102,9 @@ const TripAccordion = ({ trip }) => {
             </Grid>
             <Grid item xs={8} className={classes.departTime}>
               <Typography variant="subtitle2" className={classes.departHeader}>
-                {`${trip.flight[0].departureDate} - ${trip.flight[0].returnDate}`}
+                {`${formateDate(trip.flight[0].departureDate)} - ${formateDate(
+                  trip.flight[0].returnDate,
+                )}`}
               </Typography>
               <Typography className={classes.departSubtitle}>
                 {departingCarrierName}

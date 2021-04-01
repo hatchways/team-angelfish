@@ -10,12 +10,19 @@ const FlightDetails = ({ trip, carrier }) => {
   const classes = useStyles();
 
   // format flight dates
-  const formattedDate = (date) => {
-    const resetDate = new Date(`${date}T00:00`);
-    const pattern = (option) => format(resetDate, option);
-    return `${pattern("EEE")}, ${pattern("LLL")} ${pattern("d")}, ${pattern(
-      "yyyy",
-    )}`;
+  // const formattedDate = (date) => {
+  //   const resetDate = new Date(`${date}T00:00`);
+  //   const pattern = (option) => format(resetDate, option);
+  //   return `${pattern("EEE")}, ${pattern("LLL")} ${pattern("d")}, ${pattern(
+  //     "yyyy",
+  //   )}`;
+  // };
+
+  console.log(trip);
+  const formateDate = (date) => {
+    const convertDate = new Date(date);
+    const stringDate = convertDate.toDateString();
+    return stringDate;
   };
 
   return (
@@ -26,15 +33,16 @@ const FlightDetails = ({ trip, carrier }) => {
       <Grid item container className={classes.flightHeader}>
         <Grid item xs={6} md={4} classes={{ root: classes.flightTypeGrid }}>
           <Typography classes={{ body1: classes.flightType }}>
-            Departure {trip[0].departureDate}
-            {/* Departure {formattedDate(trip[0].departureDate)} */}
+            Departure {formateDate(trip[0].departureDate)}
           </Typography>
         </Grid>
         <Grid item xs={false} md={2} className={classes.stopHeader}>
           <Typography>{trip.Direct ? "Nonstop" : "1 stop"}</Typography>
         </Grid>
         <Grid item xs={6} md={4} className={classes.travelHeader}>
-          <Typography>Travel time: {trip[0].returnDate}</Typography>
+          <Typography>
+            Arrival date: {formateDate(trip[0].returnDate)}
+          </Typography>
         </Grid>
       </Grid>
       <Grid item container className={classes.flightInfo}>
@@ -50,10 +58,11 @@ const FlightDetails = ({ trip, carrier }) => {
             <Typography className={classes.flightInfoFont}>
               {trip.From}
             </Typography>
-            {/* <Typography className={classes.tripTime}>{`${trip.From.slice(
-              0,
-              3,
-            )} ${trip.OutboundLeg.DepartureTime}`}</Typography> */}
+            <Typography className={classes.tripTime}>
+              {trip[0].departureObj.departurePlace +
+                " " +
+                trip[0].departureObj.departureTime}
+            </Typography>
             <Typography className={classes.flightInfoFont}>
               {carrier.departing.name}
             </Typography>
