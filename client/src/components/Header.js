@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState } from "react";
-import { NavLink, Link, useLocation } from "react-router-dom";
+import { NavLink, Link, useLocation, useHistory } from "react-router-dom";
 import {
 	AppBar,
 	Avatar,
@@ -74,6 +74,7 @@ function Header() {
 	const dispatch = useDispatchContext();
 	const { authenticated, loginRequest } = useStateContext();
 	const location = useLocation();
+	const history = useHistory();
 	const [anchorEl, setAnchorEl] = useState(null);
 	const [modal, setModal] = useState(false); //opens signin page
 	const [signup, setSignup] = useState(false); // switches to signup page
@@ -97,6 +98,7 @@ function Header() {
 		closeModal();
 		await fetch(`api/users/logout`);
 		dispatch({ type: "LOG_OUT" });
+		history.push("/explore")
 	};
 	const handleDrawerOpen = () => setOpenDrawer(true);
 	const handleDrawerClose = () => setOpenDrawer(false);

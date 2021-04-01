@@ -1,7 +1,7 @@
 /** @format */
 import React, { useState } from "react";
 import { useStyles } from "./ProfileStyle";
-import { NavLink, useRouteMatch, Switch, Route } from "react-router-dom";
+import { NavLink, useRouteMatch, Switch, Route, useHistory } from "react-router-dom";
 import Notifications from "../Notifications";
 import FavoriteDestination from "../FavoriteDestinantions";
 import AccountSettings from "./AccountSettings";
@@ -22,6 +22,7 @@ import FileUploaderDialog from "../../components/Uploader/FileUploaderDialog";
 
 function Profile() {
 	const { path } = useRouteMatch();
+  const history = useHistory()
 	const { enqueueSnackbar } = useSnackbar();
 	const dispatch = useDispatchContext();
 	const [open, setOpen] = useState(false);
@@ -45,6 +46,7 @@ function Profile() {
 		try {
 			await fetch(`api/users/logout`);
 			dispatch({ type: "LOG_OUT" });
+      history.push("/")
 		} catch (err) {
 			console.error();
 		}
