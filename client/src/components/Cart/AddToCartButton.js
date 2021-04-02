@@ -42,6 +42,7 @@ const AddToCartButton = ({
     if (titleName === "rentalCar") return "rental car";
   };
 
+  console.log(quote);
   const addToCart = (purchaseType) => {
     if (purchaseType === "flights") {
       const { OutboundLeg, InboundLeg } = quote;
@@ -63,11 +64,12 @@ const AddToCartButton = ({
               : "Non"
           }-stop`,
           arrivalPlace: to,
+          stops: OutboundLeg.Stops?.length > 0 ? OutboundLeg.Stops : "",
         },
         arrival: {
           id: InboundLeg.CarrierId,
           type: "Inbound",
-          price: quote.MinPrice,
+          // price: quote.MinPrice,
           taxes: 1000,
           date: InboundLeg.ReturnDate,
           departureTime: InboundLeg.DepartureTime,
@@ -80,6 +82,7 @@ const AddToCartButton = ({
               : "Non"
           }-stop`,
           arrivalPlace: from,
+          stops: InboundLeg.Stops?.length > 0 ? InboundLeg.Stops : "",
         },
       };
 
@@ -138,6 +141,7 @@ const AddToCartButton = ({
 
     if (purchaseType === "rentalCar") {
       const { name, price, url } = car;
+      console.log(price);
       const rentalCarData = {
         id: nanoid(),
         arrival: "03/20/21",

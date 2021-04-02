@@ -12,7 +12,7 @@ import {
 } from "@material-ui/core";
 import { useStyles } from "../styles/Signup_in";
 
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useStateContext, useDispatchContext } from "../context";
 
@@ -29,7 +29,6 @@ const SignupTwo = ({ dash, close, user }) => {
   const classes = useStyles();
   const { cities } = useStateContext();
   const dispatch = useDispatchContext();
-  const history = useHistory();
   const [travelList, setTravelList] = useState([]);
   const [homeTownList, setHomeTownlist] = useState([]);
   const [destination, setDestination] = useState("");

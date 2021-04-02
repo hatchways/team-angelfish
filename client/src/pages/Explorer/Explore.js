@@ -9,14 +9,15 @@ import { CustomSmallerCheckBox } from "../../themes/theme";
 import Tooltip from "@material-ui/core/Tooltip";
 import ShuffleIcon from "@material-ui/icons/Shuffle";
 import Zoom from "@material-ui/core/Zoom";
+import { Box } from "@material-ui/core";
 
 import { useSnackbar } from "notistack";
 import useStyles from "../../styles/Explore";
+import PageLoading from "../AuthWrapper";
 
 import { useStateContext, useDispatchContext } from "../../context";
 import { getUpdatedList } from "./utils";
 import { Link, useHistory } from "react-router-dom";
-import { Box } from "@material-ui/core";
 import Scroll from "../../components/Scroll";
 
 function FavoriteCheckBox({
@@ -68,9 +69,9 @@ const Explore = () => {
   const classes = useStyles();
   const [favorites, setFavorites] = useState([]);
   const [places, setPlaces] = useState([]);
-  const [snack, setSnack] = useState({ type: "", message: "", open: false });
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatchContext();
+  const [loadingScreen, setLoading] = useState(false);
 
   const handleShuffleButton = async () => {
     const returnedArray = await getUpdatedList(places, favorites);
@@ -82,12 +83,6 @@ const Explore = () => {
       favList.includes(city.name),
     );
     setPlaces(filteredFavList);
-  };
-
-  const closeSnack = () => {
-    setSnack((prevState) => {
-      return { ...prevState, open: false };
-    });
   };
 
   const openSnack = () => {
@@ -105,10 +100,14 @@ const Explore = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
     async function getData() {
       try {
         if (loading) {
-          return null;
+          return;
         } else {
           let favoriteList = [];
           if (userId) {
@@ -147,7 +146,7 @@ const Explore = () => {
       }
     }
     getData();
-  }, [loading, user]);
+  }, [loading, user, userId]);
 
   function handleFavoriteChange(checked, name) {
     const userFavoritePlaces = [...favorites];
@@ -176,102 +175,107 @@ const Explore = () => {
   const pathName = window.location.pathname;
   const smSpacing = pathName === "/profile/favoritedestinations" ? 6 : 3;
   const mdSpacing = pathName === "/profile/favoritedestinations" ? 4 : 3;
-  return (
-		<div>
-			<Scroll />
-			<Container className={classes.pageContainer}>
-				{pathName === "/profile/favoritedestinations" ? (
-					<Grid container justify="space-between">
-						<Typography
-							variant="h4"
-							style={{ fontWeight: 600 }}
-							className={classes.title}
-						>
-							Favorite Destinations
-						</Typography>
-						<Button variant="outlined">
-							<Link className={classes.exploreLink} to="/explore">
-								Explore
-							</Link>
-						</Button>
-					</Grid>
-				) : (
-					<>
-						<Typography variant="h4" className={classes.title}>
-							Explore destinations
-						</Typography>
-						<Typography
-							variant="subtitle2"
-							className={(classes.title, classes.subtitle2)}
-						>
-							World's top destinations to explore
-						</Typography>
 
-						<Button
-							style={{ backgroundColor: "#fff" }}
-							className={classes.shuffle}
-							onClick={handleShuffleButton}
-						>
-							<Tooltip title="Shuffle Cities">
-								<ShuffleIcon />
-							</Tooltip>
-						</Button>
-					</>
-				)}
-				<Grid
-					container
-					spacing={3}
-					justify="center"
-					className={classes.gridContainer}
-				>
-					{places.map((place) => (
-						<Grid
-							item
-							key={place.name}
-							xs={12}
-							sm={smSpacing}
-							md={mdSpacing}
-							style={{ cursor: "pointer" }}
-						>
-							<Box
-								className={classes.paperContainer}
-								onClick={() => handleToSearchPage(place.name)}
-								style={{
-									backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
-								}}
-							>
-								<Box
-									component="span"
-									className={classes.bottomInformationContainer}
-								>
-									<Box
-										component="span"
-										className={classes.bottomInformationSubContainer1}
-									>
-										<Box component="span" className={classes.legend1}>
-											{place.name},
-										</Box>
-										<Box component="span" className={classes.legend2}>
-											{place.country}
-										</Box>
-									</Box>
-								</Box>
-							</Box>
-							<Box className={classes.bottomInformationSubContainer2}>
-								<FavoriteCheckBox
-									place={place}
-									userId={userId}
-									handleFavoriteChange={handleFavoriteChange}
-									openSnack={openSnack}
-									dispatch={dispatch}
-								/>
-							</Box>
-						</Grid>
-					))}
-				</Grid>
-			</Container>
-		</div>
-	);
+  if (loadingScreen) {
+    return <PageLoading />;
+  }
+
+  return (
+    <div>
+      <Scroll />
+      <Container className={classes.pageContainer}>
+        {pathName === "/profile/favoritedestinations" ? (
+          <Grid container justify="space-between">
+            <Typography
+              variant="h4"
+              style={{ fontWeight: 600 }}
+              className={classes.title}
+            >
+              Favorite Destinations
+            </Typography>
+            <Button variant="outlined">
+              <Link className={classes.exploreLink} to="/explore">
+                Explore
+              </Link>
+            </Button>
+          </Grid>
+        ) : (
+          <>
+            <Typography variant="h4" className={classes.title}>
+              Explore destinations
+            </Typography>
+            <Typography
+              variant="subtitle2"
+              className={(classes.title, classes.subtitle2)}
+            >
+              World's top destinations to explore
+            </Typography>
+
+            <Button
+              style={{ backgroundColor: "#fff" }}
+              className={classes.shuffle}
+              onClick={handleShuffleButton}
+            >
+              <Tooltip title="Shuffle Cities">
+                <ShuffleIcon />
+              </Tooltip>
+            </Button>
+          </>
+        )}
+        <Grid
+          container
+          spacing={3}
+          justify="center"
+          className={classes.gridContainer}
+        >
+          {places.map((place) => (
+            <Grid
+              item
+              key={place.name}
+              xs={12}
+              sm={smSpacing}
+              md={mdSpacing}
+              style={{ cursor: "pointer" }}
+            >
+              <Box
+                className={classes.paperContainer}
+                onClick={() => handleToSearchPage(place.name)}
+                style={{
+                  backgroundImage: `linear-gradient(to bottom, transparent, rgba(52, 52, 52, 0.63)), url(${place.imageUrl})`,
+                }}
+              >
+                <Box
+                  component="span"
+                  className={classes.bottomInformationContainer}
+                >
+                  <Box
+                    component="span"
+                    className={classes.bottomInformationSubContainer1}
+                  >
+                    <Box component="span" className={classes.legend1}>
+                      {place.name},
+                    </Box>
+                    <Box component="span" className={classes.legend2}>
+                      {place.country}
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+              <Box className={classes.bottomInformationSubContainer2}>
+                <FavoriteCheckBox
+                  place={place}
+                  userId={userId}
+                  handleFavoriteChange={handleFavoriteChange}
+                  openSnack={openSnack}
+                  dispatch={dispatch}
+                />
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      </Container>
+    </div>
+  );
 };
 
 export default Explore;

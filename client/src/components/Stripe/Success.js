@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 import "@lottiefiles/lottie-player";
+
 import { Grid, Typography } from "@material-ui/core";
 import { useHistory, Redirect } from "react-router";
 
@@ -47,9 +48,8 @@ const Success = () => {
   };
 
   useEffect(() => {
-    if (itiData) {
-      createItinerary();
-    }
+    createItinerary();
+    // eslint-disable-next-line
   }, []);
 
   if (!itiData) {
@@ -72,6 +72,7 @@ const Success = () => {
         background="transparent"
         speed="1"
         style={{ width: 400, height: 400 }}
+        mode="normal"
         loop
         autoplay
       ></lottie-player>

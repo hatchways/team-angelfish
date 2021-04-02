@@ -34,7 +34,7 @@ const CartRentalCarDetails = ({
             />
           </Typography>
           <Typography className={classes.title}>
-            ${Math.round(price / numberOfNights)}
+            ${Math.round(price)}
           </Typography>
           <Typography className={classes.details}>per day</Typography>
         </Grid>

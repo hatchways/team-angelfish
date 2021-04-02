@@ -83,7 +83,10 @@ function Profile() {
       openSnack(!uploadResponse.imageUrl ? "Upload failed!" : null);
       if (uploadResponse.imageUrl) {
         setAvatarImage(uploadResponse.imageUrl);
-		dispatch({ type: "USER_INFORMATION_UPDATED", payload: {user: {...user, pictureUrl: uploadResponse.imageUrl}} });
+        dispatch({
+          type: "USER_INFORMATION_UPDATED",
+          payload: { user: { ...user, pictureUrl: uploadResponse.imageUrl } },
+        });
         setOpen(false);
       }
       setUploadLoading(false);
@@ -145,7 +148,6 @@ function Profile() {
               badgeContent={<AddCircleIcon />}
             >
               <Avatar
-                component={ButtonBase}
                 src={avatarImage}
                 className={classes.avatar}
                 onClick={handleClickOpen}

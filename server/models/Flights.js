@@ -8,8 +8,12 @@ const flightsSchema = new Schema({
   returnDate: { type: Date },
   departureLocation: { type: String },
   destinationLocation: { type: String },
+  carrierDeparture: { type: Number },
+  carrierArrival: { type: Number },
   carrier: { type: String },
   price: { type: Number },
+  departureObj: { type: Object },
+  arrivalObj: { type: Object },
 });
 
 const Flights = mongoose.model("Flights", flightsSchema);

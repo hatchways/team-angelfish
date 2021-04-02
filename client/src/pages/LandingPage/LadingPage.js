@@ -2,9 +2,9 @@ import { Box, Grid, Typography } from "@material-ui/core";
 import React from "react";
 import useStyles from "./LandingPageStyle";
 import { Button } from "@material-ui/core";
-import { NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-export default function LadingPage({handleDiscoverClick}) {
+export default function LadingPage() {
   const classes = useStyles();
   return (
     <Grid container className={classes.mainContainer}>
@@ -13,7 +13,9 @@ export default function LadingPage({handleDiscoverClick}) {
       </Typography>
       <Box className={classes.buttonContainer}>
         <Button color="primary" variant="contained" className={classes.button}>
-          <NavLink to="/explore" className={classes.navLink}>Discover more</NavLink>
+          <NavLink to="/explore" className={classes.navLink}>
+            Discover more
+          </NavLink>
         </Button>
       </Box>
     </Grid>
